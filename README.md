@@ -60,7 +60,7 @@ Mas justamente por ser open source, ele é seu tanto quanto é meu: está tudo a
 
 ## Contribuições
 
-Contribuições são super bem-vindas, sejam correções, melhorias, novas funcionalidades ou só apontar um bug. Veja o [CONTRIBUTING.md](CONTRIBUTING.md) para como rodar o projeto localmente, rodar os testes e as convenções de código.
+Contribuições são super bem-vindas, sejam correções, melhorias, novas funcionalidades ou só apontar um bug. Veja o [CONTRIBUTING.md](CONTRIBUTING.md) para como rodar o projeto localmente, rodar os testes e as convenções de código, e o [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) pra saber o que se espera de quem participa. Encontrou uma vulnerabilidade de segurança? Veja o [SECURITY.md](SECURITY.md) antes de abrir uma issue pública.
 
 Mas se você quer ir num caminho diferente do que este projeto toma, ou simplesmente quer ter o controle total da sua própria versão, não peça: **faça um fork e divulgue.** É o caminho mais incentivado aqui, não um plano B. Quanto mais forks diferentes existirem por aí, mais forte e mais difícil de calar essa ideia fica.
 

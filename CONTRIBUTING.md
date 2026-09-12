@@ -35,3 +35,7 @@ Isso builda o app e roda a suíte de testes end-to-end (`e2e/`) contra o binári
 ## Issue ou pull request?
 
 Abra uma issue quando quiser discutir uma ideia antes de implementar, ou só reportar um bug. Mande um pull request direto quando já tiver a mudança pronta, pequena e testada.
+
+## Conduta e segurança
+
+Participar deste repositório (issues, pull requests, discussões) pressupõe seguir o [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Encontrou uma vulnerabilidade de segurança em vez de um bug comum? Veja o [SECURITY.md](SECURITY.md) antes de abrir uma issue pública.
