@@ -8,7 +8,6 @@ import {
   WINDOW_BACKGROUND_COLOR
 } from '@main/constants/window';
 import { APP_ICON_RELATIVE_PATH, PRELOAD_SCRIPT_RELATIVE_PATH, RENDERER_HTML_RELATIVE_PATH } from '@main/constants/paths';
-import { DEVTOOLS_KEYDOWN_EVENT_TYPE, DEVTOOLS_SHORTCUT_KEY, DEVTOOLS_SHORTCUT_MODIFIER_KEY } from '@main/constants/devtools';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -33,14 +32,6 @@ export function createWindow(): BrowserWindow {
   } else {
     mainWindow.loadFile(join(__dirname, RENDERER_HTML_RELATIVE_PATH));
   }
-
-  mainWindow.webContents.on('before-input-event', (_event, input) => {
-    if (input.type !== DEVTOOLS_KEYDOWN_EVENT_TYPE) return;
-    const isDevToolsShortcut =
-      input.key === DEVTOOLS_SHORTCUT_KEY ||
-      (input.control && input.shift && input.key.toUpperCase() === DEVTOOLS_SHORTCUT_MODIFIER_KEY);
-    if (isDevToolsShortcut) mainWindow?.webContents.toggleDevTools();
-  });
 
   return mainWindow;
 }

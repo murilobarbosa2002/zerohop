@@ -5,4 +5,5 @@ export interface RoomProps {
   roomCode: string;
   onLeft: () => void;
   onOpenSettings: () => void;
+  onOpenLogs: () => void;
 }

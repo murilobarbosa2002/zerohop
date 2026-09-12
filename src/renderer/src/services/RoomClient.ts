@@ -11,11 +11,14 @@ import { PeerConnectionManager } from '@/services/room/PeerConnectionManager';
 import { RoomProtocol, type WatchRequestMessage, type UnwatchRequestMessage, type KickMessage } from '@/services/room/RoomProtocol';
 import { captureMicrophone } from '@/services/MicCapture';
 import { getMicInputDeviceId, subscribeToMicInputDevice, getMicInputGain, subscribeToMicInputGain } from '@/services/micInputPreference';
+import { logEvent } from '@/services/appLog';
 import { onTyped } from '@/lib/typedEvents';
 import { RoomStatus } from '@/constants/roomStatus';
 import { AUTH_HELLO_TIMEOUT_MS, ICE_CONNECTION_TIMEOUT_MS, JOIN_APPROVAL_TIMEOUT_MS, ROOM_CODE_CREATE_MAX_ATTEMPTS } from '@/constants/timing';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
+import { LOG_STRINGS } from '@/strings/logs.strings';
+import { LogCategory, LogLevel } from '@shared/logEntry';
 import type { QualitySettings } from '@/services/ScreenCapture';
 import type { MicCaptureHandle } from '@/services/MicCapture.types';
 
@@ -74,7 +77,11 @@ export class RoomClient extends EventTarget {
       getExpectedPassword: () => this.currentPassword,
       isRoomCreator: () => this.isRoomCreator,
       onMembersChanged: () => this.emitMembers(),
-      onMemberAuthenticated: (id) => this.voice.callMember(id)
+      onMemberAuthenticated: (id) => {
+        this.voice.callMember(id);
+        const member = this.registry.get(id);
+        logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.memberJoinedMessage(member?.name || id));
+      }
     });
     this.protocol = new RoomProtocol({
       registry: this.registry,
@@ -122,12 +129,14 @@ export class RoomClient extends EventTarget {
       }
     });
     onTyped<RoomClientEventDetail['sharing-changed']>(this.media, 'sharing-changed', (detail) => {
+      logEvent(LogCategory.SHARING, LogLevel.INFO, detail.sharing ? LOG_STRINGS.sharingStartedMessage : LOG_STRINGS.sharingStoppedMessage);
       this.dispatchEvent(new CustomEvent('sharing-changed', { detail }));
     });
     onTyped<OutgoingCallDetail>(this.media, 'outgoing-call', (detail) => {
       this.dispatchEvent(new CustomEvent('outgoing-call', { detail }));
     });
     onTyped<RoomClientEventDetail['mic-muted-changed']>(this.voice, 'mic-muted-changed', (detail) => {
+      logEvent(LogCategory.VOICE, LogLevel.INFO, detail.muted ? LOG_STRINGS.micMutedMessage : LOG_STRINGS.micUnmutedMessage);
       this.dispatchEvent(new CustomEvent('mic-muted-changed', { detail }));
     });
     onTyped<ChatServiceEventDetail['message-added']>(this.chat, 'message-added', (detail) => {
@@ -173,6 +182,7 @@ export class RoomClient extends EventTarget {
         this.roomCode = code;
         this.emitStatus(RoomStatus.CONNECTED);
         this.startVoiceChat();
+        logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.roomCreatedMessage(code));
         return code;
       } catch (error) {
         lastError = error;
@@ -195,10 +205,12 @@ export class RoomClient extends EventTarget {
     this.roomCode = code;
     this.emitStatus(RoomStatus.CONNECTED);
     this.startVoiceChat();
+    logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.roomJoinedMessage(code));
     return code;
   }
 
   leaveRoom(): void {
+    logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.roomLeftMessage);
     this.media.stop();
     this.stopVoiceChat();
     for (const member of this.registry.values()) {
@@ -294,6 +306,7 @@ export class RoomClient extends EventTarget {
     const member = this.registry.get(id);
     if (member?.mediaConnIn) safeCall(member.mediaConnIn, 'close');
     if (member?.voiceConnIn) safeCall(member.voiceConnIn, 'close');
+    if (member?.authenticated) logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.memberLeftMessage(member.name || id));
     this.media.removeViewer(id);
     this.voice.removeMember(id);
     this.registry.remove(id);
@@ -311,12 +324,14 @@ export class RoomClient extends EventTarget {
       this.micCapture = await captureMicrophone(getMicInputDeviceId(), getMicInputGain());
     } catch (error) {
       console.warn('[room] não foi possível capturar o microfone', error);
+      logEvent(LogCategory.VOICE, LogLevel.WARNING, LOG_STRINGS.micUnavailableMessage, (error as Error).message);
       this.dispatchEvent(new CustomEvent('mic-active-changed', { detail: { active: false } }));
       return;
     }
     this.voice.start(this.micCapture.stream);
     this.unsubscribeMicGain = subscribeToMicInputGain(() => this.micCapture?.setGain(getMicInputGain()));
     this.unsubscribeMicDevice = subscribeToMicInputDevice(() => this.recaptureMicrophone());
+    logEvent(LogCategory.VOICE, LogLevel.INFO, LOG_STRINGS.micActiveMessage);
     this.dispatchEvent(new CustomEvent('mic-active-changed', { detail: { active: true } }));
   }
 
@@ -327,6 +342,7 @@ export class RoomClient extends EventTarget {
       this.voice.replaceStream(nextCapture.stream);
     } catch (error) {
       console.warn('[room] não foi possível trocar de microfone', error);
+      logEvent(LogCategory.VOICE, LogLevel.WARNING, LOG_STRINGS.micDeviceSwitchFailedMessage, (error as Error).message);
     }
   }
 

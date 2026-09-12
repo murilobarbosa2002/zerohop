@@ -4,7 +4,9 @@ import { UPDATER_STRINGS } from '@main/strings/updater.strings';
 import { AUTO_UPDATE_CHECK_INTERVAL_MS } from '@main/constants/updater';
 import { getMainWindow } from '@main/window';
 import { getSettings, setAutoUpdateEnabled } from '@main/settings';
+import { appendLog } from '@main/logger';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
+import { LogCategory, LogLevel } from '@shared/logEntry';
 import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
 
 function sendStatus(status: UpdaterStatus): void {
@@ -32,11 +34,22 @@ export function initAutoUpdater(): void {
 
   autoUpdater.autoDownload = true;
 
-  autoUpdater.on('update-downloaded', (info) => {
-    notifyUpdateDownloaded(info.version);
+  autoUpdater.on('checking-for-update', () => {
+    appendLog({ category: LogCategory.UPDATE, level: LogLevel.INFO, message: UPDATER_STRINGS.logCheckingMessage });
   });
 
-  autoUpdater.on('error', (err) => console.error('[updater]', err));
+  autoUpdater.on('update-available', (info) => {
+    appendLog({ category: LogCategory.UPDATE, level: LogLevel.INFO, message: UPDATER_STRINGS.logAvailableMessage(info.version) });
+  });
+
+  autoUpdater.on('update-downloaded', (info) => {
+    notifyUpdateDownloaded(info.version);
+    appendLog({ category: LogCategory.UPDATE, level: LogLevel.INFO, message: UPDATER_STRINGS.logDownloadedMessage(info.version) });
+  });
+
+  autoUpdater.on('error', (err) => {
+    appendLog({ category: LogCategory.UPDATE, level: LogLevel.ERROR, message: UPDATER_STRINGS.logErrorMessage, detail: err.message });
+  });
 
   if (getSettings().autoUpdateEnabled) autoUpdater.checkForUpdates();
 

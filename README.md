@@ -138,7 +138,7 @@ Na grande maioria dos casos isso não é um bug do app — é a rede ou o antiv�
 1. **Confirme que os dois digitaram exatamente o mesmo código e a mesma senha.** Um espaço a mais ou letra trocada já impede a conexão — e, por design, ninguém recebe um aviso "senha errada" explícito (isso evitaria que um estranho ficasse tentando adivinhar).
 2. **Verifique se algum antivírus de terceiro está instalado** (ESET, Avast, Norton, Kaspersky, etc). Muitos desses programas **gerenciam o Firewall do Windows por baixo dos panos** — ou seja, adicionar uma exceção pela tela nativa do "Firewall do Windows Defender" não resolve nada, porque quem está decidindo bloquear ou não é o antivírus, não o Windows. Nesse caso, a exceção/regra de permissão de rede precisa ser criada **dentro do próprio antivírus** (geralmente em uma seção chamada "Firewall", "Proteção de rede" ou "Regras de aplicativo").
 3. **Se estiver numa rede corporativa, escolar ou de local público** (faculdade, empresa, evento), é comum que tráfego UDP peer-to-peer seja bloqueado de propósito pela própria rede — nesse caso, tente numa rede doméstica comum.
-4. **Aperte F12 dentro do app** pra abrir o DevTools e ver o console — o app registra logs técnicos (`[ice]`, `[ice-route]`) que mostram exatamente em que ponto a conexão parou de progredir, úteis pra quem for reportar um problema numa issue.
+4. **Abra a tela de Logs dentro do próprio app** (ícone na barra de título, ou dentro da sala na barra do microfone) — cada evento de conexão aparece numa frase simples, com "▸ Detalhes técnicos" pra quem quiser investigar mais fundo, úteis pra quem for reportar um problema numa issue.
 
 ### Por que o app não simplesmente "sempre conecta"
 

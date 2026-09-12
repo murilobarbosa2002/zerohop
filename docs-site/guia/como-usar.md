@@ -76,3 +76,9 @@ A coluna da direita tem um chat de texto simples, visível pra todos os particip
 ## Sair da sala
 
 Clique em **Sair da sala** a qualquer momento, ou simplesmente feche o programa. Isso encerra sua conexão com todo mundo e apaga imediatamente o seu histórico de chat daquela sessão.
+
+## Logs — veja tudo que o app está fazendo
+
+Um ícone na barra de título (ou dentro da sala, na mesma barra do microfone) abre a tela de **Logs**: um histórico de tudo que aconteceu, em frases simples — entrar/sair da sala, quem entrou e saiu, começar/parar de compartilhar, ativar o microfone, verificar atualizações, problemas de conexão. Não precisa entender nada técnico pra ler.
+
+Quando um item tem informação técnica por trás (um erro, por exemplo), aparece um "▸ Detalhes técnicos" que expande e mostra o texto bruto, pra quem quiser investigar mais fundo ou mandar pra alguém ajudar a resolver um problema. Dá pra filtrar por categoria e o histórico continua salvo mesmo depois de fechar e abrir o app de novo — tem um botão de "Limpar histórico" se quiser começar do zero.

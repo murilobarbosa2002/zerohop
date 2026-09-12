@@ -25,12 +25,12 @@ function SpeakerIcon({ muted }: { muted: boolean }) {
   );
 }
 
-function ShareScreenIcon() {
+function LogsIcon() {
   return (
-    <svg viewBox="0 0 12 12" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="1" y="1.5" width="10" height="6.5" rx="1" />
-      <line x1="4" y1="10.5" x2="8" y2="10.5" />
-      <path d="M6 3v3M4.5 4.5L6 3l1.5 1.5" />
+    <svg viewBox="0 0 12 12" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round">
+      <line x1="2" y1="3" x2="10" y2="3" />
+      <line x1="2" y1="6" x2="10" y2="6" />
+      <line x1="2" y1="9" x2="7" y2="9" />
     </svg>
   );
 }
@@ -44,7 +44,7 @@ function SettingsIcon() {
   );
 }
 
-export function RoomToolbar({ micMuted, deafened, onToggleMic, onToggleDeafen, sharing, onToggleSharePanel, onOpenSettings }: RoomToolbarProps) {
+export function RoomToolbar({ micMuted, deafened, onToggleMic, onToggleDeafen, onOpenLogs, onOpenSettings }: RoomToolbarProps) {
   return (
     <div className="flex items-center justify-center gap-2 bg-panel border border-border rounded-lg px-3 py-2">
       <Tooltip label={micMuted ? ROOM_STRINGS.unmuteMicButton : ROOM_STRINGS.muteMicButton}>
@@ -57,9 +57,9 @@ export function RoomToolbar({ micMuted, deafened, onToggleMic, onToggleDeafen, s
           <SpeakerIcon muted={deafened} />
         </button>
       </Tooltip>
-      <Tooltip label={sharing ? ROOM_STRINGS.stopSharingButton : ROOM_STRINGS.startSharingButton}>
-        <button onClick={onToggleSharePanel} className={roomToolbarButtonVariants({ tone: sharing ? 'accent' : 'default' })}>
-          <ShareScreenIcon />
+      <Tooltip label={TITLE_BAR_STRINGS.logsButtonLabel}>
+        <button onClick={onOpenLogs} className={roomToolbarButtonVariants()}>
+          <LogsIcon />
         </button>
       </Tooltip>
       <Tooltip label={TITLE_BAR_STRINGS.settingsButtonLabel}>

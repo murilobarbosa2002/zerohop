@@ -2,8 +2,10 @@ import { ipcMain, shell, desktopCapturer, type DesktopCapturerSource } from 'ele
 import { getMainWindow } from '@main/window';
 import { CAPTURE_SOURCE_TYPES, CAPTURE_THUMBNAIL_WIDTH, CAPTURE_THUMBNAIL_HEIGHT, NOISE_SOURCE_NAME_PATTERNS } from '@main/constants/capture';
 import { ALLOWED_EXTERNAL_URL_PREFIX } from '@main/constants/externalUrl';
+import { appendLog, readLogs, clearLogs } from '@main/logger';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
+import type { LogEntry, NewLogEntry } from '@shared/logEntry';
 
 function isNoiseSource(source: DesktopCapturerSource): boolean {
   return source.id.startsWith('window:') && NOISE_SOURCE_NAME_PATTERNS.some((pattern) => pattern.test(source.name));
@@ -47,5 +49,15 @@ export function registerIpcHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.openExternalUrl, (_event, url: string) => {
     if (!url.startsWith(ALLOWED_EXTERNAL_URL_PREFIX)) return;
     shell.openExternal(url);
+  });
+
+  ipcMain.handle(IPC_CHANNELS.logAppend, (_event, entry: NewLogEntry) => {
+    appendLog(entry);
+  });
+
+  ipcMain.handle(IPC_CHANNELS.logList, (): LogEntry[] => readLogs());
+
+  ipcMain.handle(IPC_CHANNELS.logClear, () => {
+    clearLogs();
   });
 }

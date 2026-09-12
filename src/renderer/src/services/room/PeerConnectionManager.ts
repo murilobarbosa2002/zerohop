@@ -4,6 +4,9 @@ import { watchConnection } from '@/services/room/iceDiagnostics';
 import { roomMessageSchema } from '@/services/room/roomMessage.schema';
 import { ICE_CONNECTION_TIMEOUT_MS, PEER_RECONNECT_MAX_RETRIES, PEER_RECONNECT_RETRY_DELAY_MS } from '@/constants/timing';
 import { CallKind } from '@/constants/callKind';
+import { logEvent } from '@/services/appLog';
+import { LOG_STRINGS } from '@/strings/logs.strings';
+import { LogCategory, LogLevel } from '@shared/logEntry';
 import type { RoomMessage } from '@/services/room/RoomProtocol';
 
 interface PeerConnectionManagerDeps {
@@ -73,6 +76,7 @@ export class PeerConnectionManager {
       const parsed = roomMessageSchema.safeParse(data);
       if (!parsed.success) {
         console.warn('[room] mensagem descartada por não seguir o protocolo esperado', parsed.error.issues);
+        logEvent(LogCategory.CONNECTION, LogLevel.WARNING, LOG_STRINGS.invalidMessageDiscardedMessage, JSON.stringify(parsed.error.issues));
         return;
       }
       this.deps.onMessage(connection.peer, parsed.data);
@@ -103,6 +107,9 @@ export class PeerConnectionManager {
       call.on('stream', (stream) => this.deps.onIncomingStream(call.peer, call, stream));
       call.on('close', () => this.deps.onIncomingStreamClosed(call.peer));
     });
-    this.peer.on('error', (error) => console.error(error));
+    this.peer.on('error', (error) => {
+      console.error(error);
+      logEvent(LogCategory.CONNECTION, LogLevel.ERROR, LOG_STRINGS.peerErrorMessage, error.message);
+    });
   }
 }

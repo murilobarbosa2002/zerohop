@@ -5,6 +5,9 @@ import {
   PEER_CONNECTION_MAX_POLL_ATTEMPTS,
   PEER_CONNECTION_POLL_INTERVAL_MS
 } from '@/constants/timing';
+import { logEvent } from '@/services/appLog';
+import { LOG_STRINGS } from '@/strings/logs.strings';
+import { LogCategory, LogLevel } from '@shared/logEntry';
 
 interface CandidateStats {
   id: string;
@@ -96,9 +99,17 @@ async function logActiveRoute(peerConnection: RTCPeerConnection, label: string):
       '| local:', localCandidate?.candidateType, localCandidate?.protocol,
       '| remoto:', remoteCandidate?.candidateType, remoteCandidate?.protocol
     );
+    const detail = `local: ${localCandidate?.candidateType}/${localCandidate?.protocol} | remoto: ${remoteCandidate?.candidateType}/${remoteCandidate?.protocol}`;
+    logEvent(
+      LogCategory.CONNECTION,
+      viaTurn ? LogLevel.WARNING : LogLevel.INFO,
+      viaTurn ? LOG_STRINGS.connectionEstablishedTurnMessage(label) : LOG_STRINGS.connectionEstablishedDirectMessage(label),
+      detail
+    );
     return true;
   } catch (error) {
     console.error('[ice-route]', label, 'erro ao ler estatísticas:', (error as Error).message);
+    logEvent(LogCategory.CONNECTION, LogLevel.ERROR, LOG_STRINGS.connectionStatsErrorMessage(label), (error as Error).message);
     return true;
   }
 }
@@ -135,6 +146,7 @@ export async function watchConnection(
   const peerConnection = await waitForPeerConnection(connection);
   if (!peerConnection) {
     console.warn('[ice]', label, 'peerConnection nunca foi criada');
+    logEvent(LogCategory.CONNECTION, LogLevel.ERROR, LOG_STRINGS.connectionNeverPreparedMessage(label));
     return;
   }
 
@@ -159,6 +171,12 @@ export async function watchConnection(
     if (settled) return;
     console.warn('[ice]', label, 'não abriu em', timeoutMs, 'ms — despejando estatísticas:');
     dumpIceStats(peerConnection, label);
+    logEvent(
+      LogCategory.CONNECTION,
+      LogLevel.WARNING,
+      LOG_STRINGS.connectionTimeoutMessage(label),
+      `iceConnectionState: ${peerConnection.iceConnectionState}, iceGatheringState: ${peerConnection.iceGatheringState}`
+    );
     onTimeout();
   }, timeoutMs);
 }

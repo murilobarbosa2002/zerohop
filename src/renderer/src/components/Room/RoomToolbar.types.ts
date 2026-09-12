@@ -3,7 +3,6 @@ export interface RoomToolbarProps {
   deafened: boolean;
   onToggleMic: () => void;
   onToggleDeafen: () => void;
-  sharing: boolean;
-  onToggleSharePanel: () => void;
+  onOpenLogs: () => void;
   onOpenSettings: () => void;
 }

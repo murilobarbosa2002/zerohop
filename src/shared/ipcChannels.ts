@@ -8,5 +8,9 @@ export const IPC_CHANNELS = {
   updaterGetInfo: 'updater-get-info',
   updaterSetAutoUpdateEnabled: 'updater-set-auto-update-enabled',
   updaterStatus: 'updater-status',
-  openExternalUrl: 'open-external-url'
+  openExternalUrl: 'open-external-url',
+  logAppend: 'log-append',
+  logList: 'log-list',
+  logClear: 'log-clear',
+  logAdded: 'log-added'
 } as const;

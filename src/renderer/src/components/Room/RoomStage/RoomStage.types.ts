@@ -7,8 +7,6 @@ export interface RoomStageProps {
   sourcePicker: SourcePickerState;
   sharing: boolean;
   members: MemberSnapshot[];
-  panelOpen: boolean;
-  onSetPanelOpen: (open: boolean) => void;
 }
 
 export interface StageVideoAreaProps {

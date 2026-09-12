@@ -19,7 +19,8 @@ function parseResolution(resolution: Resolution): { width: number; height: numbe
   return { width, height };
 }
 
-export function ShareControls({ roomClient, sourcePicker, sharing, panelOpen, onSetPanelOpen }: ShareControlsProps) {
+export function ShareControls({ roomClient, sourcePicker, sharing }: ShareControlsProps) {
+  const [panelOpen, setPanelOpen] = useState(false);
   const [resolution, setResolution] = useState<Resolution>(DEFAULT_RESOLUTION);
   const [fps, setFps] = useState<Fps>(DEFAULT_FPS);
   const [audioSelection, setAudioSelection] = useState<string>(DEFAULT_AUDIO_SOURCE_MODE);
@@ -41,8 +42,8 @@ export function ShareControls({ roomClient, sourcePicker, sharing, panelOpen, on
   }, [localStream]);
 
   useEffect(() => {
-    if (sharing) onSetPanelOpen(false);
-  }, [sharing, onSetPanelOpen]);
+    if (sharing) setPanelOpen(false);
+  }, [sharing]);
 
   function handleStop(): void {
     roomClient.stopSharing();
@@ -97,12 +98,12 @@ export function ShareControls({ roomClient, sourcePicker, sharing, panelOpen, on
       audioOptions={audioOptions}
       status={status}
       onConfirm={handleStart}
-      onCancel={() => onSetPanelOpen(false)}
+      onCancel={() => setPanelOpen(false)}
     />
   ) : (
     <ShareIdleTrigger
       onOpen={() => {
-        onSetPanelOpen(true);
+        setPanelOpen(true);
         sourcePicker.refresh();
       }}
     />

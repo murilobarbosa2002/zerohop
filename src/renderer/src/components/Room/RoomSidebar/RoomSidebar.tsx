@@ -18,8 +18,7 @@ export function RoomSidebar({
   onToggleMic,
   onToggleDeafen,
   voiceAudioState,
-  sharing,
-  onToggleSharePanel,
+  onOpenLogs,
   onOpenSettings
 }: RoomSidebarProps) {
   return (
@@ -30,8 +29,7 @@ export function RoomSidebar({
         deafened={deafened}
         onToggleMic={onToggleMic}
         onToggleDeafen={onToggleDeafen}
-        sharing={sharing}
-        onToggleSharePanel={onToggleSharePanel}
+        onOpenLogs={onOpenLogs}
         onOpenSettings={onOpenSettings}
       />
       <Card>

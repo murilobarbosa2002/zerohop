@@ -1,5 +1,6 @@
 import type { CaptureSource } from '@shared/ipc-types';
 import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
+import type { LogEntry, NewLogEntry } from '@shared/logEntry';
 
 declare global {
   interface Window {
@@ -14,6 +15,10 @@ declare global {
       setAutoUpdateEnabled: (value: boolean) => Promise<void>;
       onUpdaterStatus: (callback: (status: UpdaterStatus) => void) => () => void;
       openExternalUrl: (url: string) => Promise<void>;
+      appendLog: (entry: NewLogEntry) => Promise<void>;
+      getLogs: () => Promise<LogEntry[]>;
+      clearLogs: () => Promise<void>;
+      onLogAdded: (callback: (entry: LogEntry) => void) => () => void;
     };
   }
 }

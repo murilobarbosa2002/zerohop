@@ -5,6 +5,4 @@ export interface ShareControlsProps {
   roomClient: RoomClient;
   sourcePicker: SourcePickerState;
   sharing: boolean;
-  panelOpen: boolean;
-  onSetPanelOpen: (open: boolean) => void;
 }

@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
 import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
+import type { LogEntry, NewLogEntry } from '@shared/logEntry';
 
 const api = {
   getSources: (): Promise<CaptureSource[]> => ipcRenderer.invoke(IPC_CHANNELS.getSources),
@@ -17,7 +18,15 @@ const api = {
     ipcRenderer.on(IPC_CHANNELS.updaterStatus, listener);
     return () => ipcRenderer.removeListener(IPC_CHANNELS.updaterStatus, listener);
   },
-  openExternalUrl: (url: string): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.openExternalUrl, url)
+  openExternalUrl: (url: string): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.openExternalUrl, url),
+  appendLog: (entry: NewLogEntry): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.logAppend, entry),
+  getLogs: (): Promise<LogEntry[]> => ipcRenderer.invoke(IPC_CHANNELS.logList),
+  clearLogs: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.logClear),
+  onLogAdded: (callback: (entry: LogEntry) => void): (() => void) => {
+    const listener = (_event: Electron.IpcRendererEvent, entry: LogEntry): void => callback(entry);
+    ipcRenderer.on(IPC_CHANNELS.logAdded, listener);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.logAdded, listener);
+  }
 };
 
 export type ScreenShareApi = typeof api;

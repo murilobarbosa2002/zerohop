@@ -33,7 +33,7 @@ Redes corporativas, escolares ou de locais públicos (faculdade, empresa, evento
 
 ### 4. Veja os detalhes técnicos
 
-Aperte **F12** dentro do programa para abrir as ferramentas de desenvolvedor e ver o console. O ScreenShare registra logs técnicos (`[ice]`, `[ice-route]`) que mostram exatamente em que ponto a conexão parou de progredir — úteis para reportar um problema numa issue no GitHub.
+Abra a tela de **Logs** dentro do próprio app (ícone na barra de título, ou dentro da sala na barra do microfone). Cada evento de conexão aparece numa frase simples, e os que têm informação técnica por trás mostram um "▸ Detalhes técnicos" — útil para reportar um problema numa issue no GitHub.
 
 ### Por que o programa não "sempre conecta"
 
