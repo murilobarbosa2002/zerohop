@@ -4,7 +4,7 @@
 
 ## Instalar
 
-Baixe o instalador mais recente na [página de Releases do GitHub](https://github.com/murilobarbosa2002/electron-screen-share/releases) e execute-o no Windows. O programa se atualiza sozinho depois disso, avisando quando uma nova versão estiver disponível.
+Baixe o instalador mais recente na [página de Releases do GitHub](https://github.com/murilobarbosa2002/zerohop/releases) e execute-o no Windows. O programa se atualiza sozinho depois disso, avisando quando uma nova versão estiver disponível.
 
 ## Atualizações, changelog e versões
 

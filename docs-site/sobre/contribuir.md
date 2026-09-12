@@ -4,7 +4,7 @@
 
 ## Licença
 
-Este projeto é licenciado sob [MIT](https://github.com/murilobarbosa2002/electron-screen-share/blob/main/LICENSE), a licença mais permissiva que existe. Na prática, isso significa que qualquer pessoa pode:
+Este projeto é licenciado sob [MIT](https://github.com/murilobarbosa2002/zerohop/blob/main/LICENSE), a licença mais permissiva que existe. Na prática, isso significa que qualquer pessoa pode:
 
 - **Usar** o programa para o que quiser, inclusive comercialmente.
 - **Modificar** o código-fonte à vontade.
@@ -23,6 +23,6 @@ Mas justamente por ser open source, ele é de todo mundo tanto quanto é do auto
 
 ## Como contribuir
 
-Contribuições são muito bem-vindas: correções, melhorias, novas funcionalidades ou apenas apontar um bug. O [CONTRIBUTING.md](https://github.com/murilobarbosa2002/electron-screen-share/blob/main/CONTRIBUTING.md) do repositório tem os detalhes de como rodar o projeto localmente, rodar os testes e as convenções de código.
+Contribuições são muito bem-vindas: correções, melhorias, novas funcionalidades ou apenas apontar um bug. O [CONTRIBUTING.md](https://github.com/murilobarbosa2002/zerohop/blob/main/CONTRIBUTING.md) do repositório tem os detalhes de como rodar o projeto localmente, rodar os testes e as convenções de código.
 
 Se você quer ir num caminho diferente do que este projeto toma, ou simplesmente quer ter o controle total da sua própria versão, não peça: **faça um fork e divulgue.** É o caminho mais incentivado aqui, não um plano B. Quanto mais forks diferentes existirem por aí, mais forte e mais difícil de calar essa ideia fica.

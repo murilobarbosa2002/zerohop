@@ -1,6 +1,6 @@
 {
-  "name": "zero-hop",
-  "version": "0.25.0",
+  "name": "zerohop",
+  "version": "0.26.0",
   "description": "Compartilhamento de tela, chat de voz e chat de texto P2P via WebRTC, sem servidor",
   "main": "./out/main/index.js",
   "author": {
@@ -10,11 +10,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/murilobarbosa2002/electron-screen-share"
+    "url": "https://github.com/murilobarbosa2002/zerohop"
   },
-  "homepage": "https://murilobarbosa2002.github.io/electron-screen-share/",
+  "homepage": "https://murilobarbosa2002.github.io/zerohop/",
   "bugs": {
-    "url": "https://github.com/murilobarbosa2002/electron-screen-share/issues"
+    "url": "https://github.com/murilobarbosa2002/zerohop/issues"
   },
   "scripts": {
     "dev": "electron-vite dev",
@@ -23,7 +23,7 @@
     "typecheck": "tsc -b --noEmit",
     "dist": "electron-builder",
     "dist:local": "electron-builder --win dir -c.win.signAndEditExecutable=false",
-    "lint:md": "markdownlint \"**/*.md\" \".claude/**/*.md\" --ignore \"**/node_modules/**\"",
+    "lint:md": "markdownlint \"**/*.md\" --ignore \"**/node_modules/**\"",
     "test:e2e": "npm run build && node e2e/run-all.mjs"
   },
   "devDependencies": {
@@ -54,7 +54,7 @@
     "publish": {
       "provider": "github",
       "owner": "murilobarbosa2002",
-      "repo": "electron-screen-share"
+      "repo": "zerohop"
     },
     "linux": {
       "target": "AppImage",

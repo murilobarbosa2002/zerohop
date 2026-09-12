@@ -2,8 +2,8 @@
 
 Contribuições são muito bem-vindas: correções, melhorias, novas funcionalidades ou só apontar um bug.
 
-- Abra uma [issue](https://github.com/murilobarbosa2002/electron-screen-share/issues) descrevendo o problema ou a ideia.
-- Ou mande direto um [pull request](https://github.com/murilobarbosa2002/electron-screen-share/pulls) com a alteração.
+- Abra uma [issue](https://github.com/murilobarbosa2002/zerohop/issues) descrevendo o problema ou a ideia.
+- Ou mande direto um [pull request](https://github.com/murilobarbosa2002/zerohop/pulls) com a alteração.
 
 Se você quer ir num caminho diferente do que este projeto toma, ou simplesmente quer ter o controle total da sua própria versão, não peça: **faça um fork e divulgue.** É o caminho mais incentivado aqui, não um plano B (veja a seção "Contribuições" do [README](README.md) para o contexto completo dessa ideia).
 

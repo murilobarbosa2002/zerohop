@@ -34,4 +34,4 @@ Não é o objetivo. O ZeroHop nasceu de uma demanda pessoal do autor e dos amigo
 
 ## Posso usar este projeto comercialmente ou criar minha própria versão?
 
-Sim, sem pedir permissão. O projeto é licenciado sob [MIT](https://github.com/murilobarbosa2002/electron-screen-share/blob/main/LICENSE), a licença mais permissiva que existe.
+Sim, sem pedir permissão. O projeto é licenciado sob [MIT](https://github.com/murilobarbosa2002/zerohop/blob/main/LICENSE), a licença mais permissiva que existe.

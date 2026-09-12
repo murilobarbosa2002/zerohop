@@ -8,7 +8,7 @@ Isso é esperado. É o **Microsoft Defender SmartScreen**, um filtro do Windows 
 
 O ZeroHop é um projeto gratuito e sem fins lucrativos, então não existe esse certificado, e é por isso que aparece "Fornecedor desconhecido". Isso não indica que o instalador foi comprometido, só que a Microsoft não foi paga para "confirmar" o autor.
 
-Se você baixou o instalador direto da [página de Releases do repositório oficial](https://github.com/murilobarbosa2002/electron-screen-share/releases) (não de um link de terceiro), pode seguir com a instalação:
+Se você baixou o instalador direto da [página de Releases do repositório oficial](https://github.com/murilobarbosa2002/zerohop/releases) (não de um link de terceiro), pode seguir com a instalação:
 
 1. Clique em **"Mais informações"** na primeira tela do aviso.
 2. Clique no botão **"Executar assim mesmo"** que aparece em seguida.

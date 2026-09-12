@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress';
 
 export default defineConfig({
-  base: '/electron-screen-share/',
+  base: '/zerohop/',
   title: 'ZeroHop',
   description: 'Documentação pública do ZeroHop: compartilhamento de tela e voz P2P, sem servidor, open source.',
   lastUpdated: true,
@@ -15,7 +15,7 @@ export default defineConfig({
       { text: 'Segurança', link: '/seguranca/privacidade' },
       { text: 'Técnico', link: '/tecnico/arquitetura' },
       { text: 'Sobre', link: '/sobre/por-que-existe' },
-      { text: 'GitHub', link: 'https://github.com/murilobarbosa2002/electron-screen-share' }
+      { text: 'GitHub', link: 'https://github.com/murilobarbosa2002/zerohop' }
     ],
     sidebar: [
       {
@@ -50,7 +50,7 @@ export default defineConfig({
         ]
       }
     ],
-    socialLinks: [{ icon: 'github', link: 'https://github.com/murilobarbosa2002/electron-screen-share' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/murilobarbosa2002/zerohop' }],
     footer: {
       message: 'Projeto open source sob licença MIT. Feito por Murilo Barbosa.',
       copyright: 'Nenhum servidor. Nenhuma coleta de dados. Só P2P direto entre você e seus amigos.'

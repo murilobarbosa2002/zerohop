@@ -6,7 +6,7 @@ Feito por **[Murilo Barbosa](https://github.com/murilobarbosa2002)**.
 
 Este README existe para ser lido tanto por quem programa quanto por quem nunca abriu um editor de código na vida. Se algo aqui não ficar claro, abra uma issue perguntando.
 
-**Documentação completa: [murilobarbosa2002.github.io/electron-screen-share](https://murilobarbosa2002.github.io/electron-screen-share/).** Tem guia de uso, segurança e privacidade em detalhe, arquitetura técnica e perguntas frequentes.
+**Documentação completa: [murilobarbosa2002.github.io/zerohop](https://murilobarbosa2002.github.io/zerohop/).** Tem guia de uso, segurança e privacidade em detalhe, arquitetura técnica e perguntas frequentes.
 
 ## O que é, em uma frase
 
@@ -128,7 +128,7 @@ Isso é esperado e não significa que o programa tem vírus ou é malicioso. É 
 
 Este projeto é gratuito e sem fins lucrativos, então não existe esse certificado pago, e é exatamente por isso que aparece "Fornecedor desconhecido": o Windows não tem como confirmar automaticamente quem publicou o instalador. Isso não significa que o instalador foi comprometido, só que a Microsoft não foi paga pra "confirmar" o autor.
 
-Se você confia na fonte (baixou direto da [página de Releases do repositório oficial no GitHub](https://github.com/murilobarbosa2002/electron-screen-share/releases), não de um link de terceiro), pode seguir com a instalação:
+Se você confia na fonte (baixou direto da [página de Releases do repositório oficial no GitHub](https://github.com/murilobarbosa2002/zerohop/releases), não de um link de terceiro), pode seguir com a instalação:
 
 1. Clique em **"Mais informações"** na primeira tela do aviso.
 2. Vai aparecer um botão **"Executar assim mesmo"**. Clique nele.
@@ -179,7 +179,7 @@ Isso é exatamente o cenário que a captura experimental acima avisa que pode ac
 
 **Onde fica o arquivo:** `settings.json`, dentro da pasta de dados do app.
 
-- Windows: `%APPDATA%\zero-hop\settings.json` (cole esse caminho na barra de endereço do Explorador de Arquivos)
+- Windows: `%APPDATA%\zerohop\settings.json` (cole esse caminho na barra de endereço do Explorador de Arquivos)
 
 **Como editar:**
 

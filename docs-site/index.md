@@ -11,7 +11,7 @@ hero:
       link: /guia/o-que-e
     - theme: alt
       text: Ver no GitHub
-      link: https://github.com/murilobarbosa2002/electron-screen-share
+      link: https://github.com/murilobarbosa2002/zerohop
 
 features:
   - title: Sem servidor próprio
