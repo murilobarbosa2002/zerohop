@@ -13,5 +13,10 @@ export const SETTINGS_STRINGS = {
   systemDefaultMicInputOption: 'Padrão do sistema',
   unnamedMicInputLabel: (index: number) => `Microfone ${index}`,
   micSensitivityFieldLabel: 'Sensibilidade do microfone',
-  micSensitivityHint: 'Aumente se sua voz está saindo baixa pros outros, ou diminua se estiver estourando/muito alta.'
+  micSensitivityHint: 'Aumente se sua voz está saindo baixa pros outros, ou diminua se estiver estourando/muito alta.',
+  micPermissionDeniedHint: 'O microfone não foi permitido — você está na sala mesmo assim, mas ninguém consegue te ouvir.',
+  grantMicPermissionButton: 'Permitir microfone',
+  micPermissionOutsideRoomHint: 'Conceda a permissão do microfone agora pra já estar liberado na próxima vez que entrar numa sala.',
+  micPermissionGrantedStatus: 'Permissão concedida.',
+  micPermissionStillDeniedStatus: 'Ainda sem permissão — talvez precise liberar o microfone nas configurações do Windows pra este app.'
 } as const;

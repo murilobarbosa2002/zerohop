@@ -28,7 +28,7 @@ export function App() {
       {showUpdates ? (
         <UpdatesScreen onBack={() => setShowUpdates(false)} />
       ) : showSettings ? (
-        <SettingsScreen onBack={() => setShowSettings(false)} />
+        <SettingsScreen onBack={() => setShowSettings(false)} roomClient={inRoom ? roomClient : null} />
       ) : inRoom && roomCode ? (
         <Room roomClient={roomClient} roomCode={roomCode} onLeft={handleLeft} />
       ) : (

@@ -1,5 +1,15 @@
 import type { MicCaptureHandle } from '@/services/MicCapture.types';
 
+export async function requestMicPermission(): Promise<boolean> {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream.getTracks().forEach((track) => track.stop());
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function captureMicrophone(deviceId: string, gain: number): Promise<MicCaptureHandle> {
   const rawStream = await navigator.mediaDevices.getUserMedia({
     audio: deviceId ? { deviceId, echoCancellation: true, noiseSuppression: true } : { echoCancellation: true, noiseSuppression: true }

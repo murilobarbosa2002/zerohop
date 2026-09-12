@@ -33,6 +33,7 @@ export interface RoomClientEventDetail {
   'join-requests-changed': { requests: JoinRequestEntry[] };
   'join-pending': Record<string, never>;
   'mic-muted-changed': { muted: boolean };
+  'mic-active-changed': { active: boolean };
 }
 
 export class RoomClient extends EventTarget {
@@ -146,6 +147,10 @@ export class RoomClient extends EventTarget {
 
   get micMuted(): boolean {
     return this.voice.micMuted;
+  }
+
+  get micActive(): boolean {
+    return this.micCapture !== null;
   }
 
   get isRoomCreator(): boolean {
@@ -296,16 +301,23 @@ export class RoomClient extends EventTarget {
     this.emitMembers();
   }
 
+  async retryMicPermission(): Promise<void> {
+    if (this.micActive || this.roomCode === null) return;
+    await this.startVoiceChat();
+  }
+
   private async startVoiceChat(): Promise<void> {
     try {
       this.micCapture = await captureMicrophone(getMicInputDeviceId(), getMicInputGain());
     } catch (error) {
       console.warn('[room] não foi possível capturar o microfone', error);
+      this.dispatchEvent(new CustomEvent('mic-active-changed', { detail: { active: false } }));
       return;
     }
     this.voice.start(this.micCapture.stream);
     this.unsubscribeMicGain = subscribeToMicInputGain(() => this.micCapture?.setGain(getMicInputGain()));
     this.unsubscribeMicDevice = subscribeToMicInputDevice(() => this.recaptureMicrophone());
+    this.dispatchEvent(new CustomEvent('mic-active-changed', { detail: { active: true } }));
   }
 
   private async recaptureMicrophone(): Promise<void> {
@@ -326,6 +338,7 @@ export class RoomClient extends EventTarget {
     this.voice.stop();
     this.micCapture?.stop();
     this.micCapture = null;
+    this.dispatchEvent(new CustomEvent('mic-active-changed', { detail: { active: false } }));
   }
 
   private emitMembers(): void {

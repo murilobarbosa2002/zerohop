@@ -59,6 +59,8 @@ Ao entrar numa sala, seu microfone liga sozinho e todo mundo já pode se ouvir �
 
 Cada pessoa na lista de participantes tem seu próprio controle de volume (e mudo individual) só pra voz dela, e quem estiver com o microfone mutado aparece com um ícone 🔇 do lado do nome. Pra trocar de microfone ou ajustar a sensibilidade, veja [Configurações](#configurações).
 
+Se o microfone não puder ser usado (permissão negada, sem dispositivo disponível, etc.), você continua entrando na sala normalmente — só ninguém vai conseguir te ouvir. Nesse caso, a tela de Configurações mostra um botão **Permitir microfone** pra tentar de novo sem precisar sair da sala.
+
 ## Compartilhar sua tela
 
 No palco central, clique em **Compartilhar minha tela** — isso abre um painel dedicado a essa configuração. Primeiro escolha se quer compartilhar a **tela inteira** ou **uma janela específica**; com base nessa escolha, o app mostra só as opções relevantes (só telas, ou só janelas — sem misturar tudo numa lista só). Depois de escolher o que compartilhar, ajuste resolução, FPS e se quer compartilhar áudio junto (inclusive o áudio de só um programa específico, útil pra não misturar sua voz da call com o áudio da tela compartilhada). Depois de confirmar, o painel fecha sozinho e vira uma barra compacta mostrando que você está compartilhando, com uma miniatura da sua tela, o botão de parar e clicando na miniatura ela abre ampliada — útil pra conferir se a imagem está nítida ou travando antes de perguntar pra sala.

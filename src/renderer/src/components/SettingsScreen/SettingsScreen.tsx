@@ -3,7 +3,7 @@ import { MicInputSettings } from '@/components/SettingsScreen/MicInputSettings';
 import { SETTINGS_STRINGS } from '@/strings/settings.strings';
 import type { SettingsScreenProps } from '@/components/SettingsScreen/SettingsScreen.types';
 
-export function SettingsScreen({ onBack }: SettingsScreenProps) {
+export function SettingsScreen({ onBack, roomClient }: SettingsScreenProps) {
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex items-center gap-3 px-5 py-3 border-b border-border flex-shrink-0">
@@ -15,7 +15,7 @@ export function SettingsScreen({ onBack }: SettingsScreenProps) {
 
       <div className="flex-1 overflow-y-auto p-6">
         <AudioOutputSettings />
-        <MicInputSettings />
+        <MicInputSettings roomClient={roomClient} />
       </div>
     </div>
   );
