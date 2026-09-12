@@ -17,5 +17,6 @@ export const PRE_ROOM_STRINGS = {
   codeRequiredError: 'Digite o código da sala.',
   joinPasswordFieldPlaceholder: 'Digite a senha que seu amigo te passou',
   joiningRoomStatus: 'Entrando na sala...',
+  awaitingApprovalStatus: 'Senha confirmada. Aguardando o criador da sala aprovar sua entrada...',
   joinRoomError: (reason: string) => `Não foi possível conectar (${reason}). Tente de novo.`
 } as const;

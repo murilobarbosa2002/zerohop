@@ -63,7 +63,8 @@ export default {
         'source-list': '220px'
       },
       maxWidth: {
-        'chat-bubble': '80%'
+        'chat-bubble': '80%',
+        modal: '360px'
       }
     }
   },

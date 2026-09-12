@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { RoomSidebar } from '@/components/Room/RoomSidebar';
 import { RoomStage } from '@/components/Room/RoomStage';
+import { JoinRequestModal } from '@/components/Room/JoinRequestModal';
 import { Chat } from '@/components/Chat';
 import { useMembers } from '@/hooks/useMembers';
 import { useSharing } from '@/hooks/useSharing';
 import { useConnectionWarning } from '@/hooks/useConnectionWarning';
 import { useChatMessages } from '@/hooks/useChatMessages';
+import { useJoinRequests } from '@/hooks/useJoinRequests';
 import { useSourcePicker } from '@/hooks/useSourcePicker';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
@@ -19,6 +21,7 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
   const sharing = useSharing(roomClient);
   const connectionWarning = useConnectionWarning(roomClient);
   const chatMessages = useChatMessages(roomClient);
+  const joinRequests = useJoinRequests(roomClient);
 
   const { refresh } = sourcePicker;
   useEffect(() => {
@@ -32,6 +35,13 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
+      {roomClient.isRoomCreator && (
+        <JoinRequestModal
+          requests={joinRequests}
+          onApprove={(id) => roomClient.approveJoinRequest(id)}
+          onDeny={(id) => roomClient.denyJoinRequest(id)}
+        />
+      )}
       <div className="flex items-center gap-2 px-4 py-2 border-b border-border flex-shrink-0">
         <button
           onClick={() => setSidebarOpen((open) => !open)}

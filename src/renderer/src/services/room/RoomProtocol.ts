@@ -12,7 +12,9 @@ import {
   watchRequestMessageSchema,
   unwatchRequestMessageSchema,
   kickMessageSchema,
-  chatMessageSchema
+  chatMessageSchema,
+  joinPendingMessageSchema,
+  joinApprovedMessageSchema
 } from '@/services/room/roomMessage.schema';
 
 export type HelloMessage = z.infer<typeof helloMessageSchema>;
@@ -22,6 +24,8 @@ export type WatchRequestMessage = z.infer<typeof watchRequestMessageSchema>;
 export type UnwatchRequestMessage = z.infer<typeof unwatchRequestMessageSchema>;
 export type KickMessage = z.infer<typeof kickMessageSchema>;
 export type ChatMessage = z.infer<typeof chatMessageSchema>;
+export type JoinPendingMessage = z.infer<typeof joinPendingMessageSchema>;
+export type JoinApprovedMessage = z.infer<typeof joinApprovedMessageSchema>;
 export type RoomMessage = z.infer<typeof roomMessageSchema>;
 
 interface RoomProtocolDeps {
@@ -31,8 +35,12 @@ interface RoomProtocolDeps {
   chat: ChatService;
   onMembersChanged: () => void;
   getExpectedPassword: () => string;
+  isRoomCreator: () => boolean;
   onAuthRejected: (fromId: string) => void;
   onAuthSuccess: (fromId: string) => void;
+  onJoinRequest: (fromId: string, name: string) => void;
+  onJoinPending: (fromId: string) => void;
+  onJoinApproved: (fromId: string) => void;
   onKick: (targetId: string) => void;
 }
 
@@ -69,6 +77,12 @@ export class RoomProtocol {
       case 'chat':
         this.deps.chat.receive(fromId, message.text);
         return;
+      case 'join-pending':
+        this.deps.onJoinPending(fromId);
+        return;
+      case 'join-approved':
+        this.deps.onJoinApproved(fromId);
+        return;
     }
   }
 
@@ -77,7 +91,12 @@ export class RoomProtocol {
       this.deps.onAuthRejected(fromId);
       return;
     }
-    this.deps.registry.upsert(fromId, { name: message.name, authenticated: true });
+    this.deps.registry.upsert(fromId, { name: message.name });
+    if (this.deps.isRoomCreator()) {
+      this.deps.onJoinRequest(fromId, message.name);
+      return;
+    }
+    this.deps.registry.upsert(fromId, { authenticated: true });
     this.deps.onAuthSuccess(fromId);
   }
 

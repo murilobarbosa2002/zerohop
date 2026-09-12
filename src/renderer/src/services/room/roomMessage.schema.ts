@@ -40,6 +40,14 @@ export const chatMessageSchema = z.object({
   text: z.string().trim().min(1).max(CHAT_MESSAGE_MAX_LENGTH)
 });
 
+export const joinPendingMessageSchema = z.object({
+  type: z.literal('join-pending')
+});
+
+export const joinApprovedMessageSchema = z.object({
+  type: z.literal('join-approved')
+});
+
 export const roomMessageSchema = z.discriminatedUnion('type', [
   helloMessageSchema,
   membersMessageSchema,
@@ -47,5 +55,7 @@ export const roomMessageSchema = z.discriminatedUnion('type', [
   watchRequestMessageSchema,
   unwatchRequestMessageSchema,
   kickMessageSchema,
-  chatMessageSchema
+  chatMessageSchema,
+  joinPendingMessageSchema,
+  joinApprovedMessageSchema
 ]);

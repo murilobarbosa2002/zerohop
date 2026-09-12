@@ -5,6 +5,7 @@ import { Card, CardTitle } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
 import { errorMessage } from '@/lib/errorMessage';
+import { onTyped } from '@/lib/typedEvents';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { ROOM_NAME_MAX_LENGTH, ROOM_CODE_MAX_LENGTH } from '@/constants/roomIdentity';
 import { ROOM_PASSWORD_MAX_LENGTH } from '@/constants/roomPassword';
@@ -25,11 +26,16 @@ export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProp
   async function handleJoin(values: JoinRoomFormValues): Promise<void> {
     const code = values.code.toUpperCase();
     setStatus(PRE_ROOM_STRINGS.joiningRoomStatus);
+    const stopListeningJoinPending = onTyped(roomClient, 'join-pending', () => {
+      setStatus(PRE_ROOM_STRINGS.awaitingApprovalStatus);
+    });
     try {
       await roomClient.joinRoom(values.name, code, values.password);
       onEntered(code);
     } catch (error) {
       setStatus(PRE_ROOM_STRINGS.joinRoomError(errorMessage(error)));
+    } finally {
+      stopListeningJoinPending();
     }
   }
 

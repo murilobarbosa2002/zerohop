@@ -12,6 +12,14 @@ Ao criar uma sala, é obrigatório definir uma senha (mínimo de 4 caracteres) �
 
 Isso funciona nos dois sentidos: se você digitar a senha errada ao tentar entrar numa sala, você também não vai ver ninguém daquela sala, porque a validação acontece nos dois lados ao mesmo tempo.
 
+## Aprovação manual de quem entra
+
+Além da senha, existe mais uma camada: sempre que alguém tenta entrar (mesmo digitando o código e a senha certos), **quem criou a sala** recebe um pop-up com o nome dessa pessoa e decide, na hora, se aceita ou recusa — a pessoa só entra de fato depois dessa confirmação manual.
+
+Isso é uma camada adicional de controle, não um substituto da senha: as duas continuam existindo juntas. Enquanto o criador não responde, quem está tentando entrar vê uma mensagem de "aguardando aprovação". Se o criador não responder em um tempo razoável, o pedido é recusado automaticamente, para não deixar ninguém esperando pra sempre.
+
+Se o criador recusar, a pessoa simplesmente não entra — sem nenhuma explicação enviada de volta — e nem aparece na lista de participantes de ninguém, como se a tentativa nunca tivesse acontecido.
+
 ## Remover alguém da sala
 
 Só quem **criou** a sala pode remover outra pessoa dela. Ao remover:

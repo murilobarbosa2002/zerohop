@@ -31,5 +31,10 @@ export const ROOM_STRINGS = {
   hideSidebarButton: 'Ocultar sala',
   showSidebarButton: 'Mostrar sala',
   hideChatButton: 'Ocultar chat',
-  showChatButton: 'Mostrar chat'
+  showChatButton: 'Mostrar chat',
+  joinRequestTitle: (name: string) => `${name} quer entrar na sala`,
+  joinRequestHint: 'A senha está correta, mas só você pode confirmar quem entra.',
+  joinRequestApproveButton: 'Aceitar',
+  joinRequestDenyButton: 'Recusar',
+  joinRequestQueueHint: (count: number) => `+${count} outro${count > 1 ? 's' : ''} pedido${count > 1 ? 's' : ''} aguardando`
 } as const;
