@@ -38,7 +38,8 @@ const api = {
     const listener = (_event: Electron.IpcRendererEvent, chunk: Uint8Array): void => callback(chunk);
     ipcRenderer.on(IPC_CHANNELS.audioLoopbackChunk, listener);
     return () => ipcRenderer.removeListener(IPC_CHANNELS.audioLoopbackChunk, listener);
-  }
+  },
+  copyToClipboard: (text: string): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.copyToClipboard, text)
 };
 
 export type ZeroHopApi = typeof api;

@@ -25,6 +25,7 @@ declare global {
       startAudioLoopback: (processId: number) => void;
       stopAudioLoopback: () => void;
       onAudioLoopbackChunk: (callback: (chunk: Uint8Array) => void) => () => void;
+      copyToClipboard: (text: string) => Promise<void>;
     };
   }
 }

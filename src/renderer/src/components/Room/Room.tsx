@@ -11,8 +11,11 @@ import { useJoinRequests } from '@/hooks/useJoinRequests';
 import { useSourcePicker } from '@/hooks/useSourcePicker';
 import { useMicMuted } from '@/hooks/useMicMuted';
 import { useMemberAudioState } from '@/hooks/useMemberAudioState';
+import { playMemberJoinedSound } from '@/services/soundEffects';
+import { onTyped } from '@/lib/typedEvents';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
+import type { RoomClientEventDetail } from '@/services/RoomClient';
 import type { RoomProps } from '@/components/Room/Room.types';
 
 export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs }: RoomProps) {
@@ -33,13 +36,18 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
     refresh();
   }, [refresh]);
 
+  useEffect(
+    () => onTyped<RoomClientEventDetail['member-joined']>(roomClient, 'member-joined', () => playMemberJoinedSound()),
+    [roomClient]
+  );
+
   function handleLeave(): void {
     roomClient.leaveRoom();
     onLeft();
   }
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden">
+    <div className="absolute inset-0 flex flex-col overflow-hidden">
       {roomClient.isRoomCreator && (
         <JoinRequestModal
           requests={joinRequests}

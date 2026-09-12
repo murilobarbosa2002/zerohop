@@ -1,6 +1,6 @@
 import { Card } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
-import { COMMON_STRINGS } from '@/strings/common.strings';
+import { CopyButton } from '@/components/CopyButton';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { RoomHeaderProps } from '@/components/Room/RoomHeader.types';
 
@@ -12,12 +12,7 @@ export function RoomHeader({ roomCode, roomPassword, onLeave }: RoomHeaderProps)
           <span className="text-body-xs text-text-dim block mb-1">{ROOM_STRINGS.roomCodeLabel}</span>
           <div className="flex items-center justify-between gap-2 min-w-0">
             <span className="font-mono font-bold tracking-wide text-accent truncate">{roomCode}</span>
-            <button
-              onClick={() => navigator.clipboard.writeText(roomCode)}
-              className="bg-accent-soft text-accent rounded-full px-2.5 py-1 text-badge-xs font-bold hover:brightness-110 flex-shrink-0"
-            >
-              {COMMON_STRINGS.copyButton}
-            </button>
+            <CopyButton text={roomCode} />
           </div>
         </div>
         {roomPassword && (
@@ -25,12 +20,7 @@ export function RoomHeader({ roomCode, roomPassword, onLeave }: RoomHeaderProps)
             <span className="text-body-xs text-text-dim block mb-1">{ROOM_STRINGS.roomPasswordLabel}</span>
             <div className="flex items-center justify-between gap-2 min-w-0">
               <span className="font-mono font-bold tracking-wide text-accent truncate">{roomPassword}</span>
-              <button
-                onClick={() => navigator.clipboard.writeText(roomPassword)}
-                className="bg-accent-soft text-accent rounded-full px-2.5 py-1 text-badge-xs font-bold hover:brightness-110 flex-shrink-0"
-              >
-                {COMMON_STRINGS.copyButton}
-              </button>
+              <CopyButton text={roomPassword} />
             </div>
           </div>
         )}

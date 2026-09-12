@@ -12,18 +12,18 @@ import { useRoomClient } from '@/hooks/useRoomClient';
 import { useRoomStatus } from '@/hooks/useRoomStatus';
 import { useAppUpdater } from '@/hooks/useAppUpdater';
 import { logEvent } from '@/services/appLog';
+import { playJoinedRoomSound } from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { LogCategory, LogLevel } from '@shared/logEntry';
 import { RoomStatus } from '@/constants/roomStatus';
+import { Overlay } from '@/constants/overlay';
 
 export function App() {
   const roomClient = useRoomClient();
   const status = useRoomStatus(roomClient);
   const { status: updaterStatus, installUpdate, version } = useAppUpdater();
   const [roomCode, setRoomCode] = useState<string | null>(null);
-  const [showUpdates, setShowUpdates] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
-  const [showLogs, setShowLogs] = useState(false);
+  const [activeOverlay, setActiveOverlay] = useState<Overlay | null>(null);
   const [dismissedUpdateVersion, setDismissedUpdateVersion] = useState<string | null>(null);
   const inRoom = status === RoomStatus.CONNECTED && roomCode !== null;
 
@@ -37,6 +37,15 @@ export function App() {
     setRoomCode(null);
   }
 
+  function handleEntered(code: string): void {
+    setRoomCode(code);
+    playJoinedRoomSound();
+  }
+
+  function toggleOverlay(overlay: Overlay): void {
+    setActiveOverlay((current) => (current === overlay ? null : overlay));
+  }
+
   return (
     <div className="h-full flex flex-col bg-bg text-text">
       {updateReady && (
@@ -47,31 +56,43 @@ export function App() {
         />
       )}
       <TitleBar
-        onOpenUpdates={() => setShowUpdates(true)}
-        onOpenSettings={() => setShowSettings(true)}
-        onOpenLogs={() => setShowLogs(true)}
+        onOpenUpdates={() => toggleOverlay(Overlay.UPDATES)}
+        onOpenSettings={() => toggleOverlay(Overlay.SETTINGS)}
+        onOpenLogs={() => toggleOverlay(Overlay.LOGS)}
       />
-      {showUpdates ? (
-        <UpdatesScreen onBack={() => setShowUpdates(false)} />
-      ) : showSettings ? (
-        <SettingsScreen onBack={() => setShowSettings(false)} roomClient={inRoom ? roomClient : null} />
-      ) : showLogs ? (
-        <LogsScreen onBack={() => setShowLogs(false)} />
-      ) : inRoom && roomCode ? (
-        <Room
-          roomClient={roomClient}
-          roomCode={roomCode}
-          onLeft={handleLeft}
-          onOpenSettings={() => setShowSettings(true)}
-          onOpenLogs={() => setShowLogs(true)}
-        />
-      ) : (
-        <div className="flex-1 overflow-y-auto px-7 py-7">
-          <Header />
-          <PreRoom roomClient={roomClient} onEntered={setRoomCode} />
-          <StatusBar status={status} />
-        </div>
-      )}
+      <div className="flex-1 relative overflow-hidden">
+        {inRoom && roomCode ? (
+          <Room
+            roomClient={roomClient}
+            roomCode={roomCode}
+            onLeft={handleLeft}
+            onOpenSettings={() => toggleOverlay(Overlay.SETTINGS)}
+            onOpenLogs={() => toggleOverlay(Overlay.LOGS)}
+          />
+        ) : (
+          <div className="absolute inset-0 overflow-y-auto px-7 py-7">
+            <Header />
+            <PreRoom roomClient={roomClient} onEntered={handleEntered} />
+            <StatusBar status={status} />
+          </div>
+        )}
+
+        {activeOverlay === Overlay.UPDATES && (
+          <div className="absolute inset-0 flex flex-col bg-bg">
+            <UpdatesScreen onBack={() => setActiveOverlay(null)} />
+          </div>
+        )}
+        {activeOverlay === Overlay.SETTINGS && (
+          <div className="absolute inset-0 flex flex-col bg-bg">
+            <SettingsScreen onBack={() => setActiveOverlay(null)} roomClient={inRoom ? roomClient : null} />
+          </div>
+        )}
+        {activeOverlay === Overlay.LOGS && (
+          <div className="absolute inset-0 flex flex-col bg-bg">
+            <LogsScreen onBack={() => setActiveOverlay(null)} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

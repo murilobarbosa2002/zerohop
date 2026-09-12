@@ -1,4 +1,4 @@
-import { ipcMain, shell, desktopCapturer, type DesktopCapturerSource } from 'electron';
+import { ipcMain, shell, desktopCapturer, clipboard, type DesktopCapturerSource } from 'electron';
 import { getMainWindow } from '@main/window';
 import { CAPTURE_SOURCE_TYPES, CAPTURE_THUMBNAIL_WIDTH, CAPTURE_THUMBNAIL_HEIGHT, NOISE_SOURCE_NAME_PATTERNS } from '@main/constants/capture';
 import { ALLOWED_EXTERNAL_URL_PREFIX } from '@main/constants/externalUrl';
@@ -81,5 +81,9 @@ export function registerIpcHandlers(): void {
 
   ipcMain.on(IPC_CHANNELS.audioLoopbackStop, () => {
     stopAudioLoopback();
+  });
+
+  ipcMain.handle(IPC_CHANNELS.copyToClipboard, (_event, text: string) => {
+    clipboard.writeText(text);
   });
 }

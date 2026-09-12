@@ -18,5 +18,6 @@ export const IPC_CHANNELS = {
   audioLoopbackFindProcess: 'audio-loopback-find-process',
   audioLoopbackStart: 'audio-loopback-start',
   audioLoopbackStop: 'audio-loopback-stop',
-  audioLoopbackChunk: 'audio-loopback-chunk'
+  audioLoopbackChunk: 'audio-loopback-chunk',
+  copyToClipboard: 'copy-to-clipboard'
 } as const;

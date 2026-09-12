@@ -61,6 +61,12 @@ export default {
         'glow-accent': '0 6px 18px rgba(124, 108, 255, 0.35)',
         'glow-success': '0 0 8px #4ee3b0'
       },
+      height: {
+        'video-default': '55vh'
+      },
+      minHeight: {
+        'video-min': '180px'
+      },
       maxHeight: {
         video: '55vh'
       },

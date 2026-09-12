@@ -44,6 +44,7 @@ export interface RoomClientEventDetail {
   'join-pending': Record<string, never>;
   'mic-muted-changed': { muted: boolean };
   'mic-active-changed': { active: boolean };
+  'member-joined': { id: string; name: string };
 }
 
 export class RoomClient extends EventTarget {
@@ -89,6 +90,7 @@ export class RoomClient extends EventTarget {
         this.voice.callMember(id);
         const member = this.registry.get(id);
         logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.memberJoinedMessage(member?.name || id));
+        this.dispatchEvent(new CustomEvent('member-joined', { detail: { id, name: member?.name || id } }));
       }
     });
     this.protocol = new RoomProtocol({

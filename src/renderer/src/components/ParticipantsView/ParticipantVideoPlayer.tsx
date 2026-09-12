@@ -1,5 +1,6 @@
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { VolumeControl } from '@/components/ParticipantsView/VolumeControl';
+import { ParticipantVideoLightbox } from '@/components/ParticipantsView/ParticipantVideoLightbox';
 import { useAudioOutputDevice } from '@/hooks/useAudioOutputDevice';
 import { setElementAudioOutput } from '@/lib/audioSink';
 import { COMMON_STRINGS } from '@/strings/common.strings';
@@ -10,6 +11,7 @@ export function ParticipantVideoPlayer({ member, audioState }: ParticipantVideoP
   const videoRef = useRef<HTMLVideoElement>(null);
   const state = audioState.get(member.id);
   const [, forceRender] = useReducer((renderCount: number) => renderCount + 1, 0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const hasAudio = member.stream.getAudioTracks().length > 0;
   const [audioOutputDeviceId] = useAudioOutputDevice();
 
@@ -23,10 +25,6 @@ export function ParticipantVideoPlayer({ member, audioState }: ParticipantVideoP
   useEffect(() => {
     if (videoRef.current) setElementAudioOutput(videoRef.current, audioOutputDeviceId);
   }, [audioOutputDeviceId]);
-
-  function handleFullscreen(): void {
-    videoRef.current?.requestFullscreen().catch(() => {});
-  }
 
   function toggleMute(): void {
     state.muted = !state.muted;
@@ -42,13 +40,21 @@ export function ParticipantVideoPlayer({ member, audioState }: ParticipantVideoP
     <div>
       <div className="relative mt-2.5">
         <button
-          onClick={handleFullscreen}
+          onClick={() => setLightboxOpen(true)}
           className="absolute top-2 right-2 z-10 bg-black/70 border border-border text-text rounded-lg px-2.5 py-1.5 text-xs hover:bg-black/90 hover:border-accent"
         >
           {COMMON_STRINGS.fullscreenButton}
         </button>
-        <video ref={videoRef} autoPlay playsInline className="w-full max-h-video bg-black rounded-lg border border-border block" />
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          className="w-full h-video-default min-h-video-min max-h-video resize-y overflow-hidden bg-black rounded-lg border border-border block"
+        />
       </div>
+      {lightboxOpen && (
+        <ParticipantVideoLightbox stream={member.stream} volume={state.volume} muted={state.muted} onClose={() => setLightboxOpen(false)} />
+      )}
       {hasAudio ? (
         <VolumeControl muted={state.muted} volume={state.volume} onToggleMute={toggleMute} onChangeVolume={changeVolume} />
       ) : (

@@ -40,6 +40,8 @@ Ao abrir o ZeroHop, a primeira tela pergunta o que você quer fazer: **Criar sal
 
 Se o código ou a senha estiverem errados, você simplesmente não vai conseguir entrar. Não existe uma mensagem de "senha errada" explícita, de propósito, pra dificultar tentativas de adivinhar a senha de terceiros.
 
+Ao criar ou entrar numa sala com sucesso, toca um efeito sonoro nostálgico (estilo internet discada) só pra você; quem já está na sala ouve um som diferente quando alguém novo entra.
+
 ## Como a sala é organizada
 
 Dentro da sala, a tela é dividida em três áreas, como um app de chamada:
@@ -70,6 +72,8 @@ O botão **Editar** abre de novo o mesmo painel de configuração, já preenchid
 ## Assistir a tela de alguém
 
 Na lista de participantes (coluna da esquerda), quem estiver compartilhando aparece com um indicador verde. Clique em **Assistir** pra receber o vídeo dessa pessoa, que aparece no palco central, não mais dentro da própria lista. O vídeo só é enviado pra quem pede explicitamente, não fica todo mundo recebendo o stream de todo mundo o tempo todo. Se você assistir mais de uma pessoa ao mesmo tempo, os vídeos aparecem lado a lado no palco.
+
+Você pode arrastar o canto inferior direito do vídeo pra deixá-lo maior ou menor, e o botão "Tela cheia" abre uma visualização ampliada (clique fora dela ou aperte Esc pra fechar). O controle de volume abaixo do vídeo ajusta só o áudio daquele compartilhamento (o jogo, o vídeo, o que for), sem mexer no volume da voz da pessoa na call — são dois áudios independentes.
 
 ## Conversar pelo chat
 
