@@ -16,10 +16,17 @@ import {
 } from '@/services/room/RoomProtocol';
 import { onTyped } from '@/lib/typedEvents';
 import { RoomStatus } from '@/constants/roomStatus';
-import { AUTH_HELLO_TIMEOUT_MS } from '@/constants/timing';
+import { AUTH_HELLO_TIMEOUT_MS, ICE_CONNECTION_TIMEOUT_MS } from '@/constants/timing';
 import type { QualitySettings } from '@/services/ScreenCapture';
 
 const DEFAULT_MEMBER_NAME = 'Sem nome';
+const JOIN_CONFIRMATION_TIMEOUT_MS = ICE_CONNECTION_TIMEOUT_MS + AUTH_HELLO_TIMEOUT_MS;
+
+interface PendingJoin {
+  peerId: string;
+  resolve: () => void;
+  reject: (error: Error) => void;
+}
 
 export interface RoomClientEventDetail {
   'sharing-changed': { sharing: boolean };
@@ -34,6 +41,7 @@ export class RoomClient extends EventTarget {
   private selfName = DEFAULT_MEMBER_NAME;
   private currentPassword = '';
   private blockedIds = new Set<string>();
+  private pendingJoin: PendingJoin | null = null;
   roomCode: string | null = null;
   status: RoomStatus = RoomStatus.DISCONNECTED;
 
@@ -81,7 +89,10 @@ export class RoomClient extends EventTarget {
         this.registry.upsert(fromId, { stream: null, watching: false });
         this.emitMembers();
       },
-      onConnectionWarning: (peerId) => this.dispatchEvent(new CustomEvent('connection-warning', { detail: { peerId } }))
+      onConnectionWarning: (peerId) => {
+        this.dispatchEvent(new CustomEvent('connection-warning', { detail: { peerId } }));
+        this.rejectPendingJoin(peerId, new Error('Não foi possível conectar com a sala'));
+      }
     });
     onTyped<RoomClientEventDetail['sharing-changed']>(this.media, 'sharing-changed', (detail) => {
       this.dispatchEvent(new CustomEvent('sharing-changed', { detail }));
@@ -130,8 +141,17 @@ export class RoomClient extends EventTarget {
     this.currentPassword = password;
     const iceServers = await getIceServers();
     await this.connections.open(undefined, iceServers);
+    try {
+      await new Promise<void>((resolve, reject) => {
+        this.pendingJoin = { peerId: code, resolve, reject };
+        setTimeout(() => this.rejectPendingJoin(code, new Error('Código ou senha incorretos')), JOIN_CONFIRMATION_TIMEOUT_MS);
+        this.connections.connectToPeer(code);
+      });
+    } catch (error) {
+      this.connections.close();
+      throw error;
+    }
     this.roomCode = code;
-    this.connections.connectToPeer(code);
     this.emitStatus(RoomStatus.CONNECTED);
     return code;
   }
@@ -211,11 +231,22 @@ export class RoomClient extends EventTarget {
     const member = this.registry.get(id);
     if (member?.conn) safeCall(member.conn, 'close');
     this.registry.remove(id);
+    this.rejectPendingJoin(id, new Error('Código ou senha incorretos'));
   }
 
-  private handleAuthSuccess(_id: string): void {
+  private handleAuthSuccess(id: string): void {
     this.emitMembers();
     this.gossip.broadcast();
+    if (this.pendingJoin?.peerId === id) {
+      this.pendingJoin.resolve();
+      this.pendingJoin = null;
+    }
+  }
+
+  private rejectPendingJoin(peerId: string, error: Error): void {
+    if (this.pendingJoin?.peerId !== peerId) return;
+    this.pendingJoin.reject(error);
+    this.pendingJoin = null;
   }
 
   private applyKick(targetId: string): void {
