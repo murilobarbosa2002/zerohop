@@ -1,0 +1,3 @@
+export const DEVTOOLS_KEYDOWN_EVENT_TYPE = 'keyDown';
+export const DEVTOOLS_SHORTCUT_KEY = 'F12';
+export const DEVTOOLS_SHORTCUT_MODIFIER_KEY = 'I';

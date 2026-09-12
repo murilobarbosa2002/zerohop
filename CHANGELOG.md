@@ -1,0 +1,15 @@
+# Changelog
+
+Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os detalhes completos de cada versão ficam em [`docs/releases/`](docs/releases/).
+
+| Versão | Resumo |
+| --- | --- |
+| [0.9.0](docs/releases/v0.9.0.md) | Interface reescrita em React + TypeScript, build com Vite, instalador compilado no CI |
+| [0.8.0](docs/releases/v0.8.0.md) | Etiquetas de tipo de fonte, áudio independente do vídeo, ícone próprio, correções de miniatura e filtro de notificações |
+| [0.7.0](docs/releases/v0.7.0.md) | Reorganização do código em camadas (main/preload/services/ui) |
+| [0.6.0](docs/releases/v0.6.0.md) | Diagnóstico de conexão, correção de mDNS, remoção de flag que causava travamento no Windows 10 |
+| [0.5.0](docs/releases/v0.5.0.md) | Compartilhamento de áudio, controle de volume por pessoa |
+| [0.4.0](docs/releases/v0.4.0.md) | Salas com múltiplas pessoas, compartilhamento simultâneo |
+| [0.3.0](docs/releases/v0.3.0.md) | Seletores de resolução e FPS, modo tela cheia |
+| [0.2.0](docs/releases/v0.2.0.md) | Redesign visual, barra de título customizada, ícone |
+| [0.1.0](docs/releases/v0.1.0.md) | Lançamento inicial — compartilhamento P2P via convite manual |

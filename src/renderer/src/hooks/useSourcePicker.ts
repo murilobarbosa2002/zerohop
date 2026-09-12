@@ -1,0 +1,22 @@
+import { useCallback, useState } from 'react';
+import type { CaptureSource } from '@shared/ipc-types';
+import type { SourcePickerState } from '@/hooks/useSourcePicker.types';
+
+export function useSourcePicker(): SourcePickerState {
+  const [sources, setSources] = useState<CaptureSource[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const refresh = useCallback(async (): Promise<CaptureSource[]> => {
+    setLoading(true);
+    try {
+      const result = await window.api.getSources();
+      setSources(result);
+      return result;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  return { sources, selectedId, loading, select: setSelectedId, refresh };
+}

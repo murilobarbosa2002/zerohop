@@ -1,0 +1,1 @@
+export const RESTART_NOW_BUTTON_INDEX = 0;
