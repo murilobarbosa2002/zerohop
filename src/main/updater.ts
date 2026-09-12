@@ -1,4 +1,4 @@
-import { app, dialog, ipcMain } from 'electron';
+import { app, dialog, ipcMain, Notification } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { UPDATER_STRINGS } from '@main/strings/updater.strings';
 import { RESTART_NOW_BUTTON_INDEX } from '@main/constants/updater';
@@ -11,12 +11,30 @@ function sendStatus(status: UpdaterStatus): void {
   getMainWindow()?.webContents.send(IPC_CHANNELS.updaterStatus, status);
 }
 
+function notifyUpdateDownloaded(version: string): void {
+  if (!Notification.isSupported()) return;
+
+  const notification = new Notification({
+    title: UPDATER_STRINGS.notificationTitle,
+    body: UPDATER_STRINGS.notificationBody(version)
+  });
+  notification.on('click', () => {
+    const window = getMainWindow();
+    if (!window) return;
+    if (window.isMinimized()) window.restore();
+    window.focus();
+  });
+  notification.show();
+}
+
 export function initAutoUpdater(): void {
   if (!app.isPackaged) return;
 
   autoUpdater.autoDownload = true;
 
-  autoUpdater.on('update-downloaded', () => {
+  autoUpdater.on('update-downloaded', (info) => {
+    notifyUpdateDownloaded(info.version);
+
     dialog
       .showMessageBox({
         type: UPDATER_STRINGS.dialogType,
