@@ -1,6 +1,7 @@
-import { ipcMain, desktopCapturer, type DesktopCapturerSource } from 'electron';
+import { ipcMain, shell, desktopCapturer, type DesktopCapturerSource } from 'electron';
 import { getMainWindow } from '@main/window';
 import { CAPTURE_SOURCE_TYPES, CAPTURE_THUMBNAIL_WIDTH, CAPTURE_THUMBNAIL_HEIGHT, NOISE_SOURCE_NAME_PATTERNS } from '@main/constants/capture';
+import { ALLOWED_EXTERNAL_URL_PREFIX } from '@main/constants/externalUrl';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
 
@@ -31,4 +32,9 @@ export function registerIpcHandlers(): void {
     else win.maximize();
   });
   ipcMain.on(IPC_CHANNELS.windowClose, () => getMainWindow()?.close());
+
+  ipcMain.handle(IPC_CHANNELS.openExternalUrl, (_event, url: string) => {
+    if (!url.startsWith(ALLOWED_EXTERNAL_URL_PREFIX)) return;
+    shell.openExternal(url);
+  });
 }

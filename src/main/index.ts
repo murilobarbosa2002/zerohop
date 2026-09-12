@@ -1,7 +1,7 @@
 import { app, BrowserWindow, Menu } from 'electron';
 import { createWindow } from '@main/window';
 import { registerIpcHandlers } from '@main/ipc';
-import { initAutoUpdater } from '@main/updater';
+import { initAutoUpdater, registerUpdaterIpcHandlers } from '@main/updater';
 
 Menu.setApplicationMenu(null);
 
@@ -9,6 +9,7 @@ app.commandLine.appendSwitch('disable-features', 'WebRtcHideLocalIpsWithMdns');
 
 app.whenReady().then(() => {
   registerIpcHandlers();
+  registerUpdaterIpcHandlers();
   createWindow();
   initAutoUpdater();
 

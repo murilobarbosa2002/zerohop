@@ -6,6 +6,14 @@
 
 Baixe o instalador mais recente na [página de Releases do GitHub](https://github.com/murilobarbosa2002/electron-screen-share/releases) e execute-o no Windows. O programa se atualiza sozinho depois disso, avisando quando uma nova versão estiver disponível.
 
+## Atualizações, changelog e versões
+
+Clicando no número da versão, no canto superior esquerdo da janela (ao lado do nome do app), abre uma tela com três abas:
+
+- **Atualização:** mostra a versão que você está usando, deixa verificar manualmente se tem uma nova (o app também verifica sozinho em segundo plano), acompanha o progresso do download e tem um botão pra instalar e reiniciar quando estiver pronto — sem precisar esperar o aviso automático.
+- **Changelog:** o histórico de tudo que mudou em cada versão, direto do repositório.
+- **Versões:** lista todas as versões já publicadas. Como este app não troca de versão sozinho (por segurança), escolher uma versão diferente da atual abre a página daquela Release no seu navegador, explicando o passo a passo pra baixar e instalar o instalador daquela versão manualmente. Lembre-se: para duas pessoas entrarem na mesma sala, as duas precisam estar usando a mesma versão do app.
+
 Ao abrir o ScreenShare, a primeira tela pergunta o que você quer fazer: **Criar sala nova** ou **Entrar numa sala** — cada opção leva pra um formulário dedicado só com os campos daquela ação, sem misturar os dois fluxos.
 
 ## Criar uma sala

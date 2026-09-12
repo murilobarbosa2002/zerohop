@@ -1,9 +1,14 @@
 import { Logo } from '@/components/Logo';
 import { WindowButton } from '@/components/WindowButton';
+import { useAppUpdater } from '@/hooks/useAppUpdater';
 import { APP_SHELL_STRINGS } from '@/strings/appShell.strings';
 import { TITLE_BAR_STRINGS } from '@/strings/titleBar.strings';
+import { UPDATES_STRINGS } from '@/strings/updates.strings';
+import type { TitleBarProps } from '@/components/TitleBar/TitleBar.types';
 
-export function TitleBar() {
+export function TitleBar({ onOpenUpdates }: TitleBarProps) {
+  const { version } = useAppUpdater();
+
   return (
     <div className="h-titlebar-height flex items-center justify-between bg-panel border-b border-border select-none pl-3 [-webkit-app-region:drag]">
       <div className="flex items-center gap-2 text-xs font-bold text-text-dim">
@@ -11,6 +16,14 @@ export function TitleBar() {
           <Logo size={11} />
         </div>
         {APP_SHELL_STRINGS.appName}
+        {version && (
+          <button
+            onClick={onOpenUpdates}
+            className="text-badge-xs font-normal text-text-dim bg-panel-2 border border-border rounded-full px-2 py-0.5 hover:border-accent [-webkit-app-region:no-drag]"
+          >
+            {UPDATES_STRINGS.currentVersionLabel(version)}
+          </button>
+        )}
       </div>
       <div className="flex h-full">
         <WindowButton onClick={() => window.api.minimize()} label={TITLE_BAR_STRINGS.minimizeButtonLabel}>

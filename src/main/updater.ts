@@ -1,7 +1,14 @@
-import { app, dialog } from 'electron';
+import { app, dialog, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { UPDATER_STRINGS } from '@main/strings/updater.strings';
 import { RESTART_NOW_BUTTON_INDEX } from '@main/constants/updater';
+import { getMainWindow } from '@main/window';
+import { IPC_CHANNELS } from '@shared/ipcChannels';
+import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
+
+function sendStatus(status: UpdaterStatus): void {
+  getMainWindow()?.webContents.send(IPC_CHANNELS.updaterStatus, status);
+}
 
 export function initAutoUpdater(): void {
   if (!app.isPackaged) return;
@@ -24,4 +31,27 @@ export function initAutoUpdater(): void {
   autoUpdater.on('error', (err) => console.error('[updater]', err));
 
   autoUpdater.checkForUpdates();
+}
+
+export function registerUpdaterIpcHandlers(): void {
+  autoUpdater.on('checking-for-update', () => sendStatus({ type: 'checking' }));
+  autoUpdater.on('update-available', (info) => sendStatus({ type: 'available', version: info.version }));
+  autoUpdater.on('update-not-available', () => sendStatus({ type: 'not-available' }));
+  autoUpdater.on('download-progress', (progress) => sendStatus({ type: 'downloading', percent: Math.round(progress.percent) }));
+  autoUpdater.on('update-downloaded', (info) => sendStatus({ type: 'downloaded', version: info.version }));
+  autoUpdater.on('error', (error) => sendStatus({ type: 'error', message: error.message }));
+
+  ipcMain.handle(IPC_CHANNELS.updaterCheck, () => {
+    if (!app.isPackaged) return;
+    autoUpdater.checkForUpdates();
+  });
+
+  ipcMain.handle(IPC_CHANNELS.updaterInstall, () => {
+    autoUpdater.quitAndInstall();
+  });
+
+  ipcMain.handle(IPC_CHANNELS.updaterGetInfo, (): UpdaterInfo => ({
+    version: app.getVersion(),
+    isPackaged: app.isPackaged
+  }));
 }
