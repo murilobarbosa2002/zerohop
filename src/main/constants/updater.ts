@@ -1,1 +1,2 @@
 export const RESTART_NOW_BUTTON_INDEX = 0;
+export const AUTO_UPDATE_CHECK_INTERVAL_MS = 30 * 60 * 1000;

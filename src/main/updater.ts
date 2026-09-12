@@ -1,7 +1,7 @@
 import { app, dialog, ipcMain, Notification } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { UPDATER_STRINGS } from '@main/strings/updater.strings';
-import { RESTART_NOW_BUTTON_INDEX } from '@main/constants/updater';
+import { RESTART_NOW_BUTTON_INDEX, AUTO_UPDATE_CHECK_INTERVAL_MS } from '@main/constants/updater';
 import { getMainWindow } from '@main/window';
 import { getSettings, setAutoUpdateEnabled } from '@main/settings';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
@@ -50,6 +50,10 @@ export function initAutoUpdater(): void {
   autoUpdater.on('error', (err) => console.error('[updater]', err));
 
   if (getSettings().autoUpdateEnabled) autoUpdater.checkForUpdates();
+
+  setInterval(() => {
+    if (getSettings().autoUpdateEnabled) autoUpdater.checkForUpdates();
+  }, AUTO_UPDATE_CHECK_INTERVAL_MS);
 }
 
 export function registerUpdaterIpcHandlers(): void {
