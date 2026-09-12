@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useRef } from 'react';
 import { ActionButton } from '@/components/ActionButton';
 import { VolumeControl } from '@/components/ParticipantsView/VolumeControl';
+import { MicIcon } from '@/components/icons';
 import { useAudioOutputDevice } from '@/hooks/useAudioOutputDevice';
 import { setElementAudioOutput } from '@/lib/audioSink';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
@@ -43,8 +44,8 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
         </span>
         <span className="font-bold text-body-sm-alt truncate flex-1 min-w-0">{member.name || member.id}</span>
         {member.micMuted && (
-          <span className="text-xs flex-shrink-0" role="img" aria-label={PARTICIPANTS_STRINGS.micMutedBadge} title={PARTICIPANTS_STRINGS.micMutedBadge}>
-            🔇
+          <span className="text-danger flex-shrink-0" aria-label={PARTICIPANTS_STRINGS.micMutedBadge} title={PARTICIPANTS_STRINGS.micMutedBadge}>
+            <MicIcon muted />
           </span>
         )}
         {member.sharing && (
@@ -61,11 +62,11 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
         <VolumeControl muted={voiceState.muted} volume={voiceState.volume} onToggleMute={toggleVoiceMute} onChangeVolume={changeVoiceVolume} />
       )}
 
-      <div className="flex items-center gap-2 mt-2">
+      <div className="flex flex-col gap-1.5 mt-2">
         {member.sharing && (
           <ActionButton
             variant={member.watching ? 'default' : 'primary'}
-            className="flex-1"
+            className="w-full mr-0 my-0"
             onClick={() => onToggleWatch(member.id)}
           >
             {member.watching ? PARTICIPANTS_STRINGS.stopWatchingButton : PARTICIPANTS_STRINGS.watchButton}
@@ -74,7 +75,7 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
         {canKick && (
           <button
             onClick={() => onKick(member.id)}
-            className="text-badge-xs font-bold text-danger bg-danger/15 rounded-full px-2 py-1 hover:brightness-110 flex-shrink-0"
+            className="w-full text-badge-xs font-bold text-danger bg-danger/15 rounded-lg px-2 py-1.5 hover:brightness-110"
           >
             {PARTICIPANTS_STRINGS.kickMemberButton}
           </button>

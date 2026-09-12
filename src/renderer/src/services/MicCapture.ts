@@ -10,10 +10,9 @@ export async function requestMicPermission(): Promise<boolean> {
   }
 }
 
-export async function captureMicrophone(deviceId: string, gain: number): Promise<MicCaptureHandle> {
-  const rawStream = await navigator.mediaDevices.getUserMedia({
-    audio: deviceId ? { deviceId, echoCancellation: true, noiseSuppression: true } : { echoCancellation: true, noiseSuppression: true }
-  });
+export async function captureMicrophone(deviceId: string, gain: number, noiseSuppression: boolean): Promise<MicCaptureHandle> {
+  const audioConstraints = { echoCancellation: true, noiseSuppression, ...(deviceId ? { deviceId } : {}) };
+  const rawStream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints });
 
   const audioContext = new AudioContext();
   const source = audioContext.createMediaStreamSource(rawStream);

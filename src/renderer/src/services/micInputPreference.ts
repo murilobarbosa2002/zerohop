@@ -1,8 +1,10 @@
 import {
   MIC_INPUT_DEVICE_STORAGE_KEY,
   MIC_INPUT_GAIN_STORAGE_KEY,
+  NOISE_SUPPRESSION_STORAGE_KEY,
   SYSTEM_DEFAULT_MIC_INPUT_ID,
-  DEFAULT_MIC_GAIN
+  DEFAULT_MIC_GAIN,
+  DEFAULT_NOISE_SUPPRESSION_ENABLED
 } from '@/constants/micInput';
 
 const target = new EventTarget();
@@ -34,4 +36,19 @@ export function setMicInputGain(gain: number): void {
 export function subscribeToMicInputGain(listener: () => void): () => void {
   target.addEventListener('gain-change', listener);
   return () => target.removeEventListener('gain-change', listener);
+}
+
+export function getNoiseSuppressionEnabled(): boolean {
+  const stored = localStorage.getItem(NOISE_SUPPRESSION_STORAGE_KEY);
+  return stored === null ? DEFAULT_NOISE_SUPPRESSION_ENABLED : stored === 'true';
+}
+
+export function setNoiseSuppressionEnabled(enabled: boolean): void {
+  localStorage.setItem(NOISE_SUPPRESSION_STORAGE_KEY, String(enabled));
+  target.dispatchEvent(new Event('noise-suppression-change'));
+}
+
+export function subscribeToNoiseSuppression(listener: () => void): () => void {
+  target.addEventListener('noise-suppression-change', listener);
+  return () => target.removeEventListener('noise-suppression-change', listener);
 }

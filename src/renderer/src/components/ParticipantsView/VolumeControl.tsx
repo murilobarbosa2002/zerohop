@@ -1,17 +1,21 @@
 import { RangeSlider } from '@/components/RangeSlider';
+import { SpeakerIcon } from '@/components/icons';
 import { MIN_VOLUME_PERCENT, MAX_VOLUME_PERCENT } from '@/constants/volume';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
 import type { VolumeControlProps } from '@/components/ParticipantsView/VolumeControl.types';
 
 export function VolumeControl({ muted, volume, onToggleMute, onChangeVolume }: VolumeControlProps) {
+  const label = muted ? PARTICIPANTS_STRINGS.unmuteButtonLabel : PARTICIPANTS_STRINGS.muteButtonLabel;
+
   return (
     <div className="flex items-center gap-2 mt-2">
       <button
         onClick={onToggleMute}
-        title={muted ? PARTICIPANTS_STRINGS.unmuteButtonLabel : PARTICIPANTS_STRINGS.muteButtonLabel}
-        className="bg-panel-2 border border-border text-text rounded-lg w-volume-button-size h-volume-button-size text-body-sm hover:border-accent flex-shrink-0"
+        title={label}
+        aria-label={label}
+        className="bg-panel-2 border border-border text-text rounded-lg w-volume-button-size h-volume-button-size flex items-center justify-center hover:border-accent flex-shrink-0"
       >
-        {muted ? '🔇' : '🔊'}
+        <SpeakerIcon muted={muted} />
       </button>
       <RangeSlider
         min={MIN_VOLUME_PERCENT}

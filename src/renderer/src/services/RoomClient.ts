@@ -10,7 +10,14 @@ import { RoomAuthController, type JoinRequestEntry, type RoomAuthControllerEvent
 import { PeerConnectionManager } from '@/services/room/PeerConnectionManager';
 import { RoomProtocol, type WatchRequestMessage, type UnwatchRequestMessage, type KickMessage } from '@/services/room/RoomProtocol';
 import { captureMicrophone } from '@/services/MicCapture';
-import { getMicInputDeviceId, subscribeToMicInputDevice, getMicInputGain, subscribeToMicInputGain } from '@/services/micInputPreference';
+import {
+  getMicInputDeviceId,
+  subscribeToMicInputDevice,
+  getMicInputGain,
+  subscribeToMicInputGain,
+  getNoiseSuppressionEnabled,
+  subscribeToNoiseSuppression
+} from '@/services/micInputPreference';
 import { logEvent } from '@/services/appLog';
 import { onTyped } from '@/lib/typedEvents';
 import { RoomStatus } from '@/constants/roomStatus';
@@ -53,6 +60,7 @@ export class RoomClient extends EventTarget {
   private micCapture: MicCaptureHandle | null = null;
   private unsubscribeMicGain: (() => void) | null = null;
   private unsubscribeMicDevice: (() => void) | null = null;
+  private unsubscribeNoiseSuppression: (() => void) | null = null;
   private chat: ChatService;
   private auth: RoomAuthController;
   private protocol: RoomProtocol;
@@ -325,7 +333,7 @@ export class RoomClient extends EventTarget {
 
   private async startVoiceChat(): Promise<void> {
     try {
-      this.micCapture = await captureMicrophone(getMicInputDeviceId(), getMicInputGain());
+      this.micCapture = await captureMicrophone(getMicInputDeviceId(), getMicInputGain(), getNoiseSuppressionEnabled());
     } catch (error) {
       console.warn('[room] não foi possível capturar o microfone', error);
       logEvent(LogCategory.VOICE, LogLevel.WARNING, LOG_STRINGS.micUnavailableMessage, (error as Error).message);
@@ -335,13 +343,14 @@ export class RoomClient extends EventTarget {
     this.voice.start(this.micCapture.stream);
     this.unsubscribeMicGain = subscribeToMicInputGain(() => this.micCapture?.setGain(getMicInputGain()));
     this.unsubscribeMicDevice = subscribeToMicInputDevice(() => this.recaptureMicrophone());
+    this.unsubscribeNoiseSuppression = subscribeToNoiseSuppression(() => this.recaptureMicrophone());
     logEvent(LogCategory.VOICE, LogLevel.INFO, LOG_STRINGS.micActiveMessage);
     this.dispatchEvent(new CustomEvent('mic-active-changed', { detail: { active: true } }));
   }
 
   private async recaptureMicrophone(): Promise<void> {
     try {
-      const nextCapture = await captureMicrophone(getMicInputDeviceId(), getMicInputGain());
+      const nextCapture = await captureMicrophone(getMicInputDeviceId(), getMicInputGain(), getNoiseSuppressionEnabled());
       this.micCapture = nextCapture;
       this.voice.replaceStream(nextCapture.stream);
     } catch (error) {
@@ -355,6 +364,8 @@ export class RoomClient extends EventTarget {
     this.unsubscribeMicGain = null;
     this.unsubscribeMicDevice?.();
     this.unsubscribeMicDevice = null;
+    this.unsubscribeNoiseSuppression?.();
+    this.unsubscribeNoiseSuppression = null;
     this.voice.stop();
     this.micCapture?.stop();
     this.micCapture = null;

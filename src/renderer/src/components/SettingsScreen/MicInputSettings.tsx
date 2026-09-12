@@ -5,6 +5,7 @@ import { ActionButton } from '@/components/ActionButton';
 import { useMicInputDevice } from '@/hooks/useMicInputDevice';
 import { useMicInputDevices } from '@/hooks/useMicInputDevices';
 import { useMicInputGain } from '@/hooks/useMicInputGain';
+import { useNoiseSuppression } from '@/hooks/useNoiseSuppression';
 import { useMicActive } from '@/hooks/useMicActive';
 import { requestMicPermission } from '@/services/MicCapture';
 import { SYSTEM_DEFAULT_MIC_INPUT_ID, MIN_MIC_GAIN, MAX_MIC_GAIN, MIC_GAIN_STEP } from '@/constants/micInput';
@@ -15,6 +16,7 @@ export function MicInputSettings({ roomClient }: MicInputSettingsProps) {
   const [deviceId, setDeviceId] = useMicInputDevice();
   const devices = useMicInputDevices();
   const [gain, setGain] = useMicInputGain();
+  const [noiseSuppression, setNoiseSuppression] = useNoiseSuppression();
   const micActive = useMicActive(roomClient);
   const [permissionStatus, setPermissionStatus] = useState<string | null>(null);
   const options = [
@@ -62,6 +64,12 @@ export function MicInputSettings({ roomClient }: MicInputSettingsProps) {
         <span className="text-text-dim text-xs w-10 text-right">{Math.round(gain * 100)}%</span>
       </div>
       <p className="text-text-dim text-xs mt-1.5 leading-relaxed">{SETTINGS_STRINGS.micSensitivityHint}</p>
+
+      <label className="flex items-center gap-2 text-body-sm mt-5">
+        <input type="checkbox" checked={noiseSuppression} onChange={(event) => setNoiseSuppression(event.target.checked)} />
+        {SETTINGS_STRINGS.noiseSuppressionToggleLabel}
+      </label>
+      <p className="text-text-dim text-xs mt-1.5 leading-relaxed">{SETTINGS_STRINGS.noiseSuppressionHint}</p>
     </div>
   );
 }

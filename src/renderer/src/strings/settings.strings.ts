@@ -14,6 +14,9 @@ export const SETTINGS_STRINGS = {
   unnamedMicInputLabel: (index: number) => `Microfone ${index}`,
   micSensitivityFieldLabel: 'Sensibilidade do microfone',
   micSensitivityHint: 'Aumente se sua voz está saindo baixa pros outros, ou diminua se estiver estourando/muito alta.',
+  noiseSuppressionToggleLabel: 'Supressão de ruído',
+  noiseSuppressionHint:
+    'Reduz ruídos de fundo (teclado, ventilador, eco) usando o processamento nativo do WebRTC. Vem ligada por padrão; desligue se sua voz estiver saindo robotizada ou "cortando".',
   micPermissionDeniedHint: 'O microfone não foi permitido — você está na sala mesmo assim, mas ninguém consegue te ouvir.',
   grantMicPermissionButton: 'Permitir microfone',
   micPermissionOutsideRoomHint: 'Conceda a permissão do microfone agora pra já estar liberado na próxima vez que entrar numa sala.',
