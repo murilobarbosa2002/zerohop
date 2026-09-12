@@ -1,13 +1,13 @@
 import { UPDATES_STRINGS } from '@/strings/updates.strings';
-import type { ReleaseHistoryListProps } from '@/components/UpdatesModal/UpdatesModal.types';
+import type { ReleaseHistoryListProps } from '@/components/UpdatesScreen/UpdatesScreen.types';
 
 export function ReleaseHistoryList({ releases, currentVersion, onSelect }: ReleaseHistoryListProps) {
   return (
-    <div className="max-h-source-list overflow-y-auto flex flex-col gap-2">
+    <div className="flex flex-col gap-2 max-w-modal">
       {releases.map((release) => {
         const isCurrent = release.tagName === `v${currentVersion}`;
         return (
-          <div key={release.tagName} className="flex items-center justify-between gap-2 bg-panel-2 border border-border rounded-lg px-3 py-2">
+          <div key={release.tagName} className="flex items-center justify-between gap-2 bg-panel-2 border border-border rounded-lg px-4 py-3">
             <span className="text-body-sm flex items-center gap-2">
               {release.name}
               {isCurrent && (

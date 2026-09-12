@@ -4,7 +4,7 @@ import { Header } from '@/components/Header';
 import { StatusBar } from '@/components/StatusBar';
 import { PreRoom } from '@/components/PreRoom';
 import { Room } from '@/components/Room';
-import { UpdatesModal } from '@/components/UpdatesModal';
+import { UpdatesScreen } from '@/components/UpdatesScreen';
 import { useRoomClient } from '@/hooks/useRoomClient';
 import { useRoomStatus } from '@/hooks/useRoomStatus';
 import { RoomStatus } from '@/constants/roomStatus';
@@ -13,7 +13,7 @@ export function App() {
   const roomClient = useRoomClient();
   const status = useRoomStatus(roomClient);
   const [roomCode, setRoomCode] = useState<string | null>(null);
-  const [updatesModalOpen, setUpdatesModalOpen] = useState(false);
+  const [showUpdates, setShowUpdates] = useState(false);
   const inRoom = status === RoomStatus.CONNECTED && roomCode !== null;
 
   function handleLeft(): void {
@@ -22,9 +22,10 @@ export function App() {
 
   return (
     <div className="h-full flex flex-col bg-bg text-text">
-      <TitleBar onOpenUpdates={() => setUpdatesModalOpen(true)} />
-      <UpdatesModal open={updatesModalOpen} onClose={() => setUpdatesModalOpen(false)} />
-      {inRoom && roomCode ? (
+      <TitleBar onOpenUpdates={() => setShowUpdates(true)} />
+      {showUpdates ? (
+        <UpdatesScreen onBack={() => setShowUpdates(false)} />
+      ) : inRoom && roomCode ? (
         <Room roomClient={roomClient} roomCode={roomCode} onLeft={handleLeft} />
       ) : (
         <div className="flex-1 overflow-y-auto px-7 py-7">

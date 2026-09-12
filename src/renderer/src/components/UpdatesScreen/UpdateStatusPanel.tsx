@@ -1,6 +1,6 @@
 import { ActionButton } from '@/components/ActionButton';
 import { UPDATES_STRINGS } from '@/strings/updates.strings';
-import type { UpdateStatusPanelProps } from '@/components/UpdatesModal/UpdatesModal.types';
+import type { UpdateStatusPanelProps } from '@/components/UpdatesScreen/UpdatesScreen.types';
 
 function statusMessage(status: UpdateStatusPanelProps['status']): string {
   if (!status) return '';
@@ -30,10 +30,10 @@ export function UpdateStatusPanel({
   setAutoUpdateEnabled
 }: UpdateStatusPanelProps) {
   return (
-    <div>
-      <p className="font-bold text-body-sm-alt">{UPDATES_STRINGS.currentVersionLabel(version)}</p>
+    <div className="max-w-modal">
+      <p className="font-bold text-lg">{UPDATES_STRINGS.currentVersionLabel(version)}</p>
 
-      <label className="flex items-center gap-2 text-body-sm mt-3">
+      <label className="flex items-center gap-2 text-body-sm mt-5">
         <input
           type="checkbox"
           checked={autoUpdateEnabled}
@@ -42,13 +42,13 @@ export function UpdateStatusPanel({
         />
         {UPDATES_STRINGS.autoUpdateToggleLabel}
       </label>
-      <p className="text-text-dim text-xs mt-1.5">{UPDATES_STRINGS.autoUpdateToggleHint}</p>
+      <p className="text-text-dim text-xs mt-1.5 leading-relaxed">{UPDATES_STRINGS.autoUpdateToggleHint}</p>
 
-      {!isPackaged && <p className="text-text-dim text-xs mt-1.5">{UPDATES_STRINGS.devModeHint}</p>}
+      {!isPackaged && <p className="text-text-dim text-xs mt-3">{UPDATES_STRINGS.devModeHint}</p>}
 
       {isPackaged && (
         <>
-          <ActionButton variant="primary" className="mt-3" onClick={checkForUpdates}>
+          <ActionButton variant="primary" className="mt-5" onClick={checkForUpdates}>
             {UPDATES_STRINGS.checkButton}
           </ActionButton>
 

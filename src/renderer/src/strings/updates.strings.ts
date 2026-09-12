@@ -1,6 +1,7 @@
 export const UPDATES_STRINGS = {
   modalTitle: 'Atualizações',
   closeButton: 'Fechar',
+  backButton: '← Voltar',
   statusTab: 'Atualização',
   changelogTab: 'Changelog',
   versionsTab: 'Versões',
@@ -18,6 +19,7 @@ export const UPDATES_STRINGS = {
   autoUpdateToggleHint: 'Desligada, o app não verifica nem baixa nada sozinho — útil se você quer ficar numa versão específica de propósito. Você ainda pode verificar manualmente quando quiser.',
   changelogLoading: 'Carregando changelog...',
   changelogError: (reason: string) => `Não foi possível carregar o changelog (${reason}).`,
+  backToChangelogButton: '← Changelog',
   versionsLoading: 'Carregando versões...',
   versionsError: (reason: string) => `Não foi possível carregar as versões (${reason}).`,
   versionCurrentBadge: 'atual',

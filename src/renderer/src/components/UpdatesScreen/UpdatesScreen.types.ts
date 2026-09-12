@@ -1,9 +1,8 @@
 import type { AppUpdaterState } from '@/hooks/useAppUpdater.types';
 import type { ReleaseHistoryEntry } from '@/hooks/useReleaseHistory.types';
 
-export interface UpdatesModalProps {
-  open: boolean;
-  onClose: () => void;
+export interface UpdatesScreenProps {
+  onBack: () => void;
 }
 
 export type UpdateStatusPanelProps = AppUpdaterState;
@@ -22,4 +21,13 @@ export interface ReleaseSwitchConfirmationProps {
   release: ReleaseHistoryEntry;
   onConfirm: () => void;
   onCancel: () => void;
+}
+
+export interface ChangelogDetailProps {
+  path: string;
+  onBack: () => void;
+}
+
+export interface ChangelogIndexProps {
+  onOpenRelease: (path: string) => void;
 }

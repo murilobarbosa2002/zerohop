@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useReleaseHistory } from '@/hooks/useReleaseHistory';
-import { ReleaseHistoryList } from '@/components/UpdatesModal/ReleaseHistoryList';
-import { ReleaseSwitchConfirmation } from '@/components/UpdatesModal/ReleaseSwitchConfirmation';
+import { ReleaseHistoryList } from '@/components/UpdatesScreen/ReleaseHistoryList';
+import { ReleaseSwitchConfirmation } from '@/components/UpdatesScreen/ReleaseSwitchConfirmation';
 import { UPDATES_STRINGS } from '@/strings/updates.strings';
 import type { ReleaseHistoryEntry } from '@/hooks/useReleaseHistory.types';
-import type { ReleaseHistoryPanelProps } from '@/components/UpdatesModal/UpdatesModal.types';
+import type { ReleaseHistoryPanelProps } from '@/components/UpdatesScreen/UpdatesScreen.types';
 
 export function ReleaseHistoryPanel({ currentVersion }: ReleaseHistoryPanelProps) {
   const { releases, loading, error } = useReleaseHistory(true);
