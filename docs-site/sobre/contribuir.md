@@ -26,3 +26,7 @@ Mas justamente por ser open source, ele é de todo mundo tanto quanto é do auto
 Contribuições são muito bem-vindas: correções, melhorias, novas funcionalidades ou apenas apontar um bug. O [CONTRIBUTING.md](https://github.com/murilobarbosa2002/zerohop/blob/main/CONTRIBUTING.md) do repositório tem os detalhes de como rodar o projeto localmente, rodar os testes e as convenções de código.
 
 Se você quer ir num caminho diferente do que este projeto toma, ou simplesmente quer ter o controle total da sua própria versão, não peça: **faça um fork e divulgue.** É o caminho mais incentivado aqui, não um plano B. Quanto mais forks diferentes existirem por aí, mais forte e mais difícil de calar essa ideia fica.
+
+## Código de conduta e segurança
+
+Participar do repositório (issues, pull requests, discussões) pressupõe seguir o [CODE_OF_CONDUCT.md](https://github.com/murilobarbosa2002/zerohop/blob/main/CODE_OF_CONDUCT.md). Encontrou uma vulnerabilidade de segurança em vez de um bug comum? Veja o [SECURITY.md](https://github.com/murilobarbosa2002/zerohop/blob/main/SECURITY.md) antes de abrir uma issue pública — o repositório tem relato privado de vulnerabilidade habilitado.
