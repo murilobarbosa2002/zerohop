@@ -1,6 +1,6 @@
 {
   "name": "screen-share",
-  "version": "0.20.4",
+  "version": "0.21.0",
   "description": "Compartilhamento de tela P2P via WebRTC, sem servidor",
   "main": "./out/main/index.js",
   "author": "murilobarbosa2002",

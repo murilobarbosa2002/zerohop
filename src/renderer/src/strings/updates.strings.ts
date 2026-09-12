@@ -29,5 +29,9 @@ export const UPDATES_STRINGS = {
     'Este app não troca de versão sozinho: por segurança, a instalação de uma versão diferente da mais recente sempre precisa ser feita manualmente por você, baixando e rodando o instalador daquela versão. Ao confirmar, vamos abrir a página dessa versão no seu navegador — de lá, baixe o instalador (.exe) e execute-o normalmente. Ele substitui a instalação atual.',
   switchVersionSameVersionHint: 'Lembre-se: para entrar na mesma sala, todo mundo precisa estar usando a mesma versão do app.',
   switchVersionConfirmButton: 'Entendi, abrir no navegador',
-  switchVersionCancelButton: 'Cancelar'
+  switchVersionCancelButton: 'Cancelar',
+  updateReadyTitle: 'Atualização disponível',
+  updateReadyBody: (version: string) => `A versão v${version} foi baixada. Reiniciar agora pra atualizar?`,
+  updateReadyInstallButton: 'Reiniciar agora',
+  updateReadyLaterButton: 'Depois'
 } as const;

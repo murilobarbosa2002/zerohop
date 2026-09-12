@@ -1,7 +1,7 @@
-import { app, dialog, ipcMain, Notification } from 'electron';
+import { app, ipcMain, Notification } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { UPDATER_STRINGS } from '@main/strings/updater.strings';
-import { RESTART_NOW_BUTTON_INDEX, AUTO_UPDATE_CHECK_INTERVAL_MS } from '@main/constants/updater';
+import { AUTO_UPDATE_CHECK_INTERVAL_MS } from '@main/constants/updater';
 import { getMainWindow } from '@main/window';
 import { getSettings, setAutoUpdateEnabled } from '@main/settings';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
@@ -34,17 +34,6 @@ export function initAutoUpdater(): void {
 
   autoUpdater.on('update-downloaded', (info) => {
     notifyUpdateDownloaded(info.version);
-
-    dialog
-      .showMessageBox({
-        type: UPDATER_STRINGS.dialogType,
-        title: UPDATER_STRINGS.dialogTitle,
-        message: UPDATER_STRINGS.dialogMessage,
-        buttons: [UPDATER_STRINGS.restartNowButton, UPDATER_STRINGS.restartLaterButton]
-      })
-      .then((result) => {
-        if (result.response === RESTART_NOW_BUTTON_INDEX) autoUpdater.quitAndInstall();
-      });
   });
 
   autoUpdater.on('error', (err) => console.error('[updater]', err));
