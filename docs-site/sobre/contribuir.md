@@ -13,6 +13,8 @@ Este projeto é licenciado sob [MIT](https://github.com/murilobarbosa2002/electr
 
 Nenhuma canetada de político vai ser maior que a tecnologia. Se um caminho for fechado, a comunidade abre outro — é assim que open source funciona.
 
+Usar a versão do autor como ela está é totalmente válido. Mas o foco de verdade deste projeto é a criação de forks: pegue o código, leve pro seu rumo, resolva a sua própria necessidade — **criem forks**. Um projeto que se multiplica em várias versões diferentes, mantidas por gente diferente, é muito mais resistente do que um projeto único dependendo de uma pessoa só.
+
 ## Expectativas sobre o projeto
 
 Não espere um roadmap grande, releases frequentes ou novas funcionalidades chegando o tempo todo. Este projeto nasceu de uma demanda pessoal do autor e dos amigos dele — resolve exatamente o que precisavam, e é mantido conforme essa necessidade real evolui, não por obrigação de manter um produto.
@@ -26,4 +28,4 @@ Contribuições são muito bem-vindas — correções, melhorias, novas funciona
 1. Abra uma [issue](https://github.com/murilobarbosa2002/electron-screen-share/issues) descrevendo o problema ou a ideia.
 2. Ou mande direto um [pull request](https://github.com/murilobarbosa2002/electron-screen-share/pulls) com a alteração.
 
-Se você preferir seguir por um caminho diferente do que este projeto toma, faça um fork e divulgue — quanto mais gente construindo em cima disso, melhor.
+Se você quer ir num caminho diferente do que este projeto toma — ou simplesmente quer ter o controle total da sua própria versão — não peça, **faça um fork e divulgue**. É o caminho mais incentivado aqui, não um plano B: quanto mais forks diferentes existirem por aí, mais forte e mais difícil de calar essa ideia fica.

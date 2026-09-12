@@ -46,6 +46,8 @@ Este projeto é licenciado sob [MIT](LICENSE) — a licença mais permissiva que
 
 Nenhuma canetada de político vai ser maior que a tecnologia. Se um caminho for fechado, a comunidade abre outro — é assim que open source funciona, e é assim que este projeto pretende continuar existindo, não importa o que mude.
 
+Quem quiser usar minha versão do jeito que ela está, ótimo, fique à vontade. Mas o foco de verdade é a criação de forks: pegue o código, leve pro seu rumo, resolva a sua própria necessidade — **criem forks**. Um projeto que se multiplica em várias versões diferentes, mantidas por gente diferente, é muito mais resistente do que um projeto único dependendo de uma pessoa só.
+
 ## Expectativas sobre o projeto
 
 Sendo direto: **não espere um roadmap grande, releases frequentes ou novas features chegando toda hora.** Este projeto nasceu de uma demanda pessoal minha e dos meus amigos — resolve exatamente o que a gente precisava, e é isso. Eu mexo nele quando surge uma necessidade real do nosso uso, não por obrigação de manter um produto.
@@ -54,7 +56,9 @@ Mas justamente por ser open source, ele é seu tanto quanto é meu: está tudo a
 
 ## Contribuições
 
-Contribuições são super bem-vindas — sejam correções, melhorias, novas funcionalidades ou só apontar um bug. Abra uma issue ou mande um pull request. E se você preferir seguir por um caminho diferente do que este projeto toma, faça um fork e divulgue: quanto mais gente construindo em cima disso, melhor.
+Contribuições são super bem-vindas — sejam correções, melhorias, novas funcionalidades ou só apontar um bug. Abra uma issue ou mande um pull request.
+
+Mas se você quer ir num caminho diferente do que este projeto toma — ou simplesmente quer ter o controle total da sua própria versão — não peça, **faça um fork e divulgue**. É o caminho mais incentivado aqui, não um plano B: quanto mais forks diferentes existirem por aí, mais forte e mais difícil de calar essa ideia fica.
 
 ## Como funciona
 
