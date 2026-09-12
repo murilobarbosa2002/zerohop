@@ -18,7 +18,7 @@ Clicando no número da versão, no canto superior esquerdo da janela (ao lado do
 
 ## Configurações
 
-O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com duas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, e escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele — útil se sua voz está saindo baixa ou estourando pros outros. Nenhuma das duas exige mexer nas configurações do Windows.
+O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com estas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele, e uma opção experimental de **"Captura otimizada para jogos"** — desligada por padrão, veja [Solução de problemas](/seguranca/solucao-de-problemas#cursor-sumindo-imagem-travando-ou-piscando-ao-compartilhar-jogos) pra entender o que ela faz e os riscos antes de ligar.
 
 Ao abrir o ScreenShare, a primeira tela pergunta o que você quer fazer: **Criar sala nova** ou **Entrar numa sala** — cada opção leva pra um formulário dedicado só com os campos daquela ação, sem misturar os dois fluxos.
 

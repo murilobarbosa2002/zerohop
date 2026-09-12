@@ -18,5 +18,17 @@ export const SETTINGS_STRINGS = {
   grantMicPermissionButton: 'Permitir microfone',
   micPermissionOutsideRoomHint: 'Conceda a permissão do microfone agora pra já estar liberado na próxima vez que entrar numa sala.',
   micPermissionGrantedStatus: 'Permissão concedida.',
-  micPermissionStillDeniedStatus: 'Ainda sem permissão — talvez precise liberar o microfone nas configurações do Windows pra este app.'
+  micPermissionStillDeniedStatus: 'Ainda sem permissão — talvez precise liberar o microfone nas configurações do Windows pra este app.',
+  experimentalTitle: 'Captura otimizada para jogos (experimental)',
+  experimentalHint:
+    'Tenta usar a API Windows.Graphics.Capture do Windows em vez do método padrão. Em alguns jogos (principalmente em tela cheia ou com cursor customizado) isso pode resolver: cursor sumindo, imagem travando/piscando ao compartilhar. Mas essa API já causou instabilidade grave — inclusive travamento completo do PC — em pelo menos um computador testado, então vem desligada por padrão.',
+  experimentalToggleLabel: 'Ativar captura experimental',
+  experimentalRestartHint: 'Precisa reiniciar o app pra fazer efeito (ligando ou desligando).',
+  experimentalConfirmTitle: 'Tem certeza?',
+  experimentalConfirmBody:
+    'Essa opção já travou o PC de um usuário no passado (precisou desligar no botão físico). Pode funcionar perfeitamente no seu computador, ou pode não funcionar — não temos como saber com antecedência de qual grupo o seu PC faz parte. Se travar, é só desligar essa opção de novo (o app volta ao método padrão, que é o que você está usando até agora).',
+  experimentalConfirmButton: 'Sim, quero tentar',
+  experimentalCancelButton: 'Deixa como está',
+  experimentalEnabledLogMessage: 'A captura experimental foi ativada (precisa reiniciar o app).',
+  experimentalDisabledLogMessage: 'A captura experimental foi desativada (precisa reiniciar o app).'
 } as const;

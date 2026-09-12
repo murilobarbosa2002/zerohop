@@ -1,5 +1,6 @@
 import { AudioOutputSettings } from '@/components/SettingsScreen/AudioOutputSettings';
 import { MicInputSettings } from '@/components/SettingsScreen/MicInputSettings';
+import { ExperimentalCaptureSettings } from '@/components/SettingsScreen/ExperimentalCaptureSettings';
 import { SETTINGS_STRINGS } from '@/strings/settings.strings';
 import type { SettingsScreenProps } from '@/components/SettingsScreen/SettingsScreen.types';
 
@@ -16,6 +17,7 @@ export function SettingsScreen({ onBack, roomClient }: SettingsScreenProps) {
       <div className="flex-1 overflow-y-auto p-6">
         <AudioOutputSettings />
         <MicInputSettings roomClient={roomClient} />
+        <ExperimentalCaptureSettings />
       </div>
     </div>
   );

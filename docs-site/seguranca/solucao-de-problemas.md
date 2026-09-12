@@ -35,6 +35,27 @@ Redes corporativas, escolares ou de locais públicos (faculdade, empresa, evento
 
 Abra a tela de **Logs** dentro do próprio app (ícone na barra de título, ou dentro da sala na barra do microfone). Cada evento de conexão aparece numa frase simples, e os que têm informação técnica por trás mostram um "▸ Detalhes técnicos" — útil para reportar um problema numa issue no GitHub.
 
+## Cursor sumindo, imagem travando ou piscando ao compartilhar jogos
+
+Relatado com Project Zomboid e Deadlock, mas pode acontecer com outros jogos. Três sintomas possíveis:
+
+- O jogo em **tela cheia exclusiva** ("Fullscreen" de verdade, não Borderless) não aparece na lista de "Uma janela específica".
+- Compartilhando **a janela do jogo** (com ele em Borderless/Windowed), o cursor do mouse some enquanto o jogo está em foco.
+- Compartilhando **a tela inteira**, a imagem trava com o cursor padrão do Windows parado no meio da tela, e só atualiza um frame ao trocar de janela (Alt+Tab) — travando de novo quase na hora.
+
+**Somos honestos: não temos uma solução completa pra isso.** É uma limitação de como o Windows expõe jogos pra qualquer programa de captura de tela, não só este app.
+
+**O que costuma ajudar (fora do app):**
+
+1. No atalho/executável do jogo → Propriedades → Compatibilidade → marque **"Desativar otimizações de tela cheia"**.
+2. Mantenha o jogo em modo **Borderless/Windowed**, não fullscreen exclusivo.
+
+**O que o app oferece, com o risco declarado:** em Configurações existe **"Captura otimizada para jogos (experimental)"**, desligada por padrão. Ela faz o app tentar usar a API `Windows.Graphics.Capture` do Windows, feita pela própria Microsoft pra lidar melhor com esses casos. Vem desligada e exige confirmação explícita porque **essa API já causou travamento completo do PC em pelo menos um computador testado** quando tentamos ativá-la à força, sem interruptor, no passado. Agora é opt-in — pode resolver, pode não resolver, o comportamento varia por driver de GPU e versão do Windows.
+
+**O que consideramos e decidimos não fazer:** a técnica que o Discord ("Compartilhar jogo") e o OBS ("Game Capture") usam — injetar um hook direto no processo do jogo — resolveria de verdade, mas **sistemas anti-cheat (Vanguard, Easy Anti-Cheat, BattlEye) tratam esse tipo de injeção como comportamento de hack**, o que pode gerar banimento. O Discord não tem esse problema porque está numa lista de exceção negociada com essas empresas — algo fora do alcance de um projeto pessoal e gratuito. O risco de banir a conta de jogo de alguém é grande demais pra valer a pena.
+
+Se você entende do assunto e conhece uma solução real, uma issue ou pull request é muito bem-vinda — é possível que estejamos vendo esse problema de forma incompleta.
+
 ### Por que o programa não "sempre conecta"
 
 Porque este projeto optou deliberadamente por nunca usar um servidor de relay (TURN) como rede de segurança escondida — veja [Sem servidor, sem TURN](/seguranca/sem-servidor-sem-turn). A consequência é que, numa rede muito restritiva, a conexão pode de fato falhar, de forma visível, em vez de silenciosamente cair para um caminho alternativo fora do seu controle.

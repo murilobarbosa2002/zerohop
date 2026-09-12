@@ -2,11 +2,21 @@ import { app, BrowserWindow, Menu, session } from 'electron';
 import { createWindow } from '@main/window';
 import { registerIpcHandlers } from '@main/ipc';
 import { initAutoUpdater, registerUpdaterIpcHandlers } from '@main/updater';
+import { appendLog } from '@main/logger';
+import { getSettings } from '@main/settings';
 import { APP_ID } from '@main/constants/app';
+import { EXPERIMENTAL_WGC_CAPTURE_FEATURES } from '@main/constants/capture';
+import { EXPERIMENTAL_STRINGS } from '@main/strings/experimental.strings';
+import { LogCategory, LogLevel } from '@shared/logEntry';
 
 Menu.setApplicationMenu(null);
 
 app.commandLine.appendSwitch('disable-features', 'WebRtcHideLocalIpsWithMdns');
+
+if (getSettings().experimentalWgcCaptureEnabled) {
+  app.commandLine.appendSwitch('enable-features', EXPERIMENTAL_WGC_CAPTURE_FEATURES);
+  appendLog({ category: LogCategory.SHARING, level: LogLevel.WARNING, message: EXPERIMENTAL_STRINGS.logCaptureModeActiveMessage });
+}
 
 app.setAppUserModelId(APP_ID);
 

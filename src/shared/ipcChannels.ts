@@ -12,5 +12,7 @@ export const IPC_CHANNELS = {
   logAppend: 'log-append',
   logList: 'log-list',
   logClear: 'log-clear',
-  logAdded: 'log-added'
+  logAdded: 'log-added',
+  experimentalCaptureGetEnabled: 'experimental-capture-get-enabled',
+  experimentalCaptureSetEnabled: 'experimental-capture-set-enabled'
 } as const;

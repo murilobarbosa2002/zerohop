@@ -4,6 +4,7 @@ Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os det
 
 | Versão | Resumo |
 | --- | --- |
+| [0.23.0](docs/releases/v0.23.0.md) | Captura experimental (Windows.Graphics.Capture) pra jogos com cursor sumindo/travando |
 | [0.22.0](docs/releases/v0.22.0.md) | Tela de Logs com histórico auditável de tudo que o app faz; DevTools removido |
 | [0.21.1](docs/releases/v0.21.1.md) | Ícones de compartilhar tela e Configurações na barra de voz, centralizados |
 | [0.21.0](docs/releases/v0.21.0.md) | Diálogo de atualização pronta customizado, no tema do app |

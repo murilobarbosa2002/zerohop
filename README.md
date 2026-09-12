@@ -140,6 +140,29 @@ Na grande maioria dos casos isso não é um bug do app — é a rede ou o antiv�
 3. **Se estiver numa rede corporativa, escolar ou de local público** (faculdade, empresa, evento), é comum que tráfego UDP peer-to-peer seja bloqueado de propósito pela própria rede — nesse caso, tente numa rede doméstica comum.
 4. **Abra a tela de Logs dentro do próprio app** (ícone na barra de título, ou dentro da sala na barra do microfone) — cada evento de conexão aparece numa frase simples, com "▸ Detalhes técnicos" pra quem quiser investigar mais fundo, úteis pra quem for reportar um problema numa issue.
 
+### Cursor sumindo, imagem travando ou piscando ao compartilhar jogos
+
+Isso acontece com alguns jogos (relatado com Project Zomboid e Deadlock) e tem três sintomas possíveis:
+
+- O jogo em **tela cheia exclusiva** ("Fullscreen" de verdade, não Borderless) não aparece na lista de "Uma janela específica".
+- Com o jogo em janela/Borderless, compartilhando **a janela do jogo**, o cursor do mouse some enquanto o jogo está em foco.
+- Compartilhando **a tela inteira** com o jogo aberto (janela ou fullscreen), a imagem trava, aparece o cursor padrão do Windows parado no meio da tela em vez do cursor real, e só atualiza um frame quando você troca de janela (Alt+Tab) — e volta a travar quase na hora.
+
+**Somos honestos: não temos uma solução completa pra isso.** É uma limitação de como o Windows expõe a tela/janelas de jogos pra qualquer programa de captura (não só este) — o mesmo tipo de problema que o Discord e o OBS também enfrentam e resolvem de formas que explicamos abaixo, com trade-offs que decidimos não trazer pra cá.
+
+**O que costuma ajudar, testado do lado do usuário (fora do app):**
+
+1. No atalho/executável do jogo → **Propriedades** → aba **Compatibilidade** → marque **"Desativar otimizações de tela cheia"**.
+2. Mantenha o jogo em modo **Borderless/Windowed** (não fullscreen exclusivo).
+
+**O que tentamos disponibilizar, com o risco declarado:** em Configurações existe um interruptor **"Captura otimizada para jogos (experimental)"**, desligado por padrão. Ele faz o app tentar usar a API `Windows.Graphics.Capture` do próprio Windows em vez do método padrão — essa API foi desenhada pela Microsoft pra lidar melhor com cursor e jogos em tela cheia. O motivo de vir desligada por padrão, e exigir uma confirmação explícita pra ligar: **já causou travamento completo do PC em pelo menos um computador testado**, antes de existir como opção — na época, tentamos ativar isso à força, pra todo mundo, sem interruptor, e não deu certo. Agora é opt-in, uma pessoa por vez, sabendo do risco. Pode resolver seu caso, pode não resolver, pode não fazer diferença nenhuma — não temos como garantir de antemão, porque o comportamento varia por driver de GPU e versão do Windows.
+
+**O que consideramos e decidimos não fazer**, pra deixar claro que pensamos nas alternativas:
+
+- **Captura por injeção direto no processo do jogo** (a técnica que o "Game Capture" do OBS e o compartilhamento de jogo do Discord usam) — tecnicamente resolveria o problema de verdade, mas exige injetar uma DLL no processo do jogo, e **muitos sistemas anti-cheat (Vanguard, Easy Anti-Cheat, BattlEye) tratam injeção de código como comportamento de hack**, o que pode gerar alertas ou até banimento em jogos com esses sistemas. O Discord e outras ferramentas grandes (Steam Overlay, GeForce Experience) não têm esse problema porque estão em listas de exceção negociadas diretamente com essas empresas de anti-cheat — algo que um projeto pessoal e gratuito como este não tem como conseguir. Julgamos que o risco pro usuário (banimento numa conta de jogo) é grande demais pra valer a pena.
+
+Se você entende de captura de tela no Windows e sabe de uma solução real pra isso — seja uma configuração que não pensamos, uma forma mais segura de usar WGC, ou qualquer outra ideia — **ficaríamos muito felizes em receber uma contribuição** (issue ou pull request). É bem possível que estejamos enxergando esse problema errado ou incompleto; este texto reflete o que sabemos até agora, não a última palavra.
+
 ### Por que o app não simplesmente "sempre conecta"
 
 Porque este projeto optou deliberadamente por **nunca usar um servidor de relay (TURN)** como rede de segurança escondida — veja a seção "Segurança e privacidade" acima. A consequência é que, numa rede muito restritiva, a conexão pode de fato falhar, em vez de silenciosamente cair pra um caminho alternativo fora do seu controle.
@@ -148,6 +171,7 @@ Porque este projeto optou deliberadamente por **nunca usar um servidor de relay 
 
 - Funciona melhor em redes domésticas comuns. Em redes muito restritivas (por exemplo, algumas redes corporativas ou públicas que bloqueiam tráfego UDP), a conexão direta pode falhar — isso é intencional: este projeto não usa servidor de relay (TURN), porque as opções gratuitas viáveis têm limite de banda baixo demais pra valer a pena depender delas.
 - É necessário que todos os participantes tenham o app instalado.
+- Compartilhar alguns jogos pode ter cursor sumindo, imagem travando/piscando, ou o jogo em tela cheia não aparecendo na lista de janelas — veja "Cursor sumindo, imagem travando ou piscando ao compartilhar jogos" na seção de solução de problemas acima. Não temos uma solução completa pra isso ainda.
 
 ## Licença
 

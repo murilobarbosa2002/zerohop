@@ -26,7 +26,10 @@ const api = {
     const listener = (_event: Electron.IpcRendererEvent, entry: LogEntry): void => callback(entry);
     ipcRenderer.on(IPC_CHANNELS.logAdded, listener);
     return () => ipcRenderer.removeListener(IPC_CHANNELS.logAdded, listener);
-  }
+  },
+  getExperimentalCaptureEnabled: (): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.experimentalCaptureGetEnabled),
+  setExperimentalCaptureEnabled: (value: boolean): Promise<void> =>
+    ipcRenderer.invoke(IPC_CHANNELS.experimentalCaptureSetEnabled, value)
 };
 
 export type ScreenShareApi = typeof api;
