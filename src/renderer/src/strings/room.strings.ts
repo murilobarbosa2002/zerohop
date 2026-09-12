@@ -24,6 +24,8 @@ export const ROOM_STRINGS = {
   chooseSourceKindTitle: 'O que você quer compartilhar?',
   shareEntireScreenOption: 'Tela inteira',
   shareSpecificWindowOption: 'Uma janela específica',
+  windowCaptureFocusHint:
+    'Compartilhar uma janela específica pode ficar preta se você trocar de janela (Alt+Tab) enquanto ela não está em primeiro plano — isso é uma limitação do Windows com alguns programas, não um bug do app. Se for alternar entre janelas durante o compartilhamento, prefira "Tela inteira".',
   backToSourceKindButton: '← Voltar',
   noWindowSourcesMessage: 'Nenhuma janela disponível pra compartilhar agora.',
   noScreenSourcesMessage: 'Nenhuma tela disponível pra compartilhar agora.',

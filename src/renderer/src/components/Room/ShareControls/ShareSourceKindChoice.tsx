@@ -12,6 +12,7 @@ export function ShareSourceKindChoice({ onSelect }: ShareSourceKindChoiceProps) 
       <ActionButton variant="default" className="flex-1 min-w-form-column" onClick={() => onSelect(CaptureSourceKind.WINDOW)}>
         {ROOM_STRINGS.shareSpecificWindowOption}
       </ActionButton>
+      <p className="text-text-dim text-xs leading-relaxed basis-full mt-1">{ROOM_STRINGS.windowCaptureFocusHint}</p>
     </div>
   );
 }

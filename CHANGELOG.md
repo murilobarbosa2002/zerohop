@@ -4,6 +4,7 @@ Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os det
 
 | Versão | Resumo |
 | --- | --- |
+| [0.19.1](docs/releases/v0.19.1.md) | Aviso sobre janela ficando preta ao trocar de foco (Alt+Tab) |
 | [0.19.0](docs/releases/v0.19.0.md) | Tela de Configurações com escolha de dispositivo de saída de áudio |
 | [0.18.1](docs/releases/v0.18.1.md) | Correção da notificação de atualização, que não estava aparecendo no Windows |
 | [0.18.0](docs/releases/v0.18.0.md) | Clique na miniatura de compartilhamento pra ver ampliada |
