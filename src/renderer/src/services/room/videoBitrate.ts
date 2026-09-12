@@ -14,6 +14,7 @@ export function boostVideoBitrate(peerConnection: RTCPeerConnection, { width, he
     if (!params.encodings || params.encodings.length === 0) params.encodings = [{}];
     params.encodings[0].maxBitrate = maxBitrate;
     params.encodings[0].maxFramerate = fps;
+    params.degradationPreference = 'maintain-resolution';
     sender.setParameters(params).catch(() => {});
   });
 }

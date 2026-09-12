@@ -5,7 +5,7 @@ import { SelfPreviewLightbox } from '@/components/Room/ShareControls/SelfPreview
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { ShareActiveStatusProps } from '@/components/Room/ShareControls/ShareActiveStatus.types';
 
-export function ShareActiveStatus({ status, onStop, videoRef, localStream }: ShareActiveStatusProps) {
+export function ShareActiveStatus({ status, onStop, onEdit, videoRef, localStream }: ShareActiveStatusProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
   return (
@@ -36,6 +36,9 @@ export function ShareActiveStatus({ status, onStop, videoRef, localStream }: Sha
           </p>
           {status && <p className="text-text-dim text-xs mt-1">{status}</p>}
         </div>
+        <ActionButton variant="default" onClick={onEdit}>
+          {ROOM_STRINGS.editSharingButton}
+        </ActionButton>
         <ActionButton variant="danger" onClick={onStop}>
           {ROOM_STRINGS.stopSharingButton}
         </ActionButton>

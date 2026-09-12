@@ -1,5 +1,3 @@
-import { MIN_CAPTURE_WIDTH, MIN_CAPTURE_HEIGHT } from '@/constants/resolution';
-
 export interface QualitySettings {
   width: number;
   height: number;
@@ -24,9 +22,9 @@ export function captureConstraints(
   const videoMandatory: DesktopMandatoryConstraint = {
     chromeMediaSource: 'desktop',
     chromeMediaSourceId: videoSourceId,
-    minWidth: MIN_CAPTURE_WIDTH,
+    minWidth: width,
     maxWidth: width,
-    minHeight: MIN_CAPTURE_HEIGHT,
+    minHeight: height,
     maxHeight: height,
     maxFrameRate: fps
   };
@@ -46,5 +44,8 @@ export async function captureSource(
   audioSourceId: string | null,
   quality: QualitySettings
 ): Promise<MediaStream> {
-  return navigator.mediaDevices.getUserMedia(captureConstraints(videoSourceId, audioSourceId, quality));
+  const stream = await navigator.mediaDevices.getUserMedia(captureConstraints(videoSourceId, audioSourceId, quality));
+  const videoTrack = stream.getVideoTracks()[0];
+  if (videoTrack) videoTrack.contentHint = 'detail';
+  return stream;
 }

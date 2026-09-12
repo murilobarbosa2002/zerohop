@@ -21,6 +21,7 @@ function parseResolution(resolution: Resolution): { width: number; height: numbe
 
 export function ShareControls({ roomClient, sourcePicker, sharing }: ShareControlsProps) {
   const [panelOpen, setPanelOpen] = useState(false);
+  const [editingWhileSharing, setEditingWhileSharing] = useState(false);
   const [resolution, setResolution] = useState<Resolution>(DEFAULT_RESOLUTION);
   const [fps, setFps] = useState<Fps>(DEFAULT_FPS);
   const [audioSelection, setAudioSelection] = useState<string>(DEFAULT_AUDIO_SOURCE_MODE);
@@ -79,13 +80,46 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
       }
     }
 
-    roomClient.startSharing(stream, quality);
+    if (editingWhileSharing) {
+      roomClient.changeSharing(stream, quality);
+      setEditingWhileSharing(false);
+    } else {
+      roomClient.startSharing(stream, quality);
+    }
     setLocalStream(stream);
     setStatus(audioFellBack ? ROOM_STRINGS.sharingAudioFallbackStatus : ROOM_STRINGS.sharingWithAudioStatus);
   }
 
+  if (sharing && editingWhileSharing) {
+    return (
+      <ShareSourcePicker
+        sourcePicker={sourcePicker}
+        resolution={resolution}
+        onChangeResolution={setResolution}
+        fps={fps}
+        onChangeFps={setFps}
+        audioSelection={audioSelection}
+        onChangeAudioSelection={setAudioSelection}
+        audioOptions={audioOptions}
+        status={status}
+        isEditing
+        onConfirm={handleStart}
+        onCancel={() => setEditingWhileSharing(false)}
+      />
+    );
+  }
+
   return sharing ? (
-    <ShareActiveStatus status={status} onStop={handleStop} videoRef={videoRef} localStream={localStream} />
+    <ShareActiveStatus
+      status={status}
+      onStop={handleStop}
+      onEdit={() => {
+        setEditingWhileSharing(true);
+        sourcePicker.refresh();
+      }}
+      videoRef={videoRef}
+      localStream={localStream}
+    />
   ) : panelOpen ? (
     <ShareSourcePicker
       sourcePicker={sourcePicker}
@@ -97,6 +131,7 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
       onChangeAudioSelection={setAudioSelection}
       audioOptions={audioOptions}
       status={status}
+      isEditing={false}
       onConfirm={handleStart}
       onCancel={() => setPanelOpen(false)}
     />

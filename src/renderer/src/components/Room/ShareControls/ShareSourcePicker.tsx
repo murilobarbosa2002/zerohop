@@ -22,6 +22,7 @@ export function ShareSourcePicker({
   onChangeAudioSelection,
   audioOptions,
   status,
+  isEditing,
   onConfirm,
   onCancel
 }: ShareSourcePickerProps) {
@@ -81,7 +82,7 @@ export function ShareSourcePicker({
               {ROOM_STRINGS.cancelShareSetupButton}
             </ActionButton>
             <ActionButton variant="primary" className="flex-1 min-w-0" onClick={onConfirm}>
-              {ROOM_STRINGS.startSharingButton}
+              {isEditing ? ROOM_STRINGS.saveShareChangesButton : ROOM_STRINGS.startSharingButton}
             </ActionButton>
           </div>
 

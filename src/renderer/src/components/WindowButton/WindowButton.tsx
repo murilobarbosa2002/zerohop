@@ -3,7 +3,7 @@ import type { WindowButtonProps } from '@/components/WindowButton/WindowButton.t
 
 export function WindowButton({ onClick, label, danger, children }: WindowButtonProps) {
   return (
-    <button onClick={onClick} title={label} className={windowButtonVariants({ danger })}>
+    <button onClick={onClick} title={label} aria-label={label} className={windowButtonVariants({ danger })}>
       {children}
     </button>
   );

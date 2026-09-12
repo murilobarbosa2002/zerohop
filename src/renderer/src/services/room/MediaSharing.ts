@@ -1,6 +1,7 @@
 import type { MediaConnection, default as Peer } from 'peerjs';
 import { sendTo, safeCall } from '@/services/room/peerSession';
 import { CallKind } from '@/constants/callKind';
+import { boostVideoBitrate } from '@/services/room/videoBitrate';
 import type { MemberRegistry } from '@/services/room/MemberRegistry';
 import type { QualitySettings } from '@/services/ScreenCapture';
 
@@ -31,6 +32,27 @@ export class MediaSharing extends EventTarget {
     stream.getVideoTracks()[0]?.addEventListener('ended', () => this.stop());
     for (const member of this.registry.values()) sendTo(member.conn, { type: 'sharing-status', sharing: true });
     this.dispatchEvent(new CustomEvent('sharing-changed', { detail: { sharing: true } }));
+  }
+
+  replaceStream(stream: MediaStream, quality: QualitySettings): void {
+    if (!this.sharing) return;
+    const oldStream = this.localStream;
+    this.localStream = stream;
+    this.quality = quality;
+    stream.getVideoTracks()[0]?.addEventListener('ended', () => this.stop());
+
+    const newVideoTrack = stream.getVideoTracks()[0] ?? null;
+    const newAudioTrack = stream.getAudioTracks()[0] ?? null;
+    for (const call of this.outgoingCalls.values()) {
+      const senders = call.peerConnection?.getSenders() ?? [];
+      const videoSender = senders.find((sender) => sender.track?.kind === 'video');
+      videoSender?.replaceTrack(newVideoTrack).catch(() => {});
+      const audioSender = senders.find((sender) => sender.track?.kind === 'audio');
+      if (newAudioTrack) audioSender?.replaceTrack(newAudioTrack).catch(() => {});
+      if (call.peerConnection) boostVideoBitrate(call.peerConnection, quality);
+    }
+
+    oldStream?.getTracks().forEach((track) => track.stop());
   }
 
   stop(): void {

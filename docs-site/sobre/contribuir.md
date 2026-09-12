@@ -23,9 +23,6 @@ Mas justamente por ser open source, ele é de todo mundo tanto quanto é do auto
 
 ## Como contribuir
 
-Contribuições são muito bem-vindas: correções, melhorias, novas funcionalidades ou apenas apontar um bug.
-
-1. Abra uma [issue](https://github.com/murilobarbosa2002/electron-screen-share/issues) descrevendo o problema ou a ideia.
-2. Ou mande direto um [pull request](https://github.com/murilobarbosa2002/electron-screen-share/pulls) com a alteração.
+Contribuições são muito bem-vindas: correções, melhorias, novas funcionalidades ou apenas apontar um bug. O [CONTRIBUTING.md](https://github.com/murilobarbosa2002/electron-screen-share/blob/main/CONTRIBUTING.md) do repositório tem os detalhes de como rodar o projeto localmente, rodar os testes e as convenções de código.
 
 Se você quer ir num caminho diferente do que este projeto toma, ou simplesmente quer ter o controle total da sua própria versão, não peça: **faça um fork e divulgue.** É o caminho mais incentivado aqui, não um plano B. Quanto mais forks diferentes existirem por aí, mais forte e mais difícil de calar essa ideia fica.

@@ -13,5 +13,3 @@ export const RESOLUTION_LABELS: Record<Resolution, string> = {
 };
 
 export const DEFAULT_RESOLUTION = Resolution.FULL_HD;
-export const MIN_CAPTURE_WIDTH = 320;
-export const MIN_CAPTURE_HEIGHT = 240;

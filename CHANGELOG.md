@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Cada linha tem
 
 | Versão | Resumo |
 | --- | --- |
+| [0.25.0](docs/releases/v0.25.0.md) | Vídeo compartilhado mais nítido, editar o compartilhamento com a call rodando, ErrorBoundary, testes e CI |
 | [0.24.0](docs/releases/v0.24.0.md) | App renomeado de ScreenShare pra ZeroHop; correção do arquivo de configurações |
 | [0.23.0](docs/releases/v0.23.0.md) | Captura experimental (Windows.Graphics.Capture) pra jogos com cursor sumindo/travando |
 | [0.22.0](docs/releases/v0.22.0.md) | Tela de Logs com histórico auditável de tudo que o app faz; DevTools removido |

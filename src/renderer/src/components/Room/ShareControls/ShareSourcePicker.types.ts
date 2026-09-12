@@ -13,6 +13,7 @@ export interface ShareSourcePickerProps {
   onChangeAudioSelection: (value: string) => void;
   audioOptions: SelectOption[];
   status: string;
+  isEditing: boolean;
   onConfirm: () => void;
   onCancel: () => void;
 }

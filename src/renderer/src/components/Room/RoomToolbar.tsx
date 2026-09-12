@@ -6,7 +6,7 @@ import type { RoomToolbarProps } from '@/components/Room/RoomToolbar.types';
 
 function MicIcon({ muted }: { muted: boolean }) {
   return (
-    <svg viewBox="0 0 12 12" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round">
+    <svg viewBox="0 0 12 12" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" aria-hidden="true">
       <rect x="4" y="1" width="4" height="6" rx="2" />
       <path d="M2.5 6.5a3.5 3.5 0 0 0 7 0" />
       <line x1="6" y1="9.5" x2="6" y2="11" />
@@ -18,7 +18,16 @@ function MicIcon({ muted }: { muted: boolean }) {
 
 function SpeakerIcon({ muted }: { muted: boolean }) {
   return (
-    <svg viewBox="0 0 12 12" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      viewBox="0 0 12 12"
+      className="w-3.5 h-3.5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
       <path d="M1 4.5h1.8L6 2v8L2.8 7.5H1z" fill="currentColor" stroke="none" />
       {muted ? <path d="M8 4.5l3 3M11 4.5l-3 3" /> : <path d="M7.8 4a3 3 0 0 1 0 4" />}
     </svg>
@@ -27,7 +36,7 @@ function SpeakerIcon({ muted }: { muted: boolean }) {
 
 function LogsIcon() {
   return (
-    <svg viewBox="0 0 12 12" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round">
+    <svg viewBox="0 0 12 12" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" aria-hidden="true">
       <line x1="2" y1="3" x2="10" y2="3" />
       <line x1="2" y1="6" x2="10" y2="6" />
       <line x1="2" y1="9" x2="7" y2="9" />
@@ -37,7 +46,7 @@ function LogsIcon() {
 
 function SettingsIcon() {
   return (
-    <svg viewBox="0 0 12 12" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1">
+    <svg viewBox="0 0 12 12" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true">
       <circle cx="6" cy="6" r="1.8" />
       <path d="M6 0.8v1.4M6 9.8v1.4M11.2 6H9.8M2.2 6H0.8M9.5 2.5l-1 1M3.5 8.5l-1 1M9.5 9.5l-1-1M3.5 3.5l-1-1" />
     </svg>
@@ -45,25 +54,28 @@ function SettingsIcon() {
 }
 
 export function RoomToolbar({ micMuted, deafened, onToggleMic, onToggleDeafen, onOpenLogs, onOpenSettings }: RoomToolbarProps) {
+  const micLabel = micMuted ? ROOM_STRINGS.unmuteMicButton : ROOM_STRINGS.muteMicButton;
+  const deafenLabel = deafened ? ROOM_STRINGS.undeafenButton : ROOM_STRINGS.deafenButton;
+
   return (
     <div className="flex items-center justify-center gap-2 bg-panel border border-border rounded-lg px-3 py-2">
-      <Tooltip label={micMuted ? ROOM_STRINGS.unmuteMicButton : ROOM_STRINGS.muteMicButton}>
-        <button onClick={onToggleMic} className={roomToolbarButtonVariants({ tone: micMuted ? 'danger' : 'default' })}>
+      <Tooltip label={micLabel}>
+        <button onClick={onToggleMic} aria-label={micLabel} className={roomToolbarButtonVariants({ tone: micMuted ? 'danger' : 'default' })}>
           <MicIcon muted={micMuted} />
         </button>
       </Tooltip>
-      <Tooltip label={deafened ? ROOM_STRINGS.undeafenButton : ROOM_STRINGS.deafenButton}>
-        <button onClick={onToggleDeafen} className={roomToolbarButtonVariants({ tone: deafened ? 'danger' : 'default' })}>
+      <Tooltip label={deafenLabel}>
+        <button onClick={onToggleDeafen} aria-label={deafenLabel} className={roomToolbarButtonVariants({ tone: deafened ? 'danger' : 'default' })}>
           <SpeakerIcon muted={deafened} />
         </button>
       </Tooltip>
       <Tooltip label={TITLE_BAR_STRINGS.logsButtonLabel}>
-        <button onClick={onOpenLogs} className={roomToolbarButtonVariants()}>
+        <button onClick={onOpenLogs} aria-label={TITLE_BAR_STRINGS.logsButtonLabel} className={roomToolbarButtonVariants()}>
           <LogsIcon />
         </button>
       </Tooltip>
       <Tooltip label={TITLE_BAR_STRINGS.settingsButtonLabel}>
-        <button onClick={onOpenSettings} className={roomToolbarButtonVariants()}>
+        <button onClick={onOpenSettings} aria-label={TITLE_BAR_STRINGS.settingsButtonLabel} className={roomToolbarButtonVariants()}>
           <SettingsIcon />
         </button>
       </Tooltip>

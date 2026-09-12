@@ -27,30 +27,30 @@ export function TitleBar({ onOpenUpdates, onOpenSettings, onOpenLogs }: TitleBar
       </div>
       <div className="flex h-full">
         <WindowButton onClick={onOpenLogs} label={TITLE_BAR_STRINGS.logsButtonLabel}>
-          <svg viewBox="0 0 12 12" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round">
+          <svg viewBox="0 0 12 12" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" aria-hidden="true">
             <line x1="2" y1="3" x2="10" y2="3" />
             <line x1="2" y1="6" x2="10" y2="6" />
             <line x1="2" y1="9" x2="7" y2="9" />
           </svg>
         </WindowButton>
         <WindowButton onClick={onOpenSettings} label={TITLE_BAR_STRINGS.settingsButtonLabel}>
-          <svg viewBox="0 0 12 12" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1">
+          <svg viewBox="0 0 12 12" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true">
             <circle cx="6" cy="6" r="1.8" />
             <path d="M6 0.8v1.4M6 9.8v1.4M11.2 6H9.8M2.2 6H0.8M9.5 2.5l-1 1M3.5 8.5l-1 1M9.5 9.5l-1-1M3.5 3.5l-1-1" />
           </svg>
         </WindowButton>
         <WindowButton onClick={() => window.api.minimize()} label={TITLE_BAR_STRINGS.minimizeButtonLabel}>
-          <svg viewBox="0 0 12 12" className="w-3 h-3">
+          <svg viewBox="0 0 12 12" className="w-3 h-3" aria-hidden="true">
             <rect x="1" y="5.5" width="10" height="1.2" fill="currentColor" />
           </svg>
         </WindowButton>
         <WindowButton onClick={() => window.api.maximize()} label={TITLE_BAR_STRINGS.maximizeButtonLabel}>
-          <svg viewBox="0 0 12 12" className="w-3 h-3">
+          <svg viewBox="0 0 12 12" className="w-3 h-3" aria-hidden="true">
             <rect x="1.5" y="1.5" width="9" height="9" fill="none" stroke="currentColor" strokeWidth="1.1" />
           </svg>
         </WindowButton>
         <WindowButton onClick={() => window.api.close()} label={TITLE_BAR_STRINGS.closeButtonLabel} danger>
-          <svg viewBox="0 0 12 12" className="w-3 h-3">
+          <svg viewBox="0 0 12 12" className="w-3 h-3" aria-hidden="true">
             <path d="M1.5 1.5l9 9M10.5 1.5l-9 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
           </svg>
         </WindowButton>

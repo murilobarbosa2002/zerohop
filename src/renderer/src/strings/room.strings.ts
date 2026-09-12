@@ -15,6 +15,8 @@ export const ROOM_STRINGS = {
   audioNoneOption: 'Sem áudio',
   audioOnlyFromOption: (sourceName: string) => `Só o áudio de "${sourceName}"`,
   startSharingButton: 'Compartilhar minha tela',
+  saveShareChangesButton: 'Salvar alterações',
+  editSharingButton: 'Editar',
   stopSharingButton: 'Parar de compartilhar',
   qualityHint: 'FPS e resolução mais altos exigem mais da sua internet e da de quem for assistir — se engasgar, tente valores menores.',
   audioIndependenceHint:

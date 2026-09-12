@@ -251,6 +251,10 @@ export class RoomClient extends EventTarget {
     this.media.start(stream, quality);
   }
 
+  changeSharing(stream: MediaStream, quality: QualitySettings): void {
+    this.media.replaceStream(stream, quality);
+  }
+
   stopSharing(): void {
     this.media.stop();
   }

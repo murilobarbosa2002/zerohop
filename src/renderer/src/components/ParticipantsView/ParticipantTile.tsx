@@ -42,8 +42,19 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
           {avatarInitial}
         </span>
         <span className="font-bold text-body-sm-alt truncate flex-1 min-w-0">{member.name || member.id}</span>
-        {member.micMuted && <span className="text-xs flex-shrink-0" title={PARTICIPANTS_STRINGS.micMutedBadge}>🔇</span>}
-        {member.sharing && <span className="w-1.5 h-1.5 rounded-full bg-success flex-shrink-0" title={PARTICIPANTS_STRINGS.sharingBadge} />}
+        {member.micMuted && (
+          <span className="text-xs flex-shrink-0" role="img" aria-label={PARTICIPANTS_STRINGS.micMutedBadge} title={PARTICIPANTS_STRINGS.micMutedBadge}>
+            🔇
+          </span>
+        )}
+        {member.sharing && (
+          <span
+            className="w-1.5 h-1.5 rounded-full bg-success flex-shrink-0"
+            role="img"
+            aria-label={PARTICIPANTS_STRINGS.sharingBadge}
+            title={PARTICIPANTS_STRINGS.sharingBadge}
+          />
+        )}
       </div>
 
       {member.voiceStream && (
