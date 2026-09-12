@@ -155,13 +155,43 @@ Isso acontece com alguns jogos (relatado com Project Zomboid e Deadlock) e tem t
 1. No atalho/executável do jogo → **Propriedades** → aba **Compatibilidade** → marque **"Desativar otimizações de tela cheia"**.
 2. Mantenha o jogo em modo **Borderless/Windowed** (não fullscreen exclusivo).
 
-**O que tentamos disponibilizar, com o risco declarado:** em Configurações existe um interruptor **"Captura otimizada para jogos (experimental)"**, desligado por padrão. Ele faz o app tentar usar a API `Windows.Graphics.Capture` do próprio Windows em vez do método padrão — essa API foi desenhada pela Microsoft pra lidar melhor com cursor e jogos em tela cheia. O motivo de vir desligada por padrão, e exigir uma confirmação explícita pra ligar: **já causou travamento completo do PC em pelo menos um computador testado**, antes de existir como opção — na época, tentamos ativar isso à força, pra todo mundo, sem interruptor, e não deu certo. Agora é opt-in, uma pessoa por vez, sabendo do risco. Pode resolver seu caso, pode não resolver, pode não fazer diferença nenhuma — não temos como garantir de antemão, porque o comportamento varia por driver de GPU e versão do Windows.
+**O que tentamos disponibilizar, com o risco declarado:** em Configurações existe um interruptor **"Captura otimizada para jogos (experimental)"**, desligado por padrão. Ele faz o app tentar usar a API `Windows.Graphics.Capture` do próprio Windows em vez do método padrão — essa API foi desenhada pela Microsoft pra lidar melhor com cursor e jogos em tela cheia. O motivo de vir desligada por padrão, e exigir uma confirmação explícita pra ligar: **já causou travamento completo do PC em pelo menos um computador testado**, antes de existir como opção — na época, tentamos ativar isso à força, pra todo mundo, sem interruptor, e não deu certo. Agora é opt-in, uma pessoa por vez, sabendo do risco. Pode resolver seu caso, pode não resolver, pode não fazer diferença nenhuma — não temos como garantir de antemão, porque o comportamento varia por driver de GPU e versão do Windows. Se ativar e o app parar de abrir, veja "O app não abre mais depois de ativar uma configuração" logo abaixo — dá pra desligar essa opção editando um arquivo de texto, sem precisar abrir o app.
 
 **O que consideramos e decidimos não fazer**, pra deixar claro que pensamos nas alternativas:
 
 - **Captura por injeção direto no processo do jogo** (a técnica que o "Game Capture" do OBS e o compartilhamento de jogo do Discord usam) — tecnicamente resolveria o problema de verdade, mas exige injetar uma DLL no processo do jogo, e **muitos sistemas anti-cheat (Vanguard, Easy Anti-Cheat, BattlEye) tratam injeção de código como comportamento de hack**, o que pode gerar alertas ou até banimento em jogos com esses sistemas. O Discord e outras ferramentas grandes (Steam Overlay, GeForce Experience) não têm esse problema porque estão em listas de exceção negociadas diretamente com essas empresas de anti-cheat — algo que um projeto pessoal e gratuito como este não tem como conseguir. Julgamos que o risco pro usuário (banimento numa conta de jogo) é grande demais pra valer a pena.
 
 Se você entende de captura de tela no Windows e sabe de uma solução real pra isso — seja uma configuração que não pensamos, uma forma mais segura de usar WGC, ou qualquer outra ideia — **ficaríamos muito felizes em receber uma contribuição** (issue ou pull request). É bem possível que estejamos enxergando esse problema errado ou incompleto; este texto reflete o que sabemos até agora, não a última palavra.
+
+### O app não abre mais depois de ativar uma configuração (ex: a captura experimental)
+
+Isso é exatamente o cenário que a captura experimental acima avisa que pode acontecer — e por isso as configurações do app não vivem só dentro da interface, elas ficam salvas num arquivo de texto simples que dá pra editar na mão, mesmo com o app fechado ou travado.
+
+**Onde fica o arquivo:** `settings.json`, dentro da pasta de dados do app —
+
+- Windows: `%APPDATA%\ScreenShare\settings.json` (cole esse caminho na barra de endereço do Explorador de Arquivos)
+
+**Como editar:**
+
+1. Feche o ScreenShare completamente (verifique também no Gerenciador de Tarefas se não sobrou nenhum processo `ScreenShare.exe`).
+2. Abra o arquivo `settings.json` num editor de texto simples (Bloco de Notas serve).
+3. O conteúdo é um JSON pequeno, por exemplo:
+
+   ```json
+   { "autoUpdateEnabled": true, "experimentalWgcCaptureEnabled": true }
+   ```
+
+4. Troque o valor que estiver causando o problema pra `false` — no caso da captura experimental, `"experimentalWgcCaptureEnabled": false` — e salve o arquivo.
+5. Abra o ScreenShare de novo.
+
+Os campos que existem hoje:
+
+| Campo | Valores | O que faz |
+| --- | --- | --- |
+| `autoUpdateEnabled` | `true` / `false` | Se o app verifica e baixa atualizações sozinho. Mesmo interruptor da tela de Atualizações. |
+| `experimentalWgcCaptureEnabled` | `true` / `false` | Se o app tenta usar `Windows.Graphics.Capture` ao iniciar. Mesmo interruptor da tela de Configurações — esse é o campo que te salva caso ativar essa opção deixe o app instável a ponto de não conseguir desligá-la pela própria interface. |
+
+Se o arquivo não existir, estiver vazio ou tiver um JSON inválido, o app simplesmente ignora e usa os valores padrão (`autoUpdateEnabled: true`, `experimentalWgcCaptureEnabled: false`) — não precisa ter medo de "quebrar" o arquivo além do reparável; na pior das hipóteses, é só apagá-lo inteiro que o app recria com os padrões.
 
 ### Por que o app não simplesmente "sempre conecta"
 
