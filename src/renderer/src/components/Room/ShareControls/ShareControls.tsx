@@ -46,6 +46,12 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
     if (sharing) setPanelOpen(false);
   }, [sharing]);
 
+  useEffect(() => {
+    const pickerVisible = panelOpen || (sharing && editingWhileSharing);
+    sourcePicker.setWatching(pickerVisible);
+    return () => sourcePicker.setWatching(false);
+  }, [panelOpen, sharing, editingWhileSharing, sourcePicker]);
+
   function handleStop(): void {
     roomClient.stopSharing();
     localStream?.getTracks().forEach((track) => track.stop());

@@ -6,4 +6,5 @@ export interface SourcePickerState {
   loading: boolean;
   select: (id: string) => void;
   refresh: () => Promise<CaptureSource[]>;
+  setWatching: (watching: boolean) => void;
 }
