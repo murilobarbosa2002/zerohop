@@ -26,17 +26,27 @@ Ao abrir o ScreenShare, a primeira tela pergunta o que você quer fazer: **Criar
 
 Se o código ou a senha estiverem errados, você simplesmente não vai conseguir entrar — não existe uma mensagem de "senha errada" explícita, de propósito, pra dificultar tentativas de adivinhar a senha de terceiros.
 
+## Como a sala é organizada
+
+Dentro da sala, a tela é dividida em três áreas, como um app de chamada:
+
+- **Coluna da esquerda:** código/senha da sala, botão de sair, e a lista de quem está na sala.
+- **Área central (o "palco"):** onde aparece o vídeo de quem você está assistindo, ou o botão pra compartilhar sua própria tela.
+- **Coluna da direita:** o chat de texto.
+
+As colunas da esquerda e da direita podem ser escondidas (botões "Ocultar sala"/"Ocultar chat" no topo) pra dar mais espaço ao vídeo quando quiser.
+
 ## Compartilhar sua tela
 
-Dentro da sala, escolha o que compartilhar: uma janela específica (um jogo, um programa) ou a tela inteira. Dá pra ajustar resolução, FPS e escolher se quer compartilhar o áudio junto — inclusive o áudio de só um programa específico, útil pra não compartilhar sua própria voz de uma chamada de voz separada (Discord, por exemplo).
+No palco central, clique em **Compartilhar minha tela** — isso abre um painel só com essa configuração: escolha uma janela específica (um jogo, um programa) ou a tela inteira, ajuste resolução, FPS e se quer compartilhar áudio junto (inclusive o áudio de só um programa específico, útil pra não compartilhar sua própria voz de uma chamada de voz separada, como o Discord). Depois de confirmar, o painel fecha sozinho e vira uma barra compacta mostrando que você está compartilhando, com o botão de parar.
 
 ## Assistir a tela de alguém
 
-Na lista de participantes, quem estiver compartilhando aparece com um selo "compartilhando". Clique em **Assistir** pra receber o vídeo dessa pessoa. O vídeo só é enviado pra quem pede explicitamente — não fica todo mundo recebendo o stream de todo mundo o tempo todo.
+Na lista de participantes (coluna da esquerda), quem estiver compartilhando aparece com um indicador verde. Clique em **Assistir** pra receber o vídeo dessa pessoa — ele aparece no palco central, não mais dentro da própria lista. O vídeo só é enviado pra quem pede explicitamente — não fica todo mundo recebendo o stream de todo mundo o tempo todo. Se você assistir mais de uma pessoa ao mesmo tempo, os vídeos aparecem lado a lado no palco.
 
 ## Conversar pelo chat
 
-A sala tem um chat de texto simples, visível pra todos os participantes autenticados. As mensagens não ficam salvas em lugar nenhum — veja [Privacidade e criptografia](/seguranca/privacidade) pra entender exatamente o porquê.
+A coluna da direita tem um chat de texto simples, visível pra todos os participantes autenticados. As mensagens não ficam salvas em lugar nenhum — veja [Privacidade e criptografia](/seguranca/privacidade) pra entender exatamente o porquê.
 
 ## Sair da sala
 

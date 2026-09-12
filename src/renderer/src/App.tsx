@@ -12,6 +12,7 @@ export function App() {
   const roomClient = useRoomClient();
   const status = useRoomStatus(roomClient);
   const [roomCode, setRoomCode] = useState<string | null>(null);
+  const inRoom = status === RoomStatus.CONNECTED && roomCode !== null;
 
   function handleLeft(): void {
     setRoomCode(null);
@@ -20,15 +21,15 @@ export function App() {
   return (
     <div className="h-full flex flex-col bg-bg text-text">
       <TitleBar />
-      <div className="flex-1 overflow-y-auto px-7 py-7">
-        <Header />
-        {status === RoomStatus.CONNECTED && roomCode ? (
-          <Room roomClient={roomClient} roomCode={roomCode} onLeft={handleLeft} />
-        ) : (
+      {inRoom && roomCode ? (
+        <Room roomClient={roomClient} roomCode={roomCode} onLeft={handleLeft} />
+      ) : (
+        <div className="flex-1 overflow-y-auto px-7 py-7">
+          <Header />
           <PreRoom roomClient={roomClient} onEntered={setRoomCode} />
-        )}
-        <StatusBar status={status} />
-      </div>
+          <StatusBar status={status} />
+        </div>
+      )}
     </div>
   );
 }

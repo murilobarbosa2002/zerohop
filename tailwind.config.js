@@ -35,7 +35,11 @@ export default {
         'status-dot-size': '9px',
         'card-padding-y': '18px',
         'badge-size': '22px',
-        'form-column': '180px'
+        'form-column': '180px',
+        'self-preview-width': '160px',
+        'self-preview-height': '90px',
+        'room-sidebar-width': '260px',
+        'room-chat-width': '300px'
       },
       fontSize: {
         'label-xs': '9.5px',
@@ -56,8 +60,7 @@ export default {
       },
       maxHeight: {
         video: '55vh',
-        'source-list': '220px',
-        'chat-list': '260px'
+        'source-list': '220px'
       },
       maxWidth: {
         'chat-bubble': '80%'

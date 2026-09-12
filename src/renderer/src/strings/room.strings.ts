@@ -23,5 +23,13 @@ export const ROOM_STRINGS = {
   screenSourceKind: 'Tela toda',
   participantsTitle: 'Participantes',
   connectionWarning:
-    'Não foi possível conectar com alguém da sala depois de um tempo — pode ser um bloqueio de rede/firewall/VPN. Aperte F12 pra ver detalhes no console.'
+    'Não foi possível conectar com alguém da sala depois de um tempo — pode ser um bloqueio de rede/firewall/VPN. Aperte F12 pra ver detalhes no console.',
+  cancelShareSetupButton: 'Cancelar',
+  sharingActiveLabel: 'Você está compartilhando sua tela.',
+  stageEmptyTitle: 'Nada sendo exibido agora',
+  stageEmptyHint: 'Assista alguém da lista de participantes, ou compartilhe a sua tela.',
+  hideSidebarButton: 'Ocultar sala',
+  showSidebarButton: 'Mostrar sala',
+  hideChatButton: 'Ocultar chat',
+  showChatButton: 'Mostrar chat'
 } as const;

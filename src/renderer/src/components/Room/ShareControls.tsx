@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { Card, CardTitle } from '@/components/Card';
-import { ActionButton } from '@/components/ActionButton';
-import { SelectField } from '@/components/SelectField';
-import { SourceGrid } from '@/components/Room/SourceGrid';
-import { RESOLUTION_OPTIONS, FPS_OPTIONS } from '@/components/Room/qualityOptions';
+import { ShareIdleTrigger } from '@/components/Room/ShareIdleTrigger';
+import { ShareSourcePicker } from '@/components/Room/ShareSourcePicker';
+import { ShareActiveStatus } from '@/components/Room/ShareActiveStatus';
 import { useAudioSourceOptions, resolveAudioSourceId } from '@/hooks/useAudioSourceOptions';
 import { captureSource, boostVideoBitrate } from '@/services/ScreenCapture';
 import { errorMessage } from '@/lib/errorMessage';
@@ -21,6 +19,7 @@ function parseResolution(resolution: Resolution): { width: number; height: numbe
 }
 
 export function ShareControls({ roomClient, sourcePicker, sharing }: ShareControlsProps) {
+  const [panelOpen, setPanelOpen] = useState(false);
   const [resolution, setResolution] = useState<Resolution>(DEFAULT_RESOLUTION);
   const [fps, setFps] = useState<Fps>(DEFAULT_FPS);
   const [audioSelection, setAudioSelection] = useState<string>(DEFAULT_AUDIO_SOURCE_MODE);
@@ -41,15 +40,18 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
     if (videoRef.current) videoRef.current.srcObject = localStream;
   }, [localStream]);
 
-  async function handleToggle(): Promise<void> {
-    if (sharing) {
-      roomClient.stopSharing();
-      localStream?.getTracks().forEach((track) => track.stop());
-      setLocalStream(null);
-      setStatus('');
-      return;
-    }
+  useEffect(() => {
+    if (sharing) setPanelOpen(false);
+  }, [sharing]);
 
+  function handleStop(): void {
+    roomClient.stopSharing();
+    localStream?.getTracks().forEach((track) => track.stop());
+    setLocalStream(null);
+    setStatus('');
+  }
+
+  async function handleStart(): Promise<void> {
     if (!sourcePicker.selectedId) {
       setStatus(ROOM_STRINGS.chooseSourceFirstError);
       return;
@@ -81,50 +83,28 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
     setStatus(audioFellBack ? ROOM_STRINGS.sharingAudioFallbackStatus : ROOM_STRINGS.sharingWithAudioStatus);
   }
 
-  return (
-    <Card>
-      <CardTitle badge={1}>{ROOM_STRINGS.chooseSourceTitle}</CardTitle>
-      <SourceGrid sources={sourcePicker.sources} selectedId={sourcePicker.selectedId} onSelect={sourcePicker.select} />
-      <ActionButton onClick={() => sourcePicker.refresh()}>{ROOM_STRINGS.refreshSourcesButton}</ActionButton>
-
-      <div className="flex gap-5 mt-3.5 flex-wrap items-end">
-        <SelectField
-          label={ROOM_STRINGS.resolutionFieldLabel}
-          value={resolution}
-          onChange={(value) => setResolution(value as Resolution)}
-          options={RESOLUTION_OPTIONS}
-        />
-        <SelectField
-          label={ROOM_STRINGS.fpsFieldLabel}
-          value={fps}
-          onChange={(value) => setFps(value as Fps)}
-          options={FPS_OPTIONS}
-        />
-        <SelectField
-          label={ROOM_STRINGS.audioFieldLabel}
-          value={audioSelection}
-          onChange={setAudioSelection}
-          options={audioOptions}
-        />
-        <ActionButton variant="primary" onClick={handleToggle}>
-          {sharing ? ROOM_STRINGS.stopSharingButton : ROOM_STRINGS.startSharingButton}
-        </ActionButton>
-      </div>
-
-      <p className="text-text-dim text-xs leading-relaxed mt-2.5">{ROOM_STRINGS.qualityHint}</p>
-      <p className="text-text-dim text-xs leading-relaxed mt-2.5">{ROOM_STRINGS.audioIndependenceHint}</p>
-
-      {localStream && (
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          muted
-          className="w-full max-h-video bg-black rounded-lg border border-border mt-2.5 block"
-        />
-      )}
-
-      {status && <p className="text-text-dim text-xs mt-2.5">{status}</p>}
-    </Card>
+  return sharing ? (
+    <ShareActiveStatus status={status} onStop={handleStop} videoRef={videoRef} />
+  ) : panelOpen ? (
+    <ShareSourcePicker
+      sourcePicker={sourcePicker}
+      resolution={resolution}
+      onChangeResolution={setResolution}
+      fps={fps}
+      onChangeFps={setFps}
+      audioSelection={audioSelection}
+      onChangeAudioSelection={setAudioSelection}
+      audioOptions={audioOptions}
+      status={status}
+      onConfirm={handleStart}
+      onCancel={() => setPanelOpen(false)}
+    />
+  ) : (
+    <ShareIdleTrigger
+      onOpen={() => {
+        setPanelOpen(true);
+        sourcePicker.refresh();
+      }}
+    />
   );
 }
