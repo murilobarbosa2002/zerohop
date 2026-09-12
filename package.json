@@ -41,7 +41,7 @@
     "publish": {
       "provider": "github",
       "owner": "murilobarbosa2002",
-      "repo": "electron-screen-share"
+      "repo": "zerohop"
     },
     "linux": {
       "target": "AppImage",
