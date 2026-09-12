@@ -6,21 +6,23 @@
 
 Baixe o instalador mais recente na [página de Releases do GitHub](https://github.com/murilobarbosa2002/electron-screen-share/releases) e execute-o no Windows. O programa se atualiza sozinho depois disso, avisando quando uma nova versão estiver disponível.
 
+Ao abrir o ScreenShare, a primeira tela pergunta o que você quer fazer: **Criar sala nova** ou **Entrar numa sala** — cada opção leva pra um formulário dedicado só com os campos daquela ação, sem misturar os dois fluxos.
+
 ## Criar uma sala
 
-1. Abra o ScreenShare.
+1. Na tela inicial, clique em **Criar sala nova**.
 2. Digite seu nome (é só o que aparece pros outros — não precisa ser seu nome real).
-3. Se quiser, defina uma senha para a sala (veja [Senha e moderação](/guia/senha-e-moderacao)).
-4. Clique em **Criar sala nova**.
-5. Um código curto aparece no topo da tela. Copie e mande esse código (e a senha, se tiver) pros seus amigos.
+3. Defina uma senha para a sala — é **obrigatória**, toda sala nasce protegida (veja [Senha e moderação](/guia/senha-e-moderacao)).
+4. Confirme em **Criar sala nova**.
+5. Um código curto aparece no topo da tela. Copie e mande esse código **e a senha** pros seus amigos.
 
 ## Entrar numa sala
 
-1. Abra o ScreenShare.
+1. Na tela inicial, clique em **Entrar numa sala**.
 2. Digite seu nome.
 3. Cole o código que recebeu no campo de código.
-4. Se a sala tiver senha, digite a mesma senha que a pessoa que criou a sala te passou.
-5. Clique em **Entrar na sala**.
+4. Digite a senha que a pessoa que criou a sala te passou.
+5. Confirme em **Entrar numa sala**.
 
 Se o código ou a senha estiverem errados, você simplesmente não vai conseguir entrar — não existe uma mensagem de "senha errada" explícita, de propósito, pra dificultar tentativas de adivinhar a senha de terceiros.
 

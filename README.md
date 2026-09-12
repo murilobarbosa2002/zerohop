@@ -64,9 +64,9 @@ Mas se você quer ir num caminho diferente do que este projeto toma — ou simpl
 
 O compartilhamento de vídeo/áudio é sempre **direto entre os PCs** (WebRTC, ponto a ponto) — o vídeo nunca passa por nenhum servidor. A única coisa que passa por um serviço externo é a etapa inicial de "apresentação" entre os participantes (saber quem está na sala e trocar os dados técnicos necessários pra abrir a conexão direta), feita através do broker público e gratuito do [PeerJS](https://peerjs.com/).
 
-1. Uma pessoa clica em **criar sala** — isso gera um código curto (6 caracteres).
-2. Ela compartilha esse código com os amigos por onde quiser (WhatsApp, Discord, etc).
-3. Cada amigo abre o app e **entra na sala** digitando o código.
+1. Ao abrir o app, uma pessoa escolhe **Criar sala nova**, digita o nome dela e define uma **senha** (obrigatória — toda sala nasce protegida). Isso gera um código curto (6 caracteres).
+2. Ela compartilha o código **e** a senha com os amigos por onde quiser (WhatsApp, Discord, etc).
+3. Cada amigo abre o app, escolhe **Entrar numa sala** e digita nome, código e a senha recebida.
 4. Quem quiser compartilhar a tela clica em compartilhar; quem quiser assistir escolhe quem quer ver.
 
 O vídeo só é enviado para quem pede explicitamente pra assistir — ninguém recebe o stream de todo mundo o tempo todo, o que economiza a banda de quem está compartilhando.
@@ -79,7 +79,7 @@ Transparência total sobre o que este projeto protege e o que ele não protege:
 
 - **Vídeo, áudio e as mensagens internas da sala são criptografados ponta a ponta**, nativamente pelo WebRTC (DTLS-SRTP). Isso é garantido pelo próprio protocolo, não é uma feature que este app precisou implementar — mas também significa que ninguém no meio do caminho, nem o broker de sinalização, consegue ler o conteúdo.
 - **O broker público do PeerJS (`0.peerjs.com`) é um serviço de terceiro**, fora do controle deste projeto. Ele só enxerga metadados necessários pra apresentar os participantes uns aos outros (por exemplo, quem está tentando se conectar com qual código de sala) — nunca o conteúdo de vídeo, áudio ou das mensagens.
-- **O código da sala funciona como um convite, não como uma senha.** Ele tem entropia razoável (mais de 1 bilhão de combinações), mas se vazar — por exemplo, sendo encaminhado sem querer — qualquer pessoa com ele poderia tentar entrar. Por isso a sala tem um **campo de senha opcional**: quando definida, ninguém entra na sala sem digitar exatamente a mesma senha, mesmo sabendo o código.
+- **O código da sala funciona como um convite, não como uma senha.** Ele tem entropia razoável (mais de 1 bilhão de combinações), mas se vazar — por exemplo, sendo encaminhado sem querer — qualquer pessoa com ele poderia tentar entrar. Por isso **toda sala exige uma senha** (definida obrigatoriamente por quem cria): ninguém entra sem digitar exatamente a mesma senha, mesmo sabendo o código.
 - **Só quem criou a sala pode remover alguém dela.** Ao remover, a conexão com essa pessoa é encerrada nos dois sentidos e ela é bloqueada de reconectar sozinha na mesma sessão.
 - **Toda mensagem trocada entre os participantes é validada contra um formato esperado** antes de ser processada — uma mensagem malformada ou fora do protocolo é descartada, nunca executada.
 - **Não existe servidor de relay (TURN).** Isso significa que não existe um "atalho" escondido pelo qual o tráfego de alguém possa passar sem você saber — a conexão é sempre direta entre os PCs, ou simplesmente não acontece.
@@ -134,7 +134,7 @@ Se quiser confirmar por conta própria que o instalador é exatamente o que foi 
 
 Na grande maioria dos casos isso não é um bug do app — é a rede ou o antivírus de alguém bloqueando a conexão direta (WebRTC usa tráfego UDP, que redes mais restritas às vezes barram). Um passo a passo simples pra descobrir o motivo:
 
-1. **Confirme que os dois digitaram exatamente o mesmo código e a mesma senha** (se tiver senha configurada). Um espaço a mais ou letra trocada já impede a conexão — e, por design, ninguém recebe um aviso "senha errada" explícito (isso evitaria que um estranho ficasse tentando adivinhar).
+1. **Confirme que os dois digitaram exatamente o mesmo código e a mesma senha.** Um espaço a mais ou letra trocada já impede a conexão — e, por design, ninguém recebe um aviso "senha errada" explícito (isso evitaria que um estranho ficasse tentando adivinhar).
 2. **Verifique se algum antivírus de terceiro está instalado** (ESET, Avast, Norton, Kaspersky, etc). Muitos desses programas **gerenciam o Firewall do Windows por baixo dos panos** — ou seja, adicionar uma exceção pela tela nativa do "Firewall do Windows Defender" não resolve nada, porque quem está decidindo bloquear ou não é o antivírus, não o Windows. Nesse caso, a exceção/regra de permissão de rede precisa ser criada **dentro do próprio antivírus** (geralmente em uma seção chamada "Firewall", "Proteção de rede" ou "Regras de aplicativo").
 3. **Se estiver numa rede corporativa, escolar ou de local público** (faculdade, empresa, evento), é comum que tráfego UDP peer-to-peer seja bloqueado de propósito pela própria rede — nesse caso, tente numa rede doméstica comum.
 4. **Aperte F12 dentro do app** pra abrir o DevTools e ver o console — o app registra logs técnicos (`[ice]`, `[ice-route]`) que mostram exatamente em que ponto a conexão parou de progredir, úteis pra quem for reportar um problema numa issue.

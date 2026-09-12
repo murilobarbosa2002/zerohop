@@ -4,6 +4,7 @@ Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os det
 
 | Versão | Resumo |
 | --- | --- |
+| [0.11.0](docs/releases/v0.11.0.md) | Senha de sala obrigatória, telas separadas de criar/entrar |
 | [0.10.0](docs/releases/v0.10.0.md) | Senha de sala, remoção de participantes, chat efêmero, reconexão automática, documentação pública |
 | [0.9.0](docs/releases/v0.9.0.md) | Interface reescrita em React + TypeScript, build com Vite, instalador compilado no CI |
 | [0.8.0](docs/releases/v0.8.0.md) | Etiquetas de tipo de fonte, áudio independente do vídeo, ícone próprio, correções de miniatura e filtro de notificações |

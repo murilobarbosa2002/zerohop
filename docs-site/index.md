@@ -23,7 +23,7 @@ features:
   - title: Chat efêmero
     details: As mensagens de texto da sala nunca são salvas em lugar nenhum — nem disco, nem servidor. Somem para sempre quando você sai da sala.
   - title: Senha e moderação
-    details: Sala com senha opcional e possibilidade de remover alguém — o código da sala sozinho é um convite, não uma senha.
+    details: Toda sala exige senha, além da possibilidade de remover alguém — o código da sala sozinho é um convite, não uma senha.
   - title: Transparência como princípio
     details: Nenhuma telemetria, nenhuma coleta de dados, nenhuma parte escondida. Esta documentação existe pra você confirmar isso com as próprias palavras do projeto.
 ---

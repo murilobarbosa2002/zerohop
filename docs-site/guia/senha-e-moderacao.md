@@ -1,14 +1,14 @@
 # Senha e moderação da sala
 
-**Resumo em uma frase:** o código da sala é um convite, não uma senha — por isso existe um campo de senha opcional e a possibilidade de remover alguém que entrou sem querer.
+**Resumo em uma frase:** o código da sala é um convite, não uma senha — por isso toda sala exige uma senha obrigatória, além da possibilidade de remover alguém que entrou sem querer.
 
 ## Por que o código sozinho não é suficiente
 
 O código da sala tem bastante entropia (mais de 1 bilhão de combinações possíveis), então ninguém vai "adivinhar" um código por acaso. O risco real é outro: um código pode vazar por engano — encaminhado pra pessoa errada, colado num grupo público, capturado numa print de tela. Se isso acontecer e não houver mais nenhuma barreira, qualquer pessoa com aquele código poderia tentar entrar.
 
-## Senha opcional
+## Senha obrigatória
 
-Ao criar a sala, você pode definir uma senha. Quem for entrar precisa digitar exatamente a mesma senha, além do código. Se a senha não bater, a pessoa simplesmente não entra — e nem aparece na lista de participantes de ninguém, como se a tentativa nunca tivesse acontecido.
+Ao criar uma sala, é obrigatório definir uma senha (mínimo de 4 caracteres) — não existe mais a opção de criar uma sala sem nenhuma proteção além do código. Quem for entrar precisa digitar exatamente a mesma senha, além do código. Se a senha não bater, a pessoa simplesmente não entra — e nem aparece na lista de participantes de ninguém, como se a tentativa nunca tivesse acontecido.
 
 Isso funciona nos dois sentidos: se você digitar a senha errada ao tentar entrar numa sala, você também não vai ver ninguém daquela sala, porque a validação acontece nos dois lados ao mesmo tempo.
 

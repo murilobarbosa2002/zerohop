@@ -4,3 +4,20 @@ export interface PreRoomProps {
   roomClient: RoomClient;
   onEntered: (code: string) => void;
 }
+
+export interface PreRoomChoiceProps {
+  onSelectCreate: () => void;
+  onSelectJoin: () => void;
+}
+
+export interface CreateRoomFormProps {
+  roomClient: RoomClient;
+  onEntered: (code: string) => void;
+  onBack: () => void;
+}
+
+export interface JoinRoomFormProps {
+  roomClient: RoomClient;
+  onEntered: (code: string) => void;
+  onBack: () => void;
+}

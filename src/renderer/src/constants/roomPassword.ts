@@ -1,0 +1,2 @@
+export const ROOM_PASSWORD_MIN_LENGTH = 4;
+export const ROOM_PASSWORD_MAX_LENGTH = 24;
