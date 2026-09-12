@@ -1,5 +1,7 @@
 import { useEffect, useReducer, useRef } from 'react';
 import { VolumeControl } from '@/components/ParticipantsView/VolumeControl';
+import { useAudioOutputDevice } from '@/hooks/useAudioOutputDevice';
+import { setElementAudioOutput } from '@/lib/audioSink';
 import { COMMON_STRINGS } from '@/strings/common.strings';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
 import type { ParticipantVideoPlayerProps } from '@/components/ParticipantsView/ParticipantVideoPlayer.types';
@@ -9,6 +11,7 @@ export function ParticipantVideoPlayer({ member, audioState }: ParticipantVideoP
   const state = audioState.get(member.id);
   const [, forceRender] = useReducer((renderCount: number) => renderCount + 1, 0);
   const hasAudio = member.stream.getAudioTracks().length > 0;
+  const [audioOutputDeviceId] = useAudioOutputDevice();
 
   useEffect(() => {
     if (!videoRef.current) return;
@@ -16,6 +19,10 @@ export function ParticipantVideoPlayer({ member, audioState }: ParticipantVideoP
     videoRef.current.volume = state.volume;
     videoRef.current.muted = state.muted;
   }, [member.stream, state.volume, state.muted]);
+
+  useEffect(() => {
+    if (videoRef.current) setElementAudioOutput(videoRef.current, audioOutputDeviceId);
+  }, [audioOutputDeviceId]);
 
   function handleFullscreen(): void {
     videoRef.current?.requestFullscreen().catch(() => {});

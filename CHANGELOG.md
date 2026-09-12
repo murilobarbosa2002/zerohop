@@ -4,6 +4,7 @@ Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os det
 
 | Versão | Resumo |
 | --- | --- |
+| [0.19.0](docs/releases/v0.19.0.md) | Tela de Configurações com escolha de dispositivo de saída de áudio |
 | [0.18.1](docs/releases/v0.18.1.md) | Correção da notificação de atualização, que não estava aparecendo no Windows |
 | [0.18.0](docs/releases/v0.18.0.md) | Clique na miniatura de compartilhamento pra ver ampliada |
 | [0.17.3](docs/releases/v0.17.3.md) | Correção de verdade pra janela duplicada na lista de fontes |

@@ -6,7 +6,7 @@ import { TITLE_BAR_STRINGS } from '@/strings/titleBar.strings';
 import { UPDATES_STRINGS } from '@/strings/updates.strings';
 import type { TitleBarProps } from '@/components/TitleBar/TitleBar.types';
 
-export function TitleBar({ onOpenUpdates }: TitleBarProps) {
+export function TitleBar({ onOpenUpdates, onOpenSettings }: TitleBarProps) {
   const { version } = useAppUpdater();
 
   return (
@@ -26,6 +26,12 @@ export function TitleBar({ onOpenUpdates }: TitleBarProps) {
         )}
       </div>
       <div className="flex h-full">
+        <WindowButton onClick={onOpenSettings} label={TITLE_BAR_STRINGS.settingsButtonLabel}>
+          <svg viewBox="0 0 12 12" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1">
+            <circle cx="6" cy="6" r="1.8" />
+            <path d="M6 0.8v1.4M6 9.8v1.4M11.2 6H9.8M2.2 6H0.8M9.5 2.5l-1 1M3.5 8.5l-1 1M9.5 9.5l-1-1M3.5 3.5l-1-1" />
+          </svg>
+        </WindowButton>
         <WindowButton onClick={() => window.api.minimize()} label={TITLE_BAR_STRINGS.minimizeButtonLabel}>
           <svg viewBox="0 0 12 12" className="w-3 h-3">
             <rect x="1" y="5.5" width="10" height="1.2" fill="currentColor" />

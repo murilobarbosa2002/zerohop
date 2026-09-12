@@ -16,6 +16,10 @@ Clicando no número da versão, no canto superior esquerdo da janela (ao lado do
 
 **Importante:** o app não deixa duas pessoas com versões diferentes entrarem na mesma sala — se as versões não baterem, a entrada é recusada automaticamente com uma mensagem explicando a diferença. Pra jogar/assistir junto, todo mundo precisa estar na mesma versão.
 
+## Configurações
+
+O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações. Por enquanto tem uma opção: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando — útil se você tem mais de uma saída de som e quer trocar sem precisar mexer nas configurações do Windows.
+
 Ao abrir o ScreenShare, a primeira tela pergunta o que você quer fazer: **Criar sala nova** ou **Entrar numa sala** — cada opção leva pra um formulário dedicado só com os campos daquela ação, sem misturar os dois fluxos.
 
 ## Criar uma sala
