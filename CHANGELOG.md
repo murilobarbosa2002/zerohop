@@ -4,6 +4,7 @@ Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os det
 
 | Versão | Resumo |
 | --- | --- |
+| [0.17.0](docs/releases/v0.17.0.md) | Escolha de tela inteira ou janela específica antes de listar as opções |
 | [0.16.1](docs/releases/v0.16.1.md) | Correções de responsividade da sala e anel de foco em botões |
 | [0.16.0](docs/releases/v0.16.0.md) | Tela de Atualizações reformulada: página cheia com changelog renderizado |
 | [0.15.0](docs/releases/v0.15.0.md) | Interruptor de atualização automática, trava de versão entre participantes |

@@ -21,6 +21,12 @@ export const ROOM_STRINGS = {
   sharingAudioFallbackStatus: 'Compartilhando sua tela (sem áudio — não foi possível capturar o áudio escolhido nesta máquina).',
   windowSourceKind: 'Janela',
   screenSourceKind: 'Tela toda',
+  chooseSourceKindTitle: 'O que você quer compartilhar?',
+  shareEntireScreenOption: 'Tela inteira',
+  shareSpecificWindowOption: 'Uma janela específica',
+  backToSourceKindButton: '← Voltar',
+  noWindowSourcesMessage: 'Nenhuma janela disponível pra compartilhar agora.',
+  noScreenSourcesMessage: 'Nenhuma tela disponível pra compartilhar agora.',
   participantsTitle: 'Participantes',
   connectionWarning:
     'Não foi possível conectar com alguém da sala depois de um tempo — pode ser um bloqueio de rede/firewall/VPN. Aperte F12 pra ver detalhes no console.',

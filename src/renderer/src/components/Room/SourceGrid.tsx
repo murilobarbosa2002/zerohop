@@ -1,14 +1,14 @@
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { sourceCardVariants } from '@/components/Room/SourceGrid.variants';
+import { getCaptureSourceKind } from '@/lib/captureSourceKind';
+import { CaptureSourceKind } from '@/constants/captureSourceKind';
 import type { SourceGridProps } from '@/components/Room/SourceGrid.types';
-
-const WINDOW_SOURCE_ID_PREFIX = 'window:';
 
 export function SourceGrid({ sources, selectedId, onSelect }: SourceGridProps) {
   return (
     <div className="flex flex-wrap gap-2.5 mb-3">
       {sources.map((source) => {
-        const isWindowSource = source.id.startsWith(WINDOW_SOURCE_ID_PREFIX);
+        const isWindowSource = getCaptureSourceKind(source.id) === CaptureSourceKind.WINDOW;
         const selected = source.id === selectedId;
         return (
           <button key={source.id} onClick={() => onSelect(source.id)} className={sourceCardVariants({ selected })}>

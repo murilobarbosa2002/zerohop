@@ -48,7 +48,7 @@ As colunas da esquerda e da direita podem ser escondidas (botões "Ocultar sala"
 
 ## Compartilhar sua tela
 
-No palco central, clique em **Compartilhar minha tela** — isso abre um painel só com essa configuração: escolha uma janela específica (um jogo, um programa) ou a tela inteira, ajuste resolução, FPS e se quer compartilhar áudio junto (inclusive o áudio de só um programa específico, útil pra não compartilhar sua própria voz de uma chamada de voz separada, como o Discord). Depois de confirmar, o painel fecha sozinho e vira uma barra compacta mostrando que você está compartilhando, com o botão de parar.
+No palco central, clique em **Compartilhar minha tela** — isso abre um painel dedicado a essa configuração. Primeiro escolha se quer compartilhar a **tela inteira** ou **uma janela específica**; com base nessa escolha, o app mostra só as opções relevantes (só telas, ou só janelas — sem misturar tudo numa lista só). Depois de escolher o que compartilhar, ajuste resolução, FPS e se quer compartilhar áudio junto (inclusive o áudio de só um programa específico, útil pra não compartilhar sua própria voz de uma chamada de voz separada, como o Discord). Depois de confirmar, o painel fecha sozinho e vira uma barra compacta mostrando que você está compartilhando, com o botão de parar.
 
 ## Assistir a tela de alguém
 
