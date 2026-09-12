@@ -1,3 +1,5 @@
+import { MIN_CAPTURE_WIDTH, MIN_CAPTURE_HEIGHT } from '@/constants/resolution';
+
 export interface QualitySettings {
   width: number;
   height: number;
@@ -22,9 +24,9 @@ export function captureConstraints(
   const videoMandatory: DesktopMandatoryConstraint = {
     chromeMediaSource: 'desktop',
     chromeMediaSourceId: videoSourceId,
-    minWidth: 320,
+    minWidth: MIN_CAPTURE_WIDTH,
     maxWidth: width,
-    minHeight: 240,
+    minHeight: MIN_CAPTURE_HEIGHT,
     maxHeight: height,
     maxFrameRate: fps
   };
@@ -45,22 +47,4 @@ export async function captureSource(
   quality: QualitySettings
 ): Promise<MediaStream> {
   return navigator.mediaDevices.getUserMedia(captureConstraints(videoSourceId, audioSourceId, quality));
-}
-
-export function suggestedBitrate(width: number, height: number, fps: number): number {
-  const pixels = width * height;
-  const bitsPerPixelPerFrame = 0.08;
-  return Math.round(pixels * fps * bitsPerPixelPerFrame);
-}
-
-export function boostVideoBitrate(peerConnection: RTCPeerConnection, { width, height, fps }: QualitySettings): void {
-  const maxBitrate = suggestedBitrate(width, height, fps);
-  peerConnection.getSenders().forEach((sender) => {
-    if (!sender.track || sender.track.kind !== 'video') return;
-    const params = sender.getParameters();
-    if (!params.encodings || params.encodings.length === 0) params.encodings = [{}];
-    params.encodings[0].maxBitrate = maxBitrate;
-    params.encodings[0].maxFramerate = fps;
-    sender.setParameters(params).catch(() => {});
-  });
 }

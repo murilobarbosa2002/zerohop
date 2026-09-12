@@ -36,5 +36,11 @@ export const ROOM_STRINGS = {
   joinRequestHint: 'A senha está correta, mas só você pode confirmar quem entra.',
   joinRequestApproveButton: 'Aceitar',
   joinRequestDenyButton: 'Recusar',
-  joinRequestQueueHint: (count: number) => `+${count} outro${count > 1 ? 's' : ''} pedido${count > 1 ? 's' : ''} aguardando`
+  joinRequestQueueHint: (count: number) => `+${count} outro${count > 1 ? 's' : ''} pedido${count > 1 ? 's' : ''} aguardando`,
+  connectionFailedError: 'Não foi possível conectar com a sala',
+  createRoomFailedError: 'Não foi possível criar a sala',
+  invalidCredentialsError: 'Código ou senha incorretos',
+  joinFailedGenericError: 'Não foi possível entrar na sala',
+  versionMismatchError: (ownVersion: string, remoteVersion: string) =>
+    `Você está na versão v${ownVersion} e a outra pessoa está na v${remoteVersion} — as duas precisam estar na mesma versão pra entrar na mesma sala.`
 } as const;

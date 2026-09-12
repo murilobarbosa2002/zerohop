@@ -1,4 +1,5 @@
 import { sendTo } from '@/services/room/peerSession';
+import { SELF_SENDER_ID } from '@/constants/chat';
 import type { MemberRegistry } from '@/services/room/MemberRegistry';
 
 export interface ChatMessageEntry {
@@ -33,7 +34,7 @@ export class ChatService extends EventTarget {
   send(text: string): void {
     const entry: ChatMessageEntry = {
       id: crypto.randomUUID(),
-      fromId: 'self',
+      fromId: SELF_SENDER_ID,
       fromName: this.getSelfName(),
       text,
       self: true,

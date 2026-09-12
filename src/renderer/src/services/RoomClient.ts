@@ -5,35 +5,19 @@ import { MemberRegistry, type MemberSnapshot } from '@/services/room/MemberRegis
 import { MembershipGossip } from '@/services/room/MembershipGossip';
 import { MediaSharing, type OutgoingCallDetail } from '@/services/room/MediaSharing';
 import { ChatService, type ChatMessageEntry, type ChatServiceEventDetail } from '@/services/room/ChatService';
+import { RoomAuthController, type JoinRequestEntry, type RoomAuthControllerEventDetail } from '@/services/room/RoomAuthController';
 import { PeerConnectionManager } from '@/services/room/PeerConnectionManager';
-import {
-  RoomProtocol,
-  type HelloMessage,
-  type SharingStatusMessage,
-  type WatchRequestMessage,
-  type UnwatchRequestMessage,
-  type KickMessage,
-  type JoinPendingMessage,
-  type JoinApprovedMessage
-} from '@/services/room/RoomProtocol';
+import { RoomProtocol, type WatchRequestMessage, type UnwatchRequestMessage, type KickMessage } from '@/services/room/RoomProtocol';
 import { onTyped } from '@/lib/typedEvents';
 import { RoomStatus } from '@/constants/roomStatus';
-import { AUTH_HELLO_TIMEOUT_MS, ICE_CONNECTION_TIMEOUT_MS, JOIN_APPROVAL_TIMEOUT_MS } from '@/constants/timing';
+import { AUTH_HELLO_TIMEOUT_MS, ICE_CONNECTION_TIMEOUT_MS, JOIN_APPROVAL_TIMEOUT_MS, ROOM_CODE_CREATE_MAX_ATTEMPTS } from '@/constants/timing';
+import { ROOM_STRINGS } from '@/strings/room.strings';
+import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
 import type { QualitySettings } from '@/services/ScreenCapture';
 
-const DEFAULT_MEMBER_NAME = 'Sem nome';
 const JOIN_CONFIRMATION_TIMEOUT_MS = ICE_CONNECTION_TIMEOUT_MS + AUTH_HELLO_TIMEOUT_MS + JOIN_APPROVAL_TIMEOUT_MS;
 
-interface PendingJoin {
-  peerId: string;
-  resolve: () => void;
-  reject: (error: Error) => void;
-}
-
-export interface JoinRequestEntry {
-  id: string;
-  name: string;
-}
+export type { JoinRequestEntry };
 
 export interface RoomClientEventDetail {
   'sharing-changed': { sharing: boolean };
@@ -47,17 +31,9 @@ export interface RoomClientEventDetail {
 }
 
 export class RoomClient extends EventTarget {
-  private selfName = DEFAULT_MEMBER_NAME;
+  private selfName: string = PARTICIPANTS_STRINGS.defaultMemberName;
   private currentPassword = '';
-  private ownAppVersion = '';
-  private ownAppVersionPromise = window.api.getUpdaterInfo().then((info) => {
-    this.ownAppVersion = info.version;
-    return info.version;
-  });
   private blockedIds = new Set<string>();
-  private pendingJoin: PendingJoin | null = null;
-  private pendingJoinRequests = new Map<string, string>();
-  private cachedJoinRequestsSnapshot: JoinRequestEntry[] = [];
   roomCode: string | null = null;
   status: RoomStatus = RoomStatus.DISCONNECTED;
 
@@ -65,6 +41,7 @@ export class RoomClient extends EventTarget {
   private gossip: MembershipGossip;
   private media: MediaSharing;
   private chat: ChatService;
+  private auth: RoomAuthController;
   private protocol: RoomProtocol;
   private connections: PeerConnectionManager;
   private cachedMembersSnapshot: MemberSnapshot[] = [];
@@ -79,6 +56,14 @@ export class RoomClient extends EventTarget {
     });
     this.media = new MediaSharing({ registry: this.registry, getPeer: () => this.connections.getPeer() });
     this.chat = new ChatService({ registry: this.registry, getSelfName: () => this.selfName });
+    this.auth = new RoomAuthController({
+      registry: this.registry,
+      gossip: this.gossip,
+      getSelfName: () => this.selfName,
+      getExpectedPassword: () => this.currentPassword,
+      isRoomCreator: () => this.isRoomCreator,
+      onMembersChanged: () => this.emitMembers()
+    });
     this.protocol = new RoomProtocol({
       registry: this.registry,
       gossip: this.gossip,
@@ -86,14 +71,14 @@ export class RoomClient extends EventTarget {
       chat: this.chat,
       onMembersChanged: () => this.emitMembers(),
       getExpectedPassword: () => this.currentPassword,
-      getOwnAppVersion: () => this.ownAppVersion,
+      getOwnAppVersion: () => this.auth.getOwnAppVersion(),
       isRoomCreator: () => this.isRoomCreator,
-      onAuthRejected: (id) => this.handleAuthRejected(id),
-      onAuthSuccess: (id) => this.handleAuthSuccess(id),
-      onVersionMismatch: (id, remoteVersion) => this.handleVersionMismatch(id, remoteVersion),
-      onJoinRequest: (id, name) => this.handleJoinRequest(id, name),
-      onJoinPending: (id) => this.handleJoinPending(id),
-      onJoinApproved: (id) => this.handleJoinApproved(id),
+      onAuthRejected: (id) => this.auth.handleAuthRejected(id),
+      onAuthSuccess: (id) => this.auth.handleAuthSuccess(id),
+      onVersionMismatch: (id, remoteVersion) => this.auth.handleVersionMismatch(id, remoteVersion),
+      onJoinRequest: (id, name) => this.auth.handleJoinRequest(id, name),
+      onJoinPending: () => this.auth.handleJoinPending(),
+      onJoinApproved: (id) => this.auth.handleJoinApproved(id),
       onKick: (id) => this.applyKick(id)
     });
     this.connections = new PeerConnectionManager({
@@ -113,7 +98,7 @@ export class RoomClient extends EventTarget {
       },
       onConnectionWarning: (peerId) => {
         this.dispatchEvent(new CustomEvent('connection-warning', { detail: { peerId } }));
-        this.rejectPendingJoin(peerId, new Error('Não foi possível conectar com a sala'));
+        this.auth.notifyConnectionFailure(peerId);
       }
     });
     onTyped<RoomClientEventDetail['sharing-changed']>(this.media, 'sharing-changed', (detail) => {
@@ -124,6 +109,12 @@ export class RoomClient extends EventTarget {
     });
     onTyped<ChatServiceEventDetail['message-added']>(this.chat, 'message-added', (detail) => {
       this.dispatchEvent(new CustomEvent('chat-changed', { detail }));
+    });
+    onTyped<RoomAuthControllerEventDetail['join-requests-changed']>(this.auth, 'join-requests-changed', (detail) => {
+      this.dispatchEvent(new CustomEvent('join-requests-changed', { detail }));
+    });
+    onTyped<RoomAuthControllerEventDetail['join-pending']>(this.auth, 'join-pending', (detail) => {
+      this.dispatchEvent(new CustomEvent('join-pending', { detail }));
     });
   }
 
@@ -140,11 +131,11 @@ export class RoomClient extends EventTarget {
   }
 
   async createRoom(name: string, password = ''): Promise<string> {
-    this.selfName = name || DEFAULT_MEMBER_NAME;
+    this.selfName = name || PARTICIPANTS_STRINGS.defaultMemberName;
     this.currentPassword = password;
     const iceServers = await getIceServers();
     let lastError: unknown = null;
-    for (let attempt = 0; attempt < 5; attempt++) {
+    for (let attempt = 0; attempt < ROOM_CODE_CREATE_MAX_ATTEMPTS; attempt++) {
       const code = randomRoomCode();
       try {
         await this.connections.open(code, iceServers);
@@ -155,20 +146,16 @@ export class RoomClient extends EventTarget {
         lastError = error;
       }
     }
-    throw lastError instanceof Error ? lastError : new Error('Não foi possível criar a sala');
+    throw lastError instanceof Error ? lastError : new Error(ROOM_STRINGS.createRoomFailedError);
   }
 
   async joinRoom(name: string, code: string, password = ''): Promise<string> {
-    this.selfName = name || DEFAULT_MEMBER_NAME;
+    this.selfName = name || PARTICIPANTS_STRINGS.defaultMemberName;
     this.currentPassword = password;
     const iceServers = await getIceServers();
     await this.connections.open(undefined, iceServers);
     try {
-      await new Promise<void>((resolve, reject) => {
-        this.pendingJoin = { peerId: code, resolve, reject };
-        setTimeout(() => this.rejectPendingJoin(code, new Error('Código ou senha incorretos')), JOIN_CONFIRMATION_TIMEOUT_MS);
-        this.connections.connectToPeer(code);
-      });
+      await this.auth.beginJoin(code, JOIN_CONFIRMATION_TIMEOUT_MS, () => this.connections.connectToPeer(code));
     } catch (error) {
       this.connections.close();
       throw error;
@@ -186,8 +173,7 @@ export class RoomClient extends EventTarget {
     }
     for (const id of [...this.registry.ids()]) this.registry.remove(id);
     this.blockedIds.clear();
-    this.pendingJoinRequests.clear();
-    this.emitJoinRequests();
+    this.auth.reset();
     this.chat.clear();
     this.connections.close();
     this.roomCode = null;
@@ -237,96 +223,21 @@ export class RoomClient extends EventTarget {
   }
 
   getPendingJoinRequests(): JoinRequestEntry[] {
-    return this.cachedJoinRequestsSnapshot;
+    return this.auth.getPendingJoinRequests();
   }
 
   approveJoinRequest(id: string): void {
-    if (!this.pendingJoinRequests.has(id)) return;
-    this.pendingJoinRequests.delete(id);
-    this.emitJoinRequests();
-    this.registry.upsert(id, { authenticated: true });
-    this.handleAuthSuccess(id);
-    sendTo(this.registry.get(id)?.conn, { type: 'join-approved' } as JoinApprovedMessage);
+    this.auth.approveJoinRequest(id);
   }
 
   denyJoinRequest(id: string): void {
-    if (!this.pendingJoinRequests.has(id)) return;
-    this.pendingJoinRequests.delete(id);
-    this.emitJoinRequests();
-    this.handleAuthRejected(id);
+    this.auth.denyJoinRequest(id);
   }
 
   private async handleMemberConnectionOpen(id: string, connection: DataConnection): Promise<void> {
     const currentName = this.registry.get(id)?.name || id;
     this.registry.upsert(id, { conn: connection, name: currentName });
-    const appVersion = await this.ownAppVersionPromise;
-    sendTo(connection, { type: 'hello', name: this.selfName, password: this.currentPassword, appVersion } as HelloMessage);
-    if (this.media.sharing) sendTo(connection, { type: 'sharing-status', sharing: true } as SharingStatusMessage);
-    this.scheduleAuthTimeout(id);
-  }
-
-  private scheduleAuthTimeout(id: string): void {
-    setTimeout(() => {
-      const member = this.registry.get(id);
-      if (member && !member.authenticated && !this.pendingJoinRequests.has(id)) this.handleAuthRejected(id);
-    }, AUTH_HELLO_TIMEOUT_MS);
-  }
-
-  private handleJoinRequest(id: string, name: string): void {
-    this.pendingJoinRequests.set(id, name);
-    this.emitJoinRequests();
-    const member = this.registry.get(id);
-    sendTo(member?.conn, { type: 'join-pending' } as JoinPendingMessage);
-    setTimeout(() => {
-      if (this.pendingJoinRequests.has(id)) this.denyJoinRequest(id);
-    }, JOIN_APPROVAL_TIMEOUT_MS);
-  }
-
-  private handleJoinPending(_id: string): void {
-    this.dispatchEvent(new CustomEvent('join-pending', { detail: {} }));
-  }
-
-  private handleJoinApproved(id: string): void {
-    this.resolvePendingJoin(id);
-  }
-
-  private emitJoinRequests(): void {
-    this.cachedJoinRequestsSnapshot = Array.from(this.pendingJoinRequests, ([id, name]) => ({ id, name }));
-    this.dispatchEvent(new CustomEvent('join-requests-changed', { detail: { requests: this.cachedJoinRequestsSnapshot } }));
-  }
-
-  private handleAuthRejected(id: string): void {
-    this.rejectPendingJoin(id, new Error('Código ou senha incorretos'));
-    const member = this.registry.get(id);
-    if (member?.conn) safeCall(member.conn, 'close');
-    this.registry.remove(id);
-  }
-
-  private handleVersionMismatch(id: string, remoteVersion: string): void {
-    this.rejectPendingJoin(
-      id,
-      new Error(`Você está na versão v${this.ownAppVersion} e a outra pessoa está na v${remoteVersion} — as duas precisam estar na mesma versão pra entrar na mesma sala.`)
-    );
-    const member = this.registry.get(id);
-    if (member?.conn) safeCall(member.conn, 'close');
-    this.registry.remove(id);
-  }
-
-  private handleAuthSuccess(_id: string): void {
-    this.emitMembers();
-    this.gossip.broadcast();
-  }
-
-  private resolvePendingJoin(peerId: string): void {
-    if (this.pendingJoin?.peerId !== peerId) return;
-    this.pendingJoin.resolve();
-    this.pendingJoin = null;
-  }
-
-  private rejectPendingJoin(peerId: string, error: Error): void {
-    if (this.pendingJoin?.peerId !== peerId) return;
-    this.pendingJoin.reject(error);
-    this.pendingJoin = null;
+    await this.auth.sendHello(id, connection, this.media.sharing);
   }
 
   private applyKick(targetId: string): void {
@@ -343,8 +254,7 @@ export class RoomClient extends EventTarget {
     if (member?.mediaConnIn) safeCall(member.mediaConnIn, 'close');
     this.media.removeViewer(id);
     this.registry.remove(id);
-    if (this.pendingJoinRequests.delete(id)) this.emitJoinRequests();
-    this.rejectPendingJoin(id, new Error('Não foi possível entrar na sala'));
+    this.auth.notifyMemberDisconnected(id);
     this.emitMembers();
   }
 

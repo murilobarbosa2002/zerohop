@@ -8,5 +8,6 @@ export const PARTICIPANTS_STRINGS = {
   noAudioMessage: 'Essa pessoa está compartilhando sem áudio.',
   muteButtonLabel: 'Mudo',
   unmuteButtonLabel: 'Reativar som',
-  kickMemberButton: 'Remover da sala'
+  kickMemberButton: 'Remover da sala',
+  defaultMemberName: 'Sem nome'
 } as const;
