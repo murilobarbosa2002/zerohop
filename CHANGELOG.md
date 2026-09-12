@@ -4,6 +4,7 @@ Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os det
 
 | Versão | Resumo |
 | --- | --- |
+| [0.20.4](docs/releases/v0.20.4.md) | Ícones desenhados e tooltip customizado nos controles de voz |
 | [0.20.3](docs/releases/v0.20.3.md) | App verifica atualização a cada 30 minutos sozinho, não só ao abrir |
 | [0.20.2](docs/releases/v0.20.2.md) | Controles de voz redesenhados como ícones pequenos, mais discretos |
 | [0.20.1](docs/releases/v0.20.1.md) | Botão pra permitir o microfone depois, dentro de Configurações |
