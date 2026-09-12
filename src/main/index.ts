@@ -3,7 +3,7 @@ import { createWindow } from '@main/window';
 import { registerIpcHandlers } from '@main/ipc';
 import { initAutoUpdater, registerUpdaterIpcHandlers } from '@main/updater';
 import { appendLog } from '@main/logger';
-import { getSettings } from '@main/settings';
+import { getSettings, ensureSettingsFileExists } from '@main/settings';
 import { APP_ID } from '@main/constants/app';
 import { EXPERIMENTAL_WGC_CAPTURE_FEATURES } from '@main/constants/capture';
 import { EXPERIMENTAL_STRINGS } from '@main/strings/experimental.strings';
@@ -12,6 +12,8 @@ import { LogCategory, LogLevel } from '@shared/logEntry';
 Menu.setApplicationMenu(null);
 
 app.commandLine.appendSwitch('disable-features', 'WebRtcHideLocalIpsWithMdns');
+
+ensureSettingsFileExists();
 
 if (getSettings().experimentalWgcCaptureEnabled) {
   app.commandLine.appendSwitch('enable-features', EXPERIMENTAL_WGC_CAPTURE_FEATURES);
@@ -24,7 +26,6 @@ app.whenReady().then(() => {
   session.defaultSession.setPermissionRequestHandler((_webContents, permission, callback) => {
     callback(permission === 'media');
   });
-
 
   registerIpcHandlers();
   registerUpdaterIpcHandlers();

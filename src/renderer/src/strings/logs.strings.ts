@@ -16,7 +16,7 @@ export const LOG_STRINGS = {
     connection: 'Conexão',
     update: 'Atualização'
   },
-  appStartedMessage: (version: string) => `ScreenShare v${version} foi aberto.`,
+  appStartedMessage: (version: string) => `ZeroHop v${version} foi aberto.`,
   roomCreatedMessage: (code: string) => `Você criou a sala ${code}.`,
   roomJoinedMessage: (code: string) => `Você entrou na sala ${code}.`,
   roomLeftMessage: 'Você saiu da sala.',

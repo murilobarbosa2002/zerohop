@@ -1,9 +1,10 @@
 # Changelog
 
-Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os detalhes completos de cada versão ficam em [`docs/releases/`](docs/releases/).
+Histórico de versões do ZeroHop (antes chamado de ScreenShare). Cada linha tem um resumo curto; os detalhes completos de cada versão ficam em [`docs/releases/`](docs/releases/).
 
 | Versão | Resumo |
 | --- | --- |
+| [0.24.0](docs/releases/v0.24.0.md) | App renomeado de ScreenShare pra ZeroHop; correção do arquivo de configurações |
 | [0.23.0](docs/releases/v0.23.0.md) | Captura experimental (Windows.Graphics.Capture) pra jogos com cursor sumindo/travando |
 | [0.22.0](docs/releases/v0.22.0.md) | Tela de Logs com histórico auditável de tudo que o app faz; DevTools removido |
 | [0.21.1](docs/releases/v0.21.1.md) | Ícones de compartilhar tela e Configurações na barra de voz, centralizados |
@@ -37,4 +38,4 @@ Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os det
 | [0.4.0](docs/releases/v0.4.0.md) | Salas com múltiplas pessoas, compartilhamento simultâneo |
 | [0.3.0](docs/releases/v0.3.0.md) | Seletores de resolução e FPS, modo tela cheia |
 | [0.2.0](docs/releases/v0.2.0.md) | Redesign visual, barra de título customizada, ícone |
-| [0.1.0](docs/releases/v0.1.0.md) | Lançamento inicial — compartilhamento P2P via convite manual |
+| [0.1.0](docs/releases/v0.1.0.md) | Lançamento inicial, compartilhamento P2P via convite manual |

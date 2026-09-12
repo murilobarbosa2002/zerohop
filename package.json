@@ -1,10 +1,21 @@
 {
-  "name": "screen-share",
-  "version": "0.23.0",
-  "description": "Compartilhamento de tela P2P via WebRTC, sem servidor",
+  "name": "zero-hop",
+  "version": "0.24.0",
+  "description": "Compartilhamento de tela, chat de voz e chat de texto P2P via WebRTC, sem servidor",
   "main": "./out/main/index.js",
-  "author": "murilobarbosa2002",
+  "author": {
+    "name": "Murilo Barbosa",
+    "url": "https://github.com/murilobarbosa2002"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/murilobarbosa2002/electron-screen-share"
+  },
+  "homepage": "https://murilobarbosa2002.github.io/electron-screen-share/",
+  "bugs": {
+    "url": "https://github.com/murilobarbosa2002/electron-screen-share/issues"
+  },
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",
@@ -30,8 +41,8 @@
     "vite": "^5.4.21"
   },
   "build": {
-    "appId": "com.screenshare.app",
-    "productName": "ScreenShare",
+    "appId": "com.zerohop.app",
+    "productName": "ZeroHop",
     "files": [
       "out/**/*",
       "build/icon.png",

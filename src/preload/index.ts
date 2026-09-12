@@ -32,6 +32,6 @@ const api = {
     ipcRenderer.invoke(IPC_CHANNELS.experimentalCaptureSetEnabled, value)
 };
 
-export type ScreenShareApi = typeof api;
+export type ZeroHopApi = typeof api;
 
 contextBridge.exposeInMainWorld('api', api);

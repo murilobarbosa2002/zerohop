@@ -1,5 +1,5 @@
 import { app } from 'electron';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import {
   SETTINGS_FILE_NAME,
@@ -42,4 +42,10 @@ export function setExperimentalWgcCaptureEnabled(value: boolean): void {
   const settings = getSettings();
   settings.experimentalWgcCaptureEnabled = value;
   writeFileSync(getSettingsFilePath(), JSON.stringify(settings), 'utf-8');
+}
+
+export function ensureSettingsFileExists(): void {
+  const path = getSettingsFilePath();
+  if (existsSync(path)) return;
+  writeFileSync(path, JSON.stringify(getSettings()), 'utf-8');
 }

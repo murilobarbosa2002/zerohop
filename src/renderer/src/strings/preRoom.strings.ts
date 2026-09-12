@@ -1,5 +1,5 @@
 export const PRE_ROOM_STRINGS = {
-  choiceTitle: 'ScreenShare',
+  choiceTitle: 'ZeroHop',
   createRoomButton: 'Criar sala nova',
   joinRoomButton: 'Entrar numa sala',
   backButton: 'Voltar',
