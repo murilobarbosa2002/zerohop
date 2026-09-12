@@ -1,8 +1,21 @@
 # Solução de problemas
 
-**Resumo em uma frase:** na grande maioria dos casos, "não consigo conectar" é a rede ou o antivírus de alguém bloqueando o tráfego direto — não um bug do programa.
+**Resumo em uma frase:** na grande maioria dos casos, tanto o aviso de "Windows protegeu o computador" ao instalar quanto "não consigo conectar" depois de instalado são comportamento esperado, não um bug do programa.
 
-## Passo a passo
+## Ao instalar: "O Windows protegeu o computador" / "Fornecedor desconhecido"
+
+Isso é esperado. É o **Microsoft Defender SmartScreen**, um filtro do Windows que avisa sobre qualquer instalador que ainda não acumulou reputação suficiente na base da Microsoft — o que acontece com **qualquer** programa novo que não paga por um certificado de assinatura de código (um selo digital emitido por empresas como a DigiCert, com custo de assinatura anual).
+
+O ScreenShare é um projeto gratuito e sem fins lucrativos, então não existe esse certificado — e é por isso que aparece "Fornecedor desconhecido". Isso não indica que o instalador foi comprometido, só que a Microsoft não foi paga para "confirmar" o autor.
+
+Se você baixou o instalador direto da [página de Releases do repositório oficial](https://github.com/murilobarbosa2002/electron-screen-share/releases) (não de um link de terceiro), pode seguir com a instalação:
+
+1. Clique em **"Mais informações"** na primeira tela do aviso.
+2. Clique no botão **"Executar assim mesmo"** que aparece em seguida.
+
+Como todo o processo de build é público (`.github/workflows/release.yml`, rodando num runner oficial do GitHub Actions), qualquer pessoa pode auditar ou reproduzir o mesmo instalador a partir do mesmo código-fonte, em vez de precisar confiar apenas na palavra do autor.
+
+## Não consigo conectar numa sala
 
 ### 1. Confira o código e a senha
 
@@ -22,6 +35,6 @@ Redes corporativas, escolares ou de locais públicos (faculdade, empresa, evento
 
 Aperte **F12** dentro do programa para abrir as ferramentas de desenvolvedor e ver o console. O ScreenShare registra logs técnicos (`[ice]`, `[ice-route]`) que mostram exatamente em que ponto a conexão parou de progredir — úteis para reportar um problema numa issue no GitHub.
 
-## Por que o programa não "sempre conecta"
+### Por que o programa não "sempre conecta"
 
 Porque este projeto optou deliberadamente por nunca usar um servidor de relay (TURN) como rede de segurança escondida — veja [Sem servidor, sem TURN](/seguranca/sem-servidor-sem-turn). A consequência é que, numa rede muito restritiva, a conexão pode de fato falhar, de forma visível, em vez de silenciosamente cair para um caminho alternativo fora do seu controle.

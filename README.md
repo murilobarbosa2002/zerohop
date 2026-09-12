@@ -117,6 +117,19 @@ O instalador oficial (Windows) é sempre gerado via GitHub Actions, a cada tag d
 
 ## Solução de problemas
 
+### "O Windows protegeu o computador" / "Fornecedor desconhecido" ao instalar
+
+Isso é esperado e não significa que o programa tem vírus ou é malicioso. É o **Microsoft Defender SmartScreen**, um filtro do Windows que avisa sobre qualquer instalador que ainda não acumulou reputação suficiente na base da Microsoft — o que acontece com **qualquer** programa novo, independentemente de quem fez, quando ele não paga por um certificado de assinatura de código (um selo digital emitido por empresas como a DigiCert, que custa uma assinatura anual).
+
+Este projeto é gratuito e sem fins lucrativos, então não existe esse certificado pago — e é exatamente por isso que aparece "Fornecedor desconhecido": o Windows não tem como confirmar automaticamente quem publicou o instalador. Isso não significa que o instalador foi comprometido, só que a Microsoft não foi paga pra "confirmar" o autor.
+
+Se você confia na fonte (baixou direto da [página de Releases do repositório oficial no GitHub](https://github.com/murilobarbosa2002/electron-screen-share/releases), não de um link de terceiro), pode seguir com a instalação:
+
+1. Clique em **"Mais informações"** na primeira tela do aviso.
+2. Vai aparecer um botão **"Executar assim mesmo"** — clique nele.
+
+Se quiser confirmar por conta própria que o instalador é exatamente o que foi compilado a partir deste código-fonte público (sem confiar apenas na nossa palavra), o processo de build inteiro é público e auditável em `.github/workflows/release.yml` — qualquer pessoa pode reproduzir o mesmo build a partir do mesmo commit.
+
 ### "Meu amigo não consegue entrar na minha sala"
 
 Na grande maioria dos casos isso não é um bug do app — é a rede ou o antivírus de alguém bloqueando a conexão direta (WebRTC usa tráfego UDP, que redes mais restritas às vezes barram). Um passo a passo simples pra descobrir o motivo:
