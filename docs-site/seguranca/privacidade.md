@@ -16,6 +16,8 @@ Para dois computadores conseguirem se conectar diretamente pela internet, algué
 
 Esse broker é um serviço de terceiro, fora do controle deste projeto. Ele enxerga metadados de conexão (por exemplo, que um participante com tal código de sala está tentando se conectar com outro), mas **nunca** o conteúdo de vídeo, áudio, voz, chat ou qualquer mensagem da sala, porque essas nunca passam por ele. Elas só existem na conexão direta entre os PCs, depois que a apresentação inicial termina.
 
+Essa mesma conexão direta significa que **os participantes de uma sala veem o endereço IP público uns dos outros** — é privado no conteúdo, mas não anônimo na rede. Veja [Sem servidor, sem TURN](/seguranca/sem-servidor-sem-turn) para entender por que essa é uma consequência deliberada da decisão de nunca usar um relay.
+
 ## Chat: nada é salvo, em lugar nenhum
 
 O chat de texto da sala existe apenas na memória RAM do processo de cada participante enquanto a sala está aberta:
