@@ -14,9 +14,16 @@ Na prática, isso significa que ninguém no meio do caminho, nem a rede, nem um 
 
 Para dois computadores conseguirem se conectar diretamente pela internet, alguém precisa apresentá-los um ao outro primeiro, trocando os dados técnicos necessários (endereços, capacidades de rede). O ZeroHop usa o **broker público e gratuito do [PeerJS](https://peerjs.com/)** (`0.peerjs.com`) só para essa etapa inicial de apresentação.
 
-Esse broker é um serviço de terceiro, fora do controle deste projeto. Ele enxerga metadados de conexão (por exemplo, que um participante com tal código de sala está tentando se conectar com outro), mas **nunca** o conteúdo de vídeo, áudio, voz, chat ou qualquer mensagem da sala, porque essas nunca passam por ele. Elas só existem na conexão direta entre os PCs, depois que a apresentação inicial termina.
+Esse broker é um serviço de terceiro, fora do controle deste projeto. Especificamente, ele vê:
 
-Essa mesma conexão direta significa que **os participantes de uma sala veem o endereço IP público uns dos outros** — é privado no conteúdo, mas não anônimo na rede. Veja [Sem servidor, sem TURN](/seguranca/sem-servidor-sem-turn) para entender por que essa é uma consequência deliberada da decisão de nunca usar um relay.
+- **O ID de cada peer.** O ID de quem cria a sala é literalmente o código da sala (as 6 letras/números que você compartilha). Quem entra recebe um ID aleatório gerado pelo próprio PeerJS.
+- **Quem está tentando se conectar com quem** — o pedido de conexão de um peer pro outro passa pelo broker, porque é ele quem faz a apresentação inicial.
+- **A negociação técnica da conexão (SDP/ICE)**, que é obrigatória em qualquer aplicação WebRTC, não uma escolha deste projeto. Isso inclui os endereços IP e portas candidatos à conexão: o IP público (via STUN) e também o IP da sua rede local, porque o ZeroHop desativa de propósito a ofuscação de IPs locais por mDNS do Chromium (sem isso, a conexão podia falhar em algumas redes do Windows).
+- **Uma etiqueta genérica em chamadas de vídeo/voz** (`"share"` ou `"voice"`, só pra diferenciar o tipo de chamada), sem nenhum dado pessoal.
+
+O que o broker **nunca** vê: seu nome e a senha da sala só são trocados depois que a conexão direta com a outra pessoa já está aberta (então já é P2P, criptografado por DTLS) — o broker não participa dessa troca. Da mesma forma, conteúdo de vídeo, áudio, voz, chat e a lista de membros da sala só existem depois da conexão direta estabelecida, nunca passando pelo broker.
+
+Essa mesma conexão direta significa que **os participantes de uma sala veem o endereço IP (público, e também o local da rede) uns dos outros** — é privado no conteúdo, mas não anônimo na rede. Veja [Sem servidor, sem TURN](/seguranca/sem-servidor-sem-turn) para entender por que essa é uma consequência deliberada da decisão de nunca usar um relay.
 
 ## Chat: nada é salvo, em lugar nenhum
 
