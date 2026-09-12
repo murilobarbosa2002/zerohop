@@ -26,9 +26,9 @@ export function ChatInput({ onSend }: ChatInputProps) {
         }}
         maxLength={CHAT_MESSAGE_MAX_LENGTH}
         placeholder={CHAT_STRINGS.inputPlaceholder}
-        className="flex-1"
+        className="flex-1 min-w-0"
       />
-      <ActionButton type="button" variant="primary" onClick={handleSend}>
+      <ActionButton type="button" variant="primary" className="flex-shrink-0" onClick={handleSend}>
         {CHAT_STRINGS.sendButton}
       </ActionButton>
     </div>

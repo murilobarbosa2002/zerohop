@@ -59,8 +59,7 @@ export default {
         'glow-success': '0 0 8px #4ee3b0'
       },
       maxHeight: {
-        video: '55vh',
-        'source-list': '220px'
+        video: '55vh'
       },
       maxWidth: {
         'chat-bubble': '80%',

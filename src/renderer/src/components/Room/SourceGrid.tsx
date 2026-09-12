@@ -6,7 +6,7 @@ const WINDOW_SOURCE_ID_PREFIX = 'window:';
 
 export function SourceGrid({ sources, selectedId, onSelect }: SourceGridProps) {
   return (
-    <div className="flex flex-wrap gap-2.5 max-h-source-list overflow-y-auto mb-3">
+    <div className="flex flex-wrap gap-2.5 mb-3">
       {sources.map((source) => {
         const isWindowSource = source.id.startsWith(WINDOW_SOURCE_ID_PREFIX);
         const selected = source.id === selectedId;

@@ -43,11 +43,11 @@ export function ShareSourcePicker({
         <SelectField label={ROOM_STRINGS.audioFieldLabel} value={audioSelection} onChange={onChangeAudioSelection} options={audioOptions} />
       </div>
 
-      <div className="flex gap-2 mt-3.5">
-        <ActionButton variant="default" onClick={onCancel}>
+      <div className="flex flex-wrap gap-2 mt-3.5">
+        <ActionButton variant="default" className="flex-shrink-0" onClick={onCancel}>
           {ROOM_STRINGS.cancelShareSetupButton}
         </ActionButton>
-        <ActionButton variant="primary" className="flex-1" onClick={onConfirm}>
+        <ActionButton variant="primary" className="flex-1 min-w-0" onClick={onConfirm}>
           {ROOM_STRINGS.startSharingButton}
         </ActionButton>
       </div>
