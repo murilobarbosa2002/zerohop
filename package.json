@@ -45,6 +45,7 @@
   "build": {
     "appId": "com.zerohop.app",
     "productName": "ZeroHop",
+    "npmRebuild": false,
     "files": [
       "out/**/*",
       "build/icon.png",
