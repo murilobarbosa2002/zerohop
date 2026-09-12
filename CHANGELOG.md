@@ -4,6 +4,7 @@ Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os det
 
 | Versão | Resumo |
 | --- | --- |
+| [0.15.0](docs/releases/v0.15.0.md) | Interruptor de atualização automática, trava de versão entre participantes |
 | [0.14.0](docs/releases/v0.14.0.md) | Tela de atualizações/changelog/versões no app, ícone atualizado |
 | [0.13.0](docs/releases/v0.13.0.md) | Aprovação manual de entrada pelo criador da sala, correções de foco/chat |
 | [0.12.0](docs/releases/v0.12.0.md) | Layout da sala redesenhado em 3 colunas (participantes, palco de vídeo, chat) |

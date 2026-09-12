@@ -9,7 +9,8 @@ export const memberInfoSchema = z.object({
 export const helloMessageSchema = z.object({
   type: z.literal('hello'),
   name: z.string(),
-  password: z.string()
+  password: z.string(),
+  appVersion: z.string()
 });
 
 export const membersMessageSchema = z.object({

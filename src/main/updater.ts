@@ -3,6 +3,7 @@ import { autoUpdater } from 'electron-updater';
 import { UPDATER_STRINGS } from '@main/strings/updater.strings';
 import { RESTART_NOW_BUTTON_INDEX } from '@main/constants/updater';
 import { getMainWindow } from '@main/window';
+import { getSettings, setAutoUpdateEnabled } from '@main/settings';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
 
@@ -30,7 +31,7 @@ export function initAutoUpdater(): void {
 
   autoUpdater.on('error', (err) => console.error('[updater]', err));
 
-  autoUpdater.checkForUpdates();
+  if (getSettings().autoUpdateEnabled) autoUpdater.checkForUpdates();
 }
 
 export function registerUpdaterIpcHandlers(): void {
@@ -52,6 +53,11 @@ export function registerUpdaterIpcHandlers(): void {
 
   ipcMain.handle(IPC_CHANNELS.updaterGetInfo, (): UpdaterInfo => ({
     version: app.getVersion(),
-    isPackaged: app.isPackaged
+    isPackaged: app.isPackaged,
+    autoUpdateEnabled: getSettings().autoUpdateEnabled
   }));
+
+  ipcMain.handle(IPC_CHANNELS.updaterSetAutoUpdateEnabled, (_event, value: boolean) => {
+    setAutoUpdateEnabled(value);
+  });
 }

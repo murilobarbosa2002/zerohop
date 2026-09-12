@@ -11,6 +11,7 @@ const api = {
   checkForUpdates: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.updaterCheck),
   installUpdate: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.updaterInstall),
   getUpdaterInfo: (): Promise<UpdaterInfo> => ipcRenderer.invoke(IPC_CHANNELS.updaterGetInfo),
+  setAutoUpdateEnabled: (value: boolean): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.updaterSetAutoUpdateEnabled, value),
   onUpdaterStatus: (callback: (status: UpdaterStatus) => void): (() => void) => {
     const listener = (_event: Electron.IpcRendererEvent, status: UpdaterStatus): void => callback(status);
     ipcRenderer.on(IPC_CHANNELS.updaterStatus, listener);

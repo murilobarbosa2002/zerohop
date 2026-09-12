@@ -49,6 +49,11 @@ export interface RoomClientEventDetail {
 export class RoomClient extends EventTarget {
   private selfName = DEFAULT_MEMBER_NAME;
   private currentPassword = '';
+  private ownAppVersion = '';
+  private ownAppVersionPromise = window.api.getUpdaterInfo().then((info) => {
+    this.ownAppVersion = info.version;
+    return info.version;
+  });
   private blockedIds = new Set<string>();
   private pendingJoin: PendingJoin | null = null;
   private pendingJoinRequests = new Map<string, string>();
@@ -81,9 +86,11 @@ export class RoomClient extends EventTarget {
       chat: this.chat,
       onMembersChanged: () => this.emitMembers(),
       getExpectedPassword: () => this.currentPassword,
+      getOwnAppVersion: () => this.ownAppVersion,
       isRoomCreator: () => this.isRoomCreator,
       onAuthRejected: (id) => this.handleAuthRejected(id),
       onAuthSuccess: (id) => this.handleAuthSuccess(id),
+      onVersionMismatch: (id, remoteVersion) => this.handleVersionMismatch(id, remoteVersion),
       onJoinRequest: (id, name) => this.handleJoinRequest(id, name),
       onJoinPending: (id) => this.handleJoinPending(id),
       onJoinApproved: (id) => this.handleJoinApproved(id),
@@ -249,10 +256,11 @@ export class RoomClient extends EventTarget {
     this.handleAuthRejected(id);
   }
 
-  private handleMemberConnectionOpen(id: string, connection: DataConnection): void {
+  private async handleMemberConnectionOpen(id: string, connection: DataConnection): Promise<void> {
     const currentName = this.registry.get(id)?.name || id;
     this.registry.upsert(id, { conn: connection, name: currentName });
-    sendTo(connection, { type: 'hello', name: this.selfName, password: this.currentPassword } as HelloMessage);
+    const appVersion = await this.ownAppVersionPromise;
+    sendTo(connection, { type: 'hello', name: this.selfName, password: this.currentPassword, appVersion } as HelloMessage);
     if (this.media.sharing) sendTo(connection, { type: 'sharing-status', sharing: true } as SharingStatusMessage);
     this.scheduleAuthTimeout(id);
   }
@@ -288,10 +296,20 @@ export class RoomClient extends EventTarget {
   }
 
   private handleAuthRejected(id: string): void {
+    this.rejectPendingJoin(id, new Error('Código ou senha incorretos'));
     const member = this.registry.get(id);
     if (member?.conn) safeCall(member.conn, 'close');
     this.registry.remove(id);
-    this.rejectPendingJoin(id, new Error('Código ou senha incorretos'));
+  }
+
+  private handleVersionMismatch(id: string, remoteVersion: string): void {
+    this.rejectPendingJoin(
+      id,
+      new Error(`Você está na versão v${this.ownAppVersion} e a outra pessoa está na v${remoteVersion} — as duas precisam estar na mesma versão pra entrar na mesma sala.`)
+    );
+    const member = this.registry.get(id);
+    if (member?.conn) safeCall(member.conn, 'close');
+    this.registry.remove(id);
   }
 
   private handleAuthSuccess(_id: string): void {

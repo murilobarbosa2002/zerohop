@@ -20,10 +20,29 @@ function statusMessage(status: UpdateStatusPanelProps['status']): string {
   }
 }
 
-export function UpdateStatusPanel({ version, isPackaged, status, checkForUpdates, installUpdate }: UpdateStatusPanelProps) {
+export function UpdateStatusPanel({
+  version,
+  isPackaged,
+  autoUpdateEnabled,
+  status,
+  checkForUpdates,
+  installUpdate,
+  setAutoUpdateEnabled
+}: UpdateStatusPanelProps) {
   return (
     <div>
       <p className="font-bold text-body-sm-alt">{UPDATES_STRINGS.currentVersionLabel(version)}</p>
+
+      <label className="flex items-center gap-2 text-body-sm mt-3">
+        <input
+          type="checkbox"
+          checked={autoUpdateEnabled}
+          disabled={!isPackaged}
+          onChange={(event) => setAutoUpdateEnabled(event.target.checked)}
+        />
+        {UPDATES_STRINGS.autoUpdateToggleLabel}
+      </label>
+      <p className="text-text-dim text-xs mt-1.5">{UPDATES_STRINGS.autoUpdateToggleHint}</p>
 
       {!isPackaged && <p className="text-text-dim text-xs mt-1.5">{UPDATES_STRINGS.devModeHint}</p>}
 

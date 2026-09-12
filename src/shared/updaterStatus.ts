@@ -9,4 +9,5 @@ export type UpdaterStatus =
 export interface UpdaterInfo {
   version: string;
   isPackaged: boolean;
+  autoUpdateEnabled: boolean;
 }

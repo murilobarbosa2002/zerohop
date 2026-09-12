@@ -11,6 +11,7 @@ declare global {
       checkForUpdates: () => Promise<void>;
       installUpdate: () => Promise<void>;
       getUpdaterInfo: () => Promise<UpdaterInfo>;
+      setAutoUpdateEnabled: (value: boolean) => Promise<void>;
       onUpdaterStatus: (callback: (status: UpdaterStatus) => void) => () => void;
       openExternalUrl: (url: string) => Promise<void>;
     };

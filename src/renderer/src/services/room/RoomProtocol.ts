@@ -35,9 +35,11 @@ interface RoomProtocolDeps {
   chat: ChatService;
   onMembersChanged: () => void;
   getExpectedPassword: () => string;
+  getOwnAppVersion: () => string;
   isRoomCreator: () => boolean;
   onAuthRejected: (fromId: string) => void;
   onAuthSuccess: (fromId: string) => void;
+  onVersionMismatch: (fromId: string, remoteVersion: string) => void;
   onJoinRequest: (fromId: string, name: string) => void;
   onJoinPending: (fromId: string) => void;
   onJoinApproved: (fromId: string) => void;
@@ -92,6 +94,10 @@ export class RoomProtocol {
       return;
     }
     this.deps.registry.upsert(fromId, { name: message.name });
+    if (message.appVersion !== this.deps.getOwnAppVersion()) {
+      this.deps.onVersionMismatch(fromId, message.appVersion);
+      return;
+    }
     if (this.deps.isRoomCreator()) {
       this.deps.onJoinRequest(fromId, message.name);
       return;
