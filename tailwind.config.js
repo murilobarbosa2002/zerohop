@@ -39,6 +39,7 @@ export default {
         'form-column-wide': '280px',
         'self-preview-width': '160px',
         'self-preview-height': '90px',
+        'preview-lightbox-width': '960px',
         'room-sidebar-width': '260px',
         'room-chat-width': '300px'
       },

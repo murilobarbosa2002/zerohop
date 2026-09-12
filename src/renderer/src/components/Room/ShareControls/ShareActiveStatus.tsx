@@ -1,19 +1,34 @@
+import { useState } from 'react';
 import { Card } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
+import { SelfPreviewLightbox } from '@/components/Room/ShareControls/SelfPreviewLightbox';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { ShareActiveStatusProps } from '@/components/Room/ShareControls/ShareActiveStatus.types';
 
-export function ShareActiveStatus({ status, onStop, videoRef }: ShareActiveStatusProps) {
+export function ShareActiveStatus({ status, onStop, videoRef, localStream }: ShareActiveStatusProps) {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
   return (
     <Card>
       <div className="flex items-center gap-3.5">
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          muted
-          className="w-self-preview-width h-self-preview-height bg-black rounded-lg border border-border block flex-shrink-0"
-        />
+        <button
+          type="button"
+          onClick={() => setLightboxOpen(true)}
+          title={ROOM_STRINGS.enlargePreviewHint}
+          className="relative flex-shrink-0 group"
+        >
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted
+            className="w-self-preview-width h-self-preview-height bg-black rounded-lg border border-border block"
+          />
+          <span className="absolute inset-0 flex items-center justify-center rounded-lg bg-bg/0 group-hover:bg-bg/60 text-transparent group-hover:text-text text-xs font-semibold transition-colors">
+            {ROOM_STRINGS.enlargePreviewHint}
+          </span>
+        </button>
+        {lightboxOpen && <SelfPreviewLightbox stream={localStream} onClose={() => setLightboxOpen(false)} />}
         <div className="flex-1">
           <p className="font-bold text-body-sm-alt flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-success" />

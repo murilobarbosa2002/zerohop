@@ -32,6 +32,8 @@ export const ROOM_STRINGS = {
     'Não foi possível conectar com alguém da sala depois de um tempo — pode ser um bloqueio de rede/firewall/VPN. Aperte F12 pra ver detalhes no console.',
   cancelShareSetupButton: 'Cancelar',
   sharingActiveLabel: 'Você está compartilhando sua tela.',
+  enlargePreviewHint: 'Clique pra ampliar',
+  closePreviewHint: 'Clique em qualquer lugar ou aperte Esc pra fechar',
   stageEmptyTitle: 'Nada sendo exibido agora',
   stageEmptyHint: 'Assista alguém da lista de participantes, ou compartilhe a sua tela.',
   hideSidebarButton: 'Ocultar sala',

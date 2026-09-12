@@ -85,7 +85,7 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
   }
 
   return sharing ? (
-    <ShareActiveStatus status={status} onStop={handleStop} videoRef={videoRef} />
+    <ShareActiveStatus status={status} onStop={handleStop} videoRef={videoRef} localStream={localStream} />
   ) : panelOpen ? (
     <ShareSourcePicker
       sourcePicker={sourcePicker}
