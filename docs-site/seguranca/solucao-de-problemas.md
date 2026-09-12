@@ -62,6 +62,12 @@ Usar a ferramenta de Recorte do Windows (ou o Print Screen básico) enquanto com
 
 Não conseguimos detectar isso de forma confiável dentro do app (o vídeo continua tecnicamente "ativo", só entregando frames pretos). A solução é simples: clique em "Parar de compartilhar" e depois em "Compartilhar minha tela" de novo. Isso força uma sessão de captura nova e resolve.
 
+## "Áudio de só um app específico" está saindo o áudio do sistema inteiro
+
+Por padrão, escolher "áudio de só um app específico" ao compartilhar uma janela não isola o áudio de verdade — é uma limitação de longa data do Chromium/Electron, não um bug deste app: a captura de áudio de janela sempre pega o áudio de saída do sistema inteiro, ignorando qual janela foi escolhida.
+
+Existe uma correção experimental pra isso em Configurações → "Áudio isolado por aplicativo ao compartilhar janela", desligada por padrão por depender de uma biblioteca nativa de terceiros ainda pouco testada em máquinas diferentes.
+
 ### Por que o programa não "sempre conecta"
 
 Porque este projeto optou deliberadamente por nunca usar um servidor de relay (TURN) como rede de segurança escondida. Veja [Sem servidor, sem TURN](/seguranca/sem-servidor-sem-turn). A consequência é que, numa rede muito restritiva, a conexão pode de fato falhar, de forma visível, em vez de silenciosamente cair para um caminho alternativo fora do seu controle.

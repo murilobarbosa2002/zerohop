@@ -19,7 +19,7 @@ export const ROOM_STRINGS = {
   stopSharingButton: 'Parar de compartilhar',
   qualityHint: 'FPS e resolução mais altos exigem mais da sua internet e da de quem for assistir — se engasgar, tente valores menores.',
   audioIndependenceHint:
-    'O seletor de áudio é independente do de vídeo: dá pra compartilhar a tela toda e escolher o áudio de só um app específico na lista "Áudio".',
+    'O seletor de áudio é independente do de vídeo: dá pra compartilhar a tela toda e escolher o áudio de só um app específico na lista "Áudio". Por padrão, isso captura o áudio do sistema inteiro (limitação do Windows/Chromium) — pra isolar de verdade só o áudio daquele app, ative "Áudio isolado por aplicativo" em Configurações (experimental).',
   chooseSourceFirstError: 'Escolha primeiro o que compartilhar.',
   captureError: (reason: string) => `Erro ao capturar a tela: ${reason}`,
   sharingWithAudioStatus: 'Compartilhando sua tela com a sala.',

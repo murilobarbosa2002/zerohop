@@ -21,6 +21,10 @@ declare global {
       onLogAdded: (callback: (entry: LogEntry) => void) => () => void;
       getExperimentalCaptureEnabled: () => Promise<boolean>;
       setExperimentalCaptureEnabled: (value: boolean) => Promise<void>;
+      findAudioProcessId: (windowTitle: string) => Promise<number | null>;
+      startAudioLoopback: (processId: number) => void;
+      stopAudioLoopback: () => void;
+      onAudioLoopbackChunk: (callback: (chunk: Uint8Array) => void) => () => void;
     };
   }
 }

@@ -3,10 +3,13 @@ import { ShareIdleTrigger } from '@/components/Room/ShareControls/ShareIdleTrigg
 import { ShareSourcePicker } from '@/components/Room/ShareControls/ShareSourcePicker';
 import { ShareActiveStatus } from '@/components/Room/ShareControls/ShareActiveStatus';
 import { useAudioSourceOptions, resolveAudioSourceId } from '@/hooks/useAudioSourceOptions';
-import { captureSource } from '@/services/ScreenCapture';
+import { useExperimentalPerAppAudio } from '@/hooks/useExperimentalPerAppAudio';
+import { captureSource, captureSourceWithProcessAudio } from '@/services/ScreenCapture';
 import { boostVideoBitrate } from '@/services/room/videoBitrate';
 import { errorMessage } from '@/lib/errorMessage';
 import { onTyped } from '@/lib/typedEvents';
+import { getCaptureSourceKind } from '@/lib/captureSourceKind';
+import { CaptureSourceKind } from '@/constants/captureSourceKind';
 import { Resolution, DEFAULT_RESOLUTION } from '@/constants/resolution';
 import { Fps, DEFAULT_FPS } from '@/constants/fps';
 import { DEFAULT_AUDIO_SOURCE_MODE } from '@/constants/audioSourceMode';
@@ -29,6 +32,7 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioOptions = useAudioSourceOptions(sourcePicker.sources);
+  const [experimentalPerAppAudio] = useExperimentalPerAppAudio();
 
   useEffect(
     () =>
@@ -67,22 +71,34 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
 
     const quality = { ...parseResolution(resolution), fps: Number(fps) };
     const audioSourceId = resolveAudioSourceId(audioSelection, sourcePicker.selectedId);
+    const isWindowSource = getCaptureSourceKind(sourcePicker.selectedId) === CaptureSourceKind.WINDOW;
 
     let stream: MediaStream;
     let audioFellBack = false;
-    try {
-      stream = await captureSource(sourcePicker.selectedId, audioSourceId, quality);
-    } catch (error) {
-      if (!audioSourceId) {
+
+    if (experimentalPerAppAudio && isWindowSource && audioSourceId) {
+      const audioWindowTitle = sourcePicker.sources.find((source) => source.id === audioSourceId)?.name ?? '';
+      try {
+        stream = await captureSourceWithProcessAudio(sourcePicker.selectedId, audioWindowTitle, quality);
+      } catch (error) {
         setStatus(ROOM_STRINGS.captureError(errorMessage(error)));
         return;
       }
+    } else {
       try {
-        stream = await captureSource(sourcePicker.selectedId, null, quality);
-        audioFellBack = true;
-      } catch (fallbackError) {
-        setStatus(ROOM_STRINGS.captureError(errorMessage(fallbackError)));
-        return;
+        stream = await captureSource(sourcePicker.selectedId, audioSourceId, quality);
+      } catch (error) {
+        if (!audioSourceId) {
+          setStatus(ROOM_STRINGS.captureError(errorMessage(error)));
+          return;
+        }
+        try {
+          stream = await captureSource(sourcePicker.selectedId, null, quality);
+          audioFellBack = true;
+        } catch (fallbackError) {
+          setStatus(ROOM_STRINGS.captureError(errorMessage(fallbackError)));
+          return;
+        }
       }
     }
 

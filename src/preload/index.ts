@@ -29,7 +29,16 @@ const api = {
   },
   getExperimentalCaptureEnabled: (): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.experimentalCaptureGetEnabled),
   setExperimentalCaptureEnabled: (value: boolean): Promise<void> =>
-    ipcRenderer.invoke(IPC_CHANNELS.experimentalCaptureSetEnabled, value)
+    ipcRenderer.invoke(IPC_CHANNELS.experimentalCaptureSetEnabled, value),
+  findAudioProcessId: (windowTitle: string): Promise<number | null> =>
+    ipcRenderer.invoke(IPC_CHANNELS.audioLoopbackFindProcess, windowTitle),
+  startAudioLoopback: (processId: number): void => ipcRenderer.send(IPC_CHANNELS.audioLoopbackStart, processId),
+  stopAudioLoopback: (): void => ipcRenderer.send(IPC_CHANNELS.audioLoopbackStop),
+  onAudioLoopbackChunk: (callback: (chunk: Uint8Array) => void): (() => void) => {
+    const listener = (_event: Electron.IpcRendererEvent, chunk: Uint8Array): void => callback(chunk);
+    ipcRenderer.on(IPC_CHANNELS.audioLoopbackChunk, listener);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.audioLoopbackChunk, listener);
+  }
 };
 
 export type ZeroHopApi = typeof api;

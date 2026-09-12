@@ -51,6 +51,12 @@ Usar a ferramenta de Recorte do Windows (ou o Print Screen básico) enquanto com
 
 Não conseguimos detectar isso de forma confiável dentro do app (o vídeo continua tecnicamente "ativo", só entregando frames pretos), então não existe um aviso automático pra esse caso específico ainda. **A solução é simples: clique em "Parar de compartilhar" e depois em "Compartilhar minha tela" de novo.** Isso força uma sessão de captura nova e resolve.
 
+## "Áudio de só um app específico" está saindo o áudio do sistema inteiro (inclusive a voz da call)
+
+Por padrão, o seletor "áudio de só um app específico" na hora de compartilhar uma janela não funciona como o nome sugere. Isso não é um bug introduzido por engano: é uma limitação de longa data do Chromium/Electron (a base deste app) — a captura de áudio de uma janela específica sempre pega o **áudio de saída do sistema inteiro**, ignorando qual janela foi escolhida, porque o Chromium nunca implementou isolamento de áudio por janela nessa API. É por isso que a voz de quem está na call (incluindo a sua própria, saindo pelo ZeroHop) pode vazar pro áudio compartilhado mesmo escolhendo um app específico.
+
+**A partir da v0.28.0 existe uma correção experimental de verdade pra isso**: em Configurações → "Áudio isolado por aplicativo ao compartilhar janela (experimental)", desligada por padrão. Ela usa uma biblioteca nativa pequena (`loopback-capture`, baseada na API oficial do Windows `WASAPI Process Loopback`) pra capturar o áudio só do processo escolhido de verdade. Por depender de código nativo de terceiros ainda pouco testado em máquinas diferentes, vem desligada por padrão e pede uma confirmação explícita pra ativar — se der problema, é só desligar de novo que a captura volta ao comportamento padrão (áudio do sistema inteiro).
+
 ## O app não abre mais depois de ativar uma configuração (ex: a captura experimental)
 
 Isso é exatamente o cenário que a captura experimental acima avisa que pode acontecer. Por isso as configurações do app não vivem só dentro da interface: elas ficam salvas num arquivo de texto simples que dá pra editar na mão, mesmo com o app fechado ou travado.

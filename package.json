@@ -1,6 +1,6 @@
 {
   "name": "zerohop",
-  "version": "0.28.0",
+  "version": "0.29.0",
   "description": "Compartilhamento de tela, chat de voz e chat de texto P2P via WebRTC, sem servidor",
   "main": "./out/main/index.js",
   "author": {
@@ -50,6 +50,11 @@
       "build/icon.png",
       "package.json"
     ],
+    "asarUnpack": [
+      "**/node_modules/loopback-capture/**",
+      "**/node_modules/node-window-manager/**",
+      "**/node_modules/extract-file-icon/**"
+    ],
     "icon": "build/icon.png",
     "publish": {
       "provider": "github",
@@ -67,12 +72,16 @@
   },
   "allowScripts": {
     "electron@32.3.3": true,
-    "esbuild@0.21.5": true
+    "esbuild@0.21.5": true,
+    "node-window-manager@2.2.4": true,
+    "extract-file-icon@0.3.2": true
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
     "clsx": "^2.1.1",
     "electron-updater": "^6.8.9",
+    "loopback-capture": "^3.0.2",
+    "node-window-manager": "^2.2.4",
     "peerjs": "^1.5.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

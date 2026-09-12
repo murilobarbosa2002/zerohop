@@ -4,6 +4,7 @@ import { CAPTURE_SOURCE_TYPES, CAPTURE_THUMBNAIL_WIDTH, CAPTURE_THUMBNAIL_HEIGHT
 import { ALLOWED_EXTERNAL_URL_PREFIX } from '@main/constants/externalUrl';
 import { appendLog, readLogs, clearLogs } from '@main/logger';
 import { getSettings, setExperimentalWgcCaptureEnabled } from '@main/settings';
+import { findProcessIdByWindowTitle, startAudioLoopback, stopAudioLoopback } from '@main/audioLoopback';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
@@ -66,5 +67,19 @@ export function registerIpcHandlers(): void {
 
   ipcMain.handle(IPC_CHANNELS.experimentalCaptureSetEnabled, (_event, value: boolean) => {
     setExperimentalWgcCaptureEnabled(value);
+  });
+
+  ipcMain.handle(IPC_CHANNELS.audioLoopbackFindProcess, (_event, windowTitle: string): Promise<number | null> =>
+    findProcessIdByWindowTitle(windowTitle)
+  );
+
+  ipcMain.on(IPC_CHANNELS.audioLoopbackStart, (event, processId: number) => {
+    startAudioLoopback(processId, (chunk) => {
+      if (!event.sender.isDestroyed()) event.sender.send(IPC_CHANNELS.audioLoopbackChunk, chunk);
+    });
+  });
+
+  ipcMain.on(IPC_CHANNELS.audioLoopbackStop, () => {
+    stopAudioLoopback();
   });
 }

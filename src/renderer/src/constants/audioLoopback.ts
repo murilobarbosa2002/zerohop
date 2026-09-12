@@ -1,0 +1,5 @@
+export const AUDIO_LOOPBACK_SAMPLE_RATE = 48_000;
+export const AUDIO_LOOPBACK_CHANNELS = 2;
+export const AUDIO_LOOPBACK_BUFFER_SIZE = 2048;
+export const PCM_INT16_MAX = 32_768;
+export const PCM_BYTES_PER_FRAME = 4;

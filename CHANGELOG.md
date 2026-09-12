@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Cada linha tem
 
 | Versão | Resumo |
 | --- | --- |
+| [0.29.0](docs/releases/v0.29.0.md) | Áudio isolado por aplicativo ao compartilhar janela (experimental) |
 | [0.28.0](docs/releases/v0.28.0.md) | Cards de participantes mais limpos e responsivos, supressão de ruído configurável |
 | [0.27.0](docs/releases/v0.27.0.md) | Lista de telas/janelas atualiza sozinha, sem precisar clicar em "Atualizar lista" |
 | [0.26.0](docs/releases/v0.26.0.md) | Repositório recriado como `zerohop`; ícones da interface extraídos para componentes próprios |
