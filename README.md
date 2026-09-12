@@ -12,6 +12,8 @@ Este README existe para ser lido tanto por quem programa quanto por quem nunca a
 
 Um "Discord de tela compartilhada e chat de voz" que roda sem nenhum servidor pago ou mantido por alguém. Qualquer pessoa pode baixar, ler todo o código-fonte, compilar do zero e confirmar exatamente o que o programa faz, porque tudo o que ele faz está aqui, público, pra qualquer um auditar.
 
+> **Testado só no Windows.** O instalador oficial e todo o uso real até agora foram só em Windows. O app também builda pra Linux (`electron-builder` tem alvo `AppImage` configurado), mas essa build ainda não foi revisada/testada de verdade num Linux de desktop — pode ter comportamento diferente ou problemas ainda não descobertos. Se você testar em Linux e encontrar algo, uma issue ou pull request é muito bem-vindo.
+
 ## Por que este projeto existe
 
 Eu e meus amigos jogamos jogos diferentes, muitas vezes cada um no seu, e sempre foi comum compartilhar a tela pra um assistir o jogo do outro ou discutir o que está acontecendo em tempo real. É uma prática banal, sem nada de ilegal ou nocivo. Foi exatamente essa demanda pessoal, simples, que motivou eu escrever este programa.
@@ -207,6 +209,7 @@ Porque este projeto optou deliberadamente por **nunca usar um servidor de relay 
 
 ## Limitações
 
+- Testado só em Windows até agora. A build de Linux (`AppImage`) existe mas ainda não foi revisada de verdade num desktop Linux real.
 - Funciona melhor em redes domésticas comuns. Em redes muito restritivas (por exemplo, algumas redes corporativas ou públicas que bloqueiam tráfego UDP), a conexão direta pode falhar. Isso é intencional: este projeto não usa servidor de relay (TURN), porque as opções gratuitas viáveis têm limite de banda baixo demais pra valer a pena depender delas.
 - É necessário que todos os participantes tenham o app instalado.
 - Compartilhar alguns jogos pode ter cursor sumindo, imagem travando/piscando, ou o jogo em tela cheia não aparecendo na lista de janelas. Veja "Cursor sumindo, imagem travando ou piscando ao compartilhar jogos" na seção de solução de problemas acima. Não temos uma solução completa pra isso ainda.

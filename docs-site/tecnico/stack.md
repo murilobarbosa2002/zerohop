@@ -2,6 +2,8 @@
 
 **Resumo em uma frase:** Electron + React + TypeScript + Tailwind CSS, com o instalador Windows compilado automaticamente via GitHub Actions.
 
+> **Testado só no Windows.** É o único sistema onde o app foi usado de verdade até agora. Existe um alvo de build pra Linux (`AppImage`), mas essa build ainda não foi revisada num desktop Linux real.
+
 ## Com o que o programa é feito
 
 - **[Electron](https://www.electronjs.org/)**: o programa roda como um aplicativo de desktop nativo, não como um site.
@@ -18,7 +20,7 @@ O instalador para Windows (formato NSIS) nunca é compilado localmente pelo auto
 
 ## Testes
 
-Não existe uma suíte de testes automatizada formal publicada junto do código de produção. A validação é feita rodando o programa de verdade (via Playwright contra o binário empacotado do Electron), simulando múltiplas instâncias se conectando entre si, cobrindo os fluxos de criar/entrar em sala, compartilhar tela, assistir, falar por voz, aplicar senha, remover participante e trocar mensagens no chat.
+Existe uma suíte de testes end-to-end versionada no repositório (pasta `e2e/`), rodada com `npm run test:e2e`: builda o app e usa o Playwright contra o binário real do Electron, abrindo múltiplas instâncias e simulando pessoas de verdade se conectando entre si. Cobre criar/entrar em sala, compartilhar tela (incluindo editar resolução/fonte com o compartilhamento já em andamento), assistir, falar por voz e a tela de Configurações/Logs. Um workflow de CI (`.github/workflows/ci.yml`) roda essa suíte, junto com checagem de tipos e build, a cada push na `main` e a cada pull request.
 
 ## Todo o código é público
 
