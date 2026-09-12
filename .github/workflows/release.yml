@@ -18,6 +18,8 @@ jobs:
         with:
           node-version: 24
 
+      - uses: ilammy/msvc-dev-cmd@v1
+
       - run: npm ci
 
       - run: npm run build
