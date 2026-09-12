@@ -22,7 +22,8 @@ export default {
         'hover-danger-bg': '#2a1620',
         'hover-danger-border': '#e5484d',
         'source-hover-border': '#3a4070',
-        'status-dot-idle': '#565c80'
+        'status-dot-idle': '#565c80',
+        'focus-ring': 'rgba(124, 108, 255, 0.4)'
       },
       spacing: {
         'titlebar-height': '38px',

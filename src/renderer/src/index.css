@@ -4,7 +4,7 @@
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #3a4070 #0b0d17;
+  scrollbar-color: theme('colors.source-hover-border') theme('colors.bg');
 }
 
 ::-webkit-scrollbar {
@@ -17,13 +17,13 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3a4070;
+  background: theme('colors.source-hover-border');
   border-radius: 8px;
-  border: 2px solid #0b0d17;
+  border: 2px solid theme('colors.bg');
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #7c6cff;
+  background: theme('colors.accent');
 }
 
 ::-webkit-scrollbar-corner {
@@ -50,5 +50,5 @@ select {
 button:focus-visible,
 select:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(124, 108, 255, 0.4);
+  box-shadow: 0 0 0 2px theme('colors.focus-ring');
 }
