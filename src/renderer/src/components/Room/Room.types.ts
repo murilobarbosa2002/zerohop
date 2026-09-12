@@ -4,4 +4,5 @@ export interface RoomProps {
   roomClient: RoomClient;
   roomCode: string;
   onLeft: () => void;
+  onOpenSettings: () => void;
 }

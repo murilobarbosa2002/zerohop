@@ -14,4 +14,7 @@ export interface RoomSidebarProps {
   onToggleMic: () => void;
   onToggleDeafen: () => void;
   voiceAudioState: MemberAudioStateStore;
+  sharing: boolean;
+  onToggleSharePanel: () => void;
+  onOpenSettings: () => void;
 }

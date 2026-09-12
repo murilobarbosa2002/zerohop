@@ -4,6 +4,7 @@ Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os det
 
 | Versão | Resumo |
 | --- | --- |
+| [0.21.1](docs/releases/v0.21.1.md) | Ícones de compartilhar tela e Configurações na barra de voz, centralizados |
 | [0.21.0](docs/releases/v0.21.0.md) | Diálogo de atualização pronta customizado, no tema do app |
 | [0.20.4](docs/releases/v0.20.4.md) | Ícones desenhados e tooltip customizado nos controles de voz |
 | [0.20.3](docs/releases/v0.20.3.md) | App verifica atualização a cada 30 minutos sozinho, não só ao abrir |

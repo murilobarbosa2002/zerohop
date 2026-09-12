@@ -15,10 +15,11 @@ import { ROOM_STRINGS } from '@/strings/room.strings';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
 import type { RoomProps } from '@/components/Room/Room.types';
 
-export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
+export function Room({ roomClient, roomCode, onLeft, onOpenSettings }: RoomProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(true);
   const [deafened, setDeafened] = useState(false);
+  const [sharePanelOpen, setSharePanelOpen] = useState(false);
   const sourcePicker = useSourcePicker();
   const members = useMembers(roomClient);
   const sharing = useSharing(roomClient);
@@ -80,12 +81,22 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
               onToggleMic={() => roomClient.toggleMicMuted()}
               onToggleDeafen={() => setDeafened((current) => !current)}
               voiceAudioState={voiceAudioState}
+              sharing={sharing}
+              onToggleSharePanel={() => setSharePanelOpen((current) => !current)}
+              onOpenSettings={onOpenSettings}
             />
           </div>
         )}
 
         <div className="flex-1 p-3.5 overflow-hidden">
-          <RoomStage roomClient={roomClient} sourcePicker={sourcePicker} sharing={sharing} members={members} />
+          <RoomStage
+            roomClient={roomClient}
+            sourcePicker={sourcePicker}
+            sharing={sharing}
+            members={members}
+            panelOpen={sharePanelOpen}
+            onSetPanelOpen={setSharePanelOpen}
+          />
         </div>
 
         {chatOpen && (

@@ -43,7 +43,7 @@ export function App() {
       ) : showSettings ? (
         <SettingsScreen onBack={() => setShowSettings(false)} roomClient={inRoom ? roomClient : null} />
       ) : inRoom && roomCode ? (
-        <Room roomClient={roomClient} roomCode={roomCode} onLeft={handleLeft} />
+        <Room roomClient={roomClient} roomCode={roomCode} onLeft={handleLeft} onOpenSettings={() => setShowSettings(true)} />
       ) : (
         <div className="flex-1 overflow-y-auto px-7 py-7">
           <Header />
