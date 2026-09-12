@@ -171,7 +171,7 @@ Isso é exatamente o cenário que a captura experimental acima avisa que pode ac
 
 **Onde fica o arquivo:** `settings.json`, dentro da pasta de dados do app.
 
-- Windows: `%APPDATA%\ZeroHop\settings.json` (cole esse caminho na barra de endereço do Explorador de Arquivos)
+- Windows: `%APPDATA%\zero-hop\settings.json` (cole esse caminho na barra de endereço do Explorador de Arquivos)
 
 **Como editar:**
 
