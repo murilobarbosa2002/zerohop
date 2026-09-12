@@ -53,7 +53,6 @@ export function ShareSourcePicker({
           ) : (
             <SourceGrid sources={filteredSources} selectedId={sourcePicker.selectedId} onSelect={sourcePicker.select} />
           )}
-          <ActionButton onClick={() => sourcePicker.refresh()}>{ROOM_STRINGS.refreshSourcesButton}</ActionButton>
 
           <div className="flex gap-5 mt-3.5 flex-wrap items-end">
             <SelectField

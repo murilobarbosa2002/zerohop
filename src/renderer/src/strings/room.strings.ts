@@ -7,7 +7,6 @@ export const ROOM_STRINGS = {
   deafenButton: 'Silenciar todos',
   undeafenButton: 'Ouvir todos',
   chooseSourceTitle: 'Escolha o que compartilhar',
-  refreshSourcesButton: 'Atualizar lista',
   resolutionFieldLabel: 'Resolução',
   fpsFieldLabel: 'FPS',
   audioFieldLabel: 'Áudio',
