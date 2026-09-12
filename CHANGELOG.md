@@ -4,6 +4,7 @@ Histórico de versões do ScreenShare. Cada linha tem um resumo curto — os det
 
 | Versão | Resumo |
 | --- | --- |
+| [0.17.3](docs/releases/v0.17.3.md) | Correção de verdade pra janela duplicada na lista de fontes |
 | [0.17.2](docs/releases/v0.17.2.md) | Notificação nativa do Windows quando a atualização termina de baixar |
 | [0.17.1](docs/releases/v0.17.1.md) | Correções no campo de áudio e remoção de janelas duplicadas na lista |
 | [0.17.0](docs/releases/v0.17.0.md) | Escolha de tela inteira ou janela específica antes de listar as opções |

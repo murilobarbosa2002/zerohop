@@ -10,12 +10,11 @@ function isNoiseSource(source: DesktopCapturerSource): boolean {
 }
 
 function deduplicateIdenticalWindows(sources: CaptureSource[]): CaptureSource[] {
-  const seen = new Set<string>();
+  const seenNames = new Set<string>();
   return sources.filter((source) => {
     if (!source.id.startsWith('window:')) return true;
-    const key = `${source.name}::${source.thumbnail}`;
-    if (seen.has(key)) return false;
-    seen.add(key);
+    if (seenNames.has(source.name)) return false;
+    seenNames.add(source.name);
     return true;
   });
 }
