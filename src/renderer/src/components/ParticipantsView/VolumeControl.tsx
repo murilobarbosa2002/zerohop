@@ -1,3 +1,4 @@
+import { RangeSlider } from '@/components/RangeSlider';
 import { MIN_VOLUME_PERCENT, MAX_VOLUME_PERCENT } from '@/constants/volume';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
 import type { VolumeControlProps } from '@/components/ParticipantsView/VolumeControl.types';
@@ -12,13 +13,11 @@ export function VolumeControl({ muted, volume, onToggleMute, onChangeVolume }: V
       >
         {muted ? '🔇' : '🔊'}
       </button>
-      <input
-        type="range"
+      <RangeSlider
         min={MIN_VOLUME_PERCENT}
         max={MAX_VOLUME_PERCENT}
         value={Math.round(volume * MAX_VOLUME_PERCENT)}
-        onChange={(event) => onChangeVolume(Number(event.target.value) / MAX_VOLUME_PERCENT)}
-        className="flex-1 accent-accent cursor-pointer"
+        onChange={(value) => onChangeVolume(value / MAX_VOLUME_PERCENT)}
       />
     </div>
   );

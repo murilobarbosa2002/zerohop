@@ -1,5 +1,6 @@
 import type { MediaConnection, default as Peer } from 'peerjs';
 import { sendTo, safeCall } from '@/services/room/peerSession';
+import { CallKind } from '@/constants/callKind';
 import type { MemberRegistry } from '@/services/room/MemberRegistry';
 import type { QualitySettings } from '@/services/ScreenCapture';
 
@@ -48,7 +49,7 @@ export class MediaSharing extends EventTarget {
   handleWatchRequest(fromId: string): void {
     const peer = this.getPeer();
     if (!this.sharing || !this.localStream || !peer) return;
-    const call = peer.call(fromId, this.localStream);
+    const call = peer.call(fromId, this.localStream, { metadata: { kind: CallKind.SHARE } });
     this.outgoingCalls.set(fromId, call);
     call.on('close', () => this.outgoingCalls.delete(fromId));
     this.dispatchEvent(

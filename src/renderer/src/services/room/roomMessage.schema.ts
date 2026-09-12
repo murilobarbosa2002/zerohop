@@ -23,6 +23,11 @@ export const sharingStatusMessageSchema = z.object({
   sharing: z.boolean()
 });
 
+export const micStatusMessageSchema = z.object({
+  type: z.literal('mic-status'),
+  muted: z.boolean()
+});
+
 export const watchRequestMessageSchema = z.object({
   type: z.literal('watch-request')
 });
@@ -53,6 +58,7 @@ export const roomMessageSchema = z.discriminatedUnion('type', [
   helloMessageSchema,
   membersMessageSchema,
   sharingStatusMessageSchema,
+  micStatusMessageSchema,
   watchRequestMessageSchema,
   unwatchRequestMessageSchema,
   kickMessageSchema,

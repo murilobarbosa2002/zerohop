@@ -9,6 +9,8 @@ import { useConnectionWarning } from '@/hooks/useConnectionWarning';
 import { useChatMessages } from '@/hooks/useChatMessages';
 import { useJoinRequests } from '@/hooks/useJoinRequests';
 import { useSourcePicker } from '@/hooks/useSourcePicker';
+import { useMicMuted } from '@/hooks/useMicMuted';
+import { useMemberAudioState } from '@/hooks/useMemberAudioState';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
 import type { RoomProps } from '@/components/Room/Room.types';
@@ -16,9 +18,12 @@ import type { RoomProps } from '@/components/Room/Room.types';
 export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(true);
+  const [deafened, setDeafened] = useState(false);
   const sourcePicker = useSourcePicker();
   const members = useMembers(roomClient);
   const sharing = useSharing(roomClient);
+  const micMuted = useMicMuted(roomClient);
+  const voiceAudioState = useMemberAudioState();
   const connectionWarning = useConnectionWarning(roomClient);
   const chatMessages = useChatMessages(roomClient);
   const joinRequests = useJoinRequests(roomClient);
@@ -70,6 +75,11 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
               onToggleWatch={(id) => roomClient.toggleWatch(id)}
               onKick={(id) => roomClient.kickMember(id)}
               onLeave={handleLeave}
+              micMuted={micMuted}
+              deafened={deafened}
+              onToggleMic={() => roomClient.toggleMicMuted()}
+              onToggleDeafen={() => setDeafened((current) => !current)}
+              voiceAudioState={voiceAudioState}
             />
           </div>
         )}

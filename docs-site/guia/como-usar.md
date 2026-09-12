@@ -18,7 +18,7 @@ Clicando no número da versão, no canto superior esquerdo da janela (ao lado do
 
 ## Configurações
 
-O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações. Por enquanto tem uma opção: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando — útil se você tem mais de uma saída de som e quer trocar sem precisar mexer nas configurações do Windows.
+O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com duas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, e escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele — útil se sua voz está saindo baixa ou estourando pros outros. Nenhuma das duas exige mexer nas configurações do Windows.
 
 Ao abrir o ScreenShare, a primeira tela pergunta o que você quer fazer: **Criar sala nova** ou **Entrar numa sala** — cada opção leva pra um formulário dedicado só com os campos daquela ação, sem misturar os dois fluxos.
 
@@ -50,9 +50,18 @@ Dentro da sala, a tela é dividida em três áreas, como um app de chamada:
 
 As colunas da esquerda e da direita podem ser escondidas (botões "Ocultar sala"/"Ocultar chat" no topo) pra dar mais espaço ao vídeo quando quiser.
 
+## Conversar por voz
+
+Ao entrar numa sala, seu microfone liga sozinho e todo mundo já pode se ouvir — não precisa de nenhum app de voz separado. Na coluna da esquerda, logo abaixo do código da sala, tem dois botões sempre visíveis:
+
+- **Mutar mic:** silencia sua própria voz pros outros, sem sair da call.
+- **Silenciar todos:** para de ouvir a voz de todo mundo. Isso não muda o volume dos compartilhamentos de tela que você estiver assistindo — são dois controles de áudio independentes.
+
+Cada pessoa na lista de participantes tem seu próprio controle de volume (e mudo individual) só pra voz dela, e quem estiver com o microfone mutado aparece com um ícone 🔇 do lado do nome. Pra trocar de microfone ou ajustar a sensibilidade, veja [Configurações](#configurações).
+
 ## Compartilhar sua tela
 
-No palco central, clique em **Compartilhar minha tela** — isso abre um painel dedicado a essa configuração. Primeiro escolha se quer compartilhar a **tela inteira** ou **uma janela específica**; com base nessa escolha, o app mostra só as opções relevantes (só telas, ou só janelas — sem misturar tudo numa lista só). Depois de escolher o que compartilhar, ajuste resolução, FPS e se quer compartilhar áudio junto (inclusive o áudio de só um programa específico, útil pra não compartilhar sua própria voz de uma chamada de voz separada, como o Discord). Depois de confirmar, o painel fecha sozinho e vira uma barra compacta mostrando que você está compartilhando, com uma miniatura da sua tela, o botão de parar e clicando na miniatura ela abre ampliada — útil pra conferir se a imagem está nítida ou travando antes de perguntar pra sala.
+No palco central, clique em **Compartilhar minha tela** — isso abre um painel dedicado a essa configuração. Primeiro escolha se quer compartilhar a **tela inteira** ou **uma janela específica**; com base nessa escolha, o app mostra só as opções relevantes (só telas, ou só janelas — sem misturar tudo numa lista só). Depois de escolher o que compartilhar, ajuste resolução, FPS e se quer compartilhar áudio junto (inclusive o áudio de só um programa específico, útil pra não misturar sua voz da call com o áudio da tela compartilhada). Depois de confirmar, o painel fecha sozinho e vira uma barra compacta mostrando que você está compartilhando, com uma miniatura da sua tela, o botão de parar e clicando na miniatura ela abre ampliada — útil pra conferir se a imagem está nítida ou travando antes de perguntar pra sala.
 
 ## Assistir a tela de alguém
 

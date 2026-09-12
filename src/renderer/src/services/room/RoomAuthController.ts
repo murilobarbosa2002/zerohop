@@ -29,6 +29,7 @@ interface RoomAuthControllerDeps {
   getExpectedPassword: () => string;
   isRoomCreator: () => boolean;
   onMembersChanged: () => void;
+  onMemberAuthenticated: (id: string) => void;
   getAppVersion?: () => Promise<string>;
 }
 
@@ -112,9 +113,10 @@ export class RoomAuthController extends EventTarget {
     this.resolvePendingJoin(id);
   }
 
-  handleAuthSuccess(_id: string): void {
+  handleAuthSuccess(id: string): void {
     this.deps.onMembersChanged();
     this.deps.gossip.broadcast();
+    this.deps.onMemberAuthenticated(id);
   }
 
   handleAuthRejected(id: string): void {

@@ -1,4 +1,5 @@
 import { AudioOutputSettings } from '@/components/SettingsScreen/AudioOutputSettings';
+import { MicInputSettings } from '@/components/SettingsScreen/MicInputSettings';
 import { SETTINGS_STRINGS } from '@/strings/settings.strings';
 import type { SettingsScreenProps } from '@/components/SettingsScreen/SettingsScreen.types';
 
@@ -14,6 +15,7 @@ export function SettingsScreen({ onBack }: SettingsScreenProps) {
 
       <div className="flex-1 overflow-y-auto p-6">
         <AudioOutputSettings />
+        <MicInputSettings />
       </div>
     </div>
   );

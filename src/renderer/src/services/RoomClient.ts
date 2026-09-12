@@ -4,16 +4,20 @@ import { randomRoomCode, sendTo, safeCall } from '@/services/room/peerSession';
 import { MemberRegistry, type MemberSnapshot } from '@/services/room/MemberRegistry';
 import { MembershipGossip } from '@/services/room/MembershipGossip';
 import { MediaSharing, type OutgoingCallDetail } from '@/services/room/MediaSharing';
+import { VoiceChat } from '@/services/room/VoiceChat';
 import { ChatService, type ChatMessageEntry, type ChatServiceEventDetail } from '@/services/room/ChatService';
 import { RoomAuthController, type JoinRequestEntry, type RoomAuthControllerEventDetail } from '@/services/room/RoomAuthController';
 import { PeerConnectionManager } from '@/services/room/PeerConnectionManager';
 import { RoomProtocol, type WatchRequestMessage, type UnwatchRequestMessage, type KickMessage } from '@/services/room/RoomProtocol';
+import { captureMicrophone } from '@/services/MicCapture';
+import { getMicInputDeviceId, subscribeToMicInputDevice, getMicInputGain, subscribeToMicInputGain } from '@/services/micInputPreference';
 import { onTyped } from '@/lib/typedEvents';
 import { RoomStatus } from '@/constants/roomStatus';
 import { AUTH_HELLO_TIMEOUT_MS, ICE_CONNECTION_TIMEOUT_MS, JOIN_APPROVAL_TIMEOUT_MS, ROOM_CODE_CREATE_MAX_ATTEMPTS } from '@/constants/timing';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
 import type { QualitySettings } from '@/services/ScreenCapture';
+import type { MicCaptureHandle } from '@/services/MicCapture.types';
 
 const JOIN_CONFIRMATION_TIMEOUT_MS = ICE_CONNECTION_TIMEOUT_MS + AUTH_HELLO_TIMEOUT_MS + JOIN_APPROVAL_TIMEOUT_MS;
 
@@ -28,6 +32,7 @@ export interface RoomClientEventDetail {
   'chat-changed': { messages: ChatMessageEntry[] };
   'join-requests-changed': { requests: JoinRequestEntry[] };
   'join-pending': Record<string, never>;
+  'mic-muted-changed': { muted: boolean };
 }
 
 export class RoomClient extends EventTarget {
@@ -40,6 +45,10 @@ export class RoomClient extends EventTarget {
   private registry = new MemberRegistry();
   private gossip: MembershipGossip;
   private media: MediaSharing;
+  private voice: VoiceChat;
+  private micCapture: MicCaptureHandle | null = null;
+  private unsubscribeMicGain: (() => void) | null = null;
+  private unsubscribeMicDevice: (() => void) | null = null;
   private chat: ChatService;
   private auth: RoomAuthController;
   private protocol: RoomProtocol;
@@ -55,6 +64,7 @@ export class RoomClient extends EventTarget {
       connectToPeer: (id) => this.connections.connectToPeer(id)
     });
     this.media = new MediaSharing({ registry: this.registry, getPeer: () => this.connections.getPeer() });
+    this.voice = new VoiceChat({ registry: this.registry, getPeer: () => this.connections.getPeer() });
     this.chat = new ChatService({ registry: this.registry, getSelfName: () => this.selfName });
     this.auth = new RoomAuthController({
       registry: this.registry,
@@ -62,7 +72,8 @@ export class RoomClient extends EventTarget {
       getSelfName: () => this.selfName,
       getExpectedPassword: () => this.currentPassword,
       isRoomCreator: () => this.isRoomCreator,
-      onMembersChanged: () => this.emitMembers()
+      onMembersChanged: () => this.emitMembers(),
+      onMemberAuthenticated: (id) => this.voice.callMember(id)
     });
     this.protocol = new RoomProtocol({
       registry: this.registry,
@@ -96,6 +107,14 @@ export class RoomClient extends EventTarget {
         this.registry.upsert(fromId, { stream: null, watching: false });
         this.emitMembers();
       },
+      onIncomingVoiceStream: (fromId, call, stream) => {
+        this.registry.upsert(fromId, { voiceStream: stream, voiceConnIn: call });
+        this.emitMembers();
+      },
+      onIncomingVoiceStreamClosed: (fromId) => {
+        this.registry.upsert(fromId, { voiceStream: null, voiceConnIn: null });
+        this.emitMembers();
+      },
       onConnectionWarning: (peerId) => {
         this.dispatchEvent(new CustomEvent('connection-warning', { detail: { peerId } }));
         this.auth.notifyConnectionFailure(peerId);
@@ -106,6 +125,9 @@ export class RoomClient extends EventTarget {
     });
     onTyped<OutgoingCallDetail>(this.media, 'outgoing-call', (detail) => {
       this.dispatchEvent(new CustomEvent('outgoing-call', { detail }));
+    });
+    onTyped<RoomClientEventDetail['mic-muted-changed']>(this.voice, 'mic-muted-changed', (detail) => {
+      this.dispatchEvent(new CustomEvent('mic-muted-changed', { detail }));
     });
     onTyped<ChatServiceEventDetail['message-added']>(this.chat, 'message-added', (detail) => {
       this.dispatchEvent(new CustomEvent('chat-changed', { detail }));
@@ -120,6 +142,10 @@ export class RoomClient extends EventTarget {
 
   get sharing(): boolean {
     return this.media.sharing;
+  }
+
+  get micMuted(): boolean {
+    return this.voice.micMuted;
   }
 
   get isRoomCreator(): boolean {
@@ -141,6 +167,7 @@ export class RoomClient extends EventTarget {
         await this.connections.open(code, iceServers);
         this.roomCode = code;
         this.emitStatus(RoomStatus.CONNECTED);
+        this.startVoiceChat();
         return code;
       } catch (error) {
         lastError = error;
@@ -162,14 +189,17 @@ export class RoomClient extends EventTarget {
     }
     this.roomCode = code;
     this.emitStatus(RoomStatus.CONNECTED);
+    this.startVoiceChat();
     return code;
   }
 
   leaveRoom(): void {
     this.media.stop();
+    this.stopVoiceChat();
     for (const member of this.registry.values()) {
       if (member.conn) safeCall(member.conn, 'close');
       if (member.mediaConnIn) safeCall(member.mediaConnIn, 'close');
+      if (member.voiceConnIn) safeCall(member.voiceConnIn, 'close');
     }
     for (const id of [...this.registry.ids()]) this.registry.remove(id);
     this.blockedIds.clear();
@@ -178,6 +208,10 @@ export class RoomClient extends EventTarget {
     this.connections.close();
     this.roomCode = null;
     this.emitStatus(RoomStatus.DISCONNECTED);
+  }
+
+  toggleMicMuted(): void {
+    this.voice.setMicMuted(!this.voice.micMuted);
   }
 
   sendChatMessage(text: string): void {
@@ -245,6 +279,8 @@ export class RoomClient extends EventTarget {
     const member = this.registry.get(targetId);
     if (member?.conn) safeCall(member.conn, 'close');
     if (member?.mediaConnIn) safeCall(member.mediaConnIn, 'close');
+    if (member?.voiceConnIn) safeCall(member.voiceConnIn, 'close');
+    this.voice.removeMember(targetId);
     this.registry.remove(targetId);
     this.emitMembers();
   }
@@ -252,10 +288,44 @@ export class RoomClient extends EventTarget {
   private cleanupMember(id: string): void {
     const member = this.registry.get(id);
     if (member?.mediaConnIn) safeCall(member.mediaConnIn, 'close');
+    if (member?.voiceConnIn) safeCall(member.voiceConnIn, 'close');
     this.media.removeViewer(id);
+    this.voice.removeMember(id);
     this.registry.remove(id);
     this.auth.notifyMemberDisconnected(id);
     this.emitMembers();
+  }
+
+  private async startVoiceChat(): Promise<void> {
+    try {
+      this.micCapture = await captureMicrophone(getMicInputDeviceId(), getMicInputGain());
+    } catch (error) {
+      console.warn('[room] não foi possível capturar o microfone', error);
+      return;
+    }
+    this.voice.start(this.micCapture.stream);
+    this.unsubscribeMicGain = subscribeToMicInputGain(() => this.micCapture?.setGain(getMicInputGain()));
+    this.unsubscribeMicDevice = subscribeToMicInputDevice(() => this.recaptureMicrophone());
+  }
+
+  private async recaptureMicrophone(): Promise<void> {
+    try {
+      const nextCapture = await captureMicrophone(getMicInputDeviceId(), getMicInputGain());
+      this.micCapture = nextCapture;
+      this.voice.replaceStream(nextCapture.stream);
+    } catch (error) {
+      console.warn('[room] não foi possível trocar de microfone', error);
+    }
+  }
+
+  private stopVoiceChat(): void {
+    this.unsubscribeMicGain?.();
+    this.unsubscribeMicGain = null;
+    this.unsubscribeMicDevice?.();
+    this.unsubscribeMicDevice = null;
+    this.voice.stop();
+    this.micCapture?.stop();
+    this.micCapture = null;
   }
 
   private emitMembers(): void {

@@ -8,6 +8,9 @@ export interface Member {
   mediaConnIn: MediaConnection | null;
   stream: MediaStream | null;
   authenticated: boolean;
+  voiceConnIn: MediaConnection | null;
+  voiceStream: MediaStream | null;
+  micMuted: boolean;
 }
 
 export interface MemberSnapshot {
@@ -16,6 +19,8 @@ export interface MemberSnapshot {
   sharing: boolean;
   watching: boolean;
   stream: MediaStream | null;
+  voiceStream: MediaStream | null;
+  micMuted: boolean;
 }
 
 function defaultMember(name: string): Member {
@@ -26,7 +31,10 @@ function defaultMember(name: string): Member {
     watching: false,
     mediaConnIn: null,
     stream: null,
-    authenticated: false
+    authenticated: false,
+    voiceConnIn: null,
+    voiceStream: null,
+    micMuted: false
   };
 }
 
@@ -72,7 +80,9 @@ export class MemberRegistry {
         name: member.name,
         sharing: member.sharing,
         watching: member.watching,
-        stream: member.stream || null
+        stream: member.stream || null,
+        voiceStream: member.voiceStream || null,
+        micMuted: member.micMuted
       }));
   }
 }

@@ -9,6 +9,7 @@ import {
   helloMessageSchema,
   membersMessageSchema,
   sharingStatusMessageSchema,
+  micStatusMessageSchema,
   watchRequestMessageSchema,
   unwatchRequestMessageSchema,
   kickMessageSchema,
@@ -20,6 +21,7 @@ import {
 export type HelloMessage = z.infer<typeof helloMessageSchema>;
 export type MembersMessage = z.infer<typeof membersMessageSchema>;
 export type SharingStatusMessage = z.infer<typeof sharingStatusMessageSchema>;
+export type MicStatusMessage = z.infer<typeof micStatusMessageSchema>;
 export type WatchRequestMessage = z.infer<typeof watchRequestMessageSchema>;
 export type UnwatchRequestMessage = z.infer<typeof unwatchRequestMessageSchema>;
 export type KickMessage = z.infer<typeof kickMessageSchema>;
@@ -66,6 +68,10 @@ export class RoomProtocol {
         return;
       case 'sharing-status':
         this.handleSharingStatus(fromId, message);
+        return;
+      case 'mic-status':
+        this.deps.registry.upsert(fromId, { micMuted: message.muted });
+        this.deps.onMembersChanged();
         return;
       case 'watch-request':
         this.deps.media.handleWatchRequest(fromId);

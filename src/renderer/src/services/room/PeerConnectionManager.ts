@@ -3,6 +3,7 @@ import { createPeer, safeCall } from '@/services/room/peerSession';
 import { watchConnection } from '@/services/room/iceDiagnostics';
 import { roomMessageSchema } from '@/services/room/roomMessage.schema';
 import { ICE_CONNECTION_TIMEOUT_MS, PEER_RECONNECT_MAX_RETRIES, PEER_RECONNECT_RETRY_DELAY_MS } from '@/constants/timing';
+import { CallKind } from '@/constants/callKind';
 import type { RoomMessage } from '@/services/room/RoomProtocol';
 
 interface PeerConnectionManagerDeps {
@@ -14,6 +15,8 @@ interface PeerConnectionManagerDeps {
   onMemberDisconnected: (id: string) => void;
   onIncomingStream: (fromId: string, call: MediaConnection, stream: MediaStream) => void;
   onIncomingStreamClosed: (fromId: string) => void;
+  onIncomingVoiceStream: (fromId: string, call: MediaConnection, stream: MediaStream) => void;
+  onIncomingVoiceStreamClosed: (fromId: string) => void;
   onConnectionWarning: (peerId: string) => void;
 }
 
@@ -91,6 +94,12 @@ export class PeerConnectionManager {
     this.peer.on('call', (call) => {
       if (this.deps.isBlocked(call.peer) || !this.deps.isAuthenticatedMember(call.peer)) return;
       call.answer();
+      const isVoiceCall = (call.metadata as { kind?: CallKind } | undefined)?.kind === CallKind.VOICE;
+      if (isVoiceCall) {
+        call.on('stream', (stream) => this.deps.onIncomingVoiceStream(call.peer, call, stream));
+        call.on('close', () => this.deps.onIncomingVoiceStreamClosed(call.peer));
+        return;
+      }
       call.on('stream', (stream) => this.deps.onIncomingStream(call.peer, call, stream));
       call.on('close', () => this.deps.onIncomingStreamClosed(call.peer));
     });
