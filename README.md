@@ -165,6 +165,12 @@ Isso acontece com alguns jogos (relatado com Project Zomboid e Deadlock) e tem t
 
 Se você entende de captura de tela no Windows e sabe de uma solução real pra isso, seja uma configuração que não pensamos, uma forma mais segura de usar WGC, ou qualquer outra ideia, **ficaríamos muito felizes em receber uma contribuição** (issue ou pull request). É bem possível que estejamos enxergando esse problema errado ou incompleto. Este texto reflete o que sabemos até agora, não a última palavra.
 
+### Compartilhando "Tela inteira" e a imagem fica preta pra sempre depois de usar o Recorte (Win+Shift+S)
+
+Usar a ferramenta de Recorte do Windows (ou o Print Screen básico) enquanto compartilha a tela inteira pode deixar a imagem presa em preto, sem voltar sozinha, mesmo esperando. Não é o mesmo problema dos jogos acima: o gatilho aqui é o overlay de escurecer a tela que o Recorte usa, que parece invalidar a sessão de captura do navegador por baixo dos panos.
+
+Não conseguimos detectar isso de forma confiável dentro do app (o vídeo continua tecnicamente "ativo", só entregando frames pretos), então não existe um aviso automático pra esse caso específico ainda. **A solução é simples: clique em "Parar de compartilhar" e depois em "Compartilhar minha tela" de novo.** Isso força uma sessão de captura nova e resolve.
+
 ### O app não abre mais depois de ativar uma configuração (ex: a captura experimental)
 
 Isso é exatamente o cenário que a captura experimental acima avisa que pode acontecer. Por isso as configurações do app não vivem só dentro da interface: elas ficam salvas num arquivo de texto simples que dá pra editar na mão, mesmo com o app fechado ou travado.

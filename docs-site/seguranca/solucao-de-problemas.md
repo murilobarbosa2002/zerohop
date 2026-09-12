@@ -56,6 +56,12 @@ Relatado com Project Zomboid e Deadlock, mas pode acontecer com outros jogos. Tr
 
 Se você entende do assunto e conhece uma solução real, uma issue ou pull request é muito bem-vinda. É possível que estejamos vendo esse problema de forma incompleta.
 
+## Compartilhando "Tela inteira" e a imagem fica preta pra sempre depois de usar o Recorte (Win+Shift+S)
+
+Usar a ferramenta de Recorte do Windows (ou o Print Screen básico) enquanto compartilha a tela inteira pode deixar a imagem presa em preto, sem voltar sozinha, mesmo esperando. É um gatilho diferente do problema dos jogos acima: o overlay de escurecer a tela que o Recorte usa parece invalidar a sessão de captura do navegador por baixo dos panos.
+
+Não conseguimos detectar isso de forma confiável dentro do app (o vídeo continua tecnicamente "ativo", só entregando frames pretos). A solução é simples: clique em "Parar de compartilhar" e depois em "Compartilhar minha tela" de novo. Isso força uma sessão de captura nova e resolve.
+
 ### Por que o programa não "sempre conecta"
 
 Porque este projeto optou deliberadamente por nunca usar um servidor de relay (TURN) como rede de segurança escondida. Veja [Sem servidor, sem TURN](/seguranca/sem-servidor-sem-turn). A consequência é que, numa rede muito restritiva, a conexão pode de fato falhar, de forma visível, em vez de silenciosamente cair para um caminho alternativo fora do seu controle.
