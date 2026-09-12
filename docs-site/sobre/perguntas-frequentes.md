@@ -1,8 +1,8 @@
 # Perguntas frequentes
 
-## O ScreenShare guarda o que eu compartilho?
+## O ZeroHop guarda o que eu compartilho?
 
-Não. Vídeo, áudio e chat só existem em trânsito, direto entre os computadores dos participantes, e na memória de cada processo enquanto a sala está aberta. Nada é gravado. Veja [Privacidade e criptografia](/seguranca/privacidade).
+Não. Vídeo, áudio, voz e chat só existem em trânsito, direto entre os computadores dos participantes, e na memória de cada processo enquanto a sala está aberta. Nada é gravado. Veja [Privacidade e criptografia](/seguranca/privacidade).
 
 ## Preciso criar uma conta?
 
@@ -10,7 +10,7 @@ Não. Não existe conta, login, e-mail ou qualquer identificação além do nome
 
 ## É seguro usar sem senha?
 
-O código da sala sozinho já tem entropia suficiente para não ser adivinhado por acaso, mas se ele vazar, qualquer pessoa com ele poderia tentar entrar. Para mais segurança, defina uma senha ao criar a sala. Veja [Senha e moderação](/guia/senha-e-moderacao).
+O código da sala sozinho já tem entropia suficiente para não ser adivinhado por acaso, mas se ele vazar, qualquer pessoa com ele poderia tentar entrar. Por isso, definir uma senha ao criar a sala é obrigatório. Veja [Senha e moderação](/guia/senha-e-moderacao).
 
 ## Por que às vezes a conexão não funciona?
 
@@ -26,11 +26,11 @@ O instalador oficial distribuído nas Releases é para Windows. Como o código �
 
 ## Posso usar isso para trabalho, suporte técnico ou aula, não só para jogos?
 
-Sim. A função de compartilhar tela não tem nada de específico para jogos — serve para qualquer situação onde mostrar sua tela para outra pessoa é útil.
+Sim. As funções de compartilhar tela e conversar por voz não têm nada de específico para jogos. Servem para qualquer situação onde mostrar sua tela ou conversar com outra pessoa é útil.
 
 ## Este projeto vai ganhar grandes atualizações com frequência?
 
-Não é o objetivo. O ScreenShare nasceu de uma demanda pessoal do autor e dos amigos dele, e é mantido conforme essa necessidade real evolui — não como um produto com roadmap fixo. Por ser open source, qualquer pessoa pode pegar o código e construir o que quiser em cima dele. Veja [Contribuir e licença](/sobre/contribuir).
+Não é o objetivo. O ZeroHop nasceu de uma demanda pessoal do autor e dos amigos dele, e é mantido conforme essa necessidade real evolui, não como um produto com roadmap fixo. Por ser open source, qualquer pessoa pode pegar o código e construir o que quiser em cima dele. Veja [Contribuir e licença](/sobre/contribuir).
 
 ## Posso usar este projeto comercialmente ou criar minha própria versão?
 

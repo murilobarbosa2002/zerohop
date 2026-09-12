@@ -2,8 +2,8 @@ import { defineConfig } from 'vitepress';
 
 export default defineConfig({
   base: '/electron-screen-share/',
-  title: 'ScreenShare',
-  description: 'Documentação pública do ScreenShare — compartilhamento de tela P2P, sem servidor, open source.',
+  title: 'ZeroHop',
+  description: 'Documentação pública do ZeroHop: compartilhamento de tela e voz P2P, sem servidor, open source.',
   lastUpdated: true,
   cleanUrls: true,
   themeConfig: {
@@ -21,7 +21,7 @@ export default defineConfig({
       {
         text: 'Guia',
         items: [
-          { text: 'O que é o ScreenShare', link: '/guia/o-que-e' },
+          { text: 'O que é o ZeroHop', link: '/guia/o-que-e' },
           { text: 'Como usar', link: '/guia/como-usar' },
           { text: 'Senha e moderação da sala', link: '/guia/senha-e-moderacao' }
         ]
@@ -52,7 +52,7 @@ export default defineConfig({
     ],
     socialLinks: [{ icon: 'github', link: 'https://github.com/murilobarbosa2002/electron-screen-share' }],
     footer: {
-      message: 'Projeto open source sob licença MIT.',
+      message: 'Projeto open source sob licença MIT. Feito por Murilo Barbosa.',
       copyright: 'Nenhum servidor. Nenhuma coleta de dados. Só P2P direto entre você e seus amigos.'
     }
   }
