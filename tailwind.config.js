@@ -36,6 +36,7 @@ export default {
         'card-padding-y': '18px',
         'badge-size': '22px',
         'form-column': '180px',
+        'form-column-wide': '280px',
         'self-preview-width': '160px',
         'self-preview-height': '90px',
         'room-sidebar-width': '260px',

@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
+import { getCaptureSourceKind } from '@/lib/captureSourceKind';
+import { CaptureSourceKind } from '@/constants/captureSourceKind';
 import { AudioSourceMode } from '@/constants/audioSourceMode';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { CaptureSource } from '@shared/ipc-types';
 import type { SelectOption } from '@/components/SelectField';
 
-const WINDOW_SOURCE_ID_PREFIX = 'window:';
-
 export function useAudioSourceOptions(sources: CaptureSource[]): SelectOption[] {
   return useMemo(() => {
-    const windowSources = sources.filter((source) => source.id.startsWith(WINDOW_SOURCE_ID_PREFIX));
+    const windowSources = sources.filter((source) => getCaptureSourceKind(source.id) === CaptureSourceKind.WINDOW);
     return [
       { value: AudioSourceMode.SAME_AS_VIDEO, label: ROOM_STRINGS.audioSameAsVideoOption },
       { value: AudioSourceMode.NONE, label: ROOM_STRINGS.audioNoneOption },

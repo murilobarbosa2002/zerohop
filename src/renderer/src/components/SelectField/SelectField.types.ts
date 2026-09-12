@@ -8,4 +8,5 @@ export interface SelectFieldProps {
   value: string;
   onChange: (value: string) => void;
   options: SelectOption[];
+  wide?: boolean;
 }

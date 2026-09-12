@@ -9,19 +9,31 @@ function isNoiseSource(source: DesktopCapturerSource): boolean {
   return source.id.startsWith('window:') && NOISE_SOURCE_NAME_PATTERNS.some((pattern) => pattern.test(source.name));
 }
 
+function deduplicateIdenticalWindows(sources: CaptureSource[]): CaptureSource[] {
+  const seen = new Set<string>();
+  return sources.filter((source) => {
+    if (!source.id.startsWith('window:')) return true;
+    const key = `${source.name}::${source.thumbnail}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 export function registerIpcHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.getSources, async (): Promise<CaptureSource[]> => {
     const sources = await desktopCapturer.getSources({
       types: CAPTURE_SOURCE_TYPES,
       thumbnailSize: { width: CAPTURE_THUMBNAIL_WIDTH, height: CAPTURE_THUMBNAIL_HEIGHT }
     });
-    return sources
+    const captureSources = sources
       .filter((source) => !isNoiseSource(source))
       .map((source) => ({
         id: source.id,
         name: source.name,
         thumbnail: source.thumbnail.toDataURL()
       }));
+    return deduplicateIdenticalWindows(captureSources);
   });
 
   ipcMain.on(IPC_CHANNELS.windowMinimize, () => getMainWindow()?.minimize());

@@ -1,8 +1,9 @@
+import { selectFieldVariants } from '@/components/SelectField/SelectField.variants';
 import type { SelectFieldProps } from '@/components/SelectField/SelectField.types';
 
-export function SelectField({ label, value, onChange, options }: SelectFieldProps) {
+export function SelectField({ label, value, onChange, options, wide }: SelectFieldProps) {
   return (
-    <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold min-w-0 max-w-form-column">
+    <label className={selectFieldVariants({ wide })}>
       {label}
       <select
         value={value}
