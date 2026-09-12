@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ActionButton } from '@/components/ActionButton';
+import { TextInput } from '@/components/TextInput';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
 import { CHAT_MESSAGE_MAX_LENGTH } from '@/constants/chat';
 import type { ChatInputProps } from '@/components/Chat/Chat.types';
@@ -16,7 +17,7 @@ export function ChatInput({ onSend }: ChatInputProps) {
 
   return (
     <div className="flex gap-2 mt-3">
-      <input
+      <TextInput
         type="text"
         value={text}
         onChange={(event) => setText(event.target.value)}
@@ -25,7 +26,7 @@ export function ChatInput({ onSend }: ChatInputProps) {
         }}
         maxLength={CHAT_MESSAGE_MAX_LENGTH}
         placeholder={CHAT_STRINGS.inputPlaceholder}
-        className="flex-1 bg-input-bg text-text border border-border rounded-lg px-3 py-2.5 text-sm placeholder:text-placeholder"
+        className="flex-1"
       />
       <ActionButton type="button" variant="primary" onClick={handleSend}>
         {CHAT_STRINGS.sendButton}

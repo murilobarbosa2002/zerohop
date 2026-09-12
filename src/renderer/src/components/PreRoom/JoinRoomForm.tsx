@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Card, CardTitle } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
+import { TextInput } from '@/components/TextInput';
 import { errorMessage } from '@/lib/errorMessage';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { ROOM_NAME_MAX_LENGTH, ROOM_CODE_MAX_LENGTH } from '@/constants/roomIdentity';
@@ -38,34 +39,21 @@ export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProp
       <form>
         <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mb-3">
           {PRE_ROOM_STRINGS.nameFieldLabel}
-          <input
-            type="text"
-            {...register('name')}
-            maxLength={ROOM_NAME_MAX_LENGTH}
-            placeholder={PRE_ROOM_STRINGS.nameFieldPlaceholder}
-            className="bg-input-bg text-text border border-border rounded-lg px-3 py-2.5 text-sm placeholder:text-placeholder"
-          />
+          <TextInput type="text" {...register('name')} maxLength={ROOM_NAME_MAX_LENGTH} placeholder={PRE_ROOM_STRINGS.nameFieldPlaceholder} />
         </label>
 
         <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mb-3">
           {PRE_ROOM_STRINGS.codeFieldLabel}
-          <input
-            type="text"
-            {...register('code')}
-            maxLength={ROOM_CODE_MAX_LENGTH}
-            placeholder={PRE_ROOM_STRINGS.codeFieldPlaceholder}
-            className="bg-input-bg text-text border border-border rounded-lg px-3 py-2.5 text-sm placeholder:text-placeholder"
-          />
+          <TextInput type="text" {...register('code')} maxLength={ROOM_CODE_MAX_LENGTH} placeholder={PRE_ROOM_STRINGS.codeFieldPlaceholder} />
         </label>
 
         <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mb-3">
           {PRE_ROOM_STRINGS.passwordFieldLabel}
-          <input
+          <TextInput
             type="password"
             {...register('password')}
             maxLength={ROOM_PASSWORD_MAX_LENGTH}
             placeholder={PRE_ROOM_STRINGS.joinPasswordFieldPlaceholder}
-            className="bg-input-bg text-text border border-border rounded-lg px-3 py-2.5 text-sm placeholder:text-placeholder"
           />
         </label>
 
