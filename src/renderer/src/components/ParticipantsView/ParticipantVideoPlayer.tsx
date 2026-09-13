@@ -45,7 +45,7 @@ export function ParticipantVideoPlayer({ member, audioState }: ParticipantVideoP
       <div className="relative mt-2.5">
         <button
           onClick={() => setLightboxOpen(true)}
-          className="absolute top-2 right-2 z-10 bg-black/70 border border-border text-text rounded-lg px-2.5 py-1.5 text-xs hover:bg-black/90 hover:border-accent"
+          className="absolute top-2 right-2 z-10 bg-panel-2 border border-border text-text px-2.5 py-1.5 text-xs hover:border-accent"
         >
           {COMMON_STRINGS.fullscreenButton}
         </button>
@@ -53,7 +53,7 @@ export function ParticipantVideoPlayer({ member, audioState }: ParticipantVideoP
           ref={videoRef}
           autoPlay
           playsInline
-          className="w-full h-video-default min-h-video-min max-h-video resize-y overflow-hidden bg-black rounded-lg border border-border block"
+          className="w-full aspect-video min-h-video-min max-h-video resize-y overflow-hidden object-contain bg-black rounded-lg border border-border block"
         />
       </div>
       {lightboxOpen && (

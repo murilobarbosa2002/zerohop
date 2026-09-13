@@ -29,6 +29,8 @@ export const LOG_STRINGS = {
   connectionTimeoutMessage: (label: string) => `A conexão com ${label} não abriu a tempo.`,
   connectionStatsErrorMessage: (label: string) => `Erro ao verificar o estado da conexão com ${label}.`,
   connectionLostMessage: (label: string) => `Conexão com ${label} caiu (provavelmente fechou o app sem sair da sala).`,
+  voiceCallRetryMessage: (label: string) => `A chamada de voz com ${label} não conectou a tempo — tentando de novo.`,
+  voiceCallFailedMessage: (label: string) => `Não foi possível estabelecer a chamada de voz com ${label} depois de várias tentativas.`,
   invalidMessageDiscardedMessage: 'Uma mensagem que não seguia o formato esperado foi descartada.',
   peerErrorMessage: 'Erro na conexão P2P.',
   sharingStartedMessage: 'Você começou a compartilhar sua tela.',

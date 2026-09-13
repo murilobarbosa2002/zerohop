@@ -68,7 +68,7 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
           {member.sharing && (
             <ActionButton
               variant={member.watching ? 'default' : 'primary'}
-              className="flex-1 mr-0 my-0"
+              className="flex-1 mr-0 my-0 text-badge-xs"
               onClick={() => onToggleWatch(member.id)}
             >
               {member.watching ? PARTICIPANTS_STRINGS.stopWatchingButton : PARTICIPANTS_STRINGS.watchButton}

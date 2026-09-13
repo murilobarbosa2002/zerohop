@@ -66,9 +66,6 @@ export default {
         'glow-accent': 'inset -1px -1px 0 #000000, inset 1px 1px 0 #ffffff',
         'glow-success': 'none'
       },
-      height: {
-        'video-default': '55vh'
-      },
       minHeight: {
         'video-min': '180px'
       },

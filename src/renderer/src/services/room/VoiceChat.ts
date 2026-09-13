@@ -1,8 +1,28 @@
 import type { MediaConnection, default as Peer } from 'peerjs';
 import { sendTo, safeCall } from '@/services/room/peerSession';
 import { CallKind } from '@/constants/callKind';
+import { VOICE_CALL_CONNECT_TIMEOUT_MS, VOICE_CALL_RETRY_DELAY_MS, VOICE_CALL_MAX_RETRIES } from '@/constants/timing';
+import { logEvent } from '@/services/appLog';
+import { LOG_STRINGS } from '@/strings/logs.strings';
+import { LogCategory, LogLevel } from '@shared/logEntry';
 import type { MemberRegistry } from '@/services/room/MemberRegistry';
 import type { MicStatusMessage } from '@/services/room/RoomProtocol';
+
+function waitForCallPeerConnection(call: MediaConnection, maxAttempts = 25): Promise<RTCPeerConnection | null> {
+  return new Promise((resolve) => {
+    let attempts = 0;
+    const poll = setInterval(() => {
+      attempts++;
+      if (call.peerConnection) {
+        clearInterval(poll);
+        resolve(call.peerConnection);
+      } else if (attempts > maxAttempts) {
+        clearInterval(poll);
+        resolve(null);
+      }
+    }, 200);
+  });
+}
 
 export class VoiceChat extends EventTarget {
   private registry: MemberRegistry;
@@ -37,12 +57,39 @@ export class VoiceChat extends EventTarget {
     this.outgoingCalls.clear();
   }
 
-  callMember(id: string): void {
+  callMember(id: string, attempt = 0): void {
     const peer = this.getPeer();
     if (!this.active || !this.localStream || !peer || this.outgoingCalls.has(id)) return;
     const call = peer.call(id, this.localStream, { metadata: { kind: CallKind.VOICE } });
     this.outgoingCalls.set(id, call);
     call.on('close', () => this.outgoingCalls.delete(id));
+    this.watchCallConnection(id, call, attempt);
+  }
+
+  private async watchCallConnection(id: string, call: MediaConnection, attempt: number): Promise<void> {
+    const peerConnection = await waitForCallPeerConnection(call);
+    if (!peerConnection) return;
+
+    let settled = false;
+    const onStateChange = (): void => {
+      const state = peerConnection.iceConnectionState;
+      if (state === 'connected' || state === 'completed') settled = true;
+    };
+    peerConnection.addEventListener('iceconnectionstatechange', onStateChange);
+
+    setTimeout(() => {
+      peerConnection.removeEventListener('iceconnectionstatechange', onStateChange);
+      if (settled) return;
+      if (this.outgoingCalls.get(id) !== call) return;
+      safeCall(call, 'close');
+      this.outgoingCalls.delete(id);
+      if (attempt < VOICE_CALL_MAX_RETRIES) {
+        logEvent(LogCategory.VOICE, LogLevel.WARNING, LOG_STRINGS.voiceCallRetryMessage(id));
+        setTimeout(() => this.callMember(id, attempt + 1), VOICE_CALL_RETRY_DELAY_MS);
+      } else {
+        logEvent(LogCategory.VOICE, LogLevel.ERROR, LOG_STRINGS.voiceCallFailedMessage(id));
+      }
+    }, VOICE_CALL_CONNECT_TIMEOUT_MS);
   }
 
   setMicMuted(muted: boolean): void {
