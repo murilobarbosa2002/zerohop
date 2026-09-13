@@ -3,6 +3,7 @@ import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
 import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
+import type { HotkeySettings, HotkeyBinding } from '@shared/hotkeySettings';
 
 const api = {
   getSources: (): Promise<CaptureSource[]> => ipcRenderer.invoke(IPC_CHANNELS.getSources),
@@ -42,6 +43,35 @@ const api = {
   copyToClipboard: (text: string): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.copyToClipboard, text),
   setUiZoomFactor: (factor: number): void => {
     webFrame.setZoomFactor(factor);
+  },
+  getHotkeySettings: (): Promise<HotkeySettings> => ipcRenderer.invoke(IPC_CHANNELS.getHotkeySettings),
+  setHotkeySettings: (hotkeys: HotkeySettings): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.setHotkeySettings, hotkeys),
+  recordNextHotkey: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.recordNextHotkey),
+  cancelRecordHotkey: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.cancelRecordHotkey),
+  onHotkeyRecorded: (callback: (binding: HotkeyBinding) => void): (() => void) => {
+    const listener = (_event: Electron.IpcRendererEvent, binding: HotkeyBinding): void => callback(binding);
+    ipcRenderer.on(IPC_CHANNELS.hotkeyRecorded, listener);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.hotkeyRecorded, listener);
+  },
+  onHotkeyMicMuteToggle: (callback: () => void): (() => void) => {
+    const listener = (): void => callback();
+    ipcRenderer.on(IPC_CHANNELS.hotkeyMicMuteToggle, listener);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.hotkeyMicMuteToggle, listener);
+  },
+  onHotkeyDeafenToggle: (callback: () => void): (() => void) => {
+    const listener = (): void => callback();
+    ipcRenderer.on(IPC_CHANNELS.hotkeyDeafenToggle, listener);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.hotkeyDeafenToggle, listener);
+  },
+  onHotkeyPttActiveChanged: (callback: (active: boolean) => void): (() => void) => {
+    const listener = (_event: Electron.IpcRendererEvent, active: boolean): void => callback(active);
+    ipcRenderer.on(IPC_CHANNELS.hotkeyPttActiveChanged, listener);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.hotkeyPttActiveChanged, listener);
+  },
+  onAppClosing: (callback: () => void): (() => void) => {
+    const listener = (): void => callback();
+    ipcRenderer.on(IPC_CHANNELS.appClosing, listener);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.appClosing, listener);
   }
 };
 

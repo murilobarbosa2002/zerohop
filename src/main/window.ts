@@ -5,11 +5,14 @@ import {
   WINDOW_DEFAULT_HEIGHT,
   WINDOW_MIN_WIDTH,
   WINDOW_MIN_HEIGHT,
-  WINDOW_BACKGROUND_COLOR
+  WINDOW_BACKGROUND_COLOR,
+  APP_CLOSE_SOUND_DELAY_MS
 } from '@main/constants/window';
 import { APP_ICON_RELATIVE_PATH, PRELOAD_SCRIPT_RELATIVE_PATH, RENDERER_HTML_RELATIVE_PATH } from '@main/constants/paths';
+import { IPC_CHANNELS } from '@shared/ipcChannels';
 
 let mainWindow: BrowserWindow | null = null;
+let closeConfirmed = false;
 
 export function createWindow(): BrowserWindow {
   mainWindow = new BrowserWindow({
@@ -32,6 +35,14 @@ export function createWindow(): BrowserWindow {
   } else {
     mainWindow.loadFile(join(__dirname, RENDERER_HTML_RELATIVE_PATH));
   }
+
+  mainWindow.on('close', (event) => {
+    if (closeConfirmed) return;
+    event.preventDefault();
+    closeConfirmed = true;
+    mainWindow?.webContents.send(IPC_CHANNELS.appClosing);
+    setTimeout(() => mainWindow?.destroy(), APP_CLOSE_SOUND_DELAY_MS);
+  });
 
   return mainWindow;
 }

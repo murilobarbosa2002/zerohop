@@ -54,239 +54,250 @@ import shareFpsChangeSound from '@/assets/sounds/share-fps-change.wav';
 import shareAudioChangeSound from '@/assets/sounds/share-audio-change.wav';
 import shareEditSound from '@/assets/sounds/share-edit.wav';
 import shareSaveChangesSound from '@/assets/sounds/share-save-changes.wav';
+import appOpenSound from '@/assets/sounds/app-open.wav';
+import appCloseSound from '@/assets/sounds/app-close.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
+import { SoundCategory } from '@/constants/soundEffects';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
 
 const KEY_CLICK_VOLUME_MULTIPLIER = 0.6;
 
-function play(source: string, volume: number): void {
+function play(source: string, category: SoundCategory, multiplier = 1): void {
   const audio = new Audio(source);
-  audio.volume = Math.min(1, Math.max(0, volume));
+  audio.volume = Math.min(1, Math.max(0, getSoundEffectsVolume(category) * multiplier));
   audio.play().catch(() => {});
 }
 
 export function playJoinedRoomSound(): void {
-  play(dialUpInternetSound, getSoundEffectsVolume());
+  play(dialUpInternetSound, SoundCategory.ROOM);
 }
 
 export function playMemberJoinedSound(): void {
-  play(icqUhOhSound, getSoundEffectsVolume());
+  play(icqUhOhSound, SoundCategory.ROOM);
 }
 
 export function playKeyClickSound(): void {
-  play(keyClickSound, getSoundEffectsVolume() * KEY_CLICK_VOLUME_MULTIPLIER);
+  play(keyClickSound, SoundCategory.CHAT, KEY_CLICK_VOLUME_MULTIPLIER);
 }
 
 export function playMessageSentSound(): void {
-  play(messageSentSound, getSoundEffectsVolume());
+  play(messageSentSound, SoundCategory.CHAT);
 }
 
 export function playMessageReceivedSound(): void {
-  play(messageReceivedSound, getSoundEffectsVolume());
+  play(messageReceivedSound, SoundCategory.CHAT);
 }
 
 export function playScreenOpenSound(): void {
-  play(screenOpenSound, getSoundEffectsVolume());
+  play(screenOpenSound, SoundCategory.INTERFACE);
 }
 
 export function playScreenCloseSound(): void {
-  play(screenCloseSound, getSoundEffectsVolume());
+  play(screenCloseSound, SoundCategory.INTERFACE);
 }
 
 export function playMicMuteSound(): void {
-  play(micMuteSound, getSoundEffectsVolume());
+  play(micMuteSound, SoundCategory.VOICE);
 }
 
 export function playMicUnmuteSound(): void {
-  play(micUnmuteSound, getSoundEffectsVolume());
+  play(micUnmuteSound, SoundCategory.VOICE);
 }
 
 export function playDeafenSound(): void {
-  play(deafenSound, getSoundEffectsVolume());
+  play(deafenSound, SoundCategory.VOICE);
 }
 
 export function playUndeafenSound(): void {
-  play(undeafenSound, getSoundEffectsVolume());
+  play(undeafenSound, SoundCategory.VOICE);
 }
 
 export function playShareStartSound(): void {
-  play(shareStartSound, getSoundEffectsVolume());
+  play(shareStartSound, SoundCategory.SHARING);
 }
 
 export function playShareStopSound(): void {
-  play(shareStopSound, getSoundEffectsVolume());
+  play(shareStopSound, SoundCategory.SHARING);
 }
 
 export function playErrorSound(): void {
-  play(errorSound, getSoundEffectsVolume());
+  play(errorSound, SoundCategory.INTERFACE);
 }
 
 export function playCopyClickSound(): void {
-  play(copyClickSound, getSoundEffectsVolume());
+  play(copyClickSound, SoundCategory.INTERFACE);
 }
 
 export function playKickSound(): void {
-  play(kickSound, getSoundEffectsVolume());
+  play(kickSound, SoundCategory.ROOM);
 }
 
 export function playJoinApprovedSound(): void {
-  play(joinApprovedSound, getSoundEffectsVolume());
+  play(joinApprovedSound, SoundCategory.ROOM);
 }
 
 export function playJoinDeniedSound(): void {
-  play(joinDeniedSound, getSoundEffectsVolume());
+  play(joinDeniedSound, SoundCategory.ROOM);
 }
 
 export function playSidebarShowSound(): void {
-  play(sidebarShowSound, getSoundEffectsVolume());
+  play(sidebarShowSound, SoundCategory.INTERFACE);
 }
 
 export function playSidebarHideSound(): void {
-  play(sidebarHideSound, getSoundEffectsVolume());
+  play(sidebarHideSound, SoundCategory.INTERFACE);
 }
 
 export function playChatShowSound(): void {
-  play(chatShowSound, getSoundEffectsVolume());
+  play(chatShowSound, SoundCategory.INTERFACE);
 }
 
 export function playChatHideSound(): void {
-  play(chatHideSound, getSoundEffectsVolume());
+  play(chatHideSound, SoundCategory.INTERFACE);
 }
 
 export function playAvatarSelectSound(): void {
-  play(avatarSelectSound, getSoundEffectsVolume());
+  play(avatarSelectSound, SoundCategory.INTERFACE);
 }
 
 export function playMessageDeleteSound(): void {
-  play(messageDeleteSound, getSoundEffectsVolume());
+  play(messageDeleteSound, SoundCategory.CHAT);
 }
 
 export function playMessageDeletedRemoteSound(): void {
-  play(messageDeletedRemoteSound, getSoundEffectsVolume());
+  play(messageDeletedRemoteSound, SoundCategory.CHAT);
 }
 
 export function playCreateRoomClickSound(): void {
-  play(createRoomClickSound, getSoundEffectsVolume());
+  play(createRoomClickSound, SoundCategory.ROOM);
 }
 
 export function playJoinRoomClickSound(): void {
-  play(joinRoomClickSound, getSoundEffectsVolume());
+  play(joinRoomClickSound, SoundCategory.ROOM);
 }
 
 export function playLogsClearOpenSound(): void {
-  play(logsClearOpenSound, getSoundEffectsVolume());
+  play(logsClearOpenSound, SoundCategory.INTERFACE);
 }
 
 export function playLogsClearCancelSound(): void {
-  play(logsClearCancelSound, getSoundEffectsVolume());
+  play(logsClearCancelSound, SoundCategory.INTERFACE);
 }
 
 export function playLogsClearConfirmSound(): void {
-  play(logsClearConfirmSound, getSoundEffectsVolume());
+  play(logsClearConfirmSound, SoundCategory.INTERFACE);
 }
 
 export function playTabStatusSound(): void {
-  play(tabStatusSound, getSoundEffectsVolume());
+  play(tabStatusSound, SoundCategory.INTERFACE);
 }
 
 export function playTabChangelogSound(): void {
-  play(tabChangelogSound, getSoundEffectsVolume());
+  play(tabChangelogSound, SoundCategory.INTERFACE);
 }
 
 export function playTabVersionsSound(): void {
-  play(tabVersionsSound, getSoundEffectsVolume());
+  play(tabVersionsSound, SoundCategory.INTERFACE);
 }
 
 export function playJoinRequestSound(): void {
-  play(joinRequestSound, getSoundEffectsVolume());
+  play(joinRequestSound, SoundCategory.ROOM);
 }
 
 export function playMemberLeftSound(): void {
-  play(memberLeftSound, getSoundEffectsVolume());
+  play(memberLeftSound, SoundCategory.ROOM);
 }
 
 export function playRoomLeftSound(): void {
-  play(roomLeftSound, getSoundEffectsVolume());
+  play(roomLeftSound, SoundCategory.ROOM);
 }
 
 export function playNameInputFocusSound(): void {
-  play(inputNameFocusSound, getSoundEffectsVolume());
+  play(inputNameFocusSound, SoundCategory.INTERFACE);
 }
 
 export function playNameInputTypeSound(): void {
-  play(inputNameTypeSound, getSoundEffectsVolume() * KEY_CLICK_VOLUME_MULTIPLIER);
+  play(inputNameTypeSound, SoundCategory.INTERFACE, KEY_CLICK_VOLUME_MULTIPLIER);
 }
 
 export function playPasswordInputFocusSound(): void {
-  play(inputPasswordFocusSound, getSoundEffectsVolume());
+  play(inputPasswordFocusSound, SoundCategory.INTERFACE);
 }
 
 export function playPasswordInputTypeSound(): void {
-  play(inputPasswordTypeSound, getSoundEffectsVolume() * KEY_CLICK_VOLUME_MULTIPLIER);
+  play(inputPasswordTypeSound, SoundCategory.INTERFACE, KEY_CLICK_VOLUME_MULTIPLIER);
 }
 
 export function playRoomCodeInputFocusSound(): void {
-  play(inputRoomCodeFocusSound, getSoundEffectsVolume());
+  play(inputRoomCodeFocusSound, SoundCategory.INTERFACE);
 }
 
 export function playRoomCodeInputTypeSound(): void {
-  play(inputRoomCodeTypeSound, getSoundEffectsVolume() * KEY_CLICK_VOLUME_MULTIPLIER);
+  play(inputRoomCodeTypeSound, SoundCategory.INTERFACE, KEY_CLICK_VOLUME_MULTIPLIER);
 }
 
 export function playChatInputFocusSound(): void {
-  play(inputChatFocusSound, getSoundEffectsVolume());
+  play(inputChatFocusSound, SoundCategory.CHAT);
 }
 
 export function playBackButtonSound(): void {
-  play(backButtonSound, getSoundEffectsVolume());
+  play(backButtonSound, SoundCategory.INTERFACE);
 }
 
 export function playOpenLogsSound(): void {
-  play(openLogsSound, getSoundEffectsVolume());
+  play(openLogsSound, SoundCategory.INTERFACE);
 }
 
 export function playOpenSettingsSound(): void {
-  play(openSettingsSound, getSoundEffectsVolume());
+  play(openSettingsSound, SoundCategory.INTERFACE);
 }
 
 export function playShareOpenPickerSound(): void {
-  play(shareOpenPickerSound, getSoundEffectsVolume());
+  play(shareOpenPickerSound, SoundCategory.SHARING);
 }
 
 export function playShareKindFullscreenSound(): void {
-  play(shareKindFullscreenSound, getSoundEffectsVolume());
+  play(shareKindFullscreenSound, SoundCategory.SHARING);
 }
 
 export function playShareKindWindowSound(): void {
-  play(shareKindWindowSound, getSoundEffectsVolume());
+  play(shareKindWindowSound, SoundCategory.SHARING);
 }
 
 export function playShareCancelSound(): void {
-  play(shareCancelSound, getSoundEffectsVolume());
+  play(shareCancelSound, SoundCategory.SHARING);
 }
 
 export function playShareSourceSelectSound(): void {
-  play(shareSourceSelectSound, getSoundEffectsVolume());
+  play(shareSourceSelectSound, SoundCategory.SHARING);
 }
 
 export function playShareResolutionChangeSound(): void {
-  play(shareResolutionChangeSound, getSoundEffectsVolume());
+  play(shareResolutionChangeSound, SoundCategory.SHARING);
 }
 
 export function playShareFpsChangeSound(): void {
-  play(shareFpsChangeSound, getSoundEffectsVolume());
+  play(shareFpsChangeSound, SoundCategory.SHARING);
 }
 
 export function playShareAudioChangeSound(): void {
-  play(shareAudioChangeSound, getSoundEffectsVolume());
+  play(shareAudioChangeSound, SoundCategory.SHARING);
 }
 
 export function playShareEditSound(): void {
-  play(shareEditSound, getSoundEffectsVolume());
+  play(shareEditSound, SoundCategory.SHARING);
 }
 
 export function playShareSaveChangesSound(): void {
-  play(shareSaveChangesSound, getSoundEffectsVolume());
+  play(shareSaveChangesSound, SoundCategory.SHARING);
+}
+
+export function playAppOpenSound(): void {
+  play(appOpenSound, SoundCategory.INTERFACE);
+}
+
+export function playAppCloseSound(): void {
+  play(appCloseSound, SoundCategory.INTERFACE);
 }
 
 export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; type: () => void }> = {

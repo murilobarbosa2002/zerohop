@@ -19,5 +19,14 @@ export const IPC_CHANNELS = {
   audioLoopbackStop: 'audio-loopback-stop',
   audioLoopbackChunk: 'audio-loopback-chunk',
   copyToClipboard: 'copy-to-clipboard',
-  focusWindow: 'focus-window'
+  focusWindow: 'focus-window',
+  getHotkeySettings: 'get-hotkey-settings',
+  setHotkeySettings: 'set-hotkey-settings',
+  recordNextHotkey: 'record-next-hotkey',
+  cancelRecordHotkey: 'cancel-record-hotkey',
+  hotkeyRecorded: 'hotkey-recorded',
+  hotkeyMicMuteToggle: 'hotkey-mic-mute-toggle',
+  hotkeyDeafenToggle: 'hotkey-deafen-toggle',
+  hotkeyPttActiveChanged: 'hotkey-ptt-active-changed',
+  appClosing: 'app-closing'
 } as const;

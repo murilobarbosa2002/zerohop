@@ -12,6 +12,8 @@ try {
   await win.getByRole('button', { name: 'Configurações' }).click();
   await win.waitForTimeout(500);
   check('settings screen opens', (await win.locator('input[type="checkbox"]').count()) > 0);
+  check('sound mixer shows the 5 categories', (await win.getByText('Chamada de voz').count()) > 0);
+  check('hotkey settings show the push-to-talk row', (await win.getByText('Push-to-talk (segurar pra falar)').count()) > 0);
 
   await win.getByText('← Voltar', { exact: true }).click();
   await win.waitForTimeout(300);

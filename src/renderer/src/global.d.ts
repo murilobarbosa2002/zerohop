@@ -1,6 +1,7 @@
 import type { CaptureSource } from '@shared/ipc-types';
 import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
+import type { HotkeySettings, HotkeyBinding } from '@shared/hotkeySettings';
 
 declare global {
   interface Window {
@@ -27,6 +28,15 @@ declare global {
       onAudioLoopbackChunk: (callback: (chunk: Uint8Array) => void) => () => void;
       copyToClipboard: (text: string) => Promise<void>;
       setUiZoomFactor: (factor: number) => void;
+      getHotkeySettings: () => Promise<HotkeySettings>;
+      setHotkeySettings: (hotkeys: HotkeySettings) => Promise<void>;
+      recordNextHotkey: () => Promise<void>;
+      cancelRecordHotkey: () => Promise<void>;
+      onHotkeyRecorded: (callback: (binding: HotkeyBinding) => void) => () => void;
+      onHotkeyMicMuteToggle: (callback: () => void) => () => void;
+      onHotkeyDeafenToggle: (callback: () => void) => () => void;
+      onHotkeyPttActiveChanged: (callback: (active: boolean) => void) => () => void;
+      onAppClosing: (callback: () => void) => () => void;
     };
   }
 }

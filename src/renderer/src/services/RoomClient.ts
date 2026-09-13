@@ -259,9 +259,13 @@ export class RoomClient extends EventTarget {
   }
 
   toggleMicMuted(): void {
-    const next = !this.voice.micMuted;
-    this.voice.setMicMuted(next);
-    this.micCapture?.setMuted(next);
+    this.setMicMuted(!this.voice.micMuted);
+  }
+
+  setMicMuted(muted: boolean): void {
+    if (this.voice.micMuted === muted) return;
+    this.voice.setMicMuted(muted);
+    this.micCapture?.setMuted(muted);
   }
 
   sendChatMessage(text: string): void {

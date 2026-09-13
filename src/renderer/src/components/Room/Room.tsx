@@ -87,6 +87,21 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
     [roomClient]
   );
 
+  function toggleDeafen(): void {
+    setDeafened((current) => {
+      const next = !current;
+      if (next) playDeafenSound();
+      else playUndeafenSound();
+      return next;
+    });
+  }
+
+  useEffect(() => window.api.onHotkeyMicMuteToggle(() => roomClient.toggleMicMuted()), [roomClient]);
+
+  useEffect(() => window.api.onHotkeyDeafenToggle(() => toggleDeafen()), []);
+
+  useEffect(() => window.api.onHotkeyPttActiveChanged((active) => roomClient.setMicMuted(!active)), [roomClient]);
+
   function handleLeave(): void {
     roomClient.leaveRoom();
     playRoomLeftSound();
@@ -159,14 +174,7 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
                 micMuted={micMuted}
                 deafened={deafened}
                 onToggleMic={() => roomClient.toggleMicMuted()}
-                onToggleDeafen={() =>
-                  setDeafened((current) => {
-                    const next = !current;
-                    if (next) playDeafenSound();
-                    else playUndeafenSound();
-                    return next;
-                  })
-                }
+                onToggleDeafen={toggleDeafen}
                 voiceAudioState={voiceAudioState}
                 onOpenLogs={onOpenLogs}
                 onOpenSettings={onOpenSettings}

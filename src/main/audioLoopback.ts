@@ -43,8 +43,6 @@ export function stopAudioLoopback(): void {
   try {
     activeCapture?.stop();
   } catch {
-    // A captura pode já ter parado sozinha (ex: o app de origem fechou) e o
-    // driver acusa estado inválido (HRESULT 0x8007139F) ao pedir pra parar de novo.
   }
   activeCapture = null;
 }

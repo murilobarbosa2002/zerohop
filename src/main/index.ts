@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu, session } from 'electron';
 import { createWindow } from '@main/window';
 import { registerIpcHandlers } from '@main/ipc';
 import { initAutoUpdater, registerUpdaterIpcHandlers } from '@main/updater';
+import { startGlobalHotkeys } from '@main/globalHotkeys';
 import { appendLog } from '@main/logger';
 import { getSettings, ensureSettingsFileExists } from '@main/settings';
 import { APP_ID } from '@main/constants/app';
@@ -31,6 +32,7 @@ app.whenReady().then(() => {
   registerUpdaterIpcHandlers();
   createWindow();
   initAutoUpdater();
+  startGlobalHotkeys();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

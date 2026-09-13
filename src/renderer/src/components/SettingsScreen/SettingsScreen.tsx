@@ -2,6 +2,7 @@ import { AudioOutputSettings } from '@/components/SettingsScreen/AudioOutputSett
 import { MicInputSettings } from '@/components/SettingsScreen/MicInputSettings';
 import { SoundEffectsSettings } from '@/components/SettingsScreen/SoundEffectsSettings';
 import { UiScaleSettings } from '@/components/SettingsScreen/UiScaleSettings';
+import { HotkeySettings } from '@/components/SettingsScreen/HotkeySettings';
 import { playBackButtonSound } from '@/services/soundEffects';
 import { SETTINGS_STRINGS } from '@/strings/settings.strings';
 import type { SettingsScreenProps } from '@/components/SettingsScreen/SettingsScreen.types';
@@ -27,6 +28,7 @@ export function SettingsScreen({ onBack, roomClient }: SettingsScreenProps) {
         <MicInputSettings roomClient={roomClient} />
         <SoundEffectsSettings />
         <UiScaleSettings />
+        <HotkeySettings />
       </div>
     </div>
   );

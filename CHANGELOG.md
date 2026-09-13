@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão | Resumo |
 | --- | --- |
+| [0.36.9](docs/releases/v0.36.9.md) | Teclas de atalho globais, push-to-talk, mixer de sons por categoria, escala padrão 120% |
 | [0.36.8](docs/releases/v0.36.8.md) | Som próprio em cada etapa do fluxo de compartilhar tela |
 | [0.36.7](docs/releases/v0.36.7.md) | Sons diferentes ao abrir Logs e Configurações |
 | [0.36.6](docs/releases/v0.36.6.md) | Som ao clicar em "Voltar", corrige ícone de gato deslocado no perfil |
