@@ -1,5 +1,6 @@
 export enum Overlay {
   UPDATES = 'updates',
   SETTINGS = 'settings',
-  LOGS = 'logs'
+  LOGS = 'logs',
+  ADD_ROOM = 'add-room'
 }

@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Cada linha tem
 
 | Versão | Resumo |
 | --- | --- |
+| [0.35.0](docs/releases/v0.35.0.md) | Participe de várias salas ao mesmo tempo, com voz só na sala em foco |
 | [0.34.0](docs/releases/v0.34.0.md) | Mais sons nostálgicos espalhados pela interface (mutar, compartilhar, copiar, erros, etc) |
 | [0.33.0](docs/releases/v0.33.0.md) | Apagar mensagens do chat, paginação em Logs/Changelog/Versões, fontes maiores |
 | [0.32.1](docs/releases/v0.32.1.md) | Ícone do app atualizado pro visual retrô (florzinha estilo Windows 98) |

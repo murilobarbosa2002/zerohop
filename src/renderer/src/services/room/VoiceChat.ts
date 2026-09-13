@@ -21,7 +21,8 @@ export class VoiceChat extends EventTarget {
   start(stream: MediaStream): void {
     this.localStream = stream;
     this.active = true;
-    this.micMuted = false;
+    const track = stream.getAudioTracks()[0];
+    if (track) track.enabled = !this.micMuted;
     for (const id of this.registry.ids()) this.callMember(id);
   }
 

@@ -14,8 +14,6 @@ import { useSourcePicker } from '@/hooks/useSourcePicker';
 import { useMicMuted } from '@/hooks/useMicMuted';
 import { useMemberAudioState } from '@/hooks/useMemberAudioState';
 import {
-  playMemberJoinedSound,
-  playMessageReceivedSound,
   playMicMuteSound,
   playMicUnmuteSound,
   playDeafenSound,
@@ -49,17 +47,6 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
   useEffect(() => {
     refresh();
   }, [refresh]);
-
-  useEffect(
-    () => onTyped<RoomClientEventDetail['member-joined']>(roomClient, 'member-joined', () => playMemberJoinedSound()),
-    [roomClient]
-  );
-
-  useEffect(
-    () =>
-      onTyped<RoomClientEventDetail['chat-message-received']>(roomClient, 'chat-message-received', () => playMessageReceivedSound()),
-    [roomClient]
-  );
 
   useEffect(
     () =>

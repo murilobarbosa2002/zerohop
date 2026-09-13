@@ -83,9 +83,17 @@ Você pode arrastar o canto inferior direito do vídeo pra deixá-lo maior ou me
 
 A coluna da direita tem um chat de texto simples, visível pra todos os participantes autenticados. Links enviados no chat viram clicáveis automaticamente, abrindo no seu navegador padrão. Você pode apagar suas próprias mensagens a qualquer momento (some pra todo mundo na sala); quem criou a sala também pode apagar a mensagem de qualquer pessoa, útil pra moderação. As mensagens não ficam salvas em lugar nenhum. Veja [Privacidade e criptografia](/seguranca/privacidade) pra entender exatamente o porquê.
 
+## Participar de várias salas ao mesmo tempo
+
+Sem sair de uma sala, clique no **+** na barra fina à esquerda da janela (o "trocador de salas") pra criar ou entrar em outra sala, do mesmo jeito que criar/entrar na primeira. Cada sala em que você está aparece como um quadrado nessa barra; clicar num deles troca o foco pra aquela sala.
+
+Só a sala em foco tem áudio de voz ativo (seu microfone e o que você ouve dos outros). As demais continuam conectadas em segundo plano — o chat, as notificações de "alguém entrou" e o status de compartilhamento de cada uma continuam funcionando normalmente — só sem tocar a voz de ninguém até você focar nela. Uma bolinha com número aparece no quadrado de uma sala em segundo plano quando chega mensagem nova nela.
+
+Se você mutar o microfone antes de trocar de sala, ele continua mutado quando você voltar.
+
 ## Sair da sala
 
-Clique em **Sair da sala** a qualquer momento, ou simplesmente feche o programa. Isso encerra sua conexão com todo mundo e apaga imediatamente o seu histórico de chat daquela sessão.
+Clique em **Sair da sala** a qualquer momento, ou simplesmente feche o programa. Isso encerra sua conexão com todo mundo daquela sala e apaga imediatamente o seu histórico de chat dela. Sair de uma sala não afeta as outras em que você ainda estiver.
 
 ## Logs: veja tudo que o app está fazendo
 

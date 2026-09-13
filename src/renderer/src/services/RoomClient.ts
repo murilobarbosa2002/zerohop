@@ -350,6 +350,15 @@ export class RoomClient extends EventTarget {
     await this.startVoiceChat();
   }
 
+  pauseVoice(): void {
+    this.stopVoiceChat();
+  }
+
+  async resumeVoice(): Promise<void> {
+    if (this.micActive || this.roomCode === null) return;
+    await this.startVoiceChat();
+  }
+
   private async startVoiceChat(): Promise<void> {
     try {
       this.micCapture = await captureMicrophone(getMicInputDeviceId(), getMicInputGain(), getNoiseSuppressionEnabled());
