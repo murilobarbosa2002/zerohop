@@ -258,7 +258,9 @@ export class RoomClient extends EventTarget {
   }
 
   toggleMicMuted(): void {
-    this.voice.setMicMuted(!this.voice.micMuted);
+    const next = !this.voice.micMuted;
+    this.voice.setMicMuted(next);
+    this.micCapture?.setMuted(next);
   }
 
   sendChatMessage(text: string): void {
@@ -379,6 +381,7 @@ export class RoomClient extends EventTarget {
       this.dispatchEvent(new CustomEvent('mic-active-changed', { detail: { active: false } }));
       return;
     }
+    this.micCapture.setMuted(this.voice.micMuted);
     this.voice.start(this.micCapture.stream);
     this.unsubscribeMicGain = subscribeToMicInputGain(() => this.micCapture?.setGain(getMicInputGain()));
     this.unsubscribeMicDevice = subscribeToMicInputDevice(() => this.recaptureMicrophone());
@@ -390,6 +393,7 @@ export class RoomClient extends EventTarget {
   private async recaptureMicrophone(): Promise<void> {
     try {
       const nextCapture = await captureMicrophone(getMicInputDeviceId(), getMicInputGain(), getNoiseSuppressionEnabled());
+      nextCapture.setMuted(this.voice.micMuted);
       this.micCapture = nextCapture;
       this.voice.replaceStream(nextCapture.stream);
     } catch (error) {

@@ -8,7 +8,7 @@ export function Avatar({ avatarId, fallbackLetter, size = 26, selected, onClick 
   const content = avatarId ? (
     <AvatarGlyph avatarId={avatarId} size={Math.round(size * 0.62)} />
   ) : (
-    <span className="font-bold text-white" style={{ fontSize: size * 0.5 }}>
+    <span className="font-bold text-text-on-accent" style={{ fontSize: size * 0.5 }}>
       {fallbackLetter}
     </span>
   );

@@ -21,10 +21,18 @@ export async function captureMicrophone(deviceId: string, gain: number, noiseSup
   const destination = audioContext.createMediaStreamDestination();
   source.connect(gainNode).connect(destination);
 
+  let currentGain = gain;
+  let muted = false;
+
   return {
     stream: destination.stream,
     setGain: (value) => {
-      gainNode.gain.value = value;
+      currentGain = value;
+      if (!muted) gainNode.gain.value = value;
+    },
+    setMuted: (value) => {
+      muted = value;
+      gainNode.gain.value = muted ? 0 : currentGain;
     },
     stop: () => {
       rawStream.getTracks().forEach((track) => track.stop());
