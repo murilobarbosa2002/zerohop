@@ -2,6 +2,7 @@ import { Logo } from '@/components/Logo';
 import { WindowButton } from '@/components/WindowButton';
 import { LogsIcon, SettingsIcon, MinimizeIcon, MaximizeIcon, CloseIcon } from '@/components/icons';
 import { useAppUpdater } from '@/hooks/useAppUpdater';
+import { playOpenLogsSound, playOpenSettingsSound } from '@/services/soundEffects';
 import { APP_SHELL_STRINGS } from '@/strings/appShell.strings';
 import { TITLE_BAR_STRINGS } from '@/strings/titleBar.strings';
 import { UPDATES_STRINGS } from '@/strings/updates.strings';
@@ -27,10 +28,22 @@ export function TitleBar({ onOpenUpdates, onOpenSettings, onOpenLogs }: TitleBar
         )}
       </div>
       <div className="flex h-full">
-        <WindowButton onClick={onOpenLogs} label={TITLE_BAR_STRINGS.logsButtonLabel}>
+        <WindowButton
+          onClick={() => {
+            playOpenLogsSound();
+            onOpenLogs();
+          }}
+          label={TITLE_BAR_STRINGS.logsButtonLabel}
+        >
           <LogsIcon className="w-3 h-3" />
         </WindowButton>
-        <WindowButton onClick={onOpenSettings} label={TITLE_BAR_STRINGS.settingsButtonLabel}>
+        <WindowButton
+          onClick={() => {
+            playOpenSettingsSound();
+            onOpenSettings();
+          }}
+          label={TITLE_BAR_STRINGS.settingsButtonLabel}
+        >
           <SettingsIcon className="w-3 h-3" />
         </WindowButton>
         <WindowButton onClick={() => window.api.minimize()} label={TITLE_BAR_STRINGS.minimizeButtonLabel}>

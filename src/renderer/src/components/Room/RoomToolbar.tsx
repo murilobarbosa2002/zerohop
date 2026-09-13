@@ -1,6 +1,7 @@
 import { Tooltip } from '@/components/Tooltip';
 import { MicIcon, SpeakerIcon, LogsIcon, SettingsIcon } from '@/components/icons';
 import { roomToolbarButtonVariants } from '@/components/Room/RoomToolbar.variants';
+import { playOpenLogsSound, playOpenSettingsSound } from '@/services/soundEffects';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { TITLE_BAR_STRINGS } from '@/strings/titleBar.strings';
 import type { RoomToolbarProps } from '@/components/Room/RoomToolbar.types';
@@ -22,12 +23,26 @@ export function RoomToolbar({ micMuted, deafened, onToggleMic, onToggleDeafen, o
         </button>
       </Tooltip>
       <Tooltip label={TITLE_BAR_STRINGS.logsButtonLabel}>
-        <button onClick={onOpenLogs} aria-label={TITLE_BAR_STRINGS.logsButtonLabel} className={roomToolbarButtonVariants()}>
+        <button
+          onClick={() => {
+            playOpenLogsSound();
+            onOpenLogs();
+          }}
+          aria-label={TITLE_BAR_STRINGS.logsButtonLabel}
+          className={roomToolbarButtonVariants()}
+        >
           <LogsIcon />
         </button>
       </Tooltip>
       <Tooltip label={TITLE_BAR_STRINGS.settingsButtonLabel}>
-        <button onClick={onOpenSettings} aria-label={TITLE_BAR_STRINGS.settingsButtonLabel} className={roomToolbarButtonVariants()}>
+        <button
+          onClick={() => {
+            playOpenSettingsSound();
+            onOpenSettings();
+          }}
+          aria-label={TITLE_BAR_STRINGS.settingsButtonLabel}
+          className={roomToolbarButtonVariants()}
+        >
           <SettingsIcon />
         </button>
       </Tooltip>
