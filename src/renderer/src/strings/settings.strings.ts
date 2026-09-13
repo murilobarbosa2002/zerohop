@@ -21,5 +21,7 @@ export const SETTINGS_STRINGS = {
   grantMicPermissionButton: 'Permitir microfone',
   micPermissionOutsideRoomHint: 'Conceda a permissão do microfone agora pra já estar liberado na próxima vez que entrar numa sala.',
   micPermissionGrantedStatus: 'Permissão concedida.',
-  micPermissionStillDeniedStatus: 'Ainda sem permissão — talvez precise liberar o microfone nas configurações do Windows pra este app.'
+  micPermissionStillDeniedStatus: 'Ainda sem permissão — talvez precise liberar o microfone nas configurações do Windows pra este app.',
+  soundEffectsTitle: 'Efeitos sonoros',
+  soundEffectsHint: 'Volume do som que toca ao criar/entrar numa sala e do som que os outros ouvem quando alguém novo entra.'
 } as const;

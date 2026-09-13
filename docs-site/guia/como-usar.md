@@ -18,7 +18,7 @@ Clicando no número da versão, no canto superior esquerdo da janela (ao lado do
 
 ## Configurações
 
-O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com estas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele, e ligar/desligar a **supressão de ruído** do microfone (vem ligada por padrão).
+O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com estas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele, ligar/desligar a **supressão de ruído** do microfone (vem ligada por padrão), e ajustar o **volume dos efeitos sonoros** (o som de entrar/criar sala e o som de alguém novo entrando).
 
 A **captura otimizada para jogos** (Windows.Graphics.Capture) e o **áudio isolado por aplicativo** ao compartilhar uma janela específica já vêm ativados por padrão, depois de testados e confirmados como estáveis — não são mais opções configuráveis. Veja [Solução de problemas](/seguranca/solucao-de-problemas#cursor-sumindo-imagem-travando-ou-piscando-ao-compartilhar-jogos) se notar algum comportamento estranho de captura ou áudio.
 
