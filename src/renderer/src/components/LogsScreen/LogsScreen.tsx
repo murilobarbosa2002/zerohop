@@ -6,7 +6,12 @@ import { ClearLogsConfirmation } from '@/components/LogsScreen/ClearLogsConfirma
 import { Pagination } from '@/components/Pagination';
 import { useAppLogs } from '@/hooks/useAppLogs';
 import { usePagination } from '@/hooks/usePagination';
-import { playLogsClearOpenSound, playLogsClearCancelSound, playLogsClearConfirmSound } from '@/services/soundEffects';
+import {
+  playLogsClearOpenSound,
+  playLogsClearCancelSound,
+  playLogsClearConfirmSound,
+  playBackButtonSound
+} from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { LOGS_PAGE_SIZE } from '@/constants/pagination';
 import type { LogCategory } from '@shared/logEntry';
@@ -34,7 +39,13 @@ export function LogsScreen({ onBack }: LogsScreenProps) {
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex items-center gap-3 px-5 py-3 border-b border-border flex-shrink-0">
-        <button onClick={onBack} className="text-badge-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent">
+        <button
+          onClick={() => {
+            playBackButtonSound();
+            onBack();
+          }}
+          className="text-badge-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent"
+        >
           {LOG_STRINGS.backButton}
         </button>
         <p className="font-bold text-body-sm-alt">{LOG_STRINGS.screenTitle}</p>

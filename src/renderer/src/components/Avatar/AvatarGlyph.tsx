@@ -72,7 +72,7 @@ export function AvatarGlyph({ avatarId, size = 16 }: AvatarGlyphProps) {
     case AvatarId.CAT:
       return (
         <svg {...common}>
-          <path d="M6 4 L9 9 H15 L18 4 L15.5 10.5 A6 6 0 1 1 8.5 10.5 Z" fill="#fff" />
+          <path d="M6 4 L9 9 H15 L18 4 L15.5 10.5 A6 6 0 1 1 8.5 10.5 Z" fill="#fff" transform="translate(0 1.75)" />
         </svg>
       );
     case AvatarId.NOTE:

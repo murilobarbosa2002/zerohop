@@ -41,6 +41,7 @@ import inputPasswordTypeSound from '@/assets/sounds/input-password-type.wav';
 import inputRoomCodeFocusSound from '@/assets/sounds/input-roomcode-focus.wav';
 import inputRoomCodeTypeSound from '@/assets/sounds/input-roomcode-type.wav';
 import inputChatFocusSound from '@/assets/sounds/input-chat-focus.wav';
+import backButtonSound from '@/assets/sounds/back-button.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
 
@@ -222,6 +223,10 @@ export function playRoomCodeInputTypeSound(): void {
 
 export function playChatInputFocusSound(): void {
   play(inputChatFocusSound, getSoundEffectsVolume());
+}
+
+export function playBackButtonSound(): void {
+  play(backButtonSound, getSoundEffectsVolume());
 }
 
 export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; type: () => void }> = {

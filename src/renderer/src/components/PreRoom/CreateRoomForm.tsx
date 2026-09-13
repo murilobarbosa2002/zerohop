@@ -8,7 +8,7 @@ import { PasswordInput } from '@/components/PasswordInput';
 import { AvatarPicker } from '@/components/AvatarPicker';
 import { useAvatarId } from '@/hooks/useAvatarId';
 import { errorMessage } from '@/lib/errorMessage';
-import { playErrorSound } from '@/services/soundEffects';
+import { playErrorSound, playBackButtonSound } from '@/services/soundEffects';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { ROOM_NAME_MAX_LENGTH } from '@/constants/roomIdentity';
@@ -67,7 +67,14 @@ export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomForm
         </label>
 
         <div className="flex gap-2 mt-2">
-          <ActionButton type="button" variant="default" onClick={onBack}>
+          <ActionButton
+            type="button"
+            variant="default"
+            onClick={() => {
+              playBackButtonSound();
+              onBack();
+            }}
+          >
             {PRE_ROOM_STRINGS.backButton}
           </ActionButton>
           <ActionButton type="button" variant="primary" className="flex-1" onClick={handleSubmit(handleCreate)}>

@@ -6,7 +6,7 @@ import { useAppUpdater } from '@/hooks/useAppUpdater';
 import { UpdatesTab } from '@/constants/updatesTab';
 import { UPDATES_STRINGS } from '@/strings/updates.strings';
 import { navItemVariants } from '@/components/UpdatesScreen/UpdatesScreen.variants';
-import { playTabStatusSound, playTabChangelogSound, playTabVersionsSound } from '@/services/soundEffects';
+import { playTabStatusSound, playTabChangelogSound, playTabVersionsSound, playBackButtonSound } from '@/services/soundEffects';
 import type { UpdatesScreenProps } from '@/components/UpdatesScreen/UpdatesScreen.types';
 
 const NAV_ITEMS: { tab: UpdatesTab; label: string; playSound: () => void }[] = [
@@ -22,7 +22,13 @@ export function UpdatesScreen({ onBack }: UpdatesScreenProps) {
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex items-center gap-3 px-5 py-3 border-b border-border flex-shrink-0">
-        <button onClick={onBack} className="text-badge-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent">
+        <button
+          onClick={() => {
+            playBackButtonSound();
+            onBack();
+          }}
+          className="text-badge-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent"
+        >
           {UPDATES_STRINGS.backButton}
         </button>
         <p className="font-bold text-body-sm-alt">{UPDATES_STRINGS.modalTitle}</p>
