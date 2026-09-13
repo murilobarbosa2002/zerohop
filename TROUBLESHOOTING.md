@@ -37,7 +37,7 @@ Isso acontece com alguns jogos (relatado com Project Zomboid e Deadlock) e tem t
 1. No atalho/executável do jogo, vá em **Propriedades** → aba **Compatibilidade** e marque **"Desativar otimizações de tela cheia"**.
 2. Mantenha o jogo em modo **Borderless/Windowed** (não fullscreen exclusivo).
 
-**O que tentamos disponibilizar, com o risco declarado:** em Configurações existe um interruptor **"Captura otimizada para jogos (experimental)"**, desligado por padrão. Ele faz o app tentar usar a API `Windows.Graphics.Capture` do próprio Windows em vez do método padrão, que foi desenhada pela Microsoft pra lidar melhor com cursor e jogos em tela cheia. O motivo de vir desligada por padrão, e exigir uma confirmação explícita pra ligar, é que **essa API já causou travamento completo do PC em pelo menos um computador testado**, antes mesmo de existir como opção (na época, tentamos ativar isso à força, pra todo mundo, sem interruptor, e não deu certo). Agora é opt-in, uma pessoa por vez, sabendo do risco. Pode resolver seu caso, pode não resolver, pode não fazer diferença nenhuma. Não temos como garantir de antemão, porque o comportamento varia por driver de GPU e versão do Windows. Se ativar e o app parar de abrir, veja "O app não abre mais depois de ativar uma configuração" logo abaixo: dá pra desligar essa opção editando um arquivo de texto, sem precisar abrir o app.
+**O que o app já faz por padrão:** o app usa a API `Windows.Graphics.Capture` do próprio Windows em vez do método padrão, desenhada pela Microsoft pra lidar melhor com cursor e jogos em tela cheia. **Essa API já causou travamento completo do PC em pelo menos um computador testado** numa versão bem mais antiga do app, quando tentamos ativá-la à força, sem interruptor. Por isso ficou opt-in por várias versões; depois de re-testada e confirmada estável, voltou a vir ativada por padrão pra todo mundo, sem opção de configuração. Pode resolver seu caso, pode não resolver, pode não fazer diferença nenhuma — o comportamento ainda varia por driver de GPU e versão do Windows. Se o app parar de abrir depois de uma atualização, veja "O app não abre mais depois de ativar uma configuração" logo abaixo.
 
 **O que consideramos e decidimos não fazer**, pra deixar claro que pensamos nas alternativas:
 
@@ -55,11 +55,11 @@ Não conseguimos detectar isso de forma confiável dentro do app (o vídeo conti
 
 Por padrão, o seletor "áudio de só um app específico" na hora de compartilhar uma janela não funciona como o nome sugere. Isso não é um bug introduzido por engano: é uma limitação de longa data do Chromium/Electron (a base deste app) — a captura de áudio de uma janela específica sempre pega o **áudio de saída do sistema inteiro**, ignorando qual janela foi escolhida, porque o Chromium nunca implementou isolamento de áudio por janela nessa API. É por isso que a voz de quem está na call (incluindo a sua própria, saindo pelo ZeroHop) pode vazar pro áudio compartilhado mesmo escolhendo um app específico.
 
-**A partir da v0.28.0 existe uma correção experimental de verdade pra isso**: em Configurações → "Áudio isolado por aplicativo ao compartilhar janela (experimental)", desligada por padrão. Ela usa uma biblioteca nativa pequena (`loopback-capture`, baseada na API oficial do Windows `WASAPI Process Loopback`) pra capturar o áudio só do processo escolhido de verdade. Por depender de código nativo de terceiros ainda pouco testado em máquinas diferentes, vem desligada por padrão e pede uma confirmação explícita pra ativar — se der problema, é só desligar de novo que a captura volta ao comportamento padrão (áudio do sistema inteiro).
+**A partir da v0.28.0 existe uma correção de verdade pra isso**, usando uma biblioteca nativa pequena (`loopback-capture`, baseada na API oficial do Windows `WASAPI Process Loopback`) pra capturar o áudio só do processo escolhido de verdade. Começou como opção experimental (desligada por padrão); depois de testada e confirmada estável, passou a vir **ativada por padrão pra todo mundo**, sem opção de configuração na interface. Se algum dia der problema, dá pra desligar editando o `settings.json` manualmente — veja a seção logo abaixo.
 
-## O app não abre mais depois de ativar uma configuração (ex: a captura experimental)
+## O app não abre mais depois de uma atualização, ou algum recurso está causando instabilidade
 
-Isso é exatamente o cenário que a captura experimental acima avisa que pode acontecer. Por isso as configurações do app não vivem só dentro da interface: elas ficam salvas num arquivo de texto simples que dá pra editar na mão, mesmo com o app fechado ou travado.
+As configurações mais sensíveis do app (as que mexem com captura de tela/áudio em nível baixo) não vivem só dentro da interface: elas ficam salvas num arquivo de texto simples que dá pra editar na mão, mesmo com o app fechado ou travado.
 
 **Onde fica o arquivo:** `settings.json`, dentro da pasta de dados do app.
 
@@ -72,10 +72,10 @@ Isso é exatamente o cenário que a captura experimental acima avisa que pode ac
 3. O conteúdo é um JSON pequeno, por exemplo:
 
    ```json
-   { "autoUpdateEnabled": true, "experimentalWgcCaptureEnabled": true }
+   { "autoUpdateEnabled": true, "experimentalWgcCaptureEnabled": true, "experimentalPerAppAudioEnabled": true }
    ```
 
-4. Troque o valor que estiver causando o problema pra `false` (no caso da captura experimental, `"experimentalWgcCaptureEnabled": false`) e salve o arquivo.
+4. Troque o valor que estiver causando o problema pra `false` e salve o arquivo.
 5. Abra o ZeroHop de novo.
 
 Os campos que existem hoje:
@@ -83,9 +83,20 @@ Os campos que existem hoje:
 | Campo | Valores | O que faz |
 | --- | --- | --- |
 | `autoUpdateEnabled` | `true` / `false` | Se o app verifica e baixa atualizações sozinho. Mesmo interruptor da tela de Atualizações. |
-| `experimentalWgcCaptureEnabled` | `true` / `false` | Se o app tenta usar `Windows.Graphics.Capture` ao iniciar. Mesmo interruptor da tela de Configurações. Esse é o campo que te salva caso ativar essa opção deixe o app instável a ponto de não conseguir desligá-la pela própria interface. |
+| `experimentalWgcCaptureEnabled` | `true` / `false` | Se o app usa `Windows.Graphics.Capture` ao iniciar (captura otimizada pra jogos). Vem `true` por padrão e não tem mais interruptor na interface — esse campo é a única forma de desligar caso cause instabilidade no seu PC. |
+| `experimentalPerAppAudioEnabled` | `true` / `false` | Se o app usa captura de áudio por processo (WASAPI) ao compartilhar uma janela com "áudio de só um app específico". Vem `true` por padrão e também não tem mais interruptor na interface. |
 
-O arquivo já é criado sozinho com os valores padrão na primeira vez que o app abre, então ele sempre vai existir depois disso. Mas se o arquivo não existir, estiver vazio ou tiver um JSON inválido por qualquer outro motivo, o app simplesmente ignora e usa os valores padrão (`autoUpdateEnabled: true`, `experimentalWgcCaptureEnabled: false`). Não precisa ter medo de "quebrar" o arquivo além do reparável: na pior das hipóteses, é só apagá-lo inteiro que o app recria com os padrões.
+O arquivo já é criado sozinho com os valores padrão na primeira vez que o app abre, então ele sempre vai existir depois disso. Mas se o arquivo não existir, estiver vazio ou tiver um JSON inválido por qualquer outro motivo, o app simplesmente ignora e usa os valores padrão. Não precisa ter medo de "quebrar" o arquivo além do reparável: na pior das hipóteses, é só apagá-lo inteiro que o app recria com os padrões.
+
+## Com 3 ou mais pessoas na sala, dois amigos não se veem/ouvem entre si (só cada um com quem criou a sala)
+
+A arquitetura da sala é **mesh** (malha): não existe um "servidor" central retransmitindo vídeo/voz — cada par de participantes abre sua própria conexão P2P direta entre si. Numa sala com 3 pessoas (A, B e C), isso significa **3 conexões diretas** (A↔B, A↔C, B↔C), não só duas passando por quem criou a sala.
+
+Quando isso falha, o sintoma é exatamente esse: A (quem criou a sala) consegue ver e ouvir B e C normalmente, mas B e C não conseguem se ver/ouvir um ao outro, como se cada um estivesse numa sala separada só com A. Isso acontece quando a conexão **B↔C especificamente** não consegue se estabelecer via NAT (STUN), mesmo que A↔B e A↔C tenham funcionado sem problema — cada par de PCs tem sua própria combinação de roteador/NAT/rede, e é perfeitamente possível que duas dessas combinações "conversem" bem com a de quem criou a sala, mas não consigam abrir uma rota direta entre si.
+
+**Isso é a mesma limitação intencional de "STUN sem TURN" descrita abaixo**, só que fica mais evidente com 3+ pessoas do que com apenas 2, porque o número de conexões que precisam funcionar cresce (3 pares numa sala de 3, 6 pares numa sala de 4, e por aí vai). Confirme abrindo a tela de Logs em qualquer uma das duas máquinas que não estão se enxergando: deve aparecer um aviso de conexão demorando ou falhando especificamente com o ID da outra pessoa (não com quem criou a sala).
+
+Não existe uma correção de código pra isso sem reintroduzir TURN (relay), que este projeto evita de propósito pelo motivo explicado a seguir. Contornos que ajudam na prática: todo mundo na mesma rede Wi-Fi/local costuma conectar direto sem problema; ou, se alguém está numa rede muito restritiva (corporativa, com CGNAT agressivo, VPN, etc.), tentar numa rede doméstica comum resolve na maioria dos casos.
 
 ## Por que o app não simplesmente "sempre conecta"
 

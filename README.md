@@ -14,6 +14,18 @@ Um "Discord de tela compartilhada e chat de voz" que roda sem nenhum servidor pa
 
 > **Testado só no Windows.** O instalador oficial e todo o uso real até agora foram só em Windows. O app também builda pra Linux (`electron-builder` tem alvo `AppImage` configurado), mas essa build ainda não foi revisada/testada de verdade num Linux de desktop — pode ter comportamento diferente ou problemas ainda não descobertos. Se você testar em Linux e encontrar algo, uma issue ou pull request é muito bem-vindo.
 
+## Como baixar e instalar
+
+Isso aqui é só pra quem quer **usar** o app, sem mexer em código:
+
+1. Baixe o instalador mais recente na [página de Releases](https://github.com/murilobarbosa2002/zerohop/releases) — pegue o arquivo `.exe` da versão mais nova (ex: `ZeroHop-Setup-X.Y.Z.exe`).
+2. Execute o instalador e siga as instruções na tela (o Windows pode mostrar um aviso do SmartScreen por o instalador não ser assinado digitalmente — veja [TROUBLESHOOTING.md](TROUBLESHOOTING.md) se isso acontecer).
+3. Abra o ZeroHop, crie ou entre numa sala, e pronto.
+
+## Como atualizar
+
+O app se atualiza sozinho: ao abrir, ele verifica se tem uma versão nova e avisa quando tiver, com um botão pra baixar e instalar sem precisar ir na página de Releases de novo. Clicando no número da versão (canto superior esquerdo da janela) você também pode verificar manualmente a qualquer momento, ver o changelog de cada versão, ou escolher instalar uma versão diferente da atual. **Todo mundo numa mesma sala precisa estar na mesma versão** — o app recusa a entrada automaticamente se as versões não baterem, com uma mensagem explicando a diferença.
+
 ## Por que este projeto existe
 
 Eu e meus amigos jogamos jogos diferentes, muitas vezes cada um no seu, e sempre foi comum compartilhar a tela pra um assistir o jogo do outro ou discutir o que está acontecendo em tempo real. É uma prática banal, sem nada de ilegal ou nocivo. Foi exatamente essa demanda pessoal, simples, que motivou eu escrever este programa.

@@ -68,6 +68,14 @@ Por padrão, escolher "áudio de só um app específico" ao compartilhar uma jan
 
 O app já corrige isso por padrão, capturando o áudio por processo (WASAPI) em vez do áudio do sistema inteiro, quando você compartilha uma janela específica com áudio.
 
+## Com 3 ou mais pessoas, dois amigos não se veem/ouvem entre si (só cada um com quem criou a sala)
+
+A sala usa arquitetura **mesh**: não existe servidor central retransmitindo vídeo/voz, cada par de participantes abre sua própria conexão P2P direta. Numa sala com 3 pessoas isso são 3 conexões diretas, não só duas passando por quem criou a sala.
+
+Se a conexão entre dois participantes específicos (não envolvendo quem criou a sala) não conseguir se estabelecer via NAT, o sintoma é exatamente esse: quem criou a sala enxerga todo mundo, mas dois convidados não se enxergam entre si, como se estivessem em salas separadas. Confirme na tela de Logs de qualquer uma das duas máquinas: deve aparecer um aviso de conexão falhando especificamente com o ID da outra pessoa.
+
+Isso é a mesma limitação de "STUN sem TURN" logo abaixo, só que fica mais visível com 3+ pessoas, já que o número de pares que precisam funcionar cresce. Contornos: todo mundo na mesma rede local costuma conectar sem problema; numa rede muito restritiva, tentar numa rede doméstica comum resolve na maioria dos casos.
+
 ### Por que o programa não "sempre conecta"
 
 Porque este projeto optou deliberadamente por nunca usar um servidor de relay (TURN) como rede de segurança escondida. Veja [Sem servidor, sem TURN](/seguranca/sem-servidor-sem-turn). A consequência é que, numa rede muito restritiva, a conexão pode de fato falhar, de forma visível, em vez de silenciosamente cair para um caminho alternativo fora do seu controle.
