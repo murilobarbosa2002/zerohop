@@ -2,6 +2,7 @@ import type { DataConnection } from 'peerjs';
 import {
   ICE_ROUTE_MAX_RETRIES,
   ICE_ROUTE_RETRY_DELAY_MS,
+  ICE_DISCONNECTED_GRACE_MS,
   PEER_CONNECTION_MAX_POLL_ATTEMPTS,
   PEER_CONNECTION_POLL_INTERVAL_MS
 } from '@/constants/timing';
@@ -179,4 +180,51 @@ export async function watchConnection(
     );
     onTimeout();
   }, timeoutMs);
+}
+
+export async function watchForRealDisconnect(connection: DataConnection, label: string, onDisconnected: () => void): Promise<void> {
+  const maybePeerConnection = await waitForPeerConnection(connection);
+  if (!maybePeerConnection) return;
+  const peerConnection: RTCPeerConnection = maybePeerConnection;
+
+  let fired = false;
+  let graceTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function clearGraceTimer(): void {
+    if (graceTimer) {
+      clearTimeout(graceTimer);
+      graceTimer = null;
+    }
+  }
+
+  function fireDisconnected(): void {
+    if (fired) return;
+    fired = true;
+    clearGraceTimer();
+    console.warn('[ice]', label, 'conexão caiu de verdade (iceConnectionState:', peerConnection.iceConnectionState + ')');
+    logEvent(
+      LogCategory.CONNECTION,
+      LogLevel.WARNING,
+      LOG_STRINGS.connectionLostMessage(label),
+      `iceConnectionState: ${peerConnection.iceConnectionState}`
+    );
+    onDisconnected();
+  }
+
+  peerConnection.addEventListener('iceconnectionstatechange', () => {
+    if (fired) return;
+    const state = peerConnection.iceConnectionState;
+    if (state === 'failed' || state === 'closed') {
+      fireDisconnected();
+      return;
+    }
+    if (state === 'disconnected') {
+      clearGraceTimer();
+      graceTimer = setTimeout(fireDisconnected, ICE_DISCONNECTED_GRACE_MS);
+      return;
+    }
+    if (state === 'connected' || state === 'completed') {
+      clearGraceTimer();
+    }
+  });
 }

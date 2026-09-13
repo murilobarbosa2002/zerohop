@@ -52,3 +52,43 @@ select:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px theme('colors.focus-ring');
 }
+
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: theme('colors.panel-2');
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: theme('colors.panel-2');
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: theme('colors.accent');
+  cursor: pointer;
+}
+
+input[type='range']::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: theme('colors.panel-2');
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 50%;
+  background: theme('colors.accent');
+  cursor: pointer;
+}

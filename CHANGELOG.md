@@ -4,7 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Cada linha tem
 
 | Versão | Resumo |
 | --- | --- |
-| [0.30.1](docs/releases/v0.30.1.md) | Corrige vídeo travando ao ajustar volume, som de entrar na sala mais baixo, config. do áudio isolado no `settings.json` |
+| [0.30.1](docs/releases/v0.30.1.md) | Detecta desconexão real ao fechar o app, cards de participantes redesenhados, colunas redimensionáveis, e mais |
 | [0.30.0](docs/releases/v0.30.0.md) | Corrige stream/voz parando ao abrir Configurações/Logs, tela cheia, copiar e mais |
 | [0.29.0](docs/releases/v0.29.0.md) | Áudio isolado por aplicativo ao compartilhar janela (experimental) |
 | [0.28.0](docs/releases/v0.28.0.md) | Cards de participantes mais limpos e responsivos, supressão de ruído configurável |

@@ -3,6 +3,8 @@ import { RoomSidebar } from '@/components/Room/RoomSidebar';
 import { RoomStage } from '@/components/Room/RoomStage';
 import { JoinRequestModal } from '@/components/Room/JoinRequestModal';
 import { Chat } from '@/components/Chat';
+import { ResizeHandle } from '@/components/ResizeHandle';
+import { useResizablePanelWidth } from '@/hooks/useResizablePanelWidth';
 import { useMembers } from '@/hooks/useMembers';
 import { useSharing } from '@/hooks/useSharing';
 import { useConnectionWarning } from '@/hooks/useConnectionWarning';
@@ -21,6 +23,8 @@ import type { RoomProps } from '@/components/Room/Room.types';
 export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs }: RoomProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(true);
+  const [sidebarWidth, setSidebarWidth] = useResizablePanelWidth('zerohop:sidebarWidth', 260, 200, 420);
+  const [chatWidth, setChatWidth] = useResizablePanelWidth('zerohop:chatWidth', 300, 220, 480);
   const [deafened, setDeafened] = useState(false);
   const sourcePicker = useSourcePicker();
   const members = useMembers(roomClient);
@@ -74,24 +78,27 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
 
       <div className="flex-1 flex overflow-hidden">
         {sidebarOpen && (
-          <div className="w-room-sidebar-width flex-shrink-0 border-r border-border p-3.5">
-            <RoomSidebar
-              roomCode={roomCode}
-              roomPassword={roomClient.roomPassword}
-              members={members}
-              canKick={roomClient.isRoomCreator}
-              onToggleWatch={(id) => roomClient.toggleWatch(id)}
-              onKick={(id) => roomClient.kickMember(id)}
-              onLeave={handleLeave}
-              micMuted={micMuted}
-              deafened={deafened}
-              onToggleMic={() => roomClient.toggleMicMuted()}
-              onToggleDeafen={() => setDeafened((current) => !current)}
-              voiceAudioState={voiceAudioState}
-              onOpenLogs={onOpenLogs}
-              onOpenSettings={onOpenSettings}
-            />
-          </div>
+          <>
+            <div className="flex-shrink-0 border-r border-border p-3.5 overflow-y-auto" style={{ width: sidebarWidth }}>
+              <RoomSidebar
+                roomCode={roomCode}
+                roomPassword={roomClient.roomPassword}
+                members={members}
+                canKick={roomClient.isRoomCreator}
+                onToggleWatch={(id) => roomClient.toggleWatch(id)}
+                onKick={(id) => roomClient.kickMember(id)}
+                onLeave={handleLeave}
+                micMuted={micMuted}
+                deafened={deafened}
+                onToggleMic={() => roomClient.toggleMicMuted()}
+                onToggleDeafen={() => setDeafened((current) => !current)}
+                voiceAudioState={voiceAudioState}
+                onOpenLogs={onOpenLogs}
+                onOpenSettings={onOpenSettings}
+              />
+            </div>
+            <ResizeHandle onDrag={(deltaX) => setSidebarWidth((width) => width + deltaX)} />
+          </>
         )}
 
         <div className="flex-1 p-3.5 overflow-hidden">
@@ -99,12 +106,15 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
         </div>
 
         {chatOpen && (
-          <div className="w-room-chat-width flex-shrink-0 border-l border-border p-3.5 flex flex-col overflow-hidden">
-            <p className="font-bold text-body-sm-alt mb-2 flex-shrink-0">{CHAT_STRINGS.title}</p>
-            <div className="flex-1 flex flex-col overflow-hidden">
-              <Chat messages={chatMessages} onSend={(text) => roomClient.sendChatMessage(text)} />
+          <>
+            <ResizeHandle onDrag={(deltaX) => setChatWidth((width) => width - deltaX)} />
+            <div className="flex-shrink-0 border-l border-border p-3.5 flex flex-col overflow-hidden" style={{ width: chatWidth }}>
+              <p className="font-bold text-body-sm-alt mb-2 flex-shrink-0">{CHAT_STRINGS.title}</p>
+              <div className="flex-1 flex flex-col overflow-hidden">
+                <Chat messages={chatMessages} onSend={(text) => roomClient.sendChatMessage(text)} />
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>

@@ -39,8 +39,18 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
     <div className="bg-panel-2 border border-border rounded-lg px-3 py-2.5">
       {member.voiceStream && <audio ref={audioRef} autoPlay className="hidden" />}
       <div className="flex items-center gap-2 min-w-0">
-        <span className="w-avatar-size h-avatar-size rounded-full bg-gradient-to-br from-accent to-accent-2 flex items-center justify-center text-body-xs font-bold text-white flex-shrink-0">
-          {avatarInitial}
+        <span className="relative flex-shrink-0">
+          <span className="w-avatar-size h-avatar-size rounded-full bg-gradient-to-br from-accent to-accent-2 flex items-center justify-center text-body-xs font-bold text-white">
+            {avatarInitial}
+          </span>
+          {member.sharing && (
+            <span
+              className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-success border-2 border-panel-2"
+              role="img"
+              aria-label={PARTICIPANTS_STRINGS.sharingBadge}
+              title={PARTICIPANTS_STRINGS.sharingBadge}
+            />
+          )}
         </span>
         <span className="font-bold text-body-sm-alt truncate flex-1 min-w-0">{member.name || member.id}</span>
         {member.micMuted && (
@@ -48,39 +58,33 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
             <MicIcon muted />
           </span>
         )}
-        {member.sharing && (
-          <span
-            className="w-1.5 h-1.5 rounded-full bg-success flex-shrink-0"
-            role="img"
-            aria-label={PARTICIPANTS_STRINGS.sharingBadge}
-            title={PARTICIPANTS_STRINGS.sharingBadge}
-          />
-        )}
       </div>
 
       {member.voiceStream && (
         <VolumeControl muted={voiceState.muted} volume={voiceState.volume} onToggleMute={toggleVoiceMute} onChangeVolume={changeVoiceVolume} />
       )}
 
-      <div className="flex flex-col gap-1.5 mt-2">
-        {member.sharing && (
-          <ActionButton
-            variant={member.watching ? 'default' : 'primary'}
-            className="w-full mr-0 my-0"
-            onClick={() => onToggleWatch(member.id)}
-          >
-            {member.watching ? PARTICIPANTS_STRINGS.stopWatchingButton : PARTICIPANTS_STRINGS.watchButton}
-          </ActionButton>
-        )}
-        {canKick && (
-          <button
-            onClick={() => onKick(member.id)}
-            className="w-full text-badge-xs font-bold text-danger bg-danger/15 rounded-lg px-2 py-1.5 hover:brightness-110"
-          >
-            {PARTICIPANTS_STRINGS.kickMemberButton}
-          </button>
-        )}
-      </div>
+      {(member.sharing || canKick) && (
+        <div className="flex flex-row gap-1.5 mt-2">
+          {member.sharing && (
+            <ActionButton
+              variant={member.watching ? 'default' : 'primary'}
+              className="flex-1 mr-0 my-0"
+              onClick={() => onToggleWatch(member.id)}
+            >
+              {member.watching ? PARTICIPANTS_STRINGS.stopWatchingButton : PARTICIPANTS_STRINGS.watchButton}
+            </ActionButton>
+          )}
+          {canKick && (
+            <button
+              onClick={() => onKick(member.id)}
+              className="flex-1 text-badge-xs font-bold text-danger bg-danger/15 rounded-lg px-2 py-1.5 hover:brightness-110"
+            >
+              {PARTICIPANTS_STRINGS.kickMemberButton}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
