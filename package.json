@@ -1,6 +1,6 @@
 {
   "name": "zerohop",
-  "version": "0.32.0",
+  "version": "0.32.1",
   "description": "Compartilhamento de tela, chat de voz e chat de texto P2P via WebRTC, sem servidor",
   "main": "./out/main/index.js",
   "author": {
