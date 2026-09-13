@@ -30,11 +30,21 @@ export async function startAudioLoopback(processId: number, onChunk: (chunk: Buf
   stopAudioLoopback();
   const loopback = await loadLoopbackCapture();
   if (!loopback) return;
-  activeCapture = new loopback.LoopbackCapture();
-  activeCapture.start(processId, true, onChunk);
+  const capture = new loopback.LoopbackCapture();
+  try {
+    capture.start(processId, true, onChunk);
+    activeCapture = capture;
+  } catch {
+    activeCapture = null;
+  }
 }
 
 export function stopAudioLoopback(): void {
-  activeCapture?.stop();
+  try {
+    activeCapture?.stop();
+  } catch {
+    // A captura pode já ter parado sozinha (ex: o app de origem fechou) e o
+    // driver acusa estado inválido (HRESULT 0x8007139F) ao pedir pra parar de novo.
+  }
   activeCapture = null;
 }
