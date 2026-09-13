@@ -1,8 +1,9 @@
-import { app, BrowserWindow, Menu, session } from 'electron';
+import { app, BrowserWindow, Menu, session, globalShortcut } from 'electron';
 import { createWindow } from '@main/window';
 import { registerIpcHandlers } from '@main/ipc';
 import { initAutoUpdater, registerUpdaterIpcHandlers } from '@main/updater';
 import { startGlobalHotkeys } from '@main/globalHotkeys';
+import { applyToggleHotkeys } from '@main/toggleHotkeys';
 import { appendLog } from '@main/logger';
 import { getSettings, ensureSettingsFileExists } from '@main/settings';
 import { APP_ID } from '@main/constants/app';
@@ -33,6 +34,7 @@ app.whenReady().then(() => {
   createWindow();
   initAutoUpdater();
   startGlobalHotkeys();
+  applyToggleHotkeys(getSettings().hotkeys);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -41,4 +43,8 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
+});
+
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
 });

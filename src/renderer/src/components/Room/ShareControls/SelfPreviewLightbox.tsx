@@ -24,7 +24,7 @@ export function SelfPreviewLightbox({ stream, onClose }: SelfPreviewLightboxProp
         autoPlay
         playsInline
         muted
-        className="w-full max-w-preview-lightbox-width aspect-video bg-black rounded-lg border border-border"
+        className="max-w-preview-lightbox-width max-h-lightbox-video w-auto h-auto bg-black rounded-lg border border-border"
         onClick={(event) => event.stopPropagation()}
       />
       <p className="text-text-dim text-xs">{ROOM_STRINGS.closePreviewHint}</p>

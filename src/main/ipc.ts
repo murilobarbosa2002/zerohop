@@ -6,6 +6,7 @@ import { appendLog, readLogs, clearLogs } from '@main/logger';
 import { getSettings, setHotkeySettings } from '@main/settings';
 import { findProcessIdByWindowTitle, startAudioLoopback, stopAudioLoopback } from '@main/audioLoopback';
 import { recordNextHotkey, cancelHotkeyRecording } from '@main/globalHotkeys';
+import { applyToggleHotkeys } from '@main/toggleHotkeys';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
@@ -105,6 +106,7 @@ export function registerIpcHandlers(): void {
 
   ipcMain.handle(IPC_CHANNELS.setHotkeySettings, (_event, hotkeys: HotkeySettings) => {
     setHotkeySettings(hotkeys);
+    applyToggleHotkeys(hotkeys);
   });
 
   ipcMain.handle(IPC_CHANNELS.recordNextHotkey, (event) => {

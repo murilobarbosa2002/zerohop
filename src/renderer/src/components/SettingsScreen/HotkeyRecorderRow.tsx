@@ -1,24 +1,44 @@
 import { useEffect, useState } from 'react';
 import { ActionButton } from '@/components/ActionButton';
+import { keyboardEventToAccelerator } from '@/lib/keyboardAccelerator';
 import { RECORD_HOTKEY_TIMEOUT_MS } from '@/constants/hotkeys';
 import { SETTINGS_STRINGS } from '@/strings/settings.strings';
-import type { HotkeyBinding } from '@shared/hotkeySettings';
+import type { HotkeyBinding, AcceleratorBinding } from '@shared/hotkeySettings';
 
-interface HotkeyRecorderRowProps {
+interface HotkeyRecorderRowProps<T extends { label: string }> {
   label: string;
-  value: HotkeyBinding | null;
-  onChange: (value: HotkeyBinding | null) => void;
+  value: T | null;
+  onChange: (value: T | null) => void;
+  mode: 'accelerator' | 'globalKeycode';
 }
 
-export function HotkeyRecorderRow({ label, value, onChange }: HotkeyRecorderRowProps) {
+export function HotkeyRecorderRow<T extends HotkeyBinding | AcceleratorBinding>({
+  label,
+  value,
+  onChange,
+  mode
+}: HotkeyRecorderRowProps<T>) {
   const [recording, setRecording] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
 
   useEffect(() => {
     if (!recording) return;
+
+    if (mode === 'accelerator') {
+      function handleKeyDown(event: KeyboardEvent): void {
+        event.preventDefault();
+        const binding = keyboardEventToAccelerator(event);
+        if (!binding) return;
+        setRecording(false);
+        onChange(binding as T);
+      }
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+
     const unsubscribe = window.api.onHotkeyRecorded((binding) => {
       setRecording(false);
-      onChange(binding);
+      onChange(binding as T);
     });
     const timeout = setTimeout(() => {
       setRecording(false);
@@ -29,12 +49,12 @@ export function HotkeyRecorderRow({ label, value, onChange }: HotkeyRecorderRowP
       clearTimeout(timeout);
       window.api.cancelRecordHotkey();
     };
-  }, [recording, onChange]);
+  }, [recording, onChange, mode]);
 
   function startRecording(): void {
     setTimedOut(false);
     setRecording(true);
-    window.api.recordNextHotkey();
+    if (mode === 'globalKeycode') window.api.recordNextHotkey();
   }
 
   function stopRecording(): void {

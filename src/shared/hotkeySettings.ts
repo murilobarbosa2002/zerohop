@@ -5,9 +5,14 @@ export interface HotkeyBinding {
   label: string;
 }
 
+export interface AcceleratorBinding {
+  accelerator: string;
+  label: string;
+}
+
 export interface HotkeySettings {
-  micMuteHotkey: HotkeyBinding | null;
-  deafenHotkey: HotkeyBinding | null;
+  micMuteHotkey: AcceleratorBinding | null;
+  deafenHotkey: AcceleratorBinding | null;
   pushToTalkHotkey: HotkeyBinding | null;
   pushToTalkReleaseDelayMs: number;
 }

@@ -48,14 +48,6 @@ function handleKeyDown(event: UiohookKeyboardEvent): void {
   }
 
   const { hotkeys } = getSettings();
-  if (hotkeys.micMuteHotkey && event.keycode === hotkeys.micMuteHotkey.keycode) {
-    sendToRenderers(IPC_CHANNELS.hotkeyMicMuteToggle);
-    return;
-  }
-  if (hotkeys.deafenHotkey && event.keycode === hotkeys.deafenHotkey.keycode) {
-    sendToRenderers(IPC_CHANNELS.hotkeyDeafenToggle);
-    return;
-  }
   if (hotkeys.pushToTalkHotkey && event.keycode === hotkeys.pushToTalkHotkey.keycode) {
     if (pttReleaseTimeout) {
       clearTimeout(pttReleaseTimeout);

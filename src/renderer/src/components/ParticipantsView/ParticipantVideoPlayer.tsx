@@ -54,7 +54,7 @@ export function ParticipantVideoPlayer({ member, audioState }: ParticipantVideoP
           ref={videoRef}
           autoPlay
           playsInline
-          className="w-full aspect-video min-h-video-min max-h-video resize-y overflow-hidden object-contain bg-black rounded-lg border border-border block"
+          className="w-full h-auto max-h-video bg-black rounded-lg border border-border block"
         />
       </div>
       {lightboxOpen && (

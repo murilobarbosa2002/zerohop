@@ -74,12 +74,12 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
 
     const quality = { ...parseResolution(resolution), fps: Number(fps) };
     const audioSourceId = resolveAudioSourceId(audioSelection, sourcePicker.selectedId);
-    const isWindowSource = getCaptureSourceKind(sourcePicker.selectedId) === CaptureSourceKind.WINDOW;
+    const isAppSpecificAudio = audioSourceId !== null && getCaptureSourceKind(audioSourceId) === CaptureSourceKind.WINDOW;
 
     let stream: MediaStream;
     let audioFellBack = false;
 
-    if (experimentalPerAppAudio && isWindowSource && audioSourceId) {
+    if (experimentalPerAppAudio && isAppSpecificAudio) {
       const audioWindowTitle = sourcePicker.sources.find((source) => source.id === audioSourceId)?.name ?? '';
       try {
         stream = await captureSourceWithProcessAudio(sourcePicker.selectedId, audioWindowTitle, quality);

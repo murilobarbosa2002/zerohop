@@ -8,7 +8,7 @@ import {
   DEFAULT_EXPERIMENTAL_PER_APP_AUDIO_ENABLED
 } from '@main/constants/settings';
 import { DEFAULT_PUSH_TO_TALK_RELEASE_DELAY_MS } from '@shared/hotkeySettings';
-import type { HotkeyBinding, HotkeySettings } from '@shared/hotkeySettings';
+import type { HotkeyBinding, AcceleratorBinding, HotkeySettings } from '@shared/hotkeySettings';
 
 interface AppSettings {
   autoUpdateEnabled: boolean;
@@ -24,11 +24,18 @@ function parseHotkeyBinding(value: unknown): HotkeyBinding | null {
   return { keycode: candidate.keycode, label: candidate.label };
 }
 
+function parseAcceleratorBinding(value: unknown): AcceleratorBinding | null {
+  if (!value || typeof value !== 'object') return null;
+  const candidate = value as Record<string, unknown>;
+  if (typeof candidate.accelerator !== 'string' || typeof candidate.label !== 'string') return null;
+  return { accelerator: candidate.accelerator, label: candidate.label };
+}
+
 function parseHotkeys(value: unknown): HotkeySettings {
   const parsed = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
   return {
-    micMuteHotkey: parseHotkeyBinding(parsed.micMuteHotkey),
-    deafenHotkey: parseHotkeyBinding(parsed.deafenHotkey),
+    micMuteHotkey: parseAcceleratorBinding(parsed.micMuteHotkey),
+    deafenHotkey: parseAcceleratorBinding(parsed.deafenHotkey),
     pushToTalkHotkey: parseHotkeyBinding(parsed.pushToTalkHotkey),
     pushToTalkReleaseDelayMs:
       typeof parsed.pushToTalkReleaseDelayMs === 'number' ? parsed.pushToTalkReleaseDelayMs : DEFAULT_PUSH_TO_TALK_RELEASE_DELAY_MS

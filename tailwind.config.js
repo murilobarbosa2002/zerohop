@@ -71,7 +71,8 @@ export default {
         'video-min': '180px'
       },
       maxHeight: {
-        video: '55vh'
+        video: '55vh',
+        'lightbox-video': '80vh'
       },
       maxWidth: {
         'chat-bubble': '80%',

@@ -28,7 +28,7 @@ O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/max
 
 Os campos de senha (ao criar/entrar numa sala) mostram a senha em texto normal por padrão, com um ícone de olho pra ocultar se preferir.
 
-A **captura otimizada para jogos** (Windows.Graphics.Capture) e o **áudio isolado por aplicativo** ao compartilhar uma janela específica já vêm ativados por padrão, depois de testados e confirmados como estáveis — não são mais opções configuráveis. Veja [Solução de problemas](/seguranca/solucao-de-problemas#cursor-sumindo-imagem-travando-ou-piscando-ao-compartilhar-jogos) se notar algum comportamento estranho de captura ou áudio.
+A **captura otimizada para jogos** (Windows.Graphics.Capture) e o **áudio isolado por aplicativo** já vêm ativados por padrão, depois de testados e confirmados como estáveis — não são mais opções configuráveis. O áudio isolado funciona tanto compartilhando uma janela específica quanto a tela inteira: em qualquer um dos dois casos, o campo "Áudio" deixa escolher o som de só um programa específico, sem misturar com o resto do sistema. Veja [Solução de problemas](/seguranca/solucao-de-problemas#cursor-sumindo-imagem-travando-ou-piscando-ao-compartilhar-jogos) se notar algum comportamento estranho de captura ou áudio.
 
 Ao abrir o ZeroHop, a primeira tela pergunta o que você quer fazer: **Criar sala nova** ou **Entrar numa sala**. Cada opção leva pra um formulário dedicado só com os campos daquela ação, sem misturar os dois fluxos.
 
@@ -94,7 +94,7 @@ O botão **Editar** abre de novo o mesmo painel de configuração, já preenchid
 
 Na lista de participantes (coluna da esquerda), quem estiver compartilhando aparece com um indicador verde. Clique em **Assistir** pra receber o vídeo dessa pessoa, que aparece no palco central, não mais dentro da própria lista. O vídeo só é enviado pra quem pede explicitamente, não fica todo mundo recebendo o stream de todo mundo o tempo todo. Se você assistir mais de uma pessoa ao mesmo tempo, os vídeos aparecem lado a lado no palco.
 
-Você pode arrastar o canto inferior direito do vídeo pra deixá-lo maior ou menor, e o botão "Tela cheia" abre uma visualização ampliada (clique fora dela ou aperte Esc pra fechar). O controle de volume abaixo do vídeo ajusta só o áudio daquele compartilhamento (o jogo, o vídeo, o que for), sem mexer no volume da voz da pessoa na call — são dois áudios independentes.
+O vídeo sempre aparece no tamanho real do que está sendo compartilhado, sem esticar nem cortar. O botão "Tela cheia" abre uma visualização ampliada (clique fora dela ou aperte Esc pra fechar). O controle de volume abaixo do vídeo ajusta só o áudio daquele compartilhamento (o jogo, o vídeo, o que for), sem mexer no volume da voz da pessoa na call — são dois áudios independentes.
 
 ## Conversar pelo chat
 
