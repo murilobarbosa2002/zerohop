@@ -51,3 +51,7 @@ Eventos relevantes (entrar/sair da sala, membros entrando e saindo, compartilham
 ## Sem TURN
 
 Não existe nenhum servidor de relay configurado. Veja [Sem servidor, sem TURN](/seguranca/sem-servidor-sem-turn) para os detalhes dessa decisão.
+
+## Continue lendo
+
+Esta página é a visão geral. Pra um mapa arquivo por arquivo (o que cada serviço/hook/componente faz, onde cada preferência é guardada, como funcionam as múltiplas salas simultâneas e as teclas de atalho globais), veja [Mapa do código](/tecnico/mapa-do-codigo). Pra rodar o projeto localmente, testar e contribuir, veja [Rodando e mantendo o projeto](/tecnico/manutencao).

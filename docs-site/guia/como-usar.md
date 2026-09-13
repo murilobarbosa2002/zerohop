@@ -18,7 +18,13 @@ Clicando no número da versão, no canto superior esquerdo da janela (ao lado do
 
 ## Configurações
 
-O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com estas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele, ligar/desligar a **supressão de ruído** do microfone (vem ligada por padrão), um **mixer de efeitos sonoros** com um volume separado pra cada grupo de sons (Interface, Sala, Chat, Chamada de voz e Compartilhamento — cada interação do app tem um som próprio e único, no clima nostálgico do app, e você decide o quanto ouvir de cada grupo), ajustar a **escala da interface** (vem em 120% por padrão; aumenta ou diminui o tamanho de tudo — texto, botões, ícones — se estiver pequeno demais ou grande demais pra sua tela ou visão), e configurar **teclas de atalho** pra mutar/desmutar o microfone, silenciar/ativar o áudio e push-to-talk (segurar uma tecla pra falar, com atraso configurável pra desligar o mic ao soltar) — funcionam em qualquer lugar, mesmo com outro programa ou jogo em foco.
+O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações:
+
+- **Áudio:** em qual dispositivo (alto-falante, fone, etc.) você quer ouvir quem está compartilhando.
+- **Microfone:** qual usar pra falar na sala, a sensibilidade dele, e a **supressão de ruído** (vem ligada por padrão).
+- **Mixer de efeitos sonoros:** um volume separado pra cada grupo de sons — Interface, Sala, Chat, Chamada de voz e Compartilhamento. Cada interação do app tem um som próprio e único, no clima nostálgico do app, e você decide o quanto ouvir de cada grupo.
+- **Escala da interface:** vem em 120% por padrão; aumenta ou diminui o tamanho de tudo (texto, botões, ícones) se estiver pequeno ou grande demais pra sua tela ou visão.
+- **Teclas de atalho:** mutar/desmutar o microfone, silenciar/ativar o áudio, e push-to-talk (segurar uma tecla pra falar, com atraso configurável pra desligar o mic ao soltar). Funcionam em qualquer lugar, mesmo com outro programa ou jogo em foco.
 
 Os campos de senha (ao criar/entrar numa sala) mostram a senha em texto normal por padrão, com um ícone de olho pra ocultar se preferir.
 
@@ -74,7 +80,13 @@ Se o microfone não puder ser usado (permissão negada, sem dispositivo disponí
 
 ## Compartilhar sua tela
 
-No palco central, clique em **Compartilhar minha tela**. Isso abre um painel dedicado a essa configuração. Primeiro escolha se quer compartilhar a **tela inteira** ou **uma janela específica**. Com base nessa escolha, o app mostra só as opções relevantes (só telas, ou só janelas, sem misturar tudo numa lista só). Essa lista se atualiza sozinha a cada poucos segundos, útil se você acabou de abrir o programa que quer compartilhar. Depois de escolher o que compartilhar, ajuste resolução, FPS e se quer compartilhar áudio junto (inclusive o áudio de só um programa específico, útil pra não misturar sua voz da call com o áudio da tela compartilhada). Depois de confirmar, o painel fecha sozinho e vira uma barra compacta mostrando que você está compartilhando, com uma miniatura da sua tela e os botões de **Editar** e **Parar de compartilhar**. Clicando na miniatura ela abre ampliada, útil pra conferir se a imagem está nítida ou travando antes de perguntar pra sala.
+No palco central, clique em **Compartilhar minha tela**. Isso abre um painel dedicado, em etapas:
+
+1. Escolha entre **tela inteira** ou **uma janela específica**. O app mostra só as opções relevantes pra essa escolha (só telas, ou só janelas), numa lista que se atualiza sozinha a cada poucos segundos — útil se você acabou de abrir o programa que quer compartilhar.
+2. Ajuste resolução, FPS e se quer compartilhar áudio junto (inclusive o áudio de só um programa específico, útil pra não misturar sua voz da call com o áudio da tela compartilhada).
+3. Confirme. O painel fecha sozinho e vira uma barra compacta mostrando que você está compartilhando, com uma miniatura da sua tela e os botões de **Editar** e **Parar de compartilhar**.
+
+Clicando na miniatura ela abre ampliada, útil pra conferir se a imagem está nítida ou travando antes de perguntar pra sala.
 
 O botão **Editar** abre de novo o mesmo painel de configuração, já preenchido com o que você está compartilhando agora, e deixa trocar resolução, FPS, áudio ou até a fonte (tela ou janela) sem parar o compartilhamento: quem estiver assistindo continua recebendo o vídeo, sem interrupção. A única troca que ainda exige parar e começar de novo é ligar/desligar o áudio no meio da call (trocar de uma fonte de áudio pra outra funciona normalmente).
 

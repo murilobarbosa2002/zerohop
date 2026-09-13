@@ -38,6 +38,8 @@ export default defineConfig({
         text: 'Técnico',
         items: [
           { text: 'Arquitetura', link: '/tecnico/arquitetura' },
+          { text: 'Mapa do código', link: '/tecnico/mapa-do-codigo' },
+          { text: 'Rodando e mantendo o projeto', link: '/tecnico/manutencao' },
           { text: 'Stack e build', link: '/tecnico/stack' }
         ]
       },
