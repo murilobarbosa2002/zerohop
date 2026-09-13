@@ -114,7 +114,7 @@ Transparência total sobre o que este projeto protege e o que ele não protege:
 - **[PeerJS](https://peerjs.com/)** sobre **WebRTC**: conexão direta de vídeo, áudio e voz entre os PCs, sem servidor de mídia.
 - **[electron-updater](https://www.electron.build/auto-update)**: atualização automática do app via GitHub Releases.
 - **GitHub Actions**: o instalador Windows é compilado automaticamente, num runner Windows real e gratuito, a cada nova versão.
-- **[Pixelify Sans](https://github.com/eifetx/Pixelify-Sans)** (licença SIL Open Font License): fonte pixelada usada em toda a interface, parte do visual nostálgico estilo Windows 98/ICQ.
+- **[Jersey 10](https://fonts.google.com/specimen/Jersey+10)** (licença SIL Open Font License): fonte pixelada usada em toda a interface, parte do visual nostálgico estilo Windows 98/ICQ.
 
 Todo o código é público neste repositório. Não existe binário fechado nem parte proprietária escondida.
 

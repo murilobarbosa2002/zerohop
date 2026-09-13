@@ -54,7 +54,7 @@ export default {
         'badge-xs': '10.5px'
       },
       fontFamily: {
-        sans: ['"Pixelify Sans"', '"Segoe UI"', 'Tahoma', 'sans-serif']
+        sans: ['"Jersey10"', '"Segoe UI"', 'Tahoma', 'sans-serif']
       },
       borderRadius: {
         card: '0px',
