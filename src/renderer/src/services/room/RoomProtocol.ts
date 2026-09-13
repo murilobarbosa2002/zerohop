@@ -1,5 +1,6 @@
 import type { z } from 'zod';
 import { safeCall } from '@/services/room/peerSession';
+import { normalizeAvatarId } from '@/constants/avatars';
 import type { MemberRegistry } from '@/services/room/MemberRegistry';
 import type { MembershipGossip } from '@/services/room/MembershipGossip';
 import type { MediaSharing } from '@/services/room/MediaSharing';
@@ -104,7 +105,7 @@ export class RoomProtocol {
       this.deps.onAuthRejected(fromId);
       return;
     }
-    this.deps.registry.upsert(fromId, { name: message.name });
+    this.deps.registry.upsert(fromId, { name: message.name, avatarId: normalizeAvatarId(message.avatarId) });
     if (message.appVersion !== this.deps.getOwnAppVersion()) {
       this.deps.onVersionMismatch(fromId, message.appVersion);
       return;

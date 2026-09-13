@@ -3,12 +3,14 @@ import { CHAT_MESSAGE_MAX_LENGTH } from '@/constants/chat';
 
 export const memberInfoSchema = z.object({
   id: z.string(),
-  name: z.string()
+  name: z.string(),
+  avatarId: z.string()
 });
 
 export const helloMessageSchema = z.object({
   type: z.literal('hello'),
   name: z.string(),
+  avatarId: z.string(),
   password: z.string(),
   appVersion: z.string()
 });

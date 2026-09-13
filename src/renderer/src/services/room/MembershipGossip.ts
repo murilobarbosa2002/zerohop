@@ -1,15 +1,19 @@
 import { sendTo } from '@/services/room/peerSession';
+import { normalizeAvatarId } from '@/constants/avatars';
 import type { MemberRegistry } from '@/services/room/MemberRegistry';
+import type { AvatarId } from '@/constants/avatars';
 
 export interface MemberInfo {
   id: string;
   name: string;
+  avatarId: string;
 }
 
 interface MembershipGossipDeps {
   registry: MemberRegistry;
   getSelfId: () => string | null;
   getSelfName: () => string;
+  getSelfAvatarId: () => AvatarId;
   connectToPeer: (id: string) => void;
 }
 
@@ -17,12 +21,14 @@ export class MembershipGossip {
   private registry: MemberRegistry;
   private getSelfId: () => string | null;
   private getSelfName: () => string;
+  private getSelfAvatarId: () => AvatarId;
   private connectToPeer: (id: string) => void;
 
-  constructor({ registry, getSelfId, getSelfName, connectToPeer }: MembershipGossipDeps) {
+  constructor({ registry, getSelfId, getSelfName, getSelfAvatarId, connectToPeer }: MembershipGossipDeps) {
     this.registry = registry;
     this.getSelfId = getSelfId;
     this.getSelfName = getSelfName;
+    this.getSelfAvatarId = getSelfAvatarId;
     this.connectToPeer = connectToPeer;
   }
 
@@ -32,15 +38,15 @@ export class MembershipGossip {
       if (entry.id === selfId) continue;
       const isNew = !this.registry.has(entry.id);
       if (isNew && selfId !== null && selfId < entry.id) this.connectToPeer(entry.id);
-      this.registry.upsert(entry.id, { name: entry.name });
+      this.registry.upsert(entry.id, { name: entry.name, avatarId: normalizeAvatarId(entry.avatarId) });
     }
   }
 
   broadcast(): void {
     const selfId = this.getSelfId();
     if (!selfId) return;
-    const list: MemberInfo[] = [{ id: selfId, name: this.getSelfName() }];
-    for (const [id, member] of this.registry.entries()) list.push({ id, name: member.name });
+    const list: MemberInfo[] = [{ id: selfId, name: this.getSelfName(), avatarId: this.getSelfAvatarId() }];
+    for (const [id, member] of this.registry.entries()) list.push({ id, name: member.name, avatarId: member.avatarId ?? '' });
     for (const member of this.registry.values()) sendTo(member.conn, { type: 'members', members: list });
   }
 }

@@ -5,6 +5,8 @@ import { Card, CardTitle } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
 import { PasswordInput } from '@/components/PasswordInput';
+import { AvatarPicker } from '@/components/AvatarPicker';
+import { useAvatarId } from '@/hooks/useAvatarId';
 import { errorMessage } from '@/lib/errorMessage';
 import { playErrorSound } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
@@ -16,6 +18,7 @@ import type { JoinRoomFormProps } from '@/components/PreRoom/PreRoom.types';
 
 export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProps) {
   const [status, setStatus] = useState('');
+  const [avatarId, setAvatarId] = useAvatarId();
   const {
     register,
     handleSubmit,
@@ -32,7 +35,7 @@ export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProp
       setStatus(PRE_ROOM_STRINGS.awaitingApprovalStatus);
     });
     try {
-      await roomClient.joinRoom(values.name, code, values.password);
+      await roomClient.joinRoom(values.name, code, values.password, avatarId);
       onEntered(code);
     } catch (error) {
       setStatus(PRE_ROOM_STRINGS.joinRoomError(errorMessage(error)));
@@ -50,6 +53,8 @@ export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProp
           {PRE_ROOM_STRINGS.nameFieldLabel}
           <TextInput type="text" {...register('name')} maxLength={ROOM_NAME_MAX_LENGTH} placeholder={PRE_ROOM_STRINGS.nameFieldPlaceholder} />
         </label>
+
+        <AvatarPicker value={avatarId} onChange={setAvatarId} />
 
         <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mb-3">
           {PRE_ROOM_STRINGS.codeFieldLabel}

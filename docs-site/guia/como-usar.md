@@ -30,9 +30,10 @@ Ao abrir o ZeroHop, a primeira tela pergunta o que você quer fazer: **Criar sal
 
 1. Na tela inicial, clique em **Criar sala nova**.
 2. Digite seu nome (é só o que aparece pros outros, não precisa ser seu nome real).
-3. Defina uma senha para a sala. É **obrigatória**, toda sala nasce protegida (veja [Senha e moderação](/guia/senha-e-moderacao)).
-4. Confirme em **Criar sala nova**.
-5. Um código curto aparece no topo da tela. Copie e mande esse código **e a senha** pros seus amigos.
+3. Escolha uma **foto de perfil** entre as opções disponíveis (veja [Foto de perfil](#foto-de-perfil) abaixo).
+4. Defina uma senha para a sala. É **obrigatória**, toda sala nasce protegida (veja [Senha e moderação](/guia/senha-e-moderacao)).
+5. Confirme em **Criar sala nova**.
+6. Um código curto aparece no topo da tela. Copie e mande esse código **e a senha** pros seus amigos.
 
 ## Entrar numa sala
 
@@ -43,6 +44,10 @@ Ao abrir o ZeroHop, a primeira tela pergunta o que você quer fazer: **Criar sal
 5. Confirme em **Entrar numa sala**.
 
 Se o código ou a senha estiverem errados, você simplesmente não vai conseguir entrar. Não existe uma mensagem de "senha errada" explícita, de propósito, pra dificultar tentativas de adivinhar a senha de terceiros.
+
+## Foto de perfil
+
+Ao criar ou entrar numa sala, escolha uma foto de perfil entre 8 opções desenhadas no mesmo estilo retrô do resto do app (flor, estrela, coração, raio, disquete, fantasma, gato, nota musical). Não é upload de arquivo, é só uma galeria fixa pra escolher — mais simples e sem depender de nenhuma imagem sua. A escolha fica salva no seu dispositivo (não muda de sala pra sala) e é isso que os outros participantes veem ao lado do seu nome.
 
 Ao criar ou entrar numa sala com sucesso, toca um efeito sonoro nostálgico (estilo internet discada) só pra você; quem já está na sala ouve um som diferente quando alguém novo entra.
 

@@ -26,6 +26,8 @@ import { ROOM_STRINGS } from '@/strings/room.strings';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { LogCategory, LogLevel } from '@shared/logEntry';
+import { DEFAULT_AVATAR_ID } from '@/constants/avatars';
+import type { AvatarId } from '@/constants/avatars';
 import type { QualitySettings } from '@/services/ScreenCapture';
 import type { MicCaptureHandle } from '@/services/MicCapture.types';
 
@@ -50,6 +52,7 @@ export interface RoomClientEventDetail {
 
 export class RoomClient extends EventTarget {
   private selfName: string = PARTICIPANTS_STRINGS.defaultMemberName;
+  private selfAvatarId: AvatarId = DEFAULT_AVATAR_ID;
   private currentPassword = '';
   private blockedIds = new Set<string>();
   roomCode: string | null = null;
@@ -75,6 +78,7 @@ export class RoomClient extends EventTarget {
       registry: this.registry,
       getSelfId: () => this.connections.getSelfId(),
       getSelfName: () => this.selfName,
+      getSelfAvatarId: () => this.selfAvatarId,
       connectToPeer: (id) => this.connections.connectToPeer(id)
     });
     this.media = new MediaSharing({ registry: this.registry, getPeer: () => this.connections.getPeer() });
@@ -89,6 +93,7 @@ export class RoomClient extends EventTarget {
       registry: this.registry,
       gossip: this.gossip,
       getSelfName: () => this.selfName,
+      getSelfAvatarId: () => this.selfAvatarId,
       getExpectedPassword: () => this.currentPassword,
       isRoomCreator: () => this.isRoomCreator,
       onMembersChanged: () => this.emitMembers(),
@@ -189,8 +194,9 @@ export class RoomClient extends EventTarget {
     return this.currentPassword;
   }
 
-  async createRoom(name: string, password = ''): Promise<string> {
+  async createRoom(name: string, password = '', avatarId: AvatarId = DEFAULT_AVATAR_ID): Promise<string> {
     this.selfName = name || PARTICIPANTS_STRINGS.defaultMemberName;
+    this.selfAvatarId = avatarId;
     this.currentPassword = password;
     const iceServers = await getIceServers();
     let lastError: unknown = null;
@@ -210,8 +216,9 @@ export class RoomClient extends EventTarget {
     throw lastError instanceof Error ? lastError : new Error(ROOM_STRINGS.createRoomFailedError);
   }
 
-  async joinRoom(name: string, code: string, password = ''): Promise<string> {
+  async joinRoom(name: string, code: string, password = '', avatarId: AvatarId = DEFAULT_AVATAR_ID): Promise<string> {
     this.selfName = name || PARTICIPANTS_STRINGS.defaultMemberName;
+    this.selfAvatarId = avatarId;
     this.currentPassword = password;
     const iceServers = await getIceServers();
     await this.connections.open(undefined, iceServers);

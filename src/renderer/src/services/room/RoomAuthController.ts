@@ -5,6 +5,7 @@ import type { MembershipGossip } from '@/services/room/MembershipGossip';
 import type { HelloMessage, JoinPendingMessage, JoinApprovedMessage } from '@/services/room/RoomProtocol';
 import { AUTH_HELLO_TIMEOUT_MS, JOIN_APPROVAL_TIMEOUT_MS } from '@/constants/timing';
 import { ROOM_STRINGS } from '@/strings/room.strings';
+import type { AvatarId } from '@/constants/avatars';
 
 interface PendingJoin {
   peerId: string;
@@ -26,6 +27,7 @@ interface RoomAuthControllerDeps {
   registry: MemberRegistry;
   gossip: MembershipGossip;
   getSelfName: () => string;
+  getSelfAvatarId: () => AvatarId;
   getExpectedPassword: () => string;
   isRoomCreator: () => boolean;
   onMembersChanged: () => void;
@@ -72,6 +74,7 @@ export class RoomAuthController extends EventTarget {
     sendTo(connection, {
       type: 'hello',
       name: this.deps.getSelfName(),
+      avatarId: this.deps.getSelfAvatarId(),
       password: this.deps.getExpectedPassword(),
       appVersion
     } as HelloMessage);

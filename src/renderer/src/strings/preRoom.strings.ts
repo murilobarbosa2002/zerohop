@@ -5,6 +5,7 @@ export const PRE_ROOM_STRINGS = {
   backButton: 'Voltar',
   nameFieldLabel: 'Seu nome',
   nameFieldPlaceholder: 'Como seus amigos vão te ver',
+  avatarFieldLabel: 'Foto de perfil',
   passwordFieldLabel: 'Senha da sala',
   passwordFieldPlaceholder: 'Escolha uma senha pra proteger a sala',
   passwordTooShortError: 'A senha precisa ter pelo menos 4 caracteres.',

@@ -1,7 +1,9 @@
 import type { DataConnection, MediaConnection } from 'peerjs';
+import type { AvatarId } from '@/constants/avatars';
 
 export interface Member {
   name: string;
+  avatarId: AvatarId | null;
   conn: DataConnection | null;
   sharing: boolean;
   watching: boolean;
@@ -16,6 +18,7 @@ export interface Member {
 export interface MemberSnapshot {
   id: string;
   name: string;
+  avatarId: AvatarId | null;
   sharing: boolean;
   watching: boolean;
   stream: MediaStream | null;
@@ -26,6 +29,7 @@ export interface MemberSnapshot {
 function defaultMember(name: string): Member {
   return {
     name,
+    avatarId: null,
     conn: null,
     sharing: false,
     watching: false,
@@ -78,6 +82,7 @@ export class MemberRegistry {
       .map(([id, member]) => ({
         id,
         name: member.name,
+        avatarId: member.avatarId,
         sharing: member.sharing,
         watching: member.watching,
         stream: member.stream || null,

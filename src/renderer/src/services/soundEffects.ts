@@ -20,6 +20,7 @@ import sidebarShowSound from '@/assets/sounds/sidebar-show.wav';
 import sidebarHideSound from '@/assets/sounds/sidebar-hide.wav';
 import chatShowSound from '@/assets/sounds/chat-show.wav';
 import chatHideSound from '@/assets/sounds/chat-hide.wav';
+import avatarSelectSound from '@/assets/sounds/avatar-select.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
 
 const KEY_CLICK_VOLUME_MULTIPLIER = 0.6;
@@ -116,4 +117,8 @@ export function playChatShowSound(): void {
 
 export function playChatHideSound(): void {
   play(chatHideSound, getSoundEffectsVolume());
+}
+
+export function playAvatarSelectSound(): void {
+  play(avatarSelectSound, getSoundEffectsVolume());
 }

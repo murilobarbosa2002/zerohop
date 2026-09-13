@@ -5,6 +5,8 @@ import { Card, CardTitle } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
 import { PasswordInput } from '@/components/PasswordInput';
+import { AvatarPicker } from '@/components/AvatarPicker';
+import { useAvatarId } from '@/hooks/useAvatarId';
 import { errorMessage } from '@/lib/errorMessage';
 import { playErrorSound } from '@/services/soundEffects';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
@@ -15,6 +17,7 @@ import type { CreateRoomFormProps } from '@/components/PreRoom/PreRoom.types';
 
 export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomFormProps) {
   const [status, setStatus] = useState('');
+  const [avatarId, setAvatarId] = useAvatarId();
   const {
     register,
     handleSubmit,
@@ -27,7 +30,7 @@ export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomForm
   async function handleCreate(values: CreateRoomFormValues): Promise<void> {
     setStatus(PRE_ROOM_STRINGS.creatingRoomStatus);
     try {
-      const roomCode = await roomClient.createRoom(values.name, values.password);
+      const roomCode = await roomClient.createRoom(values.name, values.password, avatarId);
       onEntered(roomCode);
     } catch (error) {
       setStatus(PRE_ROOM_STRINGS.createRoomError(errorMessage(error)));
@@ -48,6 +51,8 @@ export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomForm
             placeholder={PRE_ROOM_STRINGS.nameFieldPlaceholder}
           />
         </label>
+
+        <AvatarPicker value={avatarId} onChange={setAvatarId} />
 
         <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mb-3">
           {PRE_ROOM_STRINGS.passwordFieldLabel}

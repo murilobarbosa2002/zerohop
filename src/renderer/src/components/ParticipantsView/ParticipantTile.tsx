@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useRef } from 'react';
 import { ActionButton } from '@/components/ActionButton';
 import { VolumeControl } from '@/components/ParticipantsView/VolumeControl';
+import { Avatar } from '@/components/Avatar';
 import { MicIcon } from '@/components/icons';
 import { useAudioOutputDevice } from '@/hooks/useAudioOutputDevice';
 import { setElementAudioOutput } from '@/lib/audioSink';
@@ -40,9 +41,7 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
       {member.voiceStream && <audio ref={audioRef} autoPlay className="hidden" />}
       <div className="flex items-center gap-2 min-w-0">
         <span className="relative flex-shrink-0">
-          <span className="w-avatar-size h-avatar-size rounded-full bg-gradient-to-br from-accent to-accent-2 flex items-center justify-center text-body-xs font-bold text-white">
-            {avatarInitial}
-          </span>
+          <Avatar avatarId={member.avatarId} fallbackLetter={avatarInitial} size={26} />
           {member.sharing && (
             <span
               className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-success border-2 border-panel-2"
