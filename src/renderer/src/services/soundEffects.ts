@@ -16,6 +16,10 @@ import copyClickSound from '@/assets/sounds/copy-click.wav';
 import kickSound from '@/assets/sounds/kick.wav';
 import joinApprovedSound from '@/assets/sounds/join-approved.wav';
 import joinDeniedSound from '@/assets/sounds/join-denied.wav';
+import sidebarShowSound from '@/assets/sounds/sidebar-show.wav';
+import sidebarHideSound from '@/assets/sounds/sidebar-hide.wav';
+import chatShowSound from '@/assets/sounds/chat-show.wav';
+import chatHideSound from '@/assets/sounds/chat-hide.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
 
 const KEY_CLICK_VOLUME_MULTIPLIER = 0.6;
@@ -96,4 +100,20 @@ export function playJoinApprovedSound(): void {
 
 export function playJoinDeniedSound(): void {
   play(joinDeniedSound, getSoundEffectsVolume());
+}
+
+export function playSidebarShowSound(): void {
+  play(sidebarShowSound, getSoundEffectsVolume());
+}
+
+export function playSidebarHideSound(): void {
+  play(sidebarHideSound, getSoundEffectsVolume());
+}
+
+export function playChatShowSound(): void {
+  play(chatShowSound, getSoundEffectsVolume());
+}
+
+export function playChatHideSound(): void {
+  play(chatHideSound, getSoundEffectsVolume());
 }

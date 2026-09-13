@@ -20,7 +20,11 @@ import {
   playUndeafenSound,
   playKickSound,
   playJoinApprovedSound,
-  playJoinDeniedSound
+  playJoinDeniedSound,
+  playSidebarShowSound,
+  playSidebarHideSound,
+  playChatShowSound,
+  playChatHideSound
 } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
 import { ROOM_STRINGS } from '@/strings/room.strings';
@@ -78,13 +82,27 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
       )}
       <div className="flex items-center gap-2 px-4 py-2 border-b border-border flex-shrink-0">
         <button
-          onClick={() => setSidebarOpen((open) => !open)}
+          onClick={() =>
+            setSidebarOpen((open) => {
+              const next = !open;
+              if (next) playSidebarShowSound();
+              else playSidebarHideSound();
+              return next;
+            })
+          }
           className="text-badge-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent"
         >
           {sidebarOpen ? ROOM_STRINGS.hideSidebarButton : ROOM_STRINGS.showSidebarButton}
         </button>
         <button
-          onClick={() => setChatOpen((open) => !open)}
+          onClick={() =>
+            setChatOpen((open) => {
+              const next = !open;
+              if (next) playChatShowSound();
+              else playChatHideSound();
+              return next;
+            })
+          }
           className="text-badge-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent ml-auto"
         >
           {chatOpen ? ROOM_STRINGS.hideChatButton : ROOM_STRINGS.showChatButton}
