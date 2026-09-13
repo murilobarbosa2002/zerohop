@@ -23,8 +23,8 @@ import type { RoomProps } from '@/components/Room/Room.types';
 export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs }: RoomProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(true);
-  const [sidebarWidth, setSidebarWidth] = useResizablePanelWidth('zerohop:sidebarWidth', 260, 200, 420);
-  const [chatWidth, setChatWidth] = useResizablePanelWidth('zerohop:chatWidth', 300, 220, 480);
+  const [sidebarWidth, setSidebarWidth] = useResizablePanelWidth('zerohop:sidebarWidth', 300, 300, 420);
+  const [chatWidth, setChatWidth] = useResizablePanelWidth('zerohop:chatWidth', 300, 300, 480);
   const [deafened, setDeafened] = useState(false);
   const sourcePicker = useSourcePicker();
   const members = useMembers(roomClient);

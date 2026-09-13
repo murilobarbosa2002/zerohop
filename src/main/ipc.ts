@@ -1,7 +1,7 @@
 import { ipcMain, shell, desktopCapturer, clipboard, type DesktopCapturerSource } from 'electron';
 import { getMainWindow } from '@main/window';
 import { CAPTURE_SOURCE_TYPES, CAPTURE_THUMBNAIL_WIDTH, CAPTURE_THUMBNAIL_HEIGHT, NOISE_SOURCE_NAME_PATTERNS } from '@main/constants/capture';
-import { ALLOWED_EXTERNAL_URL_PREFIX } from '@main/constants/externalUrl';
+import { ALLOWED_EXTERNAL_URL_PROTOCOLS } from '@main/constants/externalUrl';
 import { appendLog, readLogs, clearLogs } from '@main/logger';
 import { getSettings } from '@main/settings';
 import { findProcessIdByWindowTitle, startAudioLoopback, stopAudioLoopback } from '@main/audioLoopback';
@@ -49,7 +49,13 @@ export function registerIpcHandlers(): void {
   ipcMain.on(IPC_CHANNELS.windowClose, () => getMainWindow()?.close());
 
   ipcMain.handle(IPC_CHANNELS.openExternalUrl, (_event, url: string) => {
-    if (!url.startsWith(ALLOWED_EXTERNAL_URL_PREFIX)) return;
+    let parsed: URL;
+    try {
+      parsed = new URL(url);
+    } catch {
+      return;
+    }
+    if (!ALLOWED_EXTERNAL_URL_PROTOCOLS.includes(parsed.protocol)) return;
     shell.openExternal(url);
   });
 
