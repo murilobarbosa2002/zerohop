@@ -12,7 +12,7 @@ import { useRoomClient } from '@/hooks/useRoomClient';
 import { useRoomStatus } from '@/hooks/useRoomStatus';
 import { useAppUpdater } from '@/hooks/useAppUpdater';
 import { logEvent } from '@/services/appLog';
-import { playJoinedRoomSound } from '@/services/soundEffects';
+import { playJoinedRoomSound, playScreenOpenSound, playScreenCloseSound } from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { LogCategory, LogLevel } from '@shared/logEntry';
 import { RoomStatus } from '@/constants/roomStatus';
@@ -43,7 +43,19 @@ export function App() {
   }
 
   function toggleOverlay(overlay: Overlay): void {
-    setActiveOverlay((current) => (current === overlay ? null : overlay));
+    setActiveOverlay((current) => {
+      if (current === overlay) {
+        playScreenCloseSound();
+        return null;
+      }
+      playScreenOpenSound();
+      return overlay;
+    });
+  }
+
+  function closeOverlay(): void {
+    playScreenCloseSound();
+    setActiveOverlay(null);
   }
 
   return (
@@ -79,17 +91,17 @@ export function App() {
 
         {activeOverlay === Overlay.UPDATES && (
           <div className="absolute inset-0 flex flex-col bg-bg">
-            <UpdatesScreen onBack={() => setActiveOverlay(null)} />
+            <UpdatesScreen onBack={closeOverlay} />
           </div>
         )}
         {activeOverlay === Overlay.SETTINGS && (
           <div className="absolute inset-0 flex flex-col bg-bg">
-            <SettingsScreen onBack={() => setActiveOverlay(null)} roomClient={inRoom ? roomClient : null} />
+            <SettingsScreen onBack={closeOverlay} roomClient={inRoom ? roomClient : null} />
           </div>
         )}
         {activeOverlay === Overlay.LOGS && (
           <div className="absolute inset-0 flex flex-col bg-bg">
-            <LogsScreen onBack={() => setActiveOverlay(null)} />
+            <LogsScreen onBack={closeOverlay} />
           </div>
         )}
       </div>

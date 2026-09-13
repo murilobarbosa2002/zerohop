@@ -13,7 +13,17 @@ import { useJoinRequests } from '@/hooks/useJoinRequests';
 import { useSourcePicker } from '@/hooks/useSourcePicker';
 import { useMicMuted } from '@/hooks/useMicMuted';
 import { useMemberAudioState } from '@/hooks/useMemberAudioState';
-import { playMemberJoinedSound, playMessageReceivedSound } from '@/services/soundEffects';
+import {
+  playMemberJoinedSound,
+  playMessageReceivedSound,
+  playMicMuteSound,
+  playMicUnmuteSound,
+  playDeafenSound,
+  playUndeafenSound,
+  playKickSound,
+  playJoinApprovedSound,
+  playJoinDeniedSound
+} from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
@@ -51,6 +61,14 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
     [roomClient]
   );
 
+  useEffect(
+    () =>
+      onTyped<RoomClientEventDetail['mic-muted-changed']>(roomClient, 'mic-muted-changed', (detail) =>
+        detail.muted ? playMicMuteSound() : playMicUnmuteSound()
+      ),
+    [roomClient]
+  );
+
   function handleLeave(): void {
     roomClient.leaveRoom();
     onLeft();
@@ -61,8 +79,14 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
       {roomClient.isRoomCreator && (
         <JoinRequestModal
           requests={joinRequests}
-          onApprove={(id) => roomClient.approveJoinRequest(id)}
-          onDeny={(id) => roomClient.denyJoinRequest(id)}
+          onApprove={(id) => {
+            roomClient.approveJoinRequest(id);
+            playJoinApprovedSound();
+          }}
+          onDeny={(id) => {
+            roomClient.denyJoinRequest(id);
+            playJoinDeniedSound();
+          }}
         />
       )}
       <div className="flex items-center gap-2 px-4 py-2 border-b border-border flex-shrink-0">
@@ -92,12 +116,22 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
                 members={members}
                 canKick={roomClient.isRoomCreator}
                 onToggleWatch={(id) => roomClient.toggleWatch(id)}
-                onKick={(id) => roomClient.kickMember(id)}
+                onKick={(id) => {
+                  roomClient.kickMember(id);
+                  playKickSound();
+                }}
                 onLeave={handleLeave}
                 micMuted={micMuted}
                 deafened={deafened}
                 onToggleMic={() => roomClient.toggleMicMuted()}
-                onToggleDeafen={() => setDeafened((current) => !current)}
+                onToggleDeafen={() =>
+                  setDeafened((current) => {
+                    const next = !current;
+                    if (next) playDeafenSound();
+                    else playUndeafenSound();
+                    return next;
+                  })
+                }
                 voiceAudioState={voiceAudioState}
                 onOpenLogs={onOpenLogs}
                 onOpenSettings={onOpenSettings}

@@ -3,6 +3,19 @@ import icqUhOhSound from '@/assets/sounds/icq-uh-oh.mp3';
 import keyClickSound from '@/assets/sounds/key-click.wav';
 import messageSentSound from '@/assets/sounds/message-sent.wav';
 import messageReceivedSound from '@/assets/sounds/message-received.wav';
+import screenOpenSound from '@/assets/sounds/screen-open.wav';
+import screenCloseSound from '@/assets/sounds/screen-close.wav';
+import micMuteSound from '@/assets/sounds/mic-mute.wav';
+import micUnmuteSound from '@/assets/sounds/mic-unmute.wav';
+import deafenSound from '@/assets/sounds/deafen.wav';
+import undeafenSound from '@/assets/sounds/undeafen.wav';
+import shareStartSound from '@/assets/sounds/share-start.wav';
+import shareStopSound from '@/assets/sounds/share-stop.wav';
+import errorSound from '@/assets/sounds/error.wav';
+import copyClickSound from '@/assets/sounds/copy-click.wav';
+import kickSound from '@/assets/sounds/kick.wav';
+import joinApprovedSound from '@/assets/sounds/join-approved.wav';
+import joinDeniedSound from '@/assets/sounds/join-denied.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
 
 const KEY_CLICK_VOLUME_MULTIPLIER = 0.6;
@@ -31,4 +44,56 @@ export function playMessageSentSound(): void {
 
 export function playMessageReceivedSound(): void {
   play(messageReceivedSound, getSoundEffectsVolume());
+}
+
+export function playScreenOpenSound(): void {
+  play(screenOpenSound, getSoundEffectsVolume());
+}
+
+export function playScreenCloseSound(): void {
+  play(screenCloseSound, getSoundEffectsVolume());
+}
+
+export function playMicMuteSound(): void {
+  play(micMuteSound, getSoundEffectsVolume());
+}
+
+export function playMicUnmuteSound(): void {
+  play(micUnmuteSound, getSoundEffectsVolume());
+}
+
+export function playDeafenSound(): void {
+  play(deafenSound, getSoundEffectsVolume());
+}
+
+export function playUndeafenSound(): void {
+  play(undeafenSound, getSoundEffectsVolume());
+}
+
+export function playShareStartSound(): void {
+  play(shareStartSound, getSoundEffectsVolume());
+}
+
+export function playShareStopSound(): void {
+  play(shareStopSound, getSoundEffectsVolume());
+}
+
+export function playErrorSound(): void {
+  play(errorSound, getSoundEffectsVolume());
+}
+
+export function playCopyClickSound(): void {
+  play(copyClickSound, getSoundEffectsVolume());
+}
+
+export function playKickSound(): void {
+  play(kickSound, getSoundEffectsVolume());
+}
+
+export function playJoinApprovedSound(): void {
+  play(joinApprovedSound, getSoundEffectsVolume());
+}
+
+export function playJoinDeniedSound(): void {
+  play(joinDeniedSound, getSoundEffectsVolume());
 }

@@ -5,6 +5,7 @@ import { ShareActiveStatus } from '@/components/Room/ShareControls/ShareActiveSt
 import { useAudioSourceOptions, resolveAudioSourceId } from '@/hooks/useAudioSourceOptions';
 import { useExperimentalPerAppAudio } from '@/hooks/useExperimentalPerAppAudio';
 import { captureSource, captureSourceWithProcessAudio } from '@/services/ScreenCapture';
+import { playShareStartSound, playShareStopSound, playErrorSound } from '@/services/soundEffects';
 import { boostVideoBitrate } from '@/services/room/videoBitrate';
 import { errorMessage } from '@/lib/errorMessage';
 import { onTyped } from '@/lib/typedEvents';
@@ -61,11 +62,13 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
     localStream?.getTracks().forEach((track) => track.stop());
     setLocalStream(null);
     setStatus('');
+    playShareStopSound();
   }
 
   async function handleStart(): Promise<void> {
     if (!sourcePicker.selectedId) {
       setStatus(ROOM_STRINGS.chooseSourceFirstError);
+      playErrorSound();
       return;
     }
 
@@ -82,6 +85,7 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
         stream = await captureSourceWithProcessAudio(sourcePicker.selectedId, audioWindowTitle, quality);
       } catch (error) {
         setStatus(ROOM_STRINGS.captureError(errorMessage(error)));
+        playErrorSound();
         return;
       }
     } else {
@@ -90,6 +94,7 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
       } catch (error) {
         if (!audioSourceId) {
           setStatus(ROOM_STRINGS.captureError(errorMessage(error)));
+          playErrorSound();
           return;
         }
         try {
@@ -97,6 +102,7 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
           audioFellBack = true;
         } catch (fallbackError) {
           setStatus(ROOM_STRINGS.captureError(errorMessage(fallbackError)));
+          playErrorSound();
           return;
         }
       }
@@ -107,6 +113,7 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
       setEditingWhileSharing(false);
     } else {
       roomClient.startSharing(stream, quality);
+      playShareStartSound();
     }
     setLocalStream(stream);
     setStatus(audioFellBack ? ROOM_STRINGS.sharingAudioFallbackStatus : ROOM_STRINGS.sharingWithAudioStatus);

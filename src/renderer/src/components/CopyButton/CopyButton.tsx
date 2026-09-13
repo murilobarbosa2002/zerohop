@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { COPY_FEEDBACK_DURATION_MS } from '@/constants/timing';
 import { COMMON_STRINGS } from '@/strings/common.strings';
+import { playCopyClickSound } from '@/services/soundEffects';
 import type { CopyButtonProps } from '@/components/CopyButton/CopyButton.types';
 
 export function CopyButton({ text }: CopyButtonProps) {
@@ -9,6 +10,7 @@ export function CopyButton({ text }: CopyButtonProps) {
   async function handleClick(): Promise<void> {
     await window.api.copyToClipboard(text);
     setCopied(true);
+    playCopyClickSound();
     setTimeout(() => setCopied(false), COPY_FEEDBACK_DURATION_MS);
   }
 

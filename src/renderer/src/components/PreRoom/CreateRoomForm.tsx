@@ -6,6 +6,7 @@ import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
 import { PasswordInput } from '@/components/PasswordInput';
 import { errorMessage } from '@/lib/errorMessage';
+import { playErrorSound } from '@/services/soundEffects';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { ROOM_NAME_MAX_LENGTH } from '@/constants/roomIdentity';
 import { ROOM_PASSWORD_MAX_LENGTH } from '@/constants/roomPassword';
@@ -30,6 +31,7 @@ export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomForm
       onEntered(roomCode);
     } catch (error) {
       setStatus(PRE_ROOM_STRINGS.createRoomError(errorMessage(error)));
+      playErrorSound();
     }
   }
 

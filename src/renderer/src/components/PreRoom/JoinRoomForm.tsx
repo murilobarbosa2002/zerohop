@@ -6,6 +6,7 @@ import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
 import { PasswordInput } from '@/components/PasswordInput';
 import { errorMessage } from '@/lib/errorMessage';
+import { playErrorSound } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { ROOM_NAME_MAX_LENGTH, ROOM_CODE_MAX_LENGTH } from '@/constants/roomIdentity';
@@ -35,6 +36,7 @@ export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProp
       onEntered(code);
     } catch (error) {
       setStatus(PRE_ROOM_STRINGS.joinRoomError(errorMessage(error)));
+      playErrorSound();
     } finally {
       stopListeningJoinPending();
     }
