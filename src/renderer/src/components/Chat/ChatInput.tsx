@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
+import { playKeyClickSound, playMessageSentSound } from '@/services/soundEffects';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
 import { CHAT_MESSAGE_MAX_LENGTH } from '@/constants/chat';
 import type { ChatInputProps } from '@/components/Chat/Chat.types';
@@ -13,6 +14,7 @@ export function ChatInput({ onSend }: ChatInputProps) {
     if (!trimmed) return;
     onSend(trimmed);
     setText('');
+    playMessageSentSound();
   }
 
   return (
@@ -22,7 +24,11 @@ export function ChatInput({ onSend }: ChatInputProps) {
         value={text}
         onChange={(event) => setText(event.target.value)}
         onKeyDown={(event) => {
-          if (event.key === 'Enter') handleSend();
+          if (event.key === 'Enter') {
+            handleSend();
+            return;
+          }
+          if (event.key.length === 1 || event.key === 'Backspace') playKeyClickSound();
         }}
         maxLength={CHAT_MESSAGE_MAX_LENGTH}
         placeholder={CHAT_STRINGS.inputPlaceholder}

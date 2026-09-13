@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Card, CardTitle } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
+import { PasswordInput } from '@/components/PasswordInput';
 import { errorMessage } from '@/lib/errorMessage';
 import { onTyped } from '@/lib/typedEvents';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
@@ -55,8 +56,7 @@ export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProp
 
         <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mb-3">
           {PRE_ROOM_STRINGS.passwordFieldLabel}
-          <TextInput
-            type="password"
+          <PasswordInput
             {...register('password')}
             maxLength={ROOM_PASSWORD_MAX_LENGTH}
             placeholder={PRE_ROOM_STRINGS.joinPasswordFieldPlaceholder}

@@ -18,7 +18,9 @@ Clicando no número da versão, no canto superior esquerdo da janela (ao lado do
 
 ## Configurações
 
-O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com estas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele, ligar/desligar a **supressão de ruído** do microfone (vem ligada por padrão), e ajustar o **volume dos efeitos sonoros** (o som de entrar/criar sala e o som de alguém novo entrando).
+O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com estas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele, ligar/desligar a **supressão de ruído** do microfone (vem ligada por padrão), ajustar o **volume dos efeitos sonoros** (o som de entrar/criar sala, o som de alguém novo entrando, o clique de teclado e o som de mensagem enviada no chat), e ajustar a **escala da interface** (aumenta ou diminui o tamanho de tudo — texto, botões, ícones — se estiver pequeno demais pra sua tela ou visão).
+
+Os campos de senha (ao criar/entrar numa sala) mostram a senha em texto normal por padrão, com um ícone de olho pra ocultar se preferir.
 
 A **captura otimizada para jogos** (Windows.Graphics.Capture) e o **áudio isolado por aplicativo** ao compartilhar uma janela específica já vêm ativados por padrão, depois de testados e confirmados como estáveis — não são mais opções configuráveis. Veja [Solução de problemas](/seguranca/solucao-de-problemas#cursor-sumindo-imagem-travando-ou-piscando-ao-compartilhar-jogos) se notar algum comportamento estranho de captura ou áudio.
 

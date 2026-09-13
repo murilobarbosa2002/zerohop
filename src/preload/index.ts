@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer, webFrame } from 'electron';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
 import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
@@ -38,7 +38,10 @@ const api = {
     ipcRenderer.on(IPC_CHANNELS.audioLoopbackChunk, listener);
     return () => ipcRenderer.removeListener(IPC_CHANNELS.audioLoopbackChunk, listener);
   },
-  copyToClipboard: (text: string): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.copyToClipboard, text)
+  copyToClipboard: (text: string): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.copyToClipboard, text),
+  setUiZoomFactor: (factor: number): void => {
+    webFrame.setZoomFactor(factor);
+  }
 };
 
 export type ZeroHopApi = typeof api;

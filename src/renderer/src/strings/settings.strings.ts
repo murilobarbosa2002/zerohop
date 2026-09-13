@@ -23,5 +23,7 @@ export const SETTINGS_STRINGS = {
   micPermissionGrantedStatus: 'Permissão concedida.',
   micPermissionStillDeniedStatus: 'Ainda sem permissão — talvez precise liberar o microfone nas configurações do Windows pra este app.',
   soundEffectsTitle: 'Efeitos sonoros',
-  soundEffectsHint: 'Volume do som que toca ao criar/entrar numa sala e do som que os outros ouvem quando alguém novo entra.'
+  soundEffectsHint: 'Volume do som que toca ao criar/entrar numa sala e do som que os outros ouvem quando alguém novo entra.',
+  uiScaleTitle: 'Escala da interface',
+  uiScaleHint: 'Aumenta ou diminui o tamanho de tudo (texto, botões, ícones) — útil se estiver pequeno demais pra sua tela ou visão.'
 } as const;

@@ -1,6 +1,7 @@
 import { AudioOutputSettings } from '@/components/SettingsScreen/AudioOutputSettings';
 import { MicInputSettings } from '@/components/SettingsScreen/MicInputSettings';
 import { SoundEffectsSettings } from '@/components/SettingsScreen/SoundEffectsSettings';
+import { UiScaleSettings } from '@/components/SettingsScreen/UiScaleSettings';
 import { SETTINGS_STRINGS } from '@/strings/settings.strings';
 import type { SettingsScreenProps } from '@/components/SettingsScreen/SettingsScreen.types';
 
@@ -18,6 +19,7 @@ export function SettingsScreen({ onBack, roomClient }: SettingsScreenProps) {
         <AudioOutputSettings />
         <MicInputSettings roomClient={roomClient} />
         <SoundEffectsSettings />
+        <UiScaleSettings />
       </div>
     </div>
   );

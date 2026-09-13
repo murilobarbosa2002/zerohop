@@ -5,3 +5,4 @@ export { SettingsIcon } from '@/components/icons/SettingsIcon';
 export { MinimizeIcon } from '@/components/icons/MinimizeIcon';
 export { MaximizeIcon } from '@/components/icons/MaximizeIcon';
 export { CloseIcon } from '@/components/icons/CloseIcon';
+export { EyeIcon } from '@/components/icons/EyeIcon';
