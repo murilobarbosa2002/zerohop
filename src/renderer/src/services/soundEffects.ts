@@ -56,6 +56,11 @@ import shareEditSound from '@/assets/sounds/share-edit.wav';
 import shareSaveChangesSound from '@/assets/sounds/share-save-changes.wav';
 import appOpenSound from '@/assets/sounds/app-open.wav';
 import appCloseSound from '@/assets/sounds/app-close.wav';
+import updateCheckSound from '@/assets/sounds/update-check.wav';
+import updateFoundSound from '@/assets/sounds/update-found.wav';
+import updateDownloadedSound from '@/assets/sounds/update-downloaded.wav';
+import updateInstallSound from '@/assets/sounds/update-install.wav';
+import updateLaterSound from '@/assets/sounds/update-later.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
 import { SoundCategory } from '@/constants/soundEffects';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
@@ -298,6 +303,26 @@ export function playAppOpenSound(): void {
 
 export function playAppCloseSound(): void {
   play(appCloseSound, SoundCategory.INTERFACE);
+}
+
+export function playUpdateCheckSound(): void {
+  play(updateCheckSound, SoundCategory.INTERFACE);
+}
+
+export function playUpdateFoundSound(): void {
+  play(updateFoundSound, SoundCategory.INTERFACE);
+}
+
+export function playUpdateDownloadedSound(): void {
+  play(updateDownloadedSound, SoundCategory.INTERFACE);
+}
+
+export function playUpdateInstallSound(): void {
+  play(updateInstallSound, SoundCategory.INTERFACE);
+}
+
+export function playUpdateLaterSound(): void {
+  play(updateLaterSound, SoundCategory.INTERFACE);
 }
 
 export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; type: () => void }> = {

@@ -13,7 +13,8 @@ import {
   playShareCancelSound,
   playShareResolutionChangeSound,
   playShareFpsChangeSound,
-  playShareAudioChangeSound
+  playShareAudioChangeSound,
+  playBackButtonSound
 } from '@/services/soundEffects';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { ShareSourcePickerProps } from '@/components/Room/ShareControls/ShareSourcePicker.types';
@@ -55,7 +56,13 @@ export function ShareSourcePicker({
         </>
       ) : (
         <>
-          <button onClick={() => setKind(null)} className="text-accent text-body-sm hover:underline mb-3">
+          <button
+            onClick={() => {
+              playBackButtonSound();
+              setKind(null);
+            }}
+            className="text-accent text-body-sm hover:underline mb-3"
+          >
             {ROOM_STRINGS.backToSourceKindButton}
           </button>
 

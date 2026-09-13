@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { playUpdateCheckSound, playUpdateFoundSound, playUpdateDownloadedSound, playUpdateInstallSound } from '@/services/soundEffects';
 import type { UpdaterStatus } from '@shared/updaterStatus';
 import type { AppUpdaterState } from '@/hooks/useAppUpdater.types';
 
@@ -7,6 +8,7 @@ export function useAppUpdater(): AppUpdaterState {
   const [isPackaged, setIsPackaged] = useState(false);
   const [autoUpdateEnabled, setAutoUpdateEnabledState] = useState(true);
   const [status, setStatus] = useState<UpdaterStatus | null>(null);
+  const previousStatusType = useRef<UpdaterStatus['type'] | null>(null);
 
   useEffect(() => {
     window.api.getUpdaterInfo().then((info) => {
@@ -16,13 +18,24 @@ export function useAppUpdater(): AppUpdaterState {
     });
   }, []);
 
-  useEffect(() => window.api.onUpdaterStatus(setStatus), []);
+  useEffect(
+    () =>
+      window.api.onUpdaterStatus((next) => {
+        if (next.type === 'available' && previousStatusType.current !== 'available') playUpdateFoundSound();
+        if (next.type === 'downloaded' && previousStatusType.current !== 'downloaded') playUpdateDownloadedSound();
+        previousStatusType.current = next.type;
+        setStatus(next);
+      }),
+    []
+  );
 
   const checkForUpdates = useCallback(() => {
+    playUpdateCheckSound();
     window.api.checkForUpdates();
   }, []);
 
   const installUpdate = useCallback(() => {
+    playUpdateInstallSound();
     window.api.installUpdate();
   }, []);
 

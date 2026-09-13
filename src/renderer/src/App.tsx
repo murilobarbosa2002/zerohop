@@ -14,7 +14,7 @@ import { useRoomSessions, type RoomSession } from '@/hooks/useRoomSessions';
 import { useRoomStatus } from '@/hooks/useRoomStatus';
 import { useAppUpdater } from '@/hooks/useAppUpdater';
 import { logEvent } from '@/services/appLog';
-import { playJoinedRoomSound, playScreenOpenSound, playScreenCloseSound } from '@/services/soundEffects';
+import { playJoinedRoomSound, playScreenOpenSound, playScreenCloseSound, playUpdateLaterSound } from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { LogCategory, LogLevel } from '@shared/logEntry';
@@ -95,7 +95,10 @@ export function App() {
         <UpdateReadyModal
           version={updateReady.version}
           onInstall={installUpdate}
-          onDismiss={() => setDismissedUpdateVersion(updateReady.version)}
+          onDismiss={() => {
+            playUpdateLaterSound();
+            setDismissedUpdateVersion(updateReady.version);
+          }}
         />
       )}
       <TitleBar
