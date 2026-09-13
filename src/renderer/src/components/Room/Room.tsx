@@ -13,7 +13,7 @@ import { useJoinRequests } from '@/hooks/useJoinRequests';
 import { useSourcePicker } from '@/hooks/useSourcePicker';
 import { useMicMuted } from '@/hooks/useMicMuted';
 import { useMemberAudioState } from '@/hooks/useMemberAudioState';
-import { playMemberJoinedSound } from '@/services/soundEffects';
+import { playMemberJoinedSound, playMessageReceivedSound } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
@@ -42,6 +42,12 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
 
   useEffect(
     () => onTyped<RoomClientEventDetail['member-joined']>(roomClient, 'member-joined', () => playMemberJoinedSound()),
+    [roomClient]
+  );
+
+  useEffect(
+    () =>
+      onTyped<RoomClientEventDetail['chat-message-received']>(roomClient, 'chat-message-received', () => playMessageReceivedSound()),
     [roomClient]
   );
 

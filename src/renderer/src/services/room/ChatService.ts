@@ -13,6 +13,7 @@ export interface ChatMessageEntry {
 
 export interface ChatServiceEventDetail {
   'message-added': { messages: ChatMessageEntry[] };
+  'message-received': { message: ChatMessageEntry };
 }
 
 interface ChatServiceDeps {
@@ -66,6 +67,7 @@ export class ChatService extends EventTarget {
     };
     this.messages = [...this.messages, entry];
     this.emitMessages();
+    this.dispatchEvent(new CustomEvent('message-received', { detail: { message: entry } }));
   }
 
   canDelete(message: ChatMessageEntry): boolean {

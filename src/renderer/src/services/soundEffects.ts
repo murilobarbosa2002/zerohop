@@ -2,6 +2,7 @@ import dialUpInternetSound from '@/assets/sounds/dial-up-internet.mp3';
 import icqUhOhSound from '@/assets/sounds/icq-uh-oh.mp3';
 import keyClickSound from '@/assets/sounds/key-click.wav';
 import messageSentSound from '@/assets/sounds/message-sent.wav';
+import messageReceivedSound from '@/assets/sounds/message-received.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
 
 const KEY_CLICK_VOLUME_MULTIPLIER = 0.6;
@@ -26,4 +27,8 @@ export function playKeyClickSound(): void {
 
 export function playMessageSentSound(): void {
   play(messageSentSound, getSoundEffectsVolume());
+}
+
+export function playMessageReceivedSound(): void {
+  play(messageReceivedSound, getSoundEffectsVolume());
 }
