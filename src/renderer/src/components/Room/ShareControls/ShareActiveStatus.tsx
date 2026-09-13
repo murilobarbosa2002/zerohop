@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
 import { SelfPreviewLightbox } from '@/components/Room/ShareControls/SelfPreviewLightbox';
+import { playShareEditSound } from '@/services/soundEffects';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { ShareActiveStatusProps } from '@/components/Room/ShareControls/ShareActiveStatus.types';
 
@@ -36,7 +37,13 @@ export function ShareActiveStatus({ status, onStop, onEdit, videoRef, localStrea
           </p>
           {status && <p className="text-text-dim text-xs mt-1">{status}</p>}
         </div>
-        <ActionButton variant="default" onClick={onEdit}>
+        <ActionButton
+          variant="default"
+          onClick={() => {
+            playShareEditSound();
+            onEdit();
+          }}
+        >
           {ROOM_STRINGS.editSharingButton}
         </ActionButton>
         <ActionButton variant="danger" onClick={onStop}>

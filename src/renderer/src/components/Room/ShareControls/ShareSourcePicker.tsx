@@ -9,6 +9,12 @@ import { getCaptureSourceKind } from '@/lib/captureSourceKind';
 import { CaptureSourceKind } from '@/constants/captureSourceKind';
 import { Resolution } from '@/constants/resolution';
 import { Fps } from '@/constants/fps';
+import {
+  playShareCancelSound,
+  playShareResolutionChangeSound,
+  playShareFpsChangeSound,
+  playShareAudioChangeSound
+} from '@/services/soundEffects';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { ShareSourcePickerProps } from '@/components/Room/ShareControls/ShareSourcePicker.types';
 
@@ -36,7 +42,14 @@ export function ShareSourcePicker({
       {!kind ? (
         <>
           <ShareSourceKindChoice onSelect={setKind} />
-          <ActionButton variant="default" className="mt-3.5" onClick={onCancel}>
+          <ActionButton
+            variant="default"
+            className="mt-3.5"
+            onClick={() => {
+              playShareCancelSound();
+              onCancel();
+            }}
+          >
             {ROOM_STRINGS.cancelShareSetupButton}
           </ActionButton>
         </>
@@ -58,26 +71,42 @@ export function ShareSourcePicker({
             <SelectField
               label={ROOM_STRINGS.resolutionFieldLabel}
               value={resolution}
-              onChange={(value) => onChangeResolution(value as Resolution)}
+              onChange={(value) => {
+                playShareResolutionChangeSound();
+                onChangeResolution(value as Resolution);
+              }}
               options={RESOLUTION_OPTIONS}
             />
             <SelectField
               label={ROOM_STRINGS.fpsFieldLabel}
               value={fps}
-              onChange={(value) => onChangeFps(value as Fps)}
+              onChange={(value) => {
+                playShareFpsChangeSound();
+                onChangeFps(value as Fps);
+              }}
               options={FPS_OPTIONS}
             />
             <SelectField
               label={ROOM_STRINGS.audioFieldLabel}
               value={audioSelection}
-              onChange={onChangeAudioSelection}
+              onChange={(value) => {
+                playShareAudioChangeSound();
+                onChangeAudioSelection(value);
+              }}
               options={audioOptions}
               wide
             />
           </div>
 
           <div className="flex flex-wrap gap-2 mt-3.5">
-            <ActionButton variant="default" className="flex-shrink-0" onClick={onCancel}>
+            <ActionButton
+              variant="default"
+              className="flex-shrink-0"
+              onClick={() => {
+                playShareCancelSound();
+                onCancel();
+              }}
+            >
               {ROOM_STRINGS.cancelShareSetupButton}
             </ActionButton>
             <ActionButton variant="primary" className="flex-1 min-w-0" onClick={onConfirm}>

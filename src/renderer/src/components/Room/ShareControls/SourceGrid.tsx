@@ -2,6 +2,7 @@ import { ROOM_STRINGS } from '@/strings/room.strings';
 import { sourceCardVariants } from '@/components/Room/ShareControls/SourceGrid.variants';
 import { getCaptureSourceKind } from '@/lib/captureSourceKind';
 import { CaptureSourceKind } from '@/constants/captureSourceKind';
+import { playShareSourceSelectSound } from '@/services/soundEffects';
 import type { SourceGridProps } from '@/components/Room/ShareControls/SourceGrid.types';
 
 export function SourceGrid({ sources, selectedId, onSelect }: SourceGridProps) {
@@ -11,7 +12,14 @@ export function SourceGrid({ sources, selectedId, onSelect }: SourceGridProps) {
         const isWindowSource = getCaptureSourceKind(source.id) === CaptureSourceKind.WINDOW;
         const selected = source.id === selectedId;
         return (
-          <button key={source.id} onClick={() => onSelect(source.id)} className={sourceCardVariants({ selected })}>
+          <button
+            key={source.id}
+            onClick={() => {
+              playShareSourceSelectSound();
+              onSelect(source.id);
+            }}
+            className={sourceCardVariants({ selected })}
+          >
             <span className="inline-block mb-1 text-label-xs font-bold uppercase tracking-wide text-accent bg-accent-soft rounded-full px-1.5 py-0.5">
               {isWindowSource ? ROOM_STRINGS.windowSourceKind : ROOM_STRINGS.screenSourceKind}
             </span>

@@ -5,7 +5,7 @@ import { ShareActiveStatus } from '@/components/Room/ShareControls/ShareActiveSt
 import { useAudioSourceOptions, resolveAudioSourceId } from '@/hooks/useAudioSourceOptions';
 import { useExperimentalPerAppAudio } from '@/hooks/useExperimentalPerAppAudio';
 import { captureSource, captureSourceWithProcessAudio } from '@/services/ScreenCapture';
-import { playShareStartSound, playShareStopSound, playErrorSound } from '@/services/soundEffects';
+import { playShareStartSound, playShareStopSound, playShareSaveChangesSound, playErrorSound } from '@/services/soundEffects';
 import { boostVideoBitrate } from '@/services/room/videoBitrate';
 import { errorMessage } from '@/lib/errorMessage';
 import { onTyped } from '@/lib/typedEvents';
@@ -111,6 +111,7 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
     if (editingWhileSharing) {
       roomClient.changeSharing(stream, quality);
       setEditingWhileSharing(false);
+      playShareSaveChangesSound();
     } else {
       roomClient.startSharing(stream, quality);
       playShareStartSound();

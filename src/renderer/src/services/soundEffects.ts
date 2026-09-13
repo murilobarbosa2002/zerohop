@@ -44,6 +44,16 @@ import inputChatFocusSound from '@/assets/sounds/input-chat-focus.wav';
 import backButtonSound from '@/assets/sounds/back-button.wav';
 import openLogsSound from '@/assets/sounds/open-logs.wav';
 import openSettingsSound from '@/assets/sounds/open-settings.wav';
+import shareOpenPickerSound from '@/assets/sounds/share-open-picker.wav';
+import shareKindFullscreenSound from '@/assets/sounds/share-kind-fullscreen.wav';
+import shareKindWindowSound from '@/assets/sounds/share-kind-window.wav';
+import shareCancelSound from '@/assets/sounds/share-cancel.wav';
+import shareSourceSelectSound from '@/assets/sounds/share-source-select.wav';
+import shareResolutionChangeSound from '@/assets/sounds/share-resolution-change.wav';
+import shareFpsChangeSound from '@/assets/sounds/share-fps-change.wav';
+import shareAudioChangeSound from '@/assets/sounds/share-audio-change.wav';
+import shareEditSound from '@/assets/sounds/share-edit.wav';
+import shareSaveChangesSound from '@/assets/sounds/share-save-changes.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
 
@@ -237,6 +247,46 @@ export function playOpenLogsSound(): void {
 
 export function playOpenSettingsSound(): void {
   play(openSettingsSound, getSoundEffectsVolume());
+}
+
+export function playShareOpenPickerSound(): void {
+  play(shareOpenPickerSound, getSoundEffectsVolume());
+}
+
+export function playShareKindFullscreenSound(): void {
+  play(shareKindFullscreenSound, getSoundEffectsVolume());
+}
+
+export function playShareKindWindowSound(): void {
+  play(shareKindWindowSound, getSoundEffectsVolume());
+}
+
+export function playShareCancelSound(): void {
+  play(shareCancelSound, getSoundEffectsVolume());
+}
+
+export function playShareSourceSelectSound(): void {
+  play(shareSourceSelectSound, getSoundEffectsVolume());
+}
+
+export function playShareResolutionChangeSound(): void {
+  play(shareResolutionChangeSound, getSoundEffectsVolume());
+}
+
+export function playShareFpsChangeSound(): void {
+  play(shareFpsChangeSound, getSoundEffectsVolume());
+}
+
+export function playShareAudioChangeSound(): void {
+  play(shareAudioChangeSound, getSoundEffectsVolume());
+}
+
+export function playShareEditSound(): void {
+  play(shareEditSound, getSoundEffectsVolume());
+}
+
+export function playShareSaveChangesSound(): void {
+  play(shareSaveChangesSound, getSoundEffectsVolume());
 }
 
 export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; type: () => void }> = {
