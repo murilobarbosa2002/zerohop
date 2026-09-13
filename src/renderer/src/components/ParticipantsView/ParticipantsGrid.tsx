@@ -1,7 +1,7 @@
 import { ParticipantTile } from '@/components/ParticipantsView/ParticipantTile';
 import type { ParticipantsGridProps } from '@/components/ParticipantsView/ParticipantsGrid.types';
 
-export function ParticipantsGrid({ members, onToggleWatch, canKick, onKick, voiceAudioState, deafened }: ParticipantsGridProps) {
+export function ParticipantsGrid({ members, onToggleWatch, canKick, onKick, voiceAudioState }: ParticipantsGridProps) {
   return (
     <div className="flex flex-col gap-2">
       {members.map((member) => (
@@ -12,7 +12,6 @@ export function ParticipantsGrid({ members, onToggleWatch, canKick, onKick, voic
           canKick={canKick}
           onKick={onKick}
           voiceAudioState={voiceAudioState}
-          deafened={deafened}
         />
       ))}
     </div>

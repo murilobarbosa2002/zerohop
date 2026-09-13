@@ -135,22 +135,22 @@ export function App() {
           )}
 
           {activeOverlay === Overlay.UPDATES && (
-            <div className="absolute inset-0 flex flex-col bg-bg">
+            <div className="absolute inset-0 z-20 flex flex-col bg-bg">
               <UpdatesScreen onBack={closeOverlay} />
             </div>
           )}
           {activeOverlay === Overlay.SETTINGS && (
-            <div className="absolute inset-0 flex flex-col bg-bg">
+            <div className="absolute inset-0 z-20 flex flex-col bg-bg">
               <SettingsScreen onBack={closeOverlay} roomClient={focusedSession ? focusedSession.roomClient : null} />
             </div>
           )}
           {activeOverlay === Overlay.LOGS && (
-            <div className="absolute inset-0 flex flex-col bg-bg">
+            <div className="absolute inset-0 z-20 flex flex-col bg-bg">
               <LogsScreen onBack={closeOverlay} />
             </div>
           )}
           {activeOverlay === Overlay.ADD_ROOM && pendingSession && (
-            <div className="absolute inset-0 flex flex-col bg-bg overflow-y-auto px-7 py-7">
+            <div className="absolute inset-0 z-20 flex flex-col bg-bg overflow-y-auto px-7 py-7">
               <div className="flex items-center gap-3 mb-4">
                 <ActionButton variant="default" onClick={handleCancelAddRoom}>
                   {PRE_ROOM_STRINGS.backButton}

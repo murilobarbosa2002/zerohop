@@ -7,5 +7,4 @@ export interface ParticipantsGridProps {
   canKick: boolean;
   onKick: (id: string) => void;
   voiceAudioState: MemberAudioStateStore;
-  deafened: boolean;
 }

@@ -4,5 +4,9 @@ export const CHAT_STRINGS = {
   inputPlaceholder: 'Escreva uma mensagem...',
   sendButton: 'Enviar',
   selfSenderLabel: 'Você',
-  deleteMessageButton: 'Apagar mensagem'
+  deleteMessageButton: 'Apagar mensagem',
+  deleteConfirmTitle: 'Apagar essa mensagem?',
+  deleteConfirmBody: 'Some pra todo mundo na sala. Isso não pode ser desfeito.',
+  deleteConfirmCancelButton: 'Cancelar',
+  deleteConfirmDeleteButton: 'Apagar'
 } as const;

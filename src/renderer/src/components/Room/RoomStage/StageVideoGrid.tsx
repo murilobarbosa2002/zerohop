@@ -6,7 +6,7 @@ export function StageVideoGrid({ members }: StageVideoAreaProps) {
   const audioState = useMemberAudioState();
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-3.5">
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,560px))] justify-center gap-3.5">
       {members.map((member) => (
         <ParticipantVideo key={member.id} member={member} audioState={audioState} />
       ))}

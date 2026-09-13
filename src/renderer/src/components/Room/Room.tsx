@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { RoomSidebar } from '@/components/Room/RoomSidebar';
 import { RoomStage } from '@/components/Room/RoomStage';
 import { JoinRequestModal } from '@/components/Room/JoinRequestModal';
+import { VoiceAudioSinks } from '@/components/Room/VoiceAudioSinks';
 import { Chat } from '@/components/Chat';
 import { ResizeHandle } from '@/components/ResizeHandle';
 import { useResizablePanelWidth } from '@/hooks/useResizablePanelWidth';
@@ -24,7 +25,8 @@ import {
   playSidebarShowSound,
   playSidebarHideSound,
   playChatShowSound,
-  playChatHideSound
+  playChatHideSound,
+  playMessageDeletedRemoteSound
 } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
 import { ROOM_STRINGS } from '@/strings/room.strings';
@@ -56,6 +58,14 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
     () =>
       onTyped<RoomClientEventDetail['mic-muted-changed']>(roomClient, 'mic-muted-changed', (detail) =>
         detail.muted ? playMicMuteSound() : playMicUnmuteSound()
+      ),
+    [roomClient]
+  );
+
+  useEffect(
+    () =>
+      onTyped<RoomClientEventDetail['chat-message-deleted-remote']>(roomClient, 'chat-message-deleted-remote', () =>
+        playMessageDeletedRemoteSound()
       ),
     [roomClient]
   );
@@ -108,6 +118,8 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
           {chatOpen ? ROOM_STRINGS.hideChatButton : ROOM_STRINGS.showChatButton}
         </button>
       </div>
+
+      <VoiceAudioSinks members={members} voiceAudioState={voiceAudioState} deafened={deafened} />
 
       {connectionWarning && <p className="text-text-dim text-xs px-4 py-2 flex-shrink-0">{connectionWarning}</p>}
 

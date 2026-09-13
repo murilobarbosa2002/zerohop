@@ -40,7 +40,6 @@ export function RoomSidebar({
           canKick={canKick}
           onKick={onKick}
           voiceAudioState={voiceAudioState}
-          deafened={deafened}
         />
       </Card>
     </div>

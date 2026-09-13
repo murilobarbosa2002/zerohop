@@ -18,7 +18,7 @@ Clicando no número da versão, no canto superior esquerdo da janela (ao lado do
 
 ## Configurações
 
-O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com estas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele, ligar/desligar a **supressão de ruído** do microfone (vem ligada por padrão), ajustar o **volume dos efeitos sonoros** (entrar/criar sala, alguém novo entrando, clique de teclado, enviar/receber mensagem no chat, mutar/desmutar mic, silenciar todos, compartilhar/parar de compartilhar, copiar, aprovar/recusar entrada, remover alguém, abrir/fechar telas, ocultar/mostrar as colunas de participantes e chat, e erros — cada interação com um som próprio, no clima nostálgico do app), e ajustar a **escala da interface** (aumenta ou diminui o tamanho de tudo — texto, botões, ícones — se estiver pequeno demais pra sua tela ou visão).
+O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com estas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele, ligar/desligar a **supressão de ruído** do microfone (vem ligada por padrão), ajustar o **volume dos efeitos sonoros** (criar sala, entrar numa sala, alguém novo entrando, clique de teclado, enviar/receber/apagar mensagem no chat, mutar/desmutar mic, silenciar todos, compartilhar/parar de compartilhar, copiar, aprovar/recusar entrada, remover alguém, abrir/fechar telas, ocultar/mostrar as colunas de participantes e chat, escolher foto de perfil, e erros — cada interação com um som próprio, no clima nostálgico do app), e ajustar a **escala da interface** (aumenta ou diminui o tamanho de tudo — texto, botões, ícones — se estiver pequeno demais pra sua tela ou visão).
 
 Os campos de senha (ao criar/entrar numa sala) mostram a senha em texto normal por padrão, com um ícone de olho pra ocultar se preferir.
 
@@ -59,7 +59,7 @@ Dentro da sala, a tela é dividida em três áreas, como um app de chamada:
 - **Área central (o "palco"):** onde aparece o vídeo de quem você está assistindo, ou o botão pra compartilhar sua própria tela.
 - **Coluna da direita:** o chat de texto.
 
-As colunas da esquerda e da direita podem ser escondidas (botões "Ocultar sala"/"Ocultar chat" no topo) pra dar mais espaço ao vídeo quando quiser, e também podem ser redimensionadas: arraste a linha divisória entre a coluna e o palco central pra deixá-las mais larga ou mais estreita do jeito que preferir. O tamanho escolhido fica salvo pra próxima vez que você abrir o app.
+As colunas da esquerda e da direita podem ser escondidas (botões "Ocultar sala"/"Ocultar chat" no topo) pra dar mais espaço ao vídeo quando quiser, e também podem ser redimensionadas: arraste a linha divisória entre a coluna e o palco central pra deixá-las mais larga ou mais estreita do jeito que preferir. O tamanho escolhido fica salvo pra próxima vez que você abrir o app. Ocultar a coluna de participantes é só uma questão visual — a voz de todo mundo continua tocando normalmente mesmo com ela escondida.
 
 ## Conversar por voz
 
@@ -86,7 +86,7 @@ Você pode arrastar o canto inferior direito do vídeo pra deixá-lo maior ou me
 
 ## Conversar pelo chat
 
-A coluna da direita tem um chat de texto simples, visível pra todos os participantes autenticados. Links enviados no chat viram clicáveis automaticamente, abrindo no seu navegador padrão. Você pode apagar suas próprias mensagens a qualquer momento (some pra todo mundo na sala); quem criou a sala também pode apagar a mensagem de qualquer pessoa, útil pra moderação. As mensagens não ficam salvas em lugar nenhum. Veja [Privacidade e criptografia](/seguranca/privacidade) pra entender exatamente o porquê.
+A coluna da direita tem um chat de texto simples, visível pra todos os participantes autenticados. Links enviados no chat viram clicáveis automaticamente, abrindo no seu navegador padrão. Você pode apagar suas próprias mensagens a qualquer momento (pede confirmação antes, e some pra todo mundo na sala); quem criou a sala também pode apagar a mensagem de qualquer pessoa, útil pra moderação. As mensagens não ficam salvas em lugar nenhum. Veja [Privacidade e criptografia](/seguranca/privacidade) pra entender exatamente o porquê.
 
 ## Participar de várias salas ao mesmo tempo
 

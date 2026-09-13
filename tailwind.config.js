@@ -47,11 +47,11 @@ export default {
         'room-sidebar-width': '260px'
       },
       fontSize: {
-        'label-xs': '9.5px',
-        'body-xs': '11px',
-        'body-sm': '13px',
-        'body-sm-alt': '13.5px',
-        'badge-xs': '10.5px'
+        'label-xs': '11px',
+        'body-xs': '13px',
+        'body-sm': '15px',
+        'body-sm-alt': '15.5px',
+        'badge-xs': '12.5px'
       },
       fontFamily: {
         sans: ['"Jersey10"', '"Segoe UI"', 'Tahoma', 'sans-serif']

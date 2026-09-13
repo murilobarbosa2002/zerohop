@@ -5,7 +5,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { getUiScale } from '@/services/uiScalePreference';
 import '@/index.css';
 
-console.log('%c[build] ZeroHop v0.35.2', 'font-weight:bold;color:#000080');
+console.log('%c[build] ZeroHop v0.36.0', 'font-weight:bold;color:#000080');
 
 window.api.setUiZoomFactor(getUiScale());
 

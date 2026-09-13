@@ -14,6 +14,7 @@ export interface ChatMessageEntry {
 export interface ChatServiceEventDetail {
   'message-added': { messages: ChatMessageEntry[] };
   'message-received': { message: ChatMessageEntry };
+  'message-deleted-remote': { id: string };
 }
 
 interface ChatServiceDeps {
@@ -90,6 +91,7 @@ export class ChatService extends EventTarget {
     if (!isOwnMessage && !isRoomCreator) return;
     this.messages = this.messages.filter((entry) => entry.id !== id);
     this.emitMessages();
+    this.dispatchEvent(new CustomEvent('message-deleted-remote', { detail: { id } }));
   }
 
   clear(): void {

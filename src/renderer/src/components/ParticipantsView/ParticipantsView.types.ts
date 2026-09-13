@@ -7,5 +7,4 @@ export interface ParticipantsViewProps {
   canKick: boolean;
   onKick: (id: string) => void;
   voiceAudioState: MemberAudioStateStore;
-  deafened: boolean;
 }

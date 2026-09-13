@@ -21,6 +21,10 @@ import sidebarHideSound from '@/assets/sounds/sidebar-hide.wav';
 import chatShowSound from '@/assets/sounds/chat-show.wav';
 import chatHideSound from '@/assets/sounds/chat-hide.wav';
 import avatarSelectSound from '@/assets/sounds/avatar-select.wav';
+import messageDeleteSound from '@/assets/sounds/message-delete.wav';
+import messageDeletedRemoteSound from '@/assets/sounds/message-deleted-remote.wav';
+import createRoomClickSound from '@/assets/sounds/create-room-click.wav';
+import joinRoomClickSound from '@/assets/sounds/join-room-click.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
 
 const KEY_CLICK_VOLUME_MULTIPLIER = 0.6;
@@ -121,4 +125,20 @@ export function playChatHideSound(): void {
 
 export function playAvatarSelectSound(): void {
   play(avatarSelectSound, getSoundEffectsVolume());
+}
+
+export function playMessageDeleteSound(): void {
+  play(messageDeleteSound, getSoundEffectsVolume());
+}
+
+export function playMessageDeletedRemoteSound(): void {
+  play(messageDeletedRemoteSound, getSoundEffectsVolume());
+}
+
+export function playCreateRoomClickSound(): void {
+  play(createRoomClickSound, getSoundEffectsVolume());
+}
+
+export function playJoinRoomClickSound(): void {
+  play(joinRoomClickSound, getSoundEffectsVolume());
 }

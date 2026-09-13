@@ -43,6 +43,7 @@ export interface RoomClientEventDetail {
   'connection-warning': { peerId: string };
   'chat-changed': { messages: ChatMessageEntry[] };
   'chat-message-received': { message: ChatMessageEntry };
+  'chat-message-deleted-remote': { id: string };
   'join-requests-changed': { requests: JoinRequestEntry[] };
   'join-pending': Record<string, never>;
   'mic-muted-changed': { muted: boolean };
@@ -165,6 +166,9 @@ export class RoomClient extends EventTarget {
     });
     onTyped<ChatServiceEventDetail['message-received']>(this.chat, 'message-received', (detail) => {
       this.dispatchEvent(new CustomEvent('chat-message-received', { detail }));
+    });
+    onTyped<ChatServiceEventDetail['message-deleted-remote']>(this.chat, 'message-deleted-remote', (detail) => {
+      this.dispatchEvent(new CustomEvent('chat-message-deleted-remote', { detail }));
     });
     onTyped<RoomAuthControllerEventDetail['join-requests-changed']>(this.auth, 'join-requests-changed', (detail) => {
       this.dispatchEvent(new CustomEvent('join-requests-changed', { detail }));

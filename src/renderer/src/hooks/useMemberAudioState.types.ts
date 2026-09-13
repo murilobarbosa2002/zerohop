@@ -5,4 +5,6 @@ export interface MemberAudioState {
 
 export interface MemberAudioStateStore {
   get: (id: string) => MemberAudioState;
+  notifyChange: (id: string) => void;
+  subscribe: (id: string, listener: () => void) => () => void;
 }

@@ -2,7 +2,7 @@ import { EmptyParticipantsState } from '@/components/ParticipantsView/EmptyParti
 import { ParticipantsGrid } from '@/components/ParticipantsView/ParticipantsGrid';
 import type { ParticipantsViewProps } from '@/components/ParticipantsView/ParticipantsView.types';
 
-export function ParticipantsView({ members, onToggleWatch, canKick, onKick, voiceAudioState, deafened }: ParticipantsViewProps) {
+export function ParticipantsView({ members, onToggleWatch, canKick, onKick, voiceAudioState }: ParticipantsViewProps) {
   return members.length === 0 ? (
     <EmptyParticipantsState />
   ) : (
@@ -12,7 +12,6 @@ export function ParticipantsView({ members, onToggleWatch, canKick, onKick, voic
       canKick={canKick}
       onKick={onKick}
       voiceAudioState={voiceAudioState}
-      deafened={deafened}
     />
   );
 }

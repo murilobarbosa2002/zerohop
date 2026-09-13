@@ -25,6 +25,9 @@ try {
   check('host recebeu a mensagem do convidado', await hostWin.getByText('mensagem do convidado').isVisible());
 
   await hostWin.getByRole('button', { name: 'Apagar mensagem' }).first().click();
+  await hostWin.waitForTimeout(200);
+  check('confirmacao de exclusao aparece antes de apagar de verdade', await hostWin.getByText('Apagar essa mensagem?').isVisible());
+  await hostWin.getByRole('button', { name: 'Apagar', exact: true }).click();
   await guestWin.waitForTimeout(500);
 
   check('mensagem sumiu no host (dono da sala apagou)', !(await hostWin.getByText('mensagem do convidado').isVisible().catch(() => false)));

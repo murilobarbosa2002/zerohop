@@ -39,6 +39,10 @@
   background: theme('colors.panel-2');
 }
 
+html {
+  font-size: 106.25%;
+}
+
 html,
 body,
 #root {
@@ -47,8 +51,7 @@ body,
 }
 
 body {
-  -webkit-font-smoothing: none;
-  font-smooth: never;
+  -webkit-font-smoothing: antialiased;
   font-family: 'Jersey10', 'Segoe UI', Tahoma, sans-serif;
 }
 
