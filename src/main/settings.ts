@@ -4,12 +4,14 @@ import { join } from 'path';
 import {
   SETTINGS_FILE_NAME,
   DEFAULT_AUTO_UPDATE_ENABLED,
-  DEFAULT_EXPERIMENTAL_WGC_CAPTURE_ENABLED
+  DEFAULT_EXPERIMENTAL_WGC_CAPTURE_ENABLED,
+  DEFAULT_EXPERIMENTAL_PER_APP_AUDIO_ENABLED
 } from '@main/constants/settings';
 
 interface AppSettings {
   autoUpdateEnabled: boolean;
   experimentalWgcCaptureEnabled: boolean;
+  experimentalPerAppAudioEnabled: boolean;
 }
 
 function getSettingsFilePath(): string {
@@ -25,10 +27,18 @@ export function getSettings(): AppSettings {
       experimentalWgcCaptureEnabled:
         typeof parsed.experimentalWgcCaptureEnabled === 'boolean'
           ? parsed.experimentalWgcCaptureEnabled
-          : DEFAULT_EXPERIMENTAL_WGC_CAPTURE_ENABLED
+          : DEFAULT_EXPERIMENTAL_WGC_CAPTURE_ENABLED,
+      experimentalPerAppAudioEnabled:
+        typeof parsed.experimentalPerAppAudioEnabled === 'boolean'
+          ? parsed.experimentalPerAppAudioEnabled
+          : DEFAULT_EXPERIMENTAL_PER_APP_AUDIO_ENABLED
     };
   } catch {
-    return { autoUpdateEnabled: DEFAULT_AUTO_UPDATE_ENABLED, experimentalWgcCaptureEnabled: DEFAULT_EXPERIMENTAL_WGC_CAPTURE_ENABLED };
+    return {
+      autoUpdateEnabled: DEFAULT_AUTO_UPDATE_ENABLED,
+      experimentalWgcCaptureEnabled: DEFAULT_EXPERIMENTAL_WGC_CAPTURE_ENABLED,
+      experimentalPerAppAudioEnabled: DEFAULT_EXPERIMENTAL_PER_APP_AUDIO_ENABLED
+    };
   }
 }
 
@@ -41,6 +51,12 @@ export function setAutoUpdateEnabled(value: boolean): void {
 export function setExperimentalWgcCaptureEnabled(value: boolean): void {
   const settings = getSettings();
   settings.experimentalWgcCaptureEnabled = value;
+  writeFileSync(getSettingsFilePath(), JSON.stringify(settings), 'utf-8');
+}
+
+export function setExperimentalPerAppAudioEnabled(value: boolean): void {
+  const settings = getSettings();
+  settings.experimentalPerAppAudioEnabled = value;
   writeFileSync(getSettingsFilePath(), JSON.stringify(settings), 'utf-8');
 }
 

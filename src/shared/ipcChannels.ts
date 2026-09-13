@@ -15,6 +15,8 @@ export const IPC_CHANNELS = {
   logAdded: 'log-added',
   experimentalCaptureGetEnabled: 'experimental-capture-get-enabled',
   experimentalCaptureSetEnabled: 'experimental-capture-set-enabled',
+  experimentalPerAppAudioGetEnabled: 'experimental-per-app-audio-get-enabled',
+  experimentalPerAppAudioSetEnabled: 'experimental-per-app-audio-set-enabled',
   audioLoopbackFindProcess: 'audio-loopback-find-process',
   audioLoopbackStart: 'audio-loopback-start',
   audioLoopbackStop: 'audio-loopback-stop',
