@@ -21,28 +21,5 @@ export const SETTINGS_STRINGS = {
   grantMicPermissionButton: 'Permitir microfone',
   micPermissionOutsideRoomHint: 'Conceda a permissão do microfone agora pra já estar liberado na próxima vez que entrar numa sala.',
   micPermissionGrantedStatus: 'Permissão concedida.',
-  micPermissionStillDeniedStatus: 'Ainda sem permissão — talvez precise liberar o microfone nas configurações do Windows pra este app.',
-  experimentalTitle: 'Captura otimizada para jogos (experimental)',
-  experimentalHint:
-    'Tenta usar a API Windows.Graphics.Capture do Windows em vez do método padrão. Em alguns jogos (principalmente em tela cheia ou com cursor customizado) isso pode resolver: cursor sumindo, imagem travando/piscando ao compartilhar. Mas essa API já causou instabilidade grave — inclusive travamento completo do PC — em pelo menos um computador testado, então vem desligada por padrão.',
-  experimentalToggleLabel: 'Ativar captura experimental',
-  experimentalRestartHint: 'Precisa reiniciar o app pra fazer efeito (ligando ou desligando).',
-  experimentalConfirmTitle: 'Tem certeza?',
-  experimentalConfirmBody:
-    'Essa opção já travou o PC de um usuário no passado (precisou desligar no botão físico). Pode funcionar perfeitamente no seu computador, ou pode não funcionar — não temos como saber com antecedência de qual grupo o seu PC faz parte. Se travar, é só desligar essa opção de novo (o app volta ao método padrão, que é o que você está usando até agora).',
-  experimentalConfirmButton: 'Sim, quero tentar',
-  experimentalCancelButton: 'Deixa como está',
-  experimentalEnabledLogMessage: 'A captura experimental foi ativada (precisa reiniciar o app).',
-  experimentalDisabledLogMessage: 'A captura experimental foi desativada (precisa reiniciar o app).',
-  experimentalAudioTitle: 'Áudio isolado por aplicativo ao compartilhar janela (experimental)',
-  experimentalAudioHint:
-    'Por padrão, escolher "áudio de só um app específico" na hora de compartilhar não funciona como o nome sugere: é uma limitação do Windows/Chromium onde a captura de áudio de janela sempre pega o som do sistema inteiro, não só daquele app. Essa opção tenta corrigir isso de verdade usando uma captura de áudio por processo (WASAPI), mas depende de uma biblioteca nativa pequena, ainda pouco testada em máquinas diferentes. Vem desligada por padrão.',
-  experimentalAudioToggleLabel: 'Ativar áudio isolado por aplicativo',
-  experimentalAudioConfirmTitle: 'Tem certeza?',
-  experimentalAudioConfirmBody:
-    'Isso usa uma biblioteca nativa de terceiros ainda pouco testada, que não foi validada em várias máquinas diferentes. Pode funcionar bem, pode não capturar áudio nenhum, ou (menos provável, mas possível) causar instabilidade. Se der problema, desligue essa opção — a captura de áudio volta ao comportamento padrão.',
-  experimentalAudioConfirmButton: 'Sim, quero tentar',
-  experimentalAudioCancelButton: 'Deixa como está',
-  experimentalAudioEnabledLogMessage: 'O áudio isolado por aplicativo (experimental) foi ativado.',
-  experimentalAudioDisabledLogMessage: 'O áudio isolado por aplicativo (experimental) foi desativado.'
+  micPermissionStillDeniedStatus: 'Ainda sem permissão — talvez precise liberar o microfone nas configurações do Windows pra este app.'
 } as const;

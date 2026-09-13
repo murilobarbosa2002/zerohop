@@ -1,16 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export function useExperimentalPerAppAudio(): [boolean, (value: boolean) => void] {
-  const [enabled, setEnabledState] = useState(false);
+export function useExperimentalPerAppAudio(): boolean {
+  const [enabled, setEnabled] = useState(true);
 
   useEffect(() => {
-    window.api.getExperimentalPerAppAudioEnabled().then(setEnabledState);
+    window.api.getExperimentalPerAppAudioEnabled().then(setEnabled);
   }, []);
 
-  const setEnabled = useCallback((value: boolean) => {
-    setEnabledState(value);
-    window.api.setExperimentalPerAppAudioEnabled(value);
-  }, []);
-
-  return [enabled, setEnabled];
+  return enabled;
 }

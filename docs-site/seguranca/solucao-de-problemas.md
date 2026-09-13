@@ -50,7 +50,7 @@ Relatado com Project Zomboid e Deadlock, mas pode acontecer com outros jogos. Tr
 1. No atalho/executável do jogo, vá em Propriedades → Compatibilidade e marque **"Desativar otimizações de tela cheia"**.
 2. Mantenha o jogo em modo **Borderless/Windowed**, não fullscreen exclusivo.
 
-**O que o app oferece, com o risco declarado:** em Configurações existe **"Captura otimizada para jogos (experimental)"**, desligada por padrão. Ela faz o app tentar usar a API `Windows.Graphics.Capture` do Windows, feita pela própria Microsoft pra lidar melhor com esses casos. Vem desligada e exige confirmação explícita porque **essa API já causou travamento completo do PC em pelo menos um computador testado** quando tentamos ativá-la à força, sem interruptor, no passado. Agora é opt-in: pode resolver, pode não resolver, o comportamento varia por driver de GPU e versão do Windows.
+**O que o app oferece:** o app usa a API `Windows.Graphics.Capture` do Windows, feita pela própria Microsoft pra lidar melhor com esses casos, em vez do método padrão de captura. Essa API já causou travamento completo do PC em pelo menos um computador testado numa versão bem mais antiga do app; depois de re-testada e confirmada estável, ela passou a vir ativada por padrão pra todo mundo, sem opção de configuração — pode resolver, pode não resolver, o comportamento ainda varia por driver de GPU e versão do Windows.
 
 **O que consideramos e decidimos não fazer:** a técnica que o Discord ("Compartilhar jogo") e o OBS ("Game Capture") usam, injetar um hook direto no processo do jogo, resolveria de verdade, mas **sistemas anti-cheat (Vanguard, Easy Anti-Cheat, BattlEye) tratam esse tipo de injeção como comportamento de hack**, o que pode gerar banimento. O Discord não tem esse problema porque está numa lista de exceção negociada com essas empresas, algo fora do alcance de um projeto pessoal e gratuito. O risco de banir a conta de jogo de alguém é grande demais pra valer a pena.
 
@@ -66,7 +66,7 @@ Não conseguimos detectar isso de forma confiável dentro do app (o vídeo conti
 
 Por padrão, escolher "áudio de só um app específico" ao compartilhar uma janela não isola o áudio de verdade — é uma limitação de longa data do Chromium/Electron, não um bug deste app: a captura de áudio de janela sempre pega o áudio de saída do sistema inteiro, ignorando qual janela foi escolhida.
 
-Existe uma correção experimental pra isso em Configurações → "Áudio isolado por aplicativo ao compartilhar janela", desligada por padrão por depender de uma biblioteca nativa de terceiros ainda pouco testada em máquinas diferentes.
+O app já corrige isso por padrão, capturando o áudio por processo (WASAPI) em vez do áudio do sistema inteiro, quando você compartilha uma janela específica com áudio.
 
 ### Por que o programa não "sempre conecta"
 

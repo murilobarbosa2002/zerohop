@@ -32,7 +32,7 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioOptions = useAudioSourceOptions(sourcePicker.sources);
-  const [experimentalPerAppAudio] = useExperimentalPerAppAudio();
+  const experimentalPerAppAudio = useExperimentalPerAppAudio();
 
   useEffect(
     () =>

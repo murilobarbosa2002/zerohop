@@ -48,18 +48,6 @@ export function setAutoUpdateEnabled(value: boolean): void {
   writeFileSync(getSettingsFilePath(), JSON.stringify(settings), 'utf-8');
 }
 
-export function setExperimentalWgcCaptureEnabled(value: boolean): void {
-  const settings = getSettings();
-  settings.experimentalWgcCaptureEnabled = value;
-  writeFileSync(getSettingsFilePath(), JSON.stringify(settings), 'utf-8');
-}
-
-export function setExperimentalPerAppAudioEnabled(value: boolean): void {
-  const settings = getSettings();
-  settings.experimentalPerAppAudioEnabled = value;
-  writeFileSync(getSettingsFilePath(), JSON.stringify(settings), 'utf-8');
-}
-
 export function ensureSettingsFileExists(): void {
   const path = getSettingsFilePath();
   if (existsSync(path)) return;

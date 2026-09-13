@@ -19,10 +19,7 @@ declare global {
       getLogs: () => Promise<LogEntry[]>;
       clearLogs: () => Promise<void>;
       onLogAdded: (callback: (entry: LogEntry) => void) => () => void;
-      getExperimentalCaptureEnabled: () => Promise<boolean>;
-      setExperimentalCaptureEnabled: (value: boolean) => Promise<void>;
       getExperimentalPerAppAudioEnabled: () => Promise<boolean>;
-      setExperimentalPerAppAudioEnabled: (value: boolean) => Promise<void>;
       findAudioProcessId: (windowTitle: string) => Promise<number | null>;
       startAudioLoopback: (processId: number) => void;
       stopAudioLoopback: () => void;

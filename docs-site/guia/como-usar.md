@@ -18,7 +18,9 @@ Clicando no número da versão, no canto superior esquerdo da janela (ao lado do
 
 ## Configurações
 
-O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com estas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele, ligar/desligar a **supressão de ruído** do microfone (vem ligada por padrão), uma opção experimental de **"Captura otimizada para jogos"**, e uma opção experimental de **"Áudio isolado por aplicativo"** (corrige o áudio de "app específico" ao compartilhar uma janela, que por padrão captura o áudio do sistema inteiro). As duas opções experimentais vêm desligadas por padrão (veja [Solução de problemas](/seguranca/solucao-de-problemas#cursor-sumindo-imagem-travando-ou-piscando-ao-compartilhar-jogos) pra entender os riscos antes de ligar).
+O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, com estas opções: escolher em qual dispositivo de áudio (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, escolher qual microfone usar pra falar na sala e ajustar a sensibilidade dele, e ligar/desligar a **supressão de ruído** do microfone (vem ligada por padrão).
+
+A **captura otimizada para jogos** (Windows.Graphics.Capture) e o **áudio isolado por aplicativo** ao compartilhar uma janela específica já vêm ativados por padrão, depois de testados e confirmados como estáveis — não são mais opções configuráveis. Veja [Solução de problemas](/seguranca/solucao-de-problemas#cursor-sumindo-imagem-travando-ou-piscando-ao-compartilhar-jogos) se notar algum comportamento estranho de captura ou áudio.
 
 Ao abrir o ZeroHop, a primeira tela pergunta o que você quer fazer: **Criar sala nova** ou **Entrar numa sala**. Cada opção leva pra um formulário dedicado só com os campos daquela ação, sem misturar os dois fluxos.
 
@@ -50,7 +52,7 @@ Dentro da sala, a tela é dividida em três áreas, como um app de chamada:
 - **Área central (o "palco"):** onde aparece o vídeo de quem você está assistindo, ou o botão pra compartilhar sua própria tela.
 - **Coluna da direita:** o chat de texto.
 
-As colunas da esquerda e da direita podem ser escondidas (botões "Ocultar sala"/"Ocultar chat" no topo) pra dar mais espaço ao vídeo quando quiser.
+As colunas da esquerda e da direita podem ser escondidas (botões "Ocultar sala"/"Ocultar chat" no topo) pra dar mais espaço ao vídeo quando quiser, e também podem ser redimensionadas: arraste a linha divisória entre a coluna e o palco central pra deixá-las mais larga ou mais estreita do jeito que preferir. O tamanho escolhido fica salvo pra próxima vez que você abrir o app.
 
 ## Conversar por voz
 
