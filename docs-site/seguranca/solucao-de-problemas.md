@@ -68,13 +68,11 @@ Por padrão, escolher "áudio de só um app específico" ao compartilhar uma jan
 
 O app já corrige isso por padrão, capturando o áudio por processo (WASAPI) em vez do áudio do sistema inteiro, quando você compartilha uma janela específica com áudio.
 
-## Com 3 ou mais pessoas, dois amigos não se veem/ouvem entre si (só cada um com quem criou a sala)
+## Com 3 ou mais pessoas, dois amigos não se viam/ouviam entre si (só cada um com quem criou a sala)
 
-A sala usa arquitetura **mesh**: não existe servidor central retransmitindo vídeo/voz, cada par de participantes abre sua própria conexão P2P direta. Numa sala com 3 pessoas isso são 3 conexões diretas, não só duas passando por quem criou a sala.
+**Corrigido na v0.30.2.** A sala usa arquitetura **mesh**: não existe servidor central retransmitindo vídeo/voz, cada par de participantes abre sua própria conexão P2P direta. Numa sala com 3 pessoas isso são 3 conexões diretas, não só duas passando por quem criou a sala.
 
-Se a conexão entre dois participantes específicos (não envolvendo quem criou a sala) não conseguir se estabelecer via NAT, o sintoma é exatamente esse: quem criou a sala enxerga todo mundo, mas dois convidados não se enxergam entre si, como se estivessem em salas separadas. Confirme na tela de Logs de qualquer uma das duas máquinas: deve aparecer um aviso de conexão falhando especificamente com o ID da outra pessoa.
-
-Isso é a mesma limitação de "STUN sem TURN" logo abaixo, só que fica mais visível com 3+ pessoas, já que o número de pares que precisam funcionar cresce. Contornos: todo mundo na mesma rede local costuma conectar sem problema; numa rede muito restritiva, tentar numa rede doméstica comum resolve na maioria dos casos.
+O sintoma era sempre o mesmo: quem criou a sala enxergava todo mundo, mas dois convidados nunca se enxergavam entre si, de forma 100% reproduzível. Era um bug real no protocolo que apresenta um novo participante aos outros: o código marcava o participante como "já conhecido" antes de decidir se deveria conectar diretamente com ele, então a conexão entre os dois convidados nunca chegava a ser tentada.
 
 ### Por que o programa não "sempre conecta"
 

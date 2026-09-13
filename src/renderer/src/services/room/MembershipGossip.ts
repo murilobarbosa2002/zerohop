@@ -31,8 +31,8 @@ export class MembershipGossip {
     for (const entry of members) {
       if (entry.id === selfId) continue;
       const isNew = !this.registry.has(entry.id);
-      this.registry.upsert(entry.id, { name: entry.name });
       if (isNew && selfId !== null && selfId < entry.id) this.connectToPeer(entry.id);
+      this.registry.upsert(entry.id, { name: entry.name });
     }
   }
 

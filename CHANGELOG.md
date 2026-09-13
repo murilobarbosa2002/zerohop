@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Cada linha tem
 
 | Versão | Resumo |
 | --- | --- |
+| [0.30.2](docs/releases/v0.30.2.md) | Corrige convidados não se enxergando entre si em salas com 3+ pessoas |
 | [0.30.1](docs/releases/v0.30.1.md) | Detecta desconexão real ao fechar o app, cards de participantes redesenhados, colunas redimensionáveis, e mais |
 | [0.30.0](docs/releases/v0.30.0.md) | Corrige stream/voz parando ao abrir Configurações/Logs, tela cheia, copiar e mais |
 | [0.29.0](docs/releases/v0.29.0.md) | Áudio isolado por aplicativo ao compartilhar janela (experimental) |

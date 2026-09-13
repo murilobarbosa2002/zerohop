@@ -88,15 +88,13 @@ Os campos que existem hoje:
 
 O arquivo já é criado sozinho com os valores padrão na primeira vez que o app abre, então ele sempre vai existir depois disso. Mas se o arquivo não existir, estiver vazio ou tiver um JSON inválido por qualquer outro motivo, o app simplesmente ignora e usa os valores padrão. Não precisa ter medo de "quebrar" o arquivo além do reparável: na pior das hipóteses, é só apagá-lo inteiro que o app recria com os padrões.
 
-## Com 3 ou mais pessoas na sala, dois amigos não se veem/ouvem entre si (só cada um com quem criou a sala)
+## Com 3 ou mais pessoas na sala, dois amigos não se viam/ouviam entre si (só cada um com quem criou a sala)
 
-A arquitetura da sala é **mesh** (malha): não existe um "servidor" central retransmitindo vídeo/voz — cada par de participantes abre sua própria conexão P2P direta entre si. Numa sala com 3 pessoas (A, B e C), isso significa **3 conexões diretas** (A↔B, A↔C, B↔C), não só duas passando por quem criou a sala.
+**Corrigido na v0.30.2.** A arquitetura da sala é **mesh** (malha): não existe um "servidor" central retransmitindo vídeo/voz — cada par de participantes abre sua própria conexão P2P direta entre si. Numa sala com 3 pessoas (A, B e C), isso significa **3 conexões diretas** (A↔B, A↔C, B↔C), não só duas passando por quem criou a sala.
 
-Quando isso falha, o sintoma é exatamente esse: A (quem criou a sala) consegue ver e ouvir B e C normalmente, mas B e C não conseguem se ver/ouvir um ao outro, como se cada um estivesse numa sala separada só com A. Isso acontece quando a conexão **B↔C especificamente** não consegue se estabelecer via NAT (STUN), mesmo que A↔B e A↔C tenham funcionado sem problema — cada par de PCs tem sua própria combinação de roteador/NAT/rede, e é perfeitamente possível que duas dessas combinações "conversem" bem com a de quem criou a sala, mas não consigam abrir uma rota direta entre si.
+O sintoma era exatamente esse: A (quem criou a sala) via e ouvia B e C normalmente, mas B e C nunca conseguiam se ver/ouvir um ao outro, como se cada um estivesse numa sala separada só com A — de forma 100% reproduzível, não uma falha ocasional de rede. A causa era um bug real no protocolo de apresentação entre participantes (`MembershipGossip.handleMembersMessage`): o código marcava um novo participante como "já conhecido" antes de decidir se deveria abrir uma conexão direta com ele, então essa checagem sempre concluía "já é conhecido, não precisa conectar" e a conexão entre os dois convidados nunca era sequer tentada. Bastava reordenar essas duas linhas.
 
-**Isso é a mesma limitação intencional de "STUN sem TURN" descrita abaixo**, só que fica mais evidente com 3+ pessoas do que com apenas 2, porque o número de conexões que precisam funcionar cresce (3 pares numa sala de 3, 6 pares numa sala de 4, e por aí vai). Confirme abrindo a tela de Logs em qualquer uma das duas máquinas que não estão se enxergando: deve aparecer um aviso de conexão demorando ou falhando especificamente com o ID da outra pessoa (não com quem criou a sala).
-
-Não existe uma correção de código pra isso sem reintroduzir TURN (relay), que este projeto evita de propósito pelo motivo explicado a seguir. Contornos que ajudam na prática: todo mundo na mesma rede Wi-Fi/local costuma conectar direto sem problema; ou, se alguém está numa rede muito restritiva (corporativa, com CGNAT agressivo, VPN, etc.), tentar numa rede doméstica comum resolve na maioria dos casos.
+Se depois da v0.30.2 esse sintoma voltar a acontecer, aí sim pode ser a limitação de NAT/rede descrita na seção "Por que o app não simplesmente sempre conecta" logo abaixo (bem menos comum que o bug acima, mas ainda possível).
 
 ## Por que o app não simplesmente "sempre conecta"
 
