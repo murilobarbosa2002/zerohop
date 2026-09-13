@@ -25,6 +25,13 @@ import messageDeleteSound from '@/assets/sounds/message-delete.wav';
 import messageDeletedRemoteSound from '@/assets/sounds/message-deleted-remote.wav';
 import createRoomClickSound from '@/assets/sounds/create-room-click.wav';
 import joinRoomClickSound from '@/assets/sounds/join-room-click.wav';
+import logsClearOpenSound from '@/assets/sounds/logs-clear-open.wav';
+import logsClearCancelSound from '@/assets/sounds/logs-clear-cancel.wav';
+import logsClearConfirmSound from '@/assets/sounds/logs-clear-confirm.wav';
+import tabStatusSound from '@/assets/sounds/tab-status.wav';
+import tabChangelogSound from '@/assets/sounds/tab-changelog.wav';
+import tabVersionsSound from '@/assets/sounds/tab-versions.wav';
+import joinRequestSound from '@/assets/sounds/join-request.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
 
 const KEY_CLICK_VOLUME_MULTIPLIER = 0.6;
@@ -141,4 +148,32 @@ export function playCreateRoomClickSound(): void {
 
 export function playJoinRoomClickSound(): void {
   play(joinRoomClickSound, getSoundEffectsVolume());
+}
+
+export function playLogsClearOpenSound(): void {
+  play(logsClearOpenSound, getSoundEffectsVolume());
+}
+
+export function playLogsClearCancelSound(): void {
+  play(logsClearCancelSound, getSoundEffectsVolume());
+}
+
+export function playLogsClearConfirmSound(): void {
+  play(logsClearConfirmSound, getSoundEffectsVolume());
+}
+
+export function playTabStatusSound(): void {
+  play(tabStatusSound, getSoundEffectsVolume());
+}
+
+export function playTabChangelogSound(): void {
+  play(tabChangelogSound, getSoundEffectsVolume());
+}
+
+export function playTabVersionsSound(): void {
+  play(tabVersionsSound, getSoundEffectsVolume());
+}
+
+export function playJoinRequestSound(): void {
+  play(joinRequestSound, getSoundEffectsVolume());
 }

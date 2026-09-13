@@ -26,7 +26,8 @@ import {
   playSidebarHideSound,
   playChatShowSound,
   playChatHideSound,
-  playMessageDeletedRemoteSound
+  playMessageDeletedRemoteSound,
+  playJoinRequestSound
 } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
 import { ROOM_STRINGS } from '@/strings/room.strings';
@@ -48,6 +49,7 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
   const connectionWarning = useConnectionWarning(roomClient);
   const chatMessages = useChatMessages(roomClient);
   const joinRequests = useJoinRequests(roomClient);
+  const [previousJoinRequestCount, setPreviousJoinRequestCount] = useState(0);
 
   const { refresh } = sourcePicker;
   useEffect(() => {
@@ -69,6 +71,14 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
       ),
     [roomClient]
   );
+
+  useEffect(() => {
+    if (joinRequests.length > previousJoinRequestCount) {
+      playJoinRequestSound();
+      window.api.focusWindow();
+    }
+    setPreviousJoinRequestCount(joinRequests.length);
+  }, [joinRequests.length, previousJoinRequestCount]);
 
   function handleLeave(): void {
     roomClient.leaveRoom();

@@ -4,7 +4,13 @@ import type { AvatarGlyphProps } from '@/components/Avatar/Avatar.types';
 const AVATAR_BG_HOLE = 'rgba(0,0,0,0.35)';
 
 export function AvatarGlyph({ avatarId, size = 16 }: AvatarGlyphProps) {
-  const common = { width: size, height: size, viewBox: '0 0 24 24', xmlns: 'http://www.w3.org/2000/svg' };
+  const common = {
+    width: size,
+    height: size,
+    viewBox: '0 0 24 24',
+    xmlns: 'http://www.w3.org/2000/svg',
+    style: { display: 'block' } as const
+  };
 
   switch (avatarId) {
     case AvatarId.FLOWER:

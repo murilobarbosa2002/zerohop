@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão | Resumo |
 | --- | --- |
+| [0.36.2](docs/releases/v0.36.2.md) | Sons ao pedir pra entrar/trocar de aba/limpar histórico, corrige ícones tortos |
 | [0.36.1](docs/releases/v0.36.1.md) | Corrige mutar o microfone não silenciando de verdade, suaviza contraste de cores |
 | [0.36.0](docs/releases/v0.36.0.md) | Corrige voz parando ao ocultar sala, botão flutuante indevido, legibilidade; confirma exclusão de mensagem |
 | [0.35.2](docs/releases/v0.35.2.md) | Corrige chamada de voz não conectando com uma pessoa específica, sliders e vídeo |

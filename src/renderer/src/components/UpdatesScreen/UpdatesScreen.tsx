@@ -6,12 +6,13 @@ import { useAppUpdater } from '@/hooks/useAppUpdater';
 import { UpdatesTab } from '@/constants/updatesTab';
 import { UPDATES_STRINGS } from '@/strings/updates.strings';
 import { navItemVariants } from '@/components/UpdatesScreen/UpdatesScreen.variants';
+import { playTabStatusSound, playTabChangelogSound, playTabVersionsSound } from '@/services/soundEffects';
 import type { UpdatesScreenProps } from '@/components/UpdatesScreen/UpdatesScreen.types';
 
-const NAV_ITEMS: { tab: UpdatesTab; label: string }[] = [
-  { tab: UpdatesTab.STATUS, label: UPDATES_STRINGS.statusTab },
-  { tab: UpdatesTab.CHANGELOG, label: UPDATES_STRINGS.changelogTab },
-  { tab: UpdatesTab.VERSIONS, label: UPDATES_STRINGS.versionsTab }
+const NAV_ITEMS: { tab: UpdatesTab; label: string; playSound: () => void }[] = [
+  { tab: UpdatesTab.STATUS, label: UPDATES_STRINGS.statusTab, playSound: playTabStatusSound },
+  { tab: UpdatesTab.CHANGELOG, label: UPDATES_STRINGS.changelogTab, playSound: playTabChangelogSound },
+  { tab: UpdatesTab.VERSIONS, label: UPDATES_STRINGS.versionsTab, playSound: playTabVersionsSound }
 ];
 
 export function UpdatesScreen({ onBack }: UpdatesScreenProps) {
@@ -32,7 +33,10 @@ export function UpdatesScreen({ onBack }: UpdatesScreenProps) {
           {NAV_ITEMS.map((item) => (
             <button
               key={item.tab}
-              onClick={() => setTab(item.tab)}
+              onClick={() => {
+                if (tab !== item.tab) item.playSound();
+                setTab(item.tab);
+              }}
               className={navItemVariants({ active: tab === item.tab })}
             >
               {item.label}

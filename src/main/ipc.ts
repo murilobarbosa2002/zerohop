@@ -47,6 +47,13 @@ export function registerIpcHandlers(): void {
     else win.maximize();
   });
   ipcMain.on(IPC_CHANNELS.windowClose, () => getMainWindow()?.close());
+  ipcMain.on(IPC_CHANNELS.focusWindow, () => {
+    const win = getMainWindow();
+    if (!win) return;
+    if (win.isMinimized()) win.restore();
+    win.show();
+    win.focus();
+  });
 
   ipcMain.handle(IPC_CHANNELS.openExternalUrl, (_event, url: string) => {
     let parsed: URL;

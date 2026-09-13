@@ -2,7 +2,14 @@ import type { LogoProps } from '@/components/Logo/Logo.types';
 
 export function Logo({ size = 24 }: LogoProps) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      width={size}
+      height={size}
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ display: 'block' }}
+    >
       <g transform="translate(12 11.5)">
         <g id="logo-petal">
           <path

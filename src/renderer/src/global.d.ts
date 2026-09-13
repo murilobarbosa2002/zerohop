@@ -9,6 +9,7 @@ declare global {
       minimize: () => void;
       maximize: () => void;
       close: () => void;
+      focusWindow: () => void;
       checkForUpdates: () => Promise<void>;
       installUpdate: () => Promise<void>;
       getUpdaterInfo: () => Promise<UpdaterInfo>;

@@ -6,6 +6,7 @@ import { ClearLogsConfirmation } from '@/components/LogsScreen/ClearLogsConfirma
 import { Pagination } from '@/components/Pagination';
 import { useAppLogs } from '@/hooks/useAppLogs';
 import { usePagination } from '@/hooks/usePagination';
+import { playLogsClearOpenSound, playLogsClearCancelSound, playLogsClearConfirmSound } from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { LOGS_PAGE_SIZE } from '@/constants/pagination';
 import type { LogCategory } from '@shared/logEntry';
@@ -21,6 +22,12 @@ export function LogsScreen({ onBack }: LogsScreenProps) {
 
   function handleClear(): void {
     clear();
+    playLogsClearConfirmSound();
+    setConfirmingClear(false);
+  }
+
+  function handleCancelClear(): void {
+    playLogsClearCancelSound();
     setConfirmingClear(false);
   }
 
@@ -31,7 +38,14 @@ export function LogsScreen({ onBack }: LogsScreenProps) {
           {LOG_STRINGS.backButton}
         </button>
         <p className="font-bold text-body-sm-alt">{LOG_STRINGS.screenTitle}</p>
-        <ActionButton variant="default" className="ml-auto flex-shrink-0" onClick={() => setConfirmingClear(true)}>
+        <ActionButton
+          variant="default"
+          className="ml-auto flex-shrink-0"
+          onClick={() => {
+            playLogsClearOpenSound();
+            setConfirmingClear(true);
+          }}
+        >
           {LOG_STRINGS.clearButton}
         </ActionButton>
       </div>
@@ -39,7 +53,7 @@ export function LogsScreen({ onBack }: LogsScreenProps) {
       <div className="flex-1 overflow-y-auto p-6">
         {confirmingClear && (
           <div className="mb-4">
-            <ClearLogsConfirmation onConfirm={handleClear} onCancel={() => setConfirmingClear(false)} />
+            <ClearLogsConfirmation onConfirm={handleClear} onCancel={handleCancelClear} />
           </div>
         )}
 

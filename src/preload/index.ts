@@ -9,6 +9,7 @@ const api = {
   minimize: (): void => ipcRenderer.send(IPC_CHANNELS.windowMinimize),
   maximize: (): void => ipcRenderer.send(IPC_CHANNELS.windowMaximize),
   close: (): void => ipcRenderer.send(IPC_CHANNELS.windowClose),
+  focusWindow: (): void => ipcRenderer.send(IPC_CHANNELS.focusWindow),
   checkForUpdates: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.updaterCheck),
   installUpdate: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.updaterInstall),
   getUpdaterInfo: (): Promise<UpdaterInfo> => ipcRenderer.invoke(IPC_CHANNELS.updaterGetInfo),
