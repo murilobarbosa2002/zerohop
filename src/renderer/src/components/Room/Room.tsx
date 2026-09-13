@@ -27,7 +27,9 @@ import {
   playChatShowSound,
   playChatHideSound,
   playMessageDeletedRemoteSound,
-  playJoinRequestSound
+  playJoinRequestSound,
+  playMemberLeftSound,
+  playRoomLeftSound
 } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
 import { ROOM_STRINGS } from '@/strings/room.strings';
@@ -80,8 +82,14 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
     setPreviousJoinRequestCount(joinRequests.length);
   }, [joinRequests.length, previousJoinRequestCount]);
 
+  useEffect(
+    () => onTyped<RoomClientEventDetail['member-left']>(roomClient, 'member-left', () => playMemberLeftSound()),
+    [roomClient]
+  );
+
   function handleLeave(): void {
     roomClient.leaveRoom();
+    playRoomLeftSound();
     onLeft();
   }
 

@@ -5,7 +5,7 @@ export const actionButtonVariants = tv({
   variants: {
     variant: {
       default: 'bg-panel-2 border-border text-text hover:border-accent hover:bg-hover-panel',
-      primary: 'bg-gradient-to-br from-accent to-accent-2 border-transparent text-text-on-accent hover:brightness-110',
+      primary: 'bg-gradient-to-br from-accent to-accent-2 border-transparent text-text-on-accent hover:brightness-105',
       danger: 'bg-panel-2 border-border text-text hover:border-hover-danger-border hover:bg-hover-danger-bg'
     }
   },

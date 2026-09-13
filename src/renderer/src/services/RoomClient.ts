@@ -49,6 +49,7 @@ export interface RoomClientEventDetail {
   'mic-muted-changed': { muted: boolean };
   'mic-active-changed': { active: boolean };
   'member-joined': { id: string; name: string };
+  'member-left': { id: string; name: string };
 }
 
 export class RoomClient extends EventTarget {
@@ -350,7 +351,10 @@ export class RoomClient extends EventTarget {
     const member = this.registry.get(id);
     if (member?.mediaConnIn) safeCall(member.mediaConnIn, 'close');
     if (member?.voiceConnIn) safeCall(member.voiceConnIn, 'close');
-    if (member?.authenticated) logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.memberLeftMessage(member.name || id));
+    if (member?.authenticated) {
+      logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.memberLeftMessage(member.name || id));
+      this.dispatchEvent(new CustomEvent('member-left', { detail: { id, name: member.name || id } }));
+    }
     this.media.removeViewer(id);
     this.voice.removeMember(id);
     this.registry.remove(id);

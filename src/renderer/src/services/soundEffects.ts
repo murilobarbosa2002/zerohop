@@ -32,6 +32,8 @@ import tabStatusSound from '@/assets/sounds/tab-status.wav';
 import tabChangelogSound from '@/assets/sounds/tab-changelog.wav';
 import tabVersionsSound from '@/assets/sounds/tab-versions.wav';
 import joinRequestSound from '@/assets/sounds/join-request.wav';
+import memberLeftSound from '@/assets/sounds/member-left.wav';
+import roomLeftSound from '@/assets/sounds/room-left.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
 
 const KEY_CLICK_VOLUME_MULTIPLIER = 0.6;
@@ -176,4 +178,12 @@ export function playTabVersionsSound(): void {
 
 export function playJoinRequestSound(): void {
   play(joinRequestSound, getSoundEffectsVolume());
+}
+
+export function playMemberLeftSound(): void {
+  play(memberLeftSound, getSoundEffectsVolume());
+}
+
+export function playRoomLeftSound(): void {
+  play(roomLeftSound, getSoundEffectsVolume());
 }
