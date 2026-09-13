@@ -8,9 +8,13 @@ export function ParticipantVideoLightbox({ stream, volume, muted, onClose }: Par
   useEffect(() => {
     if (!videoRef.current) return;
     videoRef.current.srcObject = stream;
+  }, [stream]);
+
+  useEffect(() => {
+    if (!videoRef.current) return;
     videoRef.current.volume = volume;
     videoRef.current.muted = muted;
-  }, [stream, volume, muted]);
+  }, [volume, muted]);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent): void {

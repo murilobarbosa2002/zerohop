@@ -18,9 +18,13 @@ export function ParticipantVideoPlayer({ member, audioState }: ParticipantVideoP
   useEffect(() => {
     if (!videoRef.current) return;
     videoRef.current.srcObject = member.stream;
+  }, [member.stream]);
+
+  useEffect(() => {
+    if (!videoRef.current) return;
     videoRef.current.volume = state.volume;
     videoRef.current.muted = state.muted;
-  }, [member.stream, state.volume, state.muted]);
+  }, [state.volume, state.muted]);
 
   useEffect(() => {
     if (videoRef.current) setElementAudioOutput(videoRef.current, audioOutputDeviceId);
