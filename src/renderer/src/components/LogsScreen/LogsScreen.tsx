@@ -3,8 +3,11 @@ import { ActionButton } from '@/components/ActionButton';
 import { CategoryFilter } from '@/components/LogsScreen/CategoryFilter';
 import { LogEntryRow } from '@/components/LogsScreen/LogEntryRow';
 import { ClearLogsConfirmation } from '@/components/LogsScreen/ClearLogsConfirmation';
+import { Pagination } from '@/components/Pagination';
 import { useAppLogs } from '@/hooks/useAppLogs';
+import { usePagination } from '@/hooks/usePagination';
 import { LOG_STRINGS } from '@/strings/logs.strings';
+import { LOGS_PAGE_SIZE } from '@/constants/pagination';
 import type { LogCategory } from '@shared/logEntry';
 import type { LogsScreenProps } from '@/components/LogsScreen/LogsScreen.types';
 
@@ -14,6 +17,7 @@ export function LogsScreen({ onBack }: LogsScreenProps) {
   const [confirmingClear, setConfirmingClear] = useState(false);
   const filteredEntries = categoryFilter ? entries.filter((entry) => entry.category === categoryFilter) : entries;
   const sortedEntries = [...filteredEntries].reverse();
+  const { pageItems, page, totalPages, setPage } = usePagination(sortedEntries, LOGS_PAGE_SIZE);
 
   function handleClear(): void {
     clear();
@@ -39,15 +43,23 @@ export function LogsScreen({ onBack }: LogsScreenProps) {
           </div>
         )}
 
-        <CategoryFilter selected={categoryFilter} onSelect={setCategoryFilter} />
+        <CategoryFilter
+          selected={categoryFilter}
+          onSelect={(category) => {
+            setCategoryFilter(category);
+            setPage(1);
+          }}
+        />
 
         <div className="flex flex-col gap-2 mt-4">
           {sortedEntries.length === 0 ? (
             <p className="text-text-dim text-body-sm">{LOG_STRINGS.emptyMessage}</p>
           ) : (
-            sortedEntries.map((entry) => <LogEntryRow key={entry.id} entry={entry} />)
+            pageItems.map((entry) => <LogEntryRow key={entry.id} entry={entry} />)
           )}
         </div>
+
+        <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
       </div>
     </div>
   );

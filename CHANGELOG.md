@@ -4,7 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Cada linha tem
 
 | Versão | Resumo |
 | --- | --- |
-| [0.33.0](docs/releases/v0.33.0.md) | Apagar mensagens do chat (próprias, ou de qualquer um se for o dono da sala), fontes maiores |
+| [0.33.0](docs/releases/v0.33.0.md) | Apagar mensagens do chat, paginação em Logs/Changelog/Versões, fontes maiores |
 | [0.32.1](docs/releases/v0.32.1.md) | Ícone do app atualizado pro visual retrô (florzinha estilo Windows 98) |
 | [0.32.0](docs/releases/v0.32.0.md) | Senha visível por padrão, sons de teclado/chat, escala da interface |
 | [0.31.0](docs/releases/v0.31.0.md) | Visual nostálgico estilo Windows 98/ICQ: cores, biséis 3D, cantos retos e fonte pixelada |
