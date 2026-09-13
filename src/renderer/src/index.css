@@ -2,32 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Pixelify Sans';
+  src: url('./assets/fonts/PixelifySans.ttf') format('truetype');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 * {
   scrollbar-width: thin;
-  scrollbar-color: theme('colors.source-hover-border') theme('colors.bg');
+  scrollbar-color: theme('colors.bevel-dark') theme('colors.panel-2');
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: theme('colors.panel-2');
+  box-shadow: inset 1px 1px 0 0 theme('colors.bevel-dark'), inset -1px -1px 0 0 theme('colors.bevel-light');
 }
 
 ::-webkit-scrollbar-thumb {
-  background: theme('colors.source-hover-border');
-  border-radius: 8px;
-  border: 2px solid theme('colors.bg');
+  background: theme('colors.panel-2');
+  border-radius: 0;
+  box-shadow: inset 1px 1px 0 0 theme('colors.bevel-light'), inset -1px -1px 0 0 theme('colors.bevel-dark');
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: theme('colors.accent');
+  background: theme('colors.hover-panel');
 }
 
 ::-webkit-scrollbar-corner {
-  background: transparent;
+  background: theme('colors.panel-2');
 }
 
 html,
@@ -38,8 +47,42 @@ body,
 }
 
 body {
-  -webkit-font-smoothing: antialiased;
-  font-family: -apple-system, 'Segoe UI', Roboto, Ubuntu, sans-serif;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  font-family: 'Pixelify Sans', 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* Windows 98/2000 sempre teve cantos retos — zera qualquer arredondamento
+   exceto o que é explicitamente circular (avatares, indicadores de status). */
+[class*='rounded-']:not(.rounded-full) {
+  border-radius: 0 !important;
+}
+
+/* Efeito de bisel 3D clássico: relevo "para fora" por padrão em qualquer
+   elemento com borda (botões, cards, painéis). */
+.border {
+  box-shadow:
+    inset 1px 1px 0 0 theme('colors.bevel-light'),
+    inset -1px -1px 0 0 theme('colors.bevel-dark');
+}
+
+button.border:active:not(:disabled) {
+  box-shadow:
+    inset -1px -1px 0 0 theme('colors.bevel-light'),
+    inset 1px 1px 0 0 theme('colors.bevel-dark');
+}
+
+/* Campos de entrada (texto, seleção, vídeo) usam o bisel "afundado",
+   o oposto dos botões/painéis — é a convenção clássica do Windows. */
+input[type='text'],
+input[type='password'],
+select,
+textarea,
+video,
+audio {
+  box-shadow:
+    inset -1px -1px 0 0 theme('colors.bevel-light'),
+    inset 1px 1px 0 0 theme('colors.bevel-dark');
 }
 
 button,
@@ -49,46 +92,50 @@ select {
 
 button:focus-visible,
 select:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px theme('colors.focus-ring');
+  outline: 1px dotted theme('colors.focus-ring');
+  outline-offset: -3px;
 }
 
 input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
   height: 4px;
-  border-radius: 999px;
   background: theme('colors.panel-2');
+  box-shadow:
+    inset 1px 1px 0 0 theme('colors.bevel-dark'),
+    inset -1px -1px 0 0 theme('colors.bevel-light');
 }
 
 input[type='range']::-webkit-slider-runnable-track {
   height: 4px;
-  border-radius: 999px;
-  background: theme('colors.panel-2');
+  background: transparent;
 }
 
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 12px;
-  height: 12px;
-  margin-top: -4px;
-  border-radius: 50%;
-  background: theme('colors.accent');
+  height: 18px;
+  margin-top: -7px;
+  background: theme('colors.panel-2');
+  box-shadow:
+    inset 1px 1px 0 0 theme('colors.bevel-light'),
+    inset -1px -1px 0 0 theme('colors.bevel-dark');
   cursor: pointer;
 }
 
 input[type='range']::-moz-range-track {
   height: 4px;
-  border-radius: 999px;
-  background: theme('colors.panel-2');
+  background: transparent;
 }
 
 input[type='range']::-moz-range-thumb {
   width: 12px;
-  height: 12px;
+  height: 18px;
   border: none;
-  border-radius: 50%;
-  background: theme('colors.accent');
+  background: theme('colors.panel-2');
+  box-shadow:
+    inset 1px 1px 0 0 theme('colors.bevel-light'),
+    inset -1px -1px 0 0 theme('colors.bevel-dark');
   cursor: pointer;
 }

@@ -4,7 +4,7 @@ import { App } from '@/App';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import '@/index.css';
 
-console.log('%c[build] ZeroHop v0.30.3', 'font-weight:bold;color:#7c6cff');
+console.log('%c[build] ZeroHop v0.31.0', 'font-weight:bold;color:#000080');
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Elemento root não encontrado');

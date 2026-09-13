@@ -4,26 +4,29 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: '#0b0d17',
-        panel: '#141728',
-        'panel-2': '#1b1f36',
-        border: '#262b48',
-        text: '#eef0fb',
-        'text-dim': '#9aa0c3',
-        accent: '#7c6cff',
-        'accent-2': '#4f8cff',
-        'accent-soft': 'rgba(124, 108, 255, 0.15)',
-        success: '#4ee3b0',
-        warn: '#ffb454',
-        danger: '#e5484d',
-        'input-bg': '#0c0e1a',
-        placeholder: '#565c80',
-        'hover-panel': '#202546',
-        'hover-danger-bg': '#2a1620',
-        'hover-danger-border': '#e5484d',
-        'source-hover-border': '#3a4070',
-        'status-dot-idle': '#565c80',
-        'focus-ring': 'rgba(124, 108, 255, 0.4)'
+        bg: '#d4d0c8',
+        panel: '#d4d0c8',
+        'panel-2': '#c0c0c0',
+        border: '#404040',
+        text: '#000000',
+        'text-dim': '#454545',
+        accent: '#000080',
+        'accent-2': '#1084d0',
+        'accent-soft': 'rgba(0, 0, 128, 0.12)',
+        success: '#008000',
+        warn: '#b45f06',
+        danger: '#800000',
+        'input-bg': '#ffffff',
+        placeholder: '#6d6d6d',
+        'hover-panel': '#c8c4bc',
+        'hover-danger-bg': '#f0dcdc',
+        'hover-danger-border': '#800000',
+        'source-hover-border': '#000080',
+        'status-dot-idle': '#808080',
+        'focus-ring': 'rgba(0, 0, 0, 0.7)',
+        'bevel-light': '#ffffff',
+        'bevel-dark': '#808080',
+        'bevel-darker': '#000000'
       },
       spacing: {
         'titlebar-height': '38px',
@@ -50,15 +53,18 @@ export default {
         'body-sm-alt': '13.5px',
         'badge-xs': '10.5px'
       },
+      fontFamily: {
+        sans: ['"Pixelify Sans"', '"Segoe UI"', 'Tahoma', 'sans-serif']
+      },
       borderRadius: {
-        card: '14px',
-        button: '9px',
-        'window-icon': '5px',
-        'source-card': '10px'
+        card: '0px',
+        button: '0px',
+        'window-icon': '0px',
+        'source-card': '0px'
       },
       boxShadow: {
-        'glow-accent': '0 6px 18px rgba(124, 108, 255, 0.35)',
-        'glow-success': '0 0 8px #4ee3b0'
+        'glow-accent': 'inset -1px -1px 0 #000000, inset 1px 1px 0 #ffffff',
+        'glow-success': 'none'
       },
       height: {
         'video-default': '55vh'
