@@ -15,7 +15,7 @@ export function LogEntryRow({ entry }: LogEntryRowProps) {
       <span className={logLevelDotVariants({ level: entry.level })} />
       <div className="flex-1 min-w-0">
         <p className="text-body-sm-alt">{entry.message}</p>
-        <p className="text-text-dim text-xs mt-1">{formatTimestamp(entry.timestamp)}</p>
+        <p className="text-text-dim text-sm mt-1">{formatTimestamp(entry.timestamp)}</p>
         {entry.detail && (
           <>
             <button onClick={() => setShowDetail((current) => !current)} className="text-accent text-xs mt-1.5 hover:underline">

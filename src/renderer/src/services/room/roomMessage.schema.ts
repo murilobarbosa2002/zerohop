@@ -43,7 +43,13 @@ export const kickMessageSchema = z.object({
 
 export const chatMessageSchema = z.object({
   type: z.literal('chat'),
+  id: z.string(),
   text: z.string().trim().min(1).max(CHAT_MESSAGE_MAX_LENGTH)
+});
+
+export const deleteChatMessageSchema = z.object({
+  type: z.literal('delete-message'),
+  id: z.string()
 });
 
 export const joinPendingMessageSchema = z.object({
@@ -63,6 +69,7 @@ export const roomMessageSchema = z.discriminatedUnion('type', [
   unwatchRequestMessageSchema,
   kickMessageSchema,
   chatMessageSchema,
+  deleteChatMessageSchema,
   joinPendingMessageSchema,
   joinApprovedMessageSchema
 ]);

@@ -78,7 +78,12 @@ export class RoomClient extends EventTarget {
     });
     this.media = new MediaSharing({ registry: this.registry, getPeer: () => this.connections.getPeer() });
     this.voice = new VoiceChat({ registry: this.registry, getPeer: () => this.connections.getPeer() });
-    this.chat = new ChatService({ registry: this.registry, getSelfName: () => this.selfName });
+    this.chat = new ChatService({
+      registry: this.registry,
+      getSelfName: () => this.selfName,
+      getRoomCode: () => this.roomCode,
+      isRoomCreator: () => this.isRoomCreator
+    });
     this.auth = new RoomAuthController({
       registry: this.registry,
       gossip: this.gossip,
@@ -243,6 +248,14 @@ export class RoomClient extends EventTarget {
 
   sendChatMessage(text: string): void {
     this.chat.send(text);
+  }
+
+  deleteChatMessage(id: string): void {
+    this.chat.deleteMessage(id);
+  }
+
+  canDeleteChatMessage(message: ChatMessageEntry): boolean {
+    return this.chat.canDelete(message);
   }
 
   getChatMessages(): ChatMessageEntry[] {

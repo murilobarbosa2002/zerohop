@@ -18,22 +18,29 @@ export interface ChatServiceEventDetail {
 interface ChatServiceDeps {
   registry: MemberRegistry;
   getSelfName: () => string;
+  getRoomCode: () => string | null;
+  isRoomCreator: () => boolean;
 }
 
 export class ChatService extends EventTarget {
   private registry: MemberRegistry;
   private getSelfName: () => string;
+  private getRoomCode: () => string | null;
+  private isRoomCreator: () => boolean;
   private messages: ChatMessageEntry[] = [];
 
-  constructor({ registry, getSelfName }: ChatServiceDeps) {
+  constructor({ registry, getSelfName, getRoomCode, isRoomCreator }: ChatServiceDeps) {
     super();
     this.registry = registry;
     this.getSelfName = getSelfName;
+    this.getRoomCode = getRoomCode;
+    this.isRoomCreator = isRoomCreator;
   }
 
   send(text: string): void {
+    const id = crypto.randomUUID();
     const entry: ChatMessageEntry = {
-      id: crypto.randomUUID(),
+      id,
       fromId: SELF_SENDER_ID,
       fromName: this.getSelfName(),
       text,
@@ -42,15 +49,15 @@ export class ChatService extends EventTarget {
     };
     this.messages = [...this.messages, entry];
     for (const member of this.registry.values()) {
-      if (member.authenticated) sendTo(member.conn, { type: 'chat', text });
+      if (member.authenticated) sendTo(member.conn, { type: 'chat', id, text });
     }
     this.emitMessages();
   }
 
-  receive(fromId: string, text: string): void {
+  receive(fromId: string, id: string, text: string): void {
     const member = this.registry.get(fromId);
     const entry: ChatMessageEntry = {
-      id: crypto.randomUUID(),
+      id,
       fromId,
       fromName: member?.name || fromId,
       text,
@@ -58,6 +65,28 @@ export class ChatService extends EventTarget {
       sentAt: Date.now()
     };
     this.messages = [...this.messages, entry];
+    this.emitMessages();
+  }
+
+  canDelete(message: ChatMessageEntry): boolean {
+    return message.self || this.isRoomCreator();
+  }
+
+  deleteMessage(id: string): void {
+    this.messages = this.messages.filter((message) => message.id !== id);
+    for (const member of this.registry.values()) {
+      if (member.authenticated) sendTo(member.conn, { type: 'delete-message', id });
+    }
+    this.emitMessages();
+  }
+
+  receiveDelete(fromId: string, id: string): void {
+    const message = this.messages.find((entry) => entry.id === id);
+    if (!message) return;
+    const isOwnMessage = message.fromId === fromId;
+    const isRoomCreator = this.getRoomCode() !== null && fromId === this.getRoomCode();
+    if (!isOwnMessage && !isRoomCreator) return;
+    this.messages = this.messages.filter((entry) => entry.id !== id);
     this.emitMessages();
   }
 

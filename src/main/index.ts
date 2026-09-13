@@ -17,7 +17,7 @@ ensureSettingsFileExists();
 
 if (getSettings().experimentalWgcCaptureEnabled) {
   app.commandLine.appendSwitch('enable-features', EXPERIMENTAL_WGC_CAPTURE_FEATURES);
-  appendLog({ category: LogCategory.SHARING, level: LogLevel.WARNING, message: EXPERIMENTAL_STRINGS.logCaptureModeActiveMessage });
+  appendLog({ category: LogCategory.SHARING, level: LogLevel.INFO, message: EXPERIMENTAL_STRINGS.logCaptureModeActiveMessage });
 }
 
 app.setAppUserModelId(APP_ID);

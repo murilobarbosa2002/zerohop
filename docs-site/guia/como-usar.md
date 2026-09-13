@@ -81,7 +81,7 @@ Você pode arrastar o canto inferior direito do vídeo pra deixá-lo maior ou me
 
 ## Conversar pelo chat
 
-A coluna da direita tem um chat de texto simples, visível pra todos os participantes autenticados. Links enviados no chat viram clicáveis automaticamente, abrindo no seu navegador padrão. As mensagens não ficam salvas em lugar nenhum. Veja [Privacidade e criptografia](/seguranca/privacidade) pra entender exatamente o porquê.
+A coluna da direita tem um chat de texto simples, visível pra todos os participantes autenticados. Links enviados no chat viram clicáveis automaticamente, abrindo no seu navegador padrão. Você pode apagar suas próprias mensagens a qualquer momento (some pra todo mundo na sala); quem criou a sala também pode apagar a mensagem de qualquer pessoa, útil pra moderação. As mensagens não ficam salvas em lugar nenhum. Veja [Privacidade e criptografia](/seguranca/privacidade) pra entender exatamente o porquê.
 
 ## Sair da sala
 

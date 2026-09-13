@@ -111,7 +111,12 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
             <div className="flex-shrink-0 border-l border-border p-3.5 flex flex-col overflow-hidden" style={{ width: chatWidth }}>
               <p className="font-bold text-body-sm-alt mb-2 flex-shrink-0">{CHAT_STRINGS.title}</p>
               <div className="flex-1 flex flex-col overflow-hidden">
-                <Chat messages={chatMessages} onSend={(text) => roomClient.sendChatMessage(text)} />
+                <Chat
+                  messages={chatMessages}
+                  onSend={(text) => roomClient.sendChatMessage(text)}
+                  onDelete={(id) => roomClient.deleteChatMessage(id)}
+                  canDelete={(message) => roomClient.canDeleteChatMessage(message)}
+                />
               </div>
             </div>
           </>
