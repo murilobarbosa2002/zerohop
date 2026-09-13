@@ -1,6 +1,9 @@
 import { BrowserWindow } from 'electron';
 import { getSettings } from '@main/settings';
+import { appendLog } from '@main/logger';
+import { HOTKEYS_STRINGS } from '@main/strings/hotkeys.strings';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
+import { LogCategory, LogLevel } from '@shared/logEntry';
 import type { HotkeyBinding } from '@shared/hotkeySettings';
 
 type UiohookModule = typeof import('uiohook-napi');
@@ -78,13 +81,23 @@ function handleKeyUp(event: UiohookKeyboardEvent): void {
 export async function startGlobalHotkeys(): Promise<void> {
   if (started) return;
   const mod = await loadUiohook();
-  if (!mod) return;
+  if (!mod) {
+    appendLog({ category: LogCategory.HOTKEYS, level: LogLevel.WARNING, message: HOTKEYS_STRINGS.captureUnavailableMessage });
+    return;
+  }
   try {
     mod.uIOhook.on('keydown', handleKeyDown);
     mod.uIOhook.on('keyup', handleKeyUp);
     mod.uIOhook.start();
     started = true;
-  } catch {
+    appendLog({ category: LogCategory.HOTKEYS, level: LogLevel.INFO, message: HOTKEYS_STRINGS.captureActiveMessage });
+  } catch (error) {
+    appendLog({
+      category: LogCategory.HOTKEYS,
+      level: LogLevel.WARNING,
+      message: HOTKEYS_STRINGS.captureUnavailableMessage,
+      detail: (error as Error).message
+    });
   }
 }
 

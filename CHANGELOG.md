@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão | Resumo |
 | --- | --- |
+| [0.36.11](docs/releases/v0.36.11.md) | Diagnóstico de teclas de atalho, texto branco de volta, corrige clique no "Tela cheia" |
 | [0.36.10](docs/releases/v0.36.10.md) | Sons na tela de atualização, corrige "Voltar" sem som no compartilhamento |
 | [0.36.9](docs/releases/v0.36.9.md) | Teclas de atalho globais, push-to-talk, mixer de sons por categoria, escala padrão 120% |
 | [0.36.8](docs/releases/v0.36.8.md) | Som próprio em cada etapa do fluxo de compartilhar tela |

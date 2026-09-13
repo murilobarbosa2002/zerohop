@@ -39,6 +39,8 @@ export const SETTINGS_STRINGS = {
   pushToTalkHotkeyLabel: 'Push-to-talk (segurar pra falar)',
   recordHotkeyButton: 'Gravar',
   recordingHotkeyStatus: 'Aperte uma tecla...',
+  recordHotkeyTimeoutStatus:
+    'Nenhuma tecla detectada — a captura de teclado global pode não estar disponível no seu sistema (veja em Logs).',
   cancelRecordingHotkeyButton: 'Cancelar',
   clearHotkeyButton: 'Remover',
   noHotkeySetLabel: 'Nenhuma',

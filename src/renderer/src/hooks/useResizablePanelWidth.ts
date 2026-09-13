@@ -25,9 +25,7 @@ export function useResizablePanelWidth(
         const next = clamp(typeof updater === 'function' ? updater(current) : updater, min, max);
         try {
           localStorage.setItem(storageKey, String(next));
-        } catch {
-          // localStorage indisponível (ex: modo privado) — só não persiste entre sessões
-        }
+        } catch {}
         return next;
       });
     },

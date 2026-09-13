@@ -55,14 +55,10 @@ body {
   font-family: 'Jersey10', 'Segoe UI', Tahoma, sans-serif;
 }
 
-/* Windows 98/2000 sempre teve cantos retos — zera qualquer arredondamento
-   exceto o que é explicitamente circular (avatares, indicadores de status). */
 [class*='rounded-']:not(.rounded-full) {
   border-radius: 0 !important;
 }
 
-/* Efeito de bisel 3D clássico: relevo "para fora" por padrão em qualquer
-   elemento com borda (botões, cards, painéis). */
 .border {
   box-shadow:
     inset 1px 1px 0 0 theme('colors.bevel-light'),
@@ -75,8 +71,10 @@ button.border:active:not(:disabled) {
     inset 1px 1px 0 0 theme('colors.bevel-dark');
 }
 
-/* Campos de entrada (texto, seleção, vídeo) usam o bisel "afundado",
-   o oposto dos botões/painéis — é a convenção clássica do Windows. */
+.text-text-on-accent {
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
+}
+
 input[type='text'],
 input[type='password'],
 select,

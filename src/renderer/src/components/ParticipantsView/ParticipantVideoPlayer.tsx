@@ -44,8 +44,9 @@ export function ParticipantVideoPlayer({ member, audioState }: ParticipantVideoP
     <div>
       <div className="relative mt-2.5">
         <button
+          type="button"
           onClick={() => setLightboxOpen(true)}
-          className="absolute top-2 right-2 bg-panel-2 border border-border text-text px-2.5 py-1.5 text-xs hover:border-accent"
+          className="absolute top-2 right-2 z-10 bg-panel-2 border border-border text-text px-2.5 py-1.5 text-xs hover:border-accent"
         >
           {COMMON_STRINGS.fullscreenButton}
         </button>

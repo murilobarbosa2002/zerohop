@@ -14,7 +14,8 @@ export const LOG_STRINGS = {
     sharing: 'Compartilhamento',
     voice: 'Voz',
     connection: 'Conexão',
-    update: 'Atualização'
+    update: 'Atualização',
+    hotkeys: 'Teclas de atalho'
   },
   appStartedMessage: (version: string) => `ZeroHop v${version} foi aberto.`,
   roomCreatedMessage: (code: string) => `Você criou a sala ${code}.`,

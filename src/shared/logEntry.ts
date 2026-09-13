@@ -10,7 +10,8 @@ export enum LogCategory {
   SHARING = 'sharing',
   VOICE = 'voice',
   CONNECTION = 'connection',
-  UPDATE = 'update'
+  UPDATE = 'update',
+  HOTKEYS = 'hotkeys'
 }
 
 export interface LogEntry {
