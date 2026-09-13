@@ -10,6 +10,7 @@ import { useAvatarId } from '@/hooks/useAvatarId';
 import { errorMessage } from '@/lib/errorMessage';
 import { playErrorSound } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
+import { TextInputSoundKind } from '@/constants/textInputSoundKind';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { ROOM_NAME_MAX_LENGTH, ROOM_CODE_MAX_LENGTH } from '@/constants/roomIdentity';
 import { ROOM_PASSWORD_MAX_LENGTH } from '@/constants/roomPassword';
@@ -51,14 +52,26 @@ export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProp
       <form>
         <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mb-3">
           {PRE_ROOM_STRINGS.nameFieldLabel}
-          <TextInput type="text" {...register('name')} maxLength={ROOM_NAME_MAX_LENGTH} placeholder={PRE_ROOM_STRINGS.nameFieldPlaceholder} />
+          <TextInput
+            type="text"
+            {...register('name')}
+            maxLength={ROOM_NAME_MAX_LENGTH}
+            placeholder={PRE_ROOM_STRINGS.nameFieldPlaceholder}
+            soundKind={TextInputSoundKind.NAME}
+          />
         </label>
 
         <AvatarPicker value={avatarId} onChange={setAvatarId} />
 
         <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mb-3">
           {PRE_ROOM_STRINGS.codeFieldLabel}
-          <TextInput type="text" {...register('code')} maxLength={ROOM_CODE_MAX_LENGTH} placeholder={PRE_ROOM_STRINGS.codeFieldPlaceholder} />
+          <TextInput
+            type="text"
+            {...register('code')}
+            maxLength={ROOM_CODE_MAX_LENGTH}
+            placeholder={PRE_ROOM_STRINGS.codeFieldPlaceholder}
+            soundKind={TextInputSoundKind.ROOM_CODE}
+          />
         </label>
 
         <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mb-3">
@@ -67,6 +80,7 @@ export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProp
             {...register('password')}
             maxLength={ROOM_PASSWORD_MAX_LENGTH}
             placeholder={PRE_ROOM_STRINGS.joinPasswordFieldPlaceholder}
+            soundKind={TextInputSoundKind.PASSWORD}
           />
         </label>
 

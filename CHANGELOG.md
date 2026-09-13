@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão | Resumo |
 | --- | --- |
+| [0.36.5](docs/releases/v0.36.5.md) | Som próprio ao clicar e ao digitar em cada campo de texto |
 | [0.36.4](docs/releases/v0.36.4.md) | Sons ao sair da sala, texto branco em botões azuis menos forte |
 | [0.36.3](docs/releases/v0.36.3.md) | Corrige tela de erro ao ativar áudio isolado por app junto do compartilhamento |
 | [0.36.2](docs/releases/v0.36.2.md) | Sons ao pedir pra entrar/trocar de aba/limpar histórico, corrige ícones tortos |

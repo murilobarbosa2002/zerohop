@@ -34,7 +34,15 @@ import tabVersionsSound from '@/assets/sounds/tab-versions.wav';
 import joinRequestSound from '@/assets/sounds/join-request.wav';
 import memberLeftSound from '@/assets/sounds/member-left.wav';
 import roomLeftSound from '@/assets/sounds/room-left.wav';
+import inputNameFocusSound from '@/assets/sounds/input-name-focus.wav';
+import inputNameTypeSound from '@/assets/sounds/input-name-type.wav';
+import inputPasswordFocusSound from '@/assets/sounds/input-password-focus.wav';
+import inputPasswordTypeSound from '@/assets/sounds/input-password-type.wav';
+import inputRoomCodeFocusSound from '@/assets/sounds/input-roomcode-focus.wav';
+import inputRoomCodeTypeSound from '@/assets/sounds/input-roomcode-type.wav';
+import inputChatFocusSound from '@/assets/sounds/input-chat-focus.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
+import { TextInputSoundKind } from '@/constants/textInputSoundKind';
 
 const KEY_CLICK_VOLUME_MULTIPLIER = 0.6;
 
@@ -187,3 +195,38 @@ export function playMemberLeftSound(): void {
 export function playRoomLeftSound(): void {
   play(roomLeftSound, getSoundEffectsVolume());
 }
+
+export function playNameInputFocusSound(): void {
+  play(inputNameFocusSound, getSoundEffectsVolume());
+}
+
+export function playNameInputTypeSound(): void {
+  play(inputNameTypeSound, getSoundEffectsVolume() * KEY_CLICK_VOLUME_MULTIPLIER);
+}
+
+export function playPasswordInputFocusSound(): void {
+  play(inputPasswordFocusSound, getSoundEffectsVolume());
+}
+
+export function playPasswordInputTypeSound(): void {
+  play(inputPasswordTypeSound, getSoundEffectsVolume() * KEY_CLICK_VOLUME_MULTIPLIER);
+}
+
+export function playRoomCodeInputFocusSound(): void {
+  play(inputRoomCodeFocusSound, getSoundEffectsVolume());
+}
+
+export function playRoomCodeInputTypeSound(): void {
+  play(inputRoomCodeTypeSound, getSoundEffectsVolume() * KEY_CLICK_VOLUME_MULTIPLIER);
+}
+
+export function playChatInputFocusSound(): void {
+  play(inputChatFocusSound, getSoundEffectsVolume());
+}
+
+export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; type: () => void }> = {
+  [TextInputSoundKind.NAME]: { focus: playNameInputFocusSound, type: playNameInputTypeSound },
+  [TextInputSoundKind.PASSWORD]: { focus: playPasswordInputFocusSound, type: playPasswordInputTypeSound },
+  [TextInputSoundKind.ROOM_CODE]: { focus: playRoomCodeInputFocusSound, type: playRoomCodeInputTypeSound },
+  [TextInputSoundKind.CHAT]: { focus: playChatInputFocusSound, type: playKeyClickSound }
+};

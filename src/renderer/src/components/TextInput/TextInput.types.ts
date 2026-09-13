@@ -1,3 +1,6 @@
 import type { InputHTMLAttributes } from 'react';
+import type { TextInputSoundKind } from '@/constants/textInputSoundKind';
 
-export type TextInputProps = InputHTMLAttributes<HTMLInputElement>;
+export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  soundKind?: TextInputSoundKind;
+}

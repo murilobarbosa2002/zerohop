@@ -9,6 +9,7 @@ import { AvatarPicker } from '@/components/AvatarPicker';
 import { useAvatarId } from '@/hooks/useAvatarId';
 import { errorMessage } from '@/lib/errorMessage';
 import { playErrorSound } from '@/services/soundEffects';
+import { TextInputSoundKind } from '@/constants/textInputSoundKind';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { ROOM_NAME_MAX_LENGTH } from '@/constants/roomIdentity';
 import { ROOM_PASSWORD_MAX_LENGTH } from '@/constants/roomPassword';
@@ -49,6 +50,7 @@ export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomForm
             {...register('name')}
             maxLength={ROOM_NAME_MAX_LENGTH}
             placeholder={PRE_ROOM_STRINGS.nameFieldPlaceholder}
+            soundKind={TextInputSoundKind.NAME}
           />
         </label>
 
@@ -60,6 +62,7 @@ export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomForm
             {...register('password')}
             maxLength={ROOM_PASSWORD_MAX_LENGTH}
             placeholder={PRE_ROOM_STRINGS.passwordFieldPlaceholder}
+            soundKind={TextInputSoundKind.PASSWORD}
           />
         </label>
 
