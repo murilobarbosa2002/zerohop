@@ -95,12 +95,13 @@ export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProp
           >
             {PRE_ROOM_STRINGS.backButton}
           </ActionButton>
-          <ActionButton type="button" variant="primary" className="flex-1" onClick={handleSubmit(handleJoin)}>
+          <ActionButton type="button" variant="primary" className="flex-1" onClick={handleSubmit(handleJoin, playErrorSound)}>
             {PRE_ROOM_STRINGS.joinRoomButton}
           </ActionButton>
         </div>
       </form>
 
+      {errors.name && <p className="text-text-dim text-xs mt-2">{errors.name.message}</p>}
       {errors.code && <p className="text-text-dim text-xs mt-2">{errors.code.message}</p>}
       {errors.password && <p className="text-text-dim text-xs mt-2">{errors.password.message}</p>}
       {status && <p className="text-text-dim text-xs mt-2">{status}</p>}

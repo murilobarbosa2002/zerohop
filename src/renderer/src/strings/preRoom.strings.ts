@@ -16,6 +16,7 @@ export const PRE_ROOM_STRINGS = {
   codeFieldLabel: 'Código da sala',
   codeFieldPlaceholder: 'Cole aqui o código que seu amigo te mandou',
   codeRequiredError: 'Digite o código da sala.',
+  nameRequiredError: 'Digite seu nome.',
   joinPasswordFieldPlaceholder: 'Digite a senha que seu amigo te passou',
   joiningRoomStatus: 'Entrando na sala...',
   awaitingApprovalStatus: 'Senha confirmada. Aguardando o criador da sala aprovar sua entrada...',

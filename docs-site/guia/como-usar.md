@@ -35,7 +35,7 @@ Ao abrir o ZeroHop, a primeira tela pergunta o que você quer fazer: **Criar sal
 ## Criar uma sala
 
 1. Na tela inicial, clique em **Criar sala nova**.
-2. Digite seu nome (é só o que aparece pros outros, não precisa ser seu nome real).
+2. Digite seu nome (obrigatório — é só o que aparece pros outros, não precisa ser seu nome real).
 3. Escolha uma **foto de perfil** entre as opções disponíveis (veja [Foto de perfil](#foto-de-perfil) abaixo).
 4. Defina uma senha para a sala. É **obrigatória**, toda sala nasce protegida (veja [Senha e moderação](/guia/senha-e-moderacao)).
 5. Confirme em **Criar sala nova**.
@@ -44,7 +44,7 @@ Ao abrir o ZeroHop, a primeira tela pergunta o que você quer fazer: **Criar sal
 ## Entrar numa sala
 
 1. Na tela inicial, clique em **Entrar numa sala**.
-2. Digite seu nome.
+2. Digite seu nome (obrigatório).
 3. Cole o código que recebeu no campo de código.
 4. Digite a senha que a pessoa que criou a sala te passou.
 5. Confirme em **Entrar numa sala**.
@@ -116,4 +116,4 @@ Clique em **Sair da sala** a qualquer momento, ou simplesmente feche o programa.
 
 Um ícone na barra de título (ou dentro da sala, na mesma barra do microfone) abre a tela de **Logs**: um histórico de tudo que aconteceu, em frases simples. Entrar/sair da sala, quem entrou e saiu, começar/parar de compartilhar, ativar o microfone, verificar atualizações, problemas de conexão. Não precisa entender nada técnico pra ler.
 
-Quando um item tem informação técnica por trás (um erro, por exemplo), aparece um "▸ Detalhes técnicos" que expande e mostra o texto bruto, pra quem quiser investigar mais fundo ou mandar pra alguém ajudar a resolver um problema. Dá pra filtrar por categoria, e o histórico continua salvo mesmo depois de fechar e abrir o app de novo. Tem um botão de "Limpar histórico" se quiser começar do zero.
+Quando um item tem informação técnica por trás (um erro, por exemplo), aparece um "▸ Detalhes técnicos" que expande e mostra o texto bruto, pra quem quiser investigar mais fundo ou mandar pra alguém ajudar a resolver um problema. Dá pra filtrar por categoria, e o histórico continua salvo mesmo depois de fechar e abrir o app de novo. O botão **Copiar** copia o histórico inteiro como texto, pronto pra colar (Ctrl+V) numa conversa e mandar pra alguém ler. Tem um botão de "Limpar histórico" se quiser começar do zero.

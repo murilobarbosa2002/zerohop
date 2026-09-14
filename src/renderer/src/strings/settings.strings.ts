@@ -41,6 +41,7 @@ export const SETTINGS_STRINGS = {
   recordingHotkeyStatus: 'Aperte uma tecla...',
   recordHotkeyTimeoutStatus:
     'Nenhuma tecla detectada — a captura de teclado global pode não estar disponível no seu sistema (veja em Logs).',
+  hotkeyConflictError: 'Não foi possível usar essa tecla — provavelmente já está em uso por outro programa. Escolha outra.',
   cancelRecordingHotkeyButton: 'Cancelar',
   clearHotkeyButton: 'Remover',
   noHotkeySetLabel: 'Nenhuma',

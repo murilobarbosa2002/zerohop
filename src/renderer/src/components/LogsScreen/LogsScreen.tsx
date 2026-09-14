@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { ActionButton } from '@/components/ActionButton';
+import { CopyButton } from '@/components/CopyButton';
 import { CategoryFilter } from '@/components/LogsScreen/CategoryFilter';
 import { LogEntryRow } from '@/components/LogsScreen/LogEntryRow';
 import { ClearLogsConfirmation } from '@/components/LogsScreen/ClearLogsConfirmation';
 import { Pagination } from '@/components/Pagination';
 import { useAppLogs } from '@/hooks/useAppLogs';
 import { usePagination } from '@/hooks/usePagination';
+import { formatLogsAsText } from '@/lib/formatLogsAsText';
 import {
   playLogsClearOpenSound,
   playLogsClearCancelSound,
@@ -49,9 +51,12 @@ export function LogsScreen({ onBack }: LogsScreenProps) {
           {LOG_STRINGS.backButton}
         </button>
         <p className="font-bold text-body-sm-alt">{LOG_STRINGS.screenTitle}</p>
+        <div className="ml-auto flex items-center gap-2">
+          {entries.length > 0 && <CopyButton text={formatLogsAsText(entries)} />}
+        </div>
         <ActionButton
           variant="default"
-          className="ml-auto flex-shrink-0"
+          className="flex-shrink-0"
           onClick={() => {
             playLogsClearOpenSound();
             setConfirmingClear(true);

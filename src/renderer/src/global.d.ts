@@ -1,7 +1,7 @@
 import type { CaptureSource } from '@shared/ipc-types';
 import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
-import type { HotkeySettings, HotkeyBinding } from '@shared/hotkeySettings';
+import type { HotkeySettings, HotkeyBinding, ToggleHotkeyRegistrationResult } from '@shared/hotkeySettings';
 
 declare global {
   interface Window {
@@ -29,7 +29,7 @@ declare global {
       copyToClipboard: (text: string) => Promise<void>;
       setUiZoomFactor: (factor: number) => void;
       getHotkeySettings: () => Promise<HotkeySettings>;
-      setHotkeySettings: (hotkeys: HotkeySettings) => Promise<void>;
+      setHotkeySettings: (hotkeys: HotkeySettings) => Promise<ToggleHotkeyRegistrationResult>;
       recordNextHotkey: () => Promise<void>;
       cancelRecordHotkey: () => Promise<void>;
       onHotkeyRecorded: (callback: (binding: HotkeyBinding) => void) => () => void;

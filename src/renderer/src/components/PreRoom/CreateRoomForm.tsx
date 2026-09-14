@@ -77,12 +77,13 @@ export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomForm
           >
             {PRE_ROOM_STRINGS.backButton}
           </ActionButton>
-          <ActionButton type="button" variant="primary" className="flex-1" onClick={handleSubmit(handleCreate)}>
+          <ActionButton type="button" variant="primary" className="flex-1" onClick={handleSubmit(handleCreate, playErrorSound)}>
             {PRE_ROOM_STRINGS.createRoomButton}
           </ActionButton>
         </div>
       </form>
 
+      {errors.name && <p className="text-text-dim text-xs mt-2">{errors.name.message}</p>}
       {errors.password && <p className="text-text-dim text-xs mt-2">{errors.password.message}</p>}
       {status && <p className="text-text-dim text-xs mt-2">{status}</p>}
     </Card>

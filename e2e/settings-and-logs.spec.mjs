@@ -21,6 +21,7 @@ try {
   await win.getByRole('button', { name: 'Logs' }).click();
   await win.waitForTimeout(500);
   check('logs screen shows the "app opened" entry', await win.getByText('foi aberto.').first().isVisible());
+  check('logs screen has a copy button', await win.getByRole('button', { name: 'Copiar' }).isVisible());
 } finally {
   await app.close();
 }

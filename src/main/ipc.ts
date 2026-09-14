@@ -10,7 +10,7 @@ import { applyToggleHotkeys } from '@main/toggleHotkeys';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
-import type { HotkeySettings } from '@shared/hotkeySettings';
+import type { HotkeySettings, ToggleHotkeyRegistrationResult } from '@shared/hotkeySettings';
 
 function isNoiseSource(source: DesktopCapturerSource): boolean {
   return source.id.startsWith('window:') && NOISE_SOURCE_NAME_PATTERNS.some((pattern) => pattern.test(source.name));
@@ -104,9 +104,9 @@ export function registerIpcHandlers(): void {
 
   ipcMain.handle(IPC_CHANNELS.getHotkeySettings, (): HotkeySettings => getSettings().hotkeys);
 
-  ipcMain.handle(IPC_CHANNELS.setHotkeySettings, (_event, hotkeys: HotkeySettings) => {
+  ipcMain.handle(IPC_CHANNELS.setHotkeySettings, (_event, hotkeys: HotkeySettings): ToggleHotkeyRegistrationResult => {
     setHotkeySettings(hotkeys);
-    applyToggleHotkeys(hotkeys);
+    return applyToggleHotkeys(hotkeys);
   });
 
   ipcMain.handle(IPC_CHANNELS.recordNextHotkey, (event) => {

@@ -10,13 +10,15 @@ interface HotkeyRecorderRowProps<T extends { label: string }> {
   value: T | null;
   onChange: (value: T | null) => void;
   mode: 'accelerator' | 'globalKeycode';
+  errorMessage?: string | null;
 }
 
 export function HotkeyRecorderRow<T extends HotkeyBinding | AcceleratorBinding>({
   label,
   value,
   onChange,
-  mode
+  mode,
+  errorMessage
 }: HotkeyRecorderRowProps<T>) {
   const [recording, setRecording] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
@@ -61,16 +63,15 @@ export function HotkeyRecorderRow<T extends HotkeyBinding | AcceleratorBinding>(
     setRecording(false);
   }
 
-  const statusLabel = recording
-    ? SETTINGS_STRINGS.recordingHotkeyStatus
-    : timedOut
-      ? SETTINGS_STRINGS.recordHotkeyTimeoutStatus
-      : (value?.label ?? SETTINGS_STRINGS.noHotkeySetLabel);
+  const failureMessage = timedOut ? SETTINGS_STRINGS.recordHotkeyTimeoutStatus : errorMessage;
+  const statusLabel = recording ? SETTINGS_STRINGS.recordingHotkeyStatus : (failureMessage ?? value?.label ?? SETTINGS_STRINGS.noHotkeySetLabel);
 
   return (
     <div className="flex items-center gap-2 mt-2.5">
       <span className="text-body-sm w-form-column-wide flex-shrink-0">{label}</span>
-      <span className="text-text-dim text-xs flex-1 min-w-0 truncate">{statusLabel}</span>
+      <span className={`text-xs flex-1 min-w-0 truncate ${!recording && failureMessage ? 'text-danger' : 'text-text-dim'}`}>
+        {statusLabel}
+      </span>
       {recording ? (
         <ActionButton variant="default" className="flex-shrink-0" onClick={stopRecording}>
           {SETTINGS_STRINGS.cancelRecordingHotkeyButton}

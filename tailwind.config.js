@@ -9,7 +9,7 @@ export default {
         'panel-2': '#c0c0c0',
         border: '#404040',
         text: '#1a1a1a',
-        'text-on-accent': '#ffffff',
+        'text-on-accent': '#c9d2e6',
         'text-dim': '#454545',
         accent: '#000080',
         'accent-2': '#1084d0',

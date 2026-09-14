@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { RangeSlider } from '@/components/RangeSlider';
 import { HotkeyRecorderRow } from '@/components/SettingsScreen/HotkeyRecorderRow';
 import { useHotkeySettings } from '@/hooks/useHotkeySettings';
+import { playErrorSound } from '@/services/soundEffects';
 import {
   MIN_PUSH_TO_TALK_RELEASE_DELAY_MS,
   MAX_PUSH_TO_TALK_RELEASE_DELAY_MS,
@@ -11,6 +13,26 @@ import type { AcceleratorBinding, HotkeyBinding } from '@shared/hotkeySettings';
 
 export function HotkeySettings() {
   const [hotkeys, setHotkeys] = useHotkeySettings();
+  const [micMuteError, setMicMuteError] = useState(false);
+  const [deafenError, setDeafenError] = useState(false);
+
+  async function updateMicMuteHotkey(value: AcceleratorBinding | null): Promise<void> {
+    setMicMuteError(false);
+    const result = await setHotkeys({ ...hotkeys, micMuteHotkey: value });
+    if (result.micMuteFailed) {
+      setMicMuteError(true);
+      playErrorSound();
+    }
+  }
+
+  async function updateDeafenHotkey(value: AcceleratorBinding | null): Promise<void> {
+    setDeafenError(false);
+    const result = await setHotkeys({ ...hotkeys, deafenHotkey: value });
+    if (result.deafenFailed) {
+      setDeafenError(true);
+      playErrorSound();
+    }
+  }
 
   return (
     <div className="max-w-modal mt-6">
@@ -21,13 +43,15 @@ export function HotkeySettings() {
         mode="accelerator"
         label={SETTINGS_STRINGS.micMuteHotkeyLabel}
         value={hotkeys.micMuteHotkey}
-        onChange={(value) => setHotkeys({ ...hotkeys, micMuteHotkey: value })}
+        onChange={updateMicMuteHotkey}
+        errorMessage={micMuteError ? SETTINGS_STRINGS.hotkeyConflictError : null}
       />
       <HotkeyRecorderRow<AcceleratorBinding>
         mode="accelerator"
         label={SETTINGS_STRINGS.deafenHotkeyLabel}
         value={hotkeys.deafenHotkey}
-        onChange={(value) => setHotkeys({ ...hotkeys, deafenHotkey: value })}
+        onChange={updateDeafenHotkey}
+        errorMessage={deafenError ? SETTINGS_STRINGS.hotkeyConflictError : null}
       />
       <HotkeyRecorderRow<HotkeyBinding>
         mode="globalKeycode"

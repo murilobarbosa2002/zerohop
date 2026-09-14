@@ -3,7 +3,7 @@ import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
 import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
-import type { HotkeySettings, HotkeyBinding } from '@shared/hotkeySettings';
+import type { HotkeySettings, HotkeyBinding, ToggleHotkeyRegistrationResult } from '@shared/hotkeySettings';
 
 const api = {
   getSources: (): Promise<CaptureSource[]> => ipcRenderer.invoke(IPC_CHANNELS.getSources),
@@ -45,7 +45,8 @@ const api = {
     webFrame.setZoomFactor(factor);
   },
   getHotkeySettings: (): Promise<HotkeySettings> => ipcRenderer.invoke(IPC_CHANNELS.getHotkeySettings),
-  setHotkeySettings: (hotkeys: HotkeySettings): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.setHotkeySettings, hotkeys),
+  setHotkeySettings: (hotkeys: HotkeySettings): Promise<ToggleHotkeyRegistrationResult> =>
+    ipcRenderer.invoke(IPC_CHANNELS.setHotkeySettings, hotkeys),
   recordNextHotkey: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.recordNextHotkey),
   cancelRecordHotkey: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.cancelRecordHotkey),
   onHotkeyRecorded: (callback: (binding: HotkeyBinding) => void): (() => void) => {

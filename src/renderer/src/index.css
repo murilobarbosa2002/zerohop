@@ -71,10 +71,6 @@ button.border:active:not(:disabled) {
     inset 1px 1px 0 0 theme('colors.bevel-dark');
 }
 
-.text-text-on-accent {
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
-}
-
 input[type='text'],
 input[type='password'],
 select,

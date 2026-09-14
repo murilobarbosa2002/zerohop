@@ -18,3 +18,8 @@ export interface HotkeySettings {
 }
 
 export type HotkeyAction = 'micMuteHotkey' | 'deafenHotkey' | 'pushToTalkHotkey';
+
+export interface ToggleHotkeyRegistrationResult {
+  micMuteFailed: boolean;
+  deafenFailed: boolean;
+}

@@ -33,7 +33,11 @@ Redes corporativas, escolares ou de locais públicos (faculdade, empresa, evento
 
 ### 4. Veja os detalhes técnicos
 
-Abra a tela de **Logs** dentro do próprio app (ícone na barra de título, ou dentro da sala na barra do microfone). Cada evento de conexão aparece numa frase simples, e os que têm informação técnica por trás mostram um "▸ Detalhes técnicos", útil para reportar um problema numa issue no GitHub.
+Abra a tela de **Logs** dentro do próprio app (ícone na barra de título, ou dentro da sala na barra do microfone). Cada evento de conexão aparece numa frase simples, e os que têm informação técnica por trás mostram um "▸ Detalhes técnicos", útil para reportar um problema numa issue no GitHub. O botão **Copiar** no topo da tela copia o histórico inteiro como texto, pronto pra colar numa conversa e mandar pra alguém ajudar a diagnosticar.
+
+### Entrei na sala, mas não consigo ouvir/assistir uma pessoa específica (os outros funcionam normalmente)
+
+Isso é diferente de não conseguir entrar na sala — o problema é só entre você e uma pessoa específica, geralmente quando os dois estão em redes bem distantes (cidades ou operadoras diferentes). Como o ZeroHop nunca usa um servidor de relay (veja [Sem servidor, sem TURN](/seguranca/sem-servidor-sem-turn)), a conexão de voz/vídeo entre duas pessoas específicas depende de as duas redes conseguirem "se enxergar" diretamente — e algumas combinações de roteador/operadora (principalmente CGNAT, comum em internet móvel e em algumas operadoras residenciais) simplesmente não conseguem, mesmo com o resto da sala funcionando normalmente. É esperado que essa falha seja assimétrica (uma pessoa consegue assistir a tela da outra, mas não o contrário) — cada direção da conexão negocia separadamente. Não tem uma correção de código pra isso sem um servidor de relay, que é a troca deliberada feita neste projeto (privacidade de rede em vez de sempre conectar). Testar numa rede diferente (outro Wi-Fi, ou hotspot do celular num dos dois lados) costuma confirmar se é isso mesmo.
 
 ## Cursor sumindo, imagem travando ou piscando ao compartilhar jogos
 
