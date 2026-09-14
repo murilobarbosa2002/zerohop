@@ -41,11 +41,7 @@ export function captureConstraints(
   };
 }
 
-export async function captureSource(
-  videoSourceId: string,
-  audioSourceId: string | null,
-  quality: QualitySettings
-): Promise<MediaStream> {
+export async function captureSource(videoSourceId: string, audioSourceId: string | null, quality: QualitySettings): Promise<MediaStream> {
   const stream = await navigator.mediaDevices.getUserMedia(captureConstraints(videoSourceId, audioSourceId, quality));
   const videoTrack = stream.getVideoTracks()[0];
   if (videoTrack) videoTrack.contentHint = 'detail';

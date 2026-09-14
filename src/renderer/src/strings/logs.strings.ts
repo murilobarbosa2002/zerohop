@@ -25,7 +25,8 @@ export const LOG_STRINGS = {
   memberLeftMessage: (name: string) => `${name} saiu da sala.`,
   connectionWarningMessage: (label: string) => `A conexão com ${label} está demorando a responder.`,
   connectionEstablishedDirectMessage: (label: string) => `Conexão com ${label} estabelecida direto (sem retransmissão).`,
-  connectionEstablishedTurnMessage: (label: string) => `Conexão com ${label} estabelecida via retransmissão (TURN) — consome banda do plano gratuito.`,
+  connectionEstablishedTurnMessage: (label: string) =>
+    `Conexão com ${label} estabelecida via retransmissão (TURN) — consome banda do plano gratuito.`,
   connectionNeverPreparedMessage: (label: string) => `Não foi possível preparar a conexão com ${label}.`,
   connectionTimeoutMessage: (label: string) => `A conexão com ${label} não abriu a tempo.`,
   connectionStatsErrorMessage: (label: string) => `Erro ao verificar o estado da conexão com ${label}.`,

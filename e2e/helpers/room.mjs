@@ -17,6 +17,9 @@ export async function joinRoom(guestWin, roomCode, { name = 'Guest', password = 
 }
 
 export async function approveJoinRequest(hostWin) {
-  await hostWin.getByText('Aceitar', { exact: true }).click({ timeout: 5000 }).catch(() => {});
+  await hostWin
+    .getByText('Aceitar', { exact: true })
+    .click({ timeout: 5000 })
+    .catch(() => {});
   await hostWin.waitForTimeout(1000);
 }

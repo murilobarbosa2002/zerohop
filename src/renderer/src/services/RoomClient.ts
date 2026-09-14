@@ -21,7 +21,12 @@ import {
 import { logEvent } from '@/services/appLog';
 import { onTyped } from '@/lib/typedEvents';
 import { RoomStatus } from '@/constants/roomStatus';
-import { AUTH_HELLO_TIMEOUT_MS, ICE_CONNECTION_TIMEOUT_MS, JOIN_APPROVAL_TIMEOUT_MS, ROOM_CODE_CREATE_MAX_ATTEMPTS } from '@/constants/timing';
+import {
+  AUTH_HELLO_TIMEOUT_MS,
+  ICE_CONNECTION_TIMEOUT_MS,
+  JOIN_APPROVAL_TIMEOUT_MS,
+  ROOM_CODE_CREATE_MAX_ATTEMPTS
+} from '@/constants/timing';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
 import { LOG_STRINGS } from '@/strings/logs.strings';

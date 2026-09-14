@@ -22,7 +22,11 @@ try {
   await hostWin.waitForTimeout(300);
   await hostWin.getByText('Tela inteira', { exact: true }).click();
   await hostWin.waitForTimeout(500);
-  await hostWin.locator('button img, button video').first().click().catch(() => {});
+  await hostWin
+    .locator('button img, button video')
+    .first()
+    .click()
+    .catch(() => {});
   await hostWin.waitForTimeout(300);
   await hostWin.getByRole('button', { name: 'Compartilhar minha tela' }).click();
   await hostWin.waitForTimeout(1000);
@@ -40,7 +44,10 @@ try {
 
   await hostWin.getByText('← Voltar', { exact: true }).click();
   await hostWin.waitForTimeout(500);
-  check('room (with active sharing) is still there after visiting Settings/Logs', await hostWin.getByText('Você está compartilhando sua tela.').isVisible());
+  check(
+    'room (with active sharing) is still there after visiting Settings/Logs',
+    await hostWin.getByText('Você está compartilhando sua tela.').isVisible()
+  );
 
   const hasSrcObject = await hostWin.evaluate(() => {
     const video = document.querySelector('video');

@@ -1,0 +1,11 @@
+node_modules
+out
+dist
+build
+docs-site/node_modules
+docs-site/.vitepress/cache
+docs-site/.vitepress/dist
+package-lock.json
+*.min.js
+# Markdown já é formatado/verificado pelo markdownlint (npm run lint:md) — evita dois donos
+*.md

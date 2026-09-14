@@ -5,9 +5,5 @@ import { ChangelogDetail } from '@/components/UpdatesScreen/ChangelogDetail';
 export function ChangelogPanel() {
   const [openPath, setOpenPath] = useState<string | null>(null);
 
-  return openPath ? (
-    <ChangelogDetail path={openPath} onBack={() => setOpenPath(null)} />
-  ) : (
-    <ChangelogIndex onOpenRelease={setOpenPath} />
-  );
+  return openPath ? <ChangelogDetail path={openPath} onBack={() => setOpenPath(null)} /> : <ChangelogIndex onOpenRelease={setOpenPath} />;
 }

@@ -16,7 +16,8 @@ export const UPDATES_STRINGS = {
   statusError: (message: string) => `Erro ao verificar atualização: ${message}`,
   installButton: 'Instalar e reiniciar',
   autoUpdateToggleLabel: 'Atualização automática',
-  autoUpdateToggleHint: 'Desligada, o app não verifica nem baixa nada sozinho — útil se você quer ficar numa versão específica de propósito. Você ainda pode verificar manualmente quando quiser.',
+  autoUpdateToggleHint:
+    'Desligada, o app não verifica nem baixa nada sozinho — útil se você quer ficar numa versão específica de propósito. Você ainda pode verificar manualmente quando quiser.',
   changelogLoading: 'Carregando changelog...',
   changelogError: (reason: string) => `Não foi possível carregar o changelog (${reason}).`,
   backToChangelogButton: '← Changelog',

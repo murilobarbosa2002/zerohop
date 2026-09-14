@@ -29,8 +29,7 @@ const api = {
     ipcRenderer.on(IPC_CHANNELS.logAdded, listener);
     return () => ipcRenderer.removeListener(IPC_CHANNELS.logAdded, listener);
   },
-  getExperimentalPerAppAudioEnabled: (): Promise<boolean> =>
-    ipcRenderer.invoke(IPC_CHANNELS.experimentalPerAppAudioGetEnabled),
+  getExperimentalPerAppAudioEnabled: (): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.experimentalPerAppAudioGetEnabled),
   findAudioProcessId: (windowTitle: string): Promise<number | null> =>
     ipcRenderer.invoke(IPC_CHANNELS.audioLoopbackFindProcess, windowTitle),
   startAudioLoopback: (processId: number): void => ipcRenderer.send(IPC_CHANNELS.audioLoopbackStart, processId),

@@ -24,7 +24,10 @@ export function ChatMessageItems({ messages, onDelete, canDelete }: ChatMessageL
   return (
     <div className="flex flex-col gap-2.5 pr-1">
       {messages.map((message) => (
-        <div key={message.id} className={clsx('flex flex-col max-w-chat-bubble', message.self ? 'self-end items-end' : 'self-start items-start')}>
+        <div
+          key={message.id}
+          className={clsx('flex flex-col max-w-chat-bubble', message.self ? 'self-end items-end' : 'self-start items-start')}
+        >
           <span className="flex items-center gap-1.5 text-base text-text-dim font-bold mb-0.5">
             {message.self ? CHAT_STRINGS.selfSenderLabel : message.fromName} · {formatSentAt(message.sentAt)}
             {canDelete(message) && (

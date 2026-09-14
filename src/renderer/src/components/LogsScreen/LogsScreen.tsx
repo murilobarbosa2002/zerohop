@@ -8,12 +8,7 @@ import { Pagination } from '@/components/Pagination';
 import { useAppLogs } from '@/hooks/useAppLogs';
 import { usePagination } from '@/hooks/usePagination';
 import { formatLogsAsText } from '@/lib/formatLogsAsText';
-import {
-  playLogsClearOpenSound,
-  playLogsClearCancelSound,
-  playLogsClearConfirmSound,
-  playBackButtonSound
-} from '@/services/soundEffects';
+import { playLogsClearOpenSound, playLogsClearCancelSound, playLogsClearConfirmSound, playBackButtonSound } from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { LOGS_PAGE_SIZE } from '@/constants/pagination';
 import type { LogCategory } from '@shared/logEntry';
@@ -51,9 +46,7 @@ export function LogsScreen({ onBack }: LogsScreenProps) {
           {LOG_STRINGS.backButton}
         </button>
         <p className="font-bold text-body-sm-alt">{LOG_STRINGS.screenTitle}</p>
-        <div className="ml-auto flex items-center gap-2">
-          {entries.length > 0 && <CopyButton text={formatLogsAsText(entries)} />}
-        </div>
+        <div className="ml-auto flex items-center gap-2">{entries.length > 0 && <CopyButton text={formatLogsAsText(entries)} />}</div>
         <ActionButton
           variant="default"
           className="flex-shrink-0"

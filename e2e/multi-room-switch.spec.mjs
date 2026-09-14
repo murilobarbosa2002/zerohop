@@ -36,7 +36,12 @@ try {
   await hostWin.waitForTimeout(600);
 
   const roomATab = hostWin.getByTitle(roomA);
-  const unreadBadgeVisible = await roomATab.locator('xpath=..').getByText(/^[1-9]/).first().isVisible().catch(() => false);
+  const unreadBadgeVisible = await roomATab
+    .locator('xpath=..')
+    .getByText(/^[1-9]/)
+    .first()
+    .isVisible()
+    .catch(() => false);
   check('unread badge appears on room A tab while focused on room B', unreadBadgeVisible);
 
   await roomATab.click();

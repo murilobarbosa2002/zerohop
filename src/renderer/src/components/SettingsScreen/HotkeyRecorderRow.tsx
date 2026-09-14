@@ -64,7 +64,9 @@ export function HotkeyRecorderRow<T extends HotkeyBinding | AcceleratorBinding>(
   }
 
   const failureMessage = timedOut ? SETTINGS_STRINGS.recordHotkeyTimeoutStatus : errorMessage;
-  const statusLabel = recording ? SETTINGS_STRINGS.recordingHotkeyStatus : (failureMessage ?? value?.label ?? SETTINGS_STRINGS.noHotkeySetLabel);
+  const statusLabel = recording
+    ? SETTINGS_STRINGS.recordingHotkeyStatus
+    : (failureMessage ?? value?.label ?? SETTINGS_STRINGS.noHotkeySetLabel);
 
   return (
     <div className="flex items-center gap-2 mt-2.5">

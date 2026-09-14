@@ -22,25 +22,42 @@ try {
   await hostWin.waitForTimeout(300);
   await hostWin.getByText('Tela inteira', { exact: true }).click();
   await hostWin.waitForTimeout(500);
-  await hostWin.locator('button img, button video').first().click().catch(() => {});
+  await hostWin
+    .locator('button img, button video')
+    .first()
+    .click()
+    .catch(() => {});
   await hostWin.waitForTimeout(300);
   await hostWin.getByRole('button', { name: 'Compartilhar minha tela' }).click();
   await hostWin.waitForTimeout(1500);
 
   check('host shows active sharing status', await hostWin.getByText('Você está compartilhando sua tela.').isVisible());
 
-  await guestWin.getByRole('button', { name: 'Assistir' }).click({ timeout: 5000 }).catch(() => {});
+  await guestWin
+    .getByRole('button', { name: 'Assistir' })
+    .click({ timeout: 5000 })
+    .catch(() => {});
   await guestWin.waitForTimeout(1500);
   const guestVideoBefore = await guestWin.locator('video').count();
   check('guest has at least one video element', guestVideoBefore > 0);
 
   await hostWin.getByRole('button', { name: 'Editar' }).click();
   await hostWin.waitForTimeout(500);
-  await hostWin.getByText('Tela inteira', { exact: true }).click().catch(() => {});
+  await hostWin
+    .getByText('Tela inteira', { exact: true })
+    .click()
+    .catch(() => {});
   await hostWin.waitForTimeout(300);
-  await hostWin.locator('button img, button video').first().click().catch(() => {});
+  await hostWin
+    .locator('button img, button video')
+    .first()
+    .click()
+    .catch(() => {});
   await hostWin.waitForTimeout(300);
-  check('picker shows "save changes" while editing during a live share', await hostWin.getByText('Salvar alterações', { exact: true }).isVisible());
+  check(
+    'picker shows "save changes" while editing during a live share',
+    await hostWin.getByText('Salvar alterações', { exact: true }).isVisible()
+  );
   await hostWin.getByRole('button', { name: 'Salvar alterações' }).click();
   await hostWin.waitForTimeout(1500);
 

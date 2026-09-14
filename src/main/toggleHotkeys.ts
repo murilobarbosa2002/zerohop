@@ -23,26 +23,30 @@ export function applyToggleHotkeys(hotkeys: HotkeySettings): ToggleHotkeyRegistr
   const result: ToggleHotkeyRegistrationResult = { micMuteFailed: false, deafenFailed: false };
 
   if (hotkeys.micMuteHotkey) {
-    const registered = globalShortcut.register(hotkeys.micMuteHotkey.accelerator, () =>
-      sendToRenderers(IPC_CHANNELS.hotkeyMicMuteToggle)
-    );
+    const registered = globalShortcut.register(hotkeys.micMuteHotkey.accelerator, () => sendToRenderers(IPC_CHANNELS.hotkeyMicMuteToggle));
     if (registered) {
       registeredMicMuteAccelerator = hotkeys.micMuteHotkey.accelerator;
     } else {
       result.micMuteFailed = true;
-      appendLog({ category: LogCategory.HOTKEYS, level: LogLevel.WARNING, message: HOTKEYS_STRINGS.acceleratorConflictMessage(hotkeys.micMuteHotkey.label) });
+      appendLog({
+        category: LogCategory.HOTKEYS,
+        level: LogLevel.WARNING,
+        message: HOTKEYS_STRINGS.acceleratorConflictMessage(hotkeys.micMuteHotkey.label)
+      });
     }
   }
 
   if (hotkeys.deafenHotkey) {
-    const registered = globalShortcut.register(hotkeys.deafenHotkey.accelerator, () =>
-      sendToRenderers(IPC_CHANNELS.hotkeyDeafenToggle)
-    );
+    const registered = globalShortcut.register(hotkeys.deafenHotkey.accelerator, () => sendToRenderers(IPC_CHANNELS.hotkeyDeafenToggle));
     if (registered) {
       registeredDeafenAccelerator = hotkeys.deafenHotkey.accelerator;
     } else {
       result.deafenFailed = true;
-      appendLog({ category: LogCategory.HOTKEYS, level: LogLevel.WARNING, message: HOTKEYS_STRINGS.acceleratorConflictMessage(hotkeys.deafenHotkey.label) });
+      appendLog({
+        category: LogCategory.HOTKEYS,
+        level: LogLevel.WARNING,
+        message: HOTKEYS_STRINGS.acceleratorConflictMessage(hotkeys.deafenHotkey.label)
+      });
     }
   }
 

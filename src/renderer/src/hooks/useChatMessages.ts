@@ -5,8 +5,7 @@ import type { ChatMessageEntry } from '@/services/room/ChatService';
 
 export function useChatMessages(roomClient: RoomClient): ChatMessageEntry[] {
   const subscribe = useCallback(
-    (onStoreChange: () => void) =>
-      onTyped<RoomClientEventDetail['chat-changed']>(roomClient, 'chat-changed', onStoreChange),
+    (onStoreChange: () => void) => onTyped<RoomClientEventDetail['chat-changed']>(roomClient, 'chat-changed', onStoreChange),
     [roomClient]
   );
   const getSnapshot = useCallback(() => roomClient.getChatMessages(), [roomClient]);

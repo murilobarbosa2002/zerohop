@@ -13,12 +13,20 @@ export function RoomToolbar({ micMuted, deafened, onToggleMic, onToggleDeafen, o
   return (
     <div className="flex items-center justify-center gap-2 bg-panel border border-border rounded-lg px-3 py-2">
       <Tooltip label={micLabel}>
-        <button onClick={onToggleMic} aria-label={micLabel} className={roomToolbarButtonVariants({ tone: micMuted ? 'danger' : 'default' })}>
+        <button
+          onClick={onToggleMic}
+          aria-label={micLabel}
+          className={roomToolbarButtonVariants({ tone: micMuted ? 'danger' : 'default' })}
+        >
           <MicIcon muted={micMuted} />
         </button>
       </Tooltip>
       <Tooltip label={deafenLabel}>
-        <button onClick={onToggleDeafen} aria-label={deafenLabel} className={roomToolbarButtonVariants({ tone: deafened ? 'danger' : 'default' })}>
+        <button
+          onClick={onToggleDeafen}
+          aria-label={deafenLabel}
+          className={roomToolbarButtonVariants({ tone: deafened ? 'danger' : 'default' })}
+        >
           <SpeakerIcon muted={deafened} />
         </button>
       </Tooltip>

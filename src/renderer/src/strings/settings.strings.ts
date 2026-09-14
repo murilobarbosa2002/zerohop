@@ -32,8 +32,7 @@ export const SETTINGS_STRINGS = {
   uiScaleTitle: 'Escala da interface',
   uiScaleHint: 'Aumenta ou diminui o tamanho de tudo (texto, botões, ícones) — útil se estiver pequeno demais pra sua tela ou visão.',
   hotkeysTitle: 'Teclas de atalho',
-  hotkeysHint:
-    'Funcionam em qualquer lugar, mesmo com outro programa ou jogo em foco. Clique em "Gravar" e aperte a tecla desejada.',
+  hotkeysHint: 'Funcionam em qualquer lugar, mesmo com outro programa ou jogo em foco. Clique em "Gravar" e aperte a tecla desejada.',
   micMuteHotkeyLabel: 'Mutar/desmutar microfone',
   deafenHotkeyLabel: 'Silenciar/ativar áudio',
   pushToTalkHotkeyLabel: 'Push-to-talk (segurar pra falar)',

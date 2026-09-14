@@ -28,7 +28,9 @@ export function MicInputSettings({ roomClient }: MicInputSettingsProps) {
     setPermissionStatus(null);
     if (roomClient) {
       await roomClient.retryMicPermission();
-      setPermissionStatus(roomClient.micActive ? SETTINGS_STRINGS.micPermissionGrantedStatus : SETTINGS_STRINGS.micPermissionStillDeniedStatus);
+      setPermissionStatus(
+        roomClient.micActive ? SETTINGS_STRINGS.micPermissionGrantedStatus : SETTINGS_STRINGS.micPermissionStillDeniedStatus
+      );
       return;
     }
     const granted = await requestMicPermission();
@@ -40,9 +42,7 @@ export function MicInputSettings({ roomClient }: MicInputSettingsProps) {
       <p className="font-bold text-lg">{SETTINGS_STRINGS.micInputTitle}</p>
       <p className="text-text-dim text-xs mt-1.5 leading-relaxed">{SETTINGS_STRINGS.micInputHint}</p>
 
-      {roomClient && !micActive && (
-        <p className="text-warn text-xs mt-2.5 leading-relaxed">{SETTINGS_STRINGS.micPermissionDeniedHint}</p>
-      )}
+      {roomClient && !micActive && <p className="text-warn text-xs mt-2.5 leading-relaxed">{SETTINGS_STRINGS.micPermissionDeniedHint}</p>}
       {!roomClient && <p className="text-text-dim text-xs mt-2.5 leading-relaxed">{SETTINGS_STRINGS.micPermissionOutsideRoomHint}</p>}
 
       {(!roomClient || !micActive) && (

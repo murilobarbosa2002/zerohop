@@ -53,11 +53,17 @@ async function dumpIceStats(peerConnection: RTCPeerConnection, label: string): P
     if (report.type === 'local-candidate' || report.type === 'remote-candidate') {
       const candidate = report as CandidateStats;
       console.log(
-        '[ice-stats]', label, candidate.type,
-        'tipo:', candidate.candidateType,
-        'protocolo:', candidate.protocol,
-        'endereço:', candidate.address || candidate.ip,
-        'porta:', candidate.port
+        '[ice-stats]',
+        label,
+        candidate.type,
+        'tipo:',
+        candidate.candidateType,
+        'protocolo:',
+        candidate.protocol,
+        'endereço:',
+        candidate.address || candidate.ip,
+        'porta:',
+        candidate.port
       );
     }
     if (report.type === 'candidate-pair') {
@@ -94,11 +100,16 @@ async function logActiveRoute(peerConnection: RTCPeerConnection, label: string):
     const remoteCandidate = pair.remoteCandidateId ? candidatesById.get(pair.remoteCandidateId) : undefined;
     const viaTurn = localCandidate?.candidateType === 'relay' || remoteCandidate?.candidateType === 'relay';
     console.log(
-      '%c[ice-route]', 'font-weight:bold;color:' + (viaTurn ? '#e5484d' : '#4ee3b0'),
+      '%c[ice-route]',
+      'font-weight:bold;color:' + (viaTurn ? '#e5484d' : '#4ee3b0'),
       label,
       viaTurn ? 'CONECTADO VIA TURN (relay, consome banda do plano gratuito)' : 'conectado DIRETO (peer-to-peer, sem TURN)',
-      '| local:', localCandidate?.candidateType, localCandidate?.protocol,
-      '| remoto:', remoteCandidate?.candidateType, remoteCandidate?.protocol
+      '| local:',
+      localCandidate?.candidateType,
+      localCandidate?.protocol,
+      '| remoto:',
+      remoteCandidate?.candidateType,
+      remoteCandidate?.protocol
     );
     const detail = `local: ${localCandidate?.candidateType}/${localCandidate?.protocol} | remoto: ${remoteCandidate?.candidateType}/${remoteCandidate?.protocol}`;
     logEvent(
@@ -115,11 +126,7 @@ async function logActiveRoute(peerConnection: RTCPeerConnection, label: string):
   }
 }
 
-function logActiveRouteWithRetry(
-  peerConnection: RTCPeerConnection,
-  label: string,
-  attemptsLeft = ICE_ROUTE_MAX_RETRIES
-): void {
+function logActiveRouteWithRetry(peerConnection: RTCPeerConnection, label: string, attemptsLeft = ICE_ROUTE_MAX_RETRIES): void {
   logActiveRoute(peerConnection, label).then((done) => {
     if (!done && attemptsLeft > 0) {
       setTimeout(() => logActiveRouteWithRetry(peerConnection, label, attemptsLeft - 1), ICE_ROUTE_RETRY_DELAY_MS);
@@ -127,12 +134,7 @@ function logActiveRouteWithRetry(
   });
 }
 
-export async function watchConnection(
-  connection: DataConnection,
-  label: string,
-  timeoutMs: number,
-  onTimeout: () => void
-): Promise<void> {
+export async function watchConnection(connection: DataConnection, label: string, timeoutMs: number, onTimeout: () => void): Promise<void> {
   let settled = false;
   connection.on('open', () => {
     settled = true;
@@ -163,9 +165,7 @@ export async function watchConnection(
   });
   peerConnection.addEventListener('icecandidate', (event) => {
     if (!event.candidate) return;
-    console.log(
-      '[ice-candidate]', label, event.candidate.type, event.candidate.protocol, event.candidate.address, event.candidate.port
-    );
+    console.log('[ice-candidate]', label, event.candidate.type, event.candidate.protocol, event.candidate.address, event.candidate.port);
   });
 
   setTimeout(() => {

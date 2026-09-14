@@ -80,11 +80,11 @@ As configurações mais sensíveis do app (as que mexem com captura de tela/áud
 
 Os campos que existem hoje:
 
-| Campo | Valores | O que faz |
-| --- | --- | --- |
-| `autoUpdateEnabled` | `true` / `false` | Se o app verifica e baixa atualizações sozinho. Mesmo interruptor da tela de Atualizações. |
-| `experimentalWgcCaptureEnabled` | `true` / `false` | Se o app usa `Windows.Graphics.Capture` ao iniciar (captura otimizada pra jogos). Vem `true` por padrão e não tem mais interruptor na interface — esse campo é a única forma de desligar caso cause instabilidade no seu PC. |
-| `experimentalPerAppAudioEnabled` | `true` / `false` | Se o app usa captura de áudio por processo (WASAPI) ao compartilhar uma janela com "áudio de só um app específico". Vem `true` por padrão e também não tem mais interruptor na interface. |
+| Campo                            | Valores          | O que faz                                                                                                                                                                                                                    |
+| -------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `autoUpdateEnabled`              | `true` / `false` | Se o app verifica e baixa atualizações sozinho. Mesmo interruptor da tela de Atualizações.                                                                                                                                   |
+| `experimentalWgcCaptureEnabled`  | `true` / `false` | Se o app usa `Windows.Graphics.Capture` ao iniciar (captura otimizada pra jogos). Vem `true` por padrão e não tem mais interruptor na interface — esse campo é a única forma de desligar caso cause instabilidade no seu PC. |
+| `experimentalPerAppAudioEnabled` | `true` / `false` | Se o app usa captura de áudio por processo (WASAPI) ao compartilhar uma janela com "áudio de só um app específico". Vem `true` por padrão e também não tem mais interruptor na interface.                                    |
 
 O arquivo já é criado sozinho com os valores padrão na primeira vez que o app abre, então ele sempre vai existir depois disso. Mas se o arquivo não existir, estiver vazio ou tiver um JSON inválido por qualquer outro motivo, o app simplesmente ignora e usa os valores padrão. Não precisa ter medo de "quebrar" o arquivo além do reparável: na pior das hipóteses, é só apagá-lo inteiro que o app recria com os padrões.
 

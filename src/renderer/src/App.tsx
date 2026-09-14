@@ -43,8 +43,7 @@ export function App() {
     if (version) logEvent(LogCategory.APP, LogLevel.INFO, LOG_STRINGS.appStartedMessage(version));
   }, [version]);
 
-  const updateReady =
-    updaterStatus?.type === 'downloaded' && updaterStatus.version !== dismissedUpdateVersion ? updaterStatus : null;
+  const updateReady = updaterStatus?.type === 'downloaded' && updaterStatus.version !== dismissedUpdateVersion ? updaterStatus : null;
 
   function handleEnteredRoom(code: string): void {
     markEntered(code);

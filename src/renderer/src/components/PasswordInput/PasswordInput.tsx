@@ -4,10 +4,7 @@ import { EyeIcon } from '@/components/icons';
 import { COMMON_STRINGS } from '@/strings/common.strings';
 import type { PasswordInputProps } from '@/components/PasswordInput/PasswordInput.types';
 
-export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(function PasswordInput(
-  { className, ...inputProps },
-  ref
-) {
+export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(function PasswordInput({ className, ...inputProps }, ref) {
   const [visible, setVisible] = useState(true);
   const label = visible ? COMMON_STRINGS.hidePasswordButton : COMMON_STRINGS.showPasswordButton;
 

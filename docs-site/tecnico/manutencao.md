@@ -15,14 +15,19 @@ npm run dev
 
 `npm run dev` sobe o `electron-vite` em modo desenvolvimento: hot-reload no `renderer`, o processo principal reinicia sozinho quando você edita algo em `src/main/`.
 
-| Comando | O que faz |
-| --- | --- |
-| `npm run dev` | Ambiente de desenvolvimento, com hot-reload. |
-| `npm run build` | Gera o bundle de produção em `out/` (Vite). É o que o `electron-builder` empacota depois. |
-| `npm run typecheck` | `tsc -b --noEmit` nos três projetos TypeScript (`main`, `preload`/`renderer` web). Roda no CI a cada push/PR. |
-| `npm run test:e2e` | Builda e roda a suíte de ponta a ponta (ver [Testes](#testes)). |
-| `npm run lint:md` | Markdownlint em todo `.md` do repositório (inclusive esta documentação). |
-| `npm run dist:local` | Gera uma pasta portátil (`target: dir`) sem passar pelo instalador — só pra testar rápido no Windows/WSL. **Não é** o caminho de release oficial. |
+| Comando                | O que faz                                                                                                                                         |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`          | Ambiente de desenvolvimento, com hot-reload.                                                                                                      |
+| `npm run build`        | Gera o bundle de produção em `out/` (Vite). É o que o `electron-builder` empacota depois.                                                         |
+| `npm run typecheck`    | `tsc -b --noEmit` nos três projetos TypeScript (`main`, `preload`/`renderer` web). Roda no CI a cada push/PR.                                     |
+| `npm run test:e2e`     | Builda e roda a suíte de ponta a ponta (ver [Testes](#testes)).                                                                                   |
+| `npm run lint:md`      | Markdownlint em todo `.md` do repositório (inclusive esta documentação).                                                                          |
+| `npm run lint`         | ESLint (regras de qualidade — variável não usada, etc.). Cobre por enquanto só `.js`/`.mjs` (ver observação abaixo sobre `.ts`/`.tsx`).           |
+| `npm run format`       | Formata o projeto inteiro com Prettier (espaço, aspas, quebra de linha).                                                                          |
+| `npm run format:check` | Confere se está tudo formatado, sem alterar nada — é o que o CI roda.                                                                             |
+| `npm run dist:local`   | Gera uma pasta portátil (`target: dir`) sem passar pelo instalador — só pra testar rápido no Windows/WSL. **Não é** o caminho de release oficial. |
+
+> **`.ts`/`.tsx` ainda não passam pelo ESLint.** O projeto usa a versão mais recente do TypeScript (7.x), e a ferramenta que faz o ESLint entender TypeScript (`typescript-eslint`) ainda não dá suporte a essa versão — nem a build mais recente dela. Enquanto isso, arquivos `.ts`/`.tsx` são formatados pelo Prettier normalmente e continuam com a checagem de tipos de sempre (`npm run typecheck`), só não passam pelas regras de qualidade do ESLint. Assim que `typescript-eslint` publicar suporte ao TypeScript 7, vale estender o `eslint.config.mjs` pra cobrir esses arquivos também.
 
 ## Testes
 
@@ -83,7 +88,7 @@ Checklist completa antes de marcar uma tag:
 1. Bump de versão em `package.json` (`version`) e no `console.log` de `src/renderer/src/main.tsx` (facilita confirmar qual build está rodando, visível na barra de título/tela de Logs sem precisar de DevTools).
 2. Escrever `docs/releases/vX.Y.Z.md` (o formato de todas as versões anteriores é o padrão a seguir) e adicionar uma linha em `CHANGELOG.md`.
 3. Atualizar a página correspondente em `docs-site/` (guia de uso, ou esta seção técnica, dependendo da mudança) — nunca deixar pra depois.
-4. `npm run typecheck && npm run build && npm run lint:md` limpos.
+4. `npm run typecheck && npm run build && npm run lint && npm run format:check && npm run lint:md` limpos.
 5. `npm run test:e2e` passando (suíte inteira).
 6. `npm install --package-lock-only` pra sincronizar o `package-lock.json` com a nova versão — **precisa bater antes de marcar a tag**.
 7. Commit, `git tag vX.Y.Z`, `git push origin main --tags`.

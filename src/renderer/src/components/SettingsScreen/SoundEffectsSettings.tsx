@@ -17,7 +17,13 @@ function CategoryRow({ category, label }: { category: SoundCategory; label: stri
   return (
     <div className="flex items-center gap-2 mt-2.5">
       <span className="text-body-sm w-form-column flex-shrink-0">{label}</span>
-      <RangeSlider min={MIN_SOUND_EFFECTS_VOLUME} max={MAX_SOUND_EFFECTS_VOLUME} step={SOUND_EFFECTS_VOLUME_STEP} value={volume} onChange={setVolume} />
+      <RangeSlider
+        min={MIN_SOUND_EFFECTS_VOLUME}
+        max={MAX_SOUND_EFFECTS_VOLUME}
+        step={SOUND_EFFECTS_VOLUME_STEP}
+        value={volume}
+        onChange={setVolume}
+      />
       <span className="text-text-dim text-xs w-10 text-right">{Math.round(volume * 100)}%</span>
     </div>
   );

@@ -18,18 +18,18 @@ src/
 
 ## `src/main/` — processo principal
 
-| Arquivo | Responsabilidade |
-| --- | --- |
-| `index.ts` | Ponto de entrada. Configura flags do Chromium, lê `settings.json`, cria a janela, registra os handlers de IPC, inicia o updater e a captura global de teclado. |
-| `window.ts` | Cria a `BrowserWindow` (sem moldura nativa — a barra de título é toda customizada em React) e intercepta o evento `close` pra dar tempo do som de fechar tocar antes da janela morrer de verdade. |
-| `ipc.ts` | Todos os handlers `ipcMain.handle`/`ipcMain.on` num só lugar — é o "menu" completo de tudo que o renderer pode pedir pro main fazer. |
-| `settings.ts` | Lê/escreve `settings.json` (fica em `app.getPath('userData')`) — auto-update, atalhos de teclado, flags experimentais. Isso é diferente do `localStorage` do renderer (ver **Onde cada preferência mora** abaixo). |
-| `globalHotkeys.ts` | Captura de teclado em nível de sistema via `uiohook-napi` (dependência nativa) — mutar mic, mutar áudio e push-to-talk funcionando mesmo com outro programa em foco. |
-| `audioLoopback.ts` | Áudio isolado por aplicativo (WASAPI Process Loopback) via `loopback-capture` + `node-window-manager` — dependência nativa, opt-in. |
-| `updater.ts` | `electron-updater`: verifica, baixa e instala atualizações via GitHub Releases. |
-| `logger.ts` | Lê/escreve o histórico de logs (`logs.jsonl`), consumido pela tela de Logs do app. |
-| `constants/` | Uma constante nomeada por arquivo/tema (nunca valor solto no meio do código) — janela, captura, logging, atualização, etc. |
-| `strings/` | Strings visíveis ao usuário que se originam no processo principal (ex: aviso de captura experimental, mensagens de log de teclas de atalho). |
+| Arquivo            | Responsabilidade                                                                                                                                                                                                   |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `index.ts`         | Ponto de entrada. Configura flags do Chromium, lê `settings.json`, cria a janela, registra os handlers de IPC, inicia o updater e a captura global de teclado.                                                     |
+| `window.ts`        | Cria a `BrowserWindow` (sem moldura nativa — a barra de título é toda customizada em React) e intercepta o evento `close` pra dar tempo do som de fechar tocar antes da janela morrer de verdade.                  |
+| `ipc.ts`           | Todos os handlers `ipcMain.handle`/`ipcMain.on` num só lugar — é o "menu" completo de tudo que o renderer pode pedir pro main fazer.                                                                               |
+| `settings.ts`      | Lê/escreve `settings.json` (fica em `app.getPath('userData')`) — auto-update, atalhos de teclado, flags experimentais. Isso é diferente do `localStorage` do renderer (ver **Onde cada preferência mora** abaixo). |
+| `globalHotkeys.ts` | Captura de teclado em nível de sistema via `uiohook-napi` (dependência nativa) — mutar mic, mutar áudio e push-to-talk funcionando mesmo com outro programa em foco.                                               |
+| `audioLoopback.ts` | Áudio isolado por aplicativo (WASAPI Process Loopback) via `loopback-capture` + `node-window-manager` — dependência nativa, opt-in.                                                                                |
+| `updater.ts`       | `electron-updater`: verifica, baixa e instala atualizações via GitHub Releases.                                                                                                                                    |
+| `logger.ts`        | Lê/escreve o histórico de logs (`logs.jsonl`), consumido pela tela de Logs do app.                                                                                                                                 |
+| `constants/`       | Uma constante nomeada por arquivo/tema (nunca valor solto no meio do código) — janela, captura, logging, atualização, etc.                                                                                         |
+| `strings/`         | Strings visíveis ao usuário que se originam no processo principal (ex: aviso de captura experimental, mensagens de log de teclas de atalho).                                                                       |
 
 ## `src/preload/index.ts` — a ponte
 
@@ -71,7 +71,7 @@ Serviços expõem estado via `EventTarget`; hooks traduzem isso pra algo que o R
 
 ## `src/renderer/src/components/` — interface
 
-Um componente por pasta quando tem subcomponentes próprios (ex: `Room/`, `SettingsScreen/`, `ShareControls/`), cada um com seu `.types.ts` e, quando tem variantes visuais, um `.variants.ts` usando [`tailwind-variants`](https://www.tailwind-variants.org/). `App.tsx` é a *composition root* — o único lugar que decide o layout geral e qual overlay (Configurações, Logs, Atualizações, Adicionar sala) está ativo.
+Um componente por pasta quando tem subcomponentes próprios (ex: `Room/`, `SettingsScreen/`, `ShareControls/`), cada um com seu `.types.ts` e, quando tem variantes visuais, um `.variants.ts` usando [`tailwind-variants`](https://www.tailwind-variants.org/). `App.tsx` é a _composition root_ — o único lugar que decide o layout geral e qual overlay (Configurações, Logs, Atualizações, Adicionar sala) está ativo.
 
 Árvore simplificada de quem renderiza quem, dentro de uma sala:
 
@@ -93,10 +93,10 @@ App
 
 Duas fontes de armazenamento persistente, cada uma por um motivo técnico específico:
 
-| Preferência | Onde fica | Por quê |
-| --- | --- | --- |
-| Volume dos sons, escala da interface, dispositivo de mic/áudio, foto de perfil | `localStorage` do renderer | São lidas/escritas só de dentro do processo de UI, não precisam existir fora dele. |
-| Atalhos de teclado, flags experimentais, auto-update | `settings.json` (via `main/settings.ts`) | Só o processo principal consegue rodar a captura global de teclado (`uiohook-napi`) e decidir se ativa flags do Chromium — essas preferências **precisam** existir no `main`, não só no `renderer`. |
+| Preferência                                                                    | Onde fica                                | Por quê                                                                                                                                                                                             |
+| ------------------------------------------------------------------------------ | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Volume dos sons, escala da interface, dispositivo de mic/áudio, foto de perfil | `localStorage` do renderer               | São lidas/escritas só de dentro do processo de UI, não precisam existir fora dele.                                                                                                                  |
+| Atalhos de teclado, flags experimentais, auto-update                           | `settings.json` (via `main/settings.ts`) | Só o processo principal consegue rodar a captura global de teclado (`uiohook-napi`) e decidir se ativa flags do Chromium — essas preferências **precisam** existir no `main`, não só no `renderer`. |
 
 ## Sistema de sons
 
@@ -115,7 +115,7 @@ Como `RoomClient` não guarda nenhum estado global/singleton (cada `new RoomClie
 
 Duas mecânicas diferentes, escolhidas pelo que cada ação realmente precisa:
 
-- **Mutar mic / mutar áudio** (`main/toggleHotkeys.ts`): só precisam saber "a tecla foi apertada", não quando foi solta — por isso usam `globalShortcut.register(accelerator, callback)`, a API nativa do próprio Electron, sem dependência externa. A gravação da tecla acontece inteiramente no **renderer**, com um `keydown` comum do DOM enquanto a tela de Configurações está em foco (`lib/keyboardAccelerator.ts` converte `KeyboardEvent.code` pro formato de accelerator do Electron, ex: `"F13"`, `"Control+Shift+M"`) — não precisa de IPC nem de captura global só pra **descobrir** qual tecla foi apertada, já que isso só exige o app estar em foco no momento da gravação (diferente de *usar* o atalho depois, que aí sim precisa funcionar sem foco).
+- **Mutar mic / mutar áudio** (`main/toggleHotkeys.ts`): só precisam saber "a tecla foi apertada", não quando foi solta — por isso usam `globalShortcut.register(accelerator, callback)`, a API nativa do próprio Electron, sem dependência externa. A gravação da tecla acontece inteiramente no **renderer**, com um `keydown` comum do DOM enquanto a tela de Configurações está em foco (`lib/keyboardAccelerator.ts` converte `KeyboardEvent.code` pro formato de accelerator do Electron, ex: `"F13"`, `"Control+Shift+M"`) — não precisa de IPC nem de captura global só pra **descobrir** qual tecla foi apertada, já que isso só exige o app estar em foco no momento da gravação (diferente de _usar_ o atalho depois, que aí sim precisa funcionar sem foco).
 - **Push-to-talk** (`main/globalHotkeys.ts`): precisa saber quando a tecla é solta, pra cortar o mic — a API `globalShortcut` do Electron não avisa isso, só `uiohook-napi` (dependência nativa, captura de teclado em nível de sistema) dá `keydown`/`keyup` de verdade. A gravação da tecla de PTT também passa pelo processo principal: pede pra escutar o **próximo** `keydown` global do `uiohook-napi` e devolve o keycode + um nome legível — precisa ser assim (diferente do fluxo acima) porque o valor salvo tem que bater com o mesmo espaço de códigos usado em tempo real, e o `KeyboardEvent.code` do DOM não é compatível com o keycode do `uiohook-napi`.
 
 Push-to-talk reaproveita o mecanismo de mute normal (`RoomClient.setMicMuted()`) em vez de um estado paralelo, pra manter o indicador visual e o som de mutar sempre corretos.

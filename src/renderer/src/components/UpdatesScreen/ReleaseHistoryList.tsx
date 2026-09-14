@@ -7,7 +7,10 @@ export function ReleaseHistoryList({ releases, currentVersion, onSelect }: Relea
       {releases.map((release) => {
         const isCurrent = release.tagName === `v${currentVersion}`;
         return (
-          <div key={release.tagName} className="flex items-center justify-between gap-2 bg-panel-2 border border-border rounded-lg px-4 py-3">
+          <div
+            key={release.tagName}
+            className="flex items-center justify-between gap-2 bg-panel-2 border border-border rounded-lg px-4 py-3"
+          >
             <span className="text-body-sm flex items-center gap-2">
               {release.name}
               {isCurrent && (

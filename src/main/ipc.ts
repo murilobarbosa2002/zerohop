@@ -1,6 +1,11 @@
 import { ipcMain, shell, desktopCapturer, clipboard, type DesktopCapturerSource } from 'electron';
 import { getMainWindow } from '@main/window';
-import { CAPTURE_SOURCE_TYPES, CAPTURE_THUMBNAIL_WIDTH, CAPTURE_THUMBNAIL_HEIGHT, NOISE_SOURCE_NAME_PATTERNS } from '@main/constants/capture';
+import {
+  CAPTURE_SOURCE_TYPES,
+  CAPTURE_THUMBNAIL_WIDTH,
+  CAPTURE_THUMBNAIL_HEIGHT,
+  NOISE_SOURCE_NAME_PATTERNS
+} from '@main/constants/capture';
 import { ALLOWED_EXTERNAL_URL_PROTOCOLS } from '@main/constants/externalUrl';
 import { appendLog, readLogs, clearLogs } from '@main/logger';
 import { getSettings, setHotkeySettings } from '@main/settings';
@@ -79,10 +84,7 @@ export function registerIpcHandlers(): void {
     clearLogs();
   });
 
-  ipcMain.handle(
-    IPC_CHANNELS.experimentalPerAppAudioGetEnabled,
-    (): boolean => getSettings().experimentalPerAppAudioEnabled
-  );
+  ipcMain.handle(IPC_CHANNELS.experimentalPerAppAudioGetEnabled, (): boolean => getSettings().experimentalPerAppAudioEnabled);
 
   ipcMain.handle(IPC_CHANNELS.audioLoopbackFindProcess, (_event, windowTitle: string): Promise<number | null> =>
     findProcessIdByWindowTitle(windowTitle)

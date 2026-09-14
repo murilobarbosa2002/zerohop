@@ -42,7 +42,6 @@ export async function startAudioLoopback(processId: number, onChunk: (chunk: Buf
 export function stopAudioLoopback(): void {
   try {
     activeCapture?.stop();
-  } catch {
-  }
+  } catch {}
   activeCapture = null;
 }

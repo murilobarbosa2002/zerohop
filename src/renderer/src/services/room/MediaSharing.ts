@@ -74,9 +74,7 @@ export class MediaSharing extends EventTarget {
     const call = peer.call(fromId, this.localStream, { metadata: { kind: CallKind.SHARE } });
     this.outgoingCalls.set(fromId, call);
     call.on('close', () => this.outgoingCalls.delete(fromId));
-    this.dispatchEvent(
-      new CustomEvent('outgoing-call', { detail: { peerId: fromId, call, quality: this.quality } })
-    );
+    this.dispatchEvent(new CustomEvent('outgoing-call', { detail: { peerId: fromId, call, quality: this.quality } }));
   }
 
   handleUnwatchRequest(fromId: string): void {

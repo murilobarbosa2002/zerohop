@@ -6,12 +6,6 @@ export function ParticipantsView({ members, onToggleWatch, canKick, onKick, voic
   return members.length === 0 ? (
     <EmptyParticipantsState />
   ) : (
-    <ParticipantsGrid
-      members={members}
-      onToggleWatch={onToggleWatch}
-      canKick={canKick}
-      onKick={onKick}
-      voiceAudioState={voiceAudioState}
-    />
+    <ParticipantsGrid members={members} onToggleWatch={onToggleWatch} canKick={canKick} onKick={onKick} voiceAudioState={voiceAudioState} />
   );
 }

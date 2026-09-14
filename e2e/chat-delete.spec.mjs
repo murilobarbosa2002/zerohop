@@ -30,8 +30,20 @@ try {
   await hostWin.getByRole('button', { name: 'Apagar', exact: true }).click();
   await guestWin.waitForTimeout(500);
 
-  check('mensagem sumiu no host (dono da sala apagou)', !(await hostWin.getByText('mensagem do convidado').isVisible().catch(() => false)));
-  check('mensagem sumiu tambem no convidado (apagado em toda a sala)', !(await guestWin.getByText('mensagem do convidado').isVisible().catch(() => false)));
+  check(
+    'mensagem sumiu no host (dono da sala apagou)',
+    !(await hostWin
+      .getByText('mensagem do convidado')
+      .isVisible()
+      .catch(() => false))
+  );
+  check(
+    'mensagem sumiu tambem no convidado (apagado em toda a sala)',
+    !(await guestWin
+      .getByText('mensagem do convidado')
+      .isVisible()
+      .catch(() => false))
+  );
 } finally {
   await host.close();
   await guest.close();

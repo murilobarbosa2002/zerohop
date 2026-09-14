@@ -5,8 +5,7 @@ import type { RoomStatus } from '@/constants/roomStatus';
 
 export function useRoomStatus(roomClient: RoomClient): RoomStatus {
   const subscribe = useCallback(
-    (onStoreChange: () => void) =>
-      onTyped<RoomClientEventDetail['status-changed']>(roomClient, 'status-changed', onStoreChange),
+    (onStoreChange: () => void) => onTyped<RoomClientEventDetail['status-changed']>(roomClient, 'status-changed', onStoreChange),
     [roomClient]
   );
   const getSnapshot = useCallback(() => roomClient.status, [roomClient]);

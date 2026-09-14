@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import type { HotkeySettings, ToggleHotkeyRegistrationResult } from '@shared/hotkeySettings';
 import { DEFAULT_HOTKEY_SETTINGS } from '@/constants/hotkeys';
 
-export function useHotkeySettings(): [
-  HotkeySettings,
-  (next: HotkeySettings) => Promise<ToggleHotkeyRegistrationResult>
-] {
+export function useHotkeySettings(): [HotkeySettings, (next: HotkeySettings) => Promise<ToggleHotkeyRegistrationResult>] {
   const [hotkeys, setHotkeysState] = useState<HotkeySettings>(DEFAULT_HOTKEY_SETTINGS);
 
   useEffect(() => {

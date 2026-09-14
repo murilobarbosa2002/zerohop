@@ -50,12 +50,7 @@ export function ParticipantVideoPlayer({ member, audioState }: ParticipantVideoP
         >
           {COMMON_STRINGS.fullscreenButton}
         </button>
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          className="w-full h-auto max-h-video bg-black rounded-lg border border-border block"
-        />
+        <video ref={videoRef} autoPlay playsInline className="w-full h-auto max-h-video bg-black rounded-lg border border-border block" />
       </div>
       {lightboxOpen && (
         <ParticipantVideoLightbox stream={member.stream} volume={state.volume} muted={state.muted} onClose={() => setLightboxOpen(false)} />

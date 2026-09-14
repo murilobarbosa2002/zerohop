@@ -24,7 +24,13 @@ try {
   await hostWin.getByText('Ocultar sala', { exact: true }).click();
   await hostWin.waitForTimeout(500);
 
-  check('sidebar is actually hidden', !(await hostWin.getByText('Participantes', { exact: true }).isVisible().catch(() => false)));
+  check(
+    'sidebar is actually hidden',
+    !(await hostWin
+      .getByText('Participantes', { exact: true })
+      .isVisible()
+      .catch(() => false))
+  );
 
   const audioCountAfter = await hostWin.locator('audio[autoplay]').count();
   check('voice audio element(s) still present after hiding the sidebar (voice keeps playing)', audioCountAfter === audioCountBefore);

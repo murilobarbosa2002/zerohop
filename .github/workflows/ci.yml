@@ -22,6 +22,10 @@ jobs:
 
       - run: npm run build
 
+      - run: npm run lint
+
+      - run: npm run format:check
+
       - run: npm run lint:md
 
       - run: sudo apt-get update && sudo apt-get install -y xvfb

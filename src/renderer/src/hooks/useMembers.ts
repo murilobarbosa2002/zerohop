@@ -5,8 +5,7 @@ import type { MemberSnapshot } from '@/services/room/MemberRegistry';
 
 export function useMembers(roomClient: RoomClient): MemberSnapshot[] {
   const subscribe = useCallback(
-    (onStoreChange: () => void) =>
-      onTyped<RoomClientEventDetail['members-changed']>(roomClient, 'members-changed', onStoreChange),
+    (onStoreChange: () => void) => onTyped<RoomClientEventDetail['members-changed']>(roomClient, 'members-changed', onStoreChange),
     [roomClient]
   );
   const getSnapshot = useCallback(() => roomClient.getMembersSnapshot(), [roomClient]);

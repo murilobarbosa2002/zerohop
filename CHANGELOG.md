@@ -2,72 +2,73 @@
 
 Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa versão pra ver os detalhes completos.
 
-| Versão | Resumo |
-| --- | --- |
-| [0.36.14](docs/releases/v0.36.14.md) | Organização interna do código, sem mudança visível |
-| [0.36.13](docs/releases/v0.36.13.md) | Aviso de tecla de atalho em conflito, nome obrigatório, cor de texto ajustada |
-| [0.36.12](docs/releases/v0.36.12.md) | Áudio isolado na tela inteira, gravação de tecla mais confiável, vídeo sem barra preta |
-| [0.36.11](docs/releases/v0.36.11.md) | Diagnóstico de teclas de atalho, texto branco de volta, corrige clique no "Tela cheia" |
-| [0.36.10](docs/releases/v0.36.10.md) | Sons na tela de atualização, corrige "Voltar" sem som no compartilhamento |
-| [0.36.9](docs/releases/v0.36.9.md) | Teclas de atalho globais, push-to-talk, mixer de sons por categoria, escala padrão 120% |
-| [0.36.8](docs/releases/v0.36.8.md) | Som próprio em cada etapa do fluxo de compartilhar tela |
-| [0.36.7](docs/releases/v0.36.7.md) | Sons diferentes ao abrir Logs e Configurações |
-| [0.36.6](docs/releases/v0.36.6.md) | Som ao clicar em "Voltar", corrige ícone de gato deslocado no perfil |
-| [0.36.5](docs/releases/v0.36.5.md) | Som próprio ao clicar e ao digitar em cada campo de texto |
-| [0.36.4](docs/releases/v0.36.4.md) | Sons ao sair da sala, texto branco em botões azuis menos forte |
-| [0.36.3](docs/releases/v0.36.3.md) | Corrige tela de erro ao ativar áudio isolado por app junto do compartilhamento |
-| [0.36.2](docs/releases/v0.36.2.md) | Sons ao pedir pra entrar/trocar de aba/limpar histórico, corrige ícones tortos |
-| [0.36.1](docs/releases/v0.36.1.md) | Corrige mutar o microfone não silenciando de verdade, suaviza contraste de cores |
-| [0.36.0](docs/releases/v0.36.0.md) | Corrige voz parando ao ocultar sala, botão flutuante indevido, legibilidade; confirma exclusão de mensagem |
-| [0.35.2](docs/releases/v0.35.2.md) | Corrige chamada de voz não conectando com uma pessoa específica, sliders e vídeo |
-| [0.35.1](docs/releases/v0.35.1.md) | Foto de perfil (8 opções retrô), fonte mais legível, ícone em todo lugar, sons de ocultar sala/chat |
-| [0.35.0](docs/releases/v0.35.0.md) | Participe de várias salas ao mesmo tempo, com voz só na sala em foco |
-| [0.34.0](docs/releases/v0.34.0.md) | Mais sons nostálgicos espalhados pela interface (mutar, compartilhar, copiar, erros, etc) |
-| [0.33.0](docs/releases/v0.33.0.md) | Apagar mensagens do chat, paginação em Logs/Changelog/Versões, fontes maiores |
-| [0.32.1](docs/releases/v0.32.1.md) | Ícone do app atualizado pro visual retrô (florzinha estilo Windows 98) |
-| [0.32.0](docs/releases/v0.32.0.md) | Senha visível por padrão, sons de teclado/chat, escala da interface |
-| [0.31.0](docs/releases/v0.31.0.md) | Visual nostálgico estilo Windows 98/ICQ: cores, biséis 3D, cantos retos e fonte pixelada |
-| [0.30.3](docs/releases/v0.30.3.md) | Volume dos efeitos sonoros agora configurável, com padrão mais baixo |
-| [0.30.2](docs/releases/v0.30.2.md) | Corrige convidados não se enxergando entre si em salas com 3+ pessoas |
-| [0.30.1](docs/releases/v0.30.1.md) | Detecta desconexão real ao fechar o app, cards de participantes redesenhados, colunas redimensionáveis, e mais |
-| [0.30.0](docs/releases/v0.30.0.md) | Corrige stream/voz parando ao abrir Configurações/Logs, tela cheia, copiar e mais |
-| [0.29.0](docs/releases/v0.29.0.md) | Áudio isolado por aplicativo ao compartilhar janela (experimental) |
-| [0.28.0](docs/releases/v0.28.0.md) | Cards de participantes mais limpos e responsivos, supressão de ruído configurável |
-| [0.27.0](docs/releases/v0.27.0.md) | Lista de telas/janelas atualiza sozinha, sem precisar clicar em "Atualizar lista" |
-| [0.26.0](docs/releases/v0.26.0.md) | Repositório recriado como `zerohop`; ícones da interface extraídos para componentes próprios |
-| [0.25.0](docs/releases/v0.25.0.md) | Vídeo compartilhado mais nítido, editar o compartilhamento com a call rodando, ErrorBoundary, testes e CI |
-| [0.24.0](docs/releases/v0.24.0.md) | App renomeado de ScreenShare pra ZeroHop; correção do arquivo de configurações |
-| [0.23.0](docs/releases/v0.23.0.md) | Captura experimental (Windows.Graphics.Capture) pra jogos com cursor sumindo/travando |
-| [0.22.0](docs/releases/v0.22.0.md) | Tela de Logs com histórico auditável de tudo que o app faz; DevTools removido |
-| [0.21.1](docs/releases/v0.21.1.md) | Ícones de compartilhar tela e Configurações na barra de voz, centralizados |
-| [0.21.0](docs/releases/v0.21.0.md) | Diálogo de atualização pronta customizado, no tema do app |
-| [0.20.4](docs/releases/v0.20.4.md) | Ícones desenhados e tooltip customizado nos controles de voz |
-| [0.20.3](docs/releases/v0.20.3.md) | App verifica atualização a cada 30 minutos sozinho, não só ao abrir |
-| [0.20.2](docs/releases/v0.20.2.md) | Controles de voz redesenhados como ícones pequenos, mais discretos |
-| [0.20.1](docs/releases/v0.20.1.md) | Botão pra permitir o microfone depois, dentro de Configurações |
-| [0.20.0](docs/releases/v0.20.0.md) | Chat de voz entre todos da sala, com mutar/silenciar e volume por pessoa |
-| [0.19.1](docs/releases/v0.19.1.md) | Aviso sobre janela ficando preta ao trocar de foco (Alt+Tab) |
-| [0.19.0](docs/releases/v0.19.0.md) | Tela de Configurações com escolha de dispositivo de saída de áudio |
-| [0.18.1](docs/releases/v0.18.1.md) | Correção da notificação de atualização, que não estava aparecendo no Windows |
-| [0.18.0](docs/releases/v0.18.0.md) | Clique na miniatura de compartilhamento pra ver ampliada |
-| [0.17.3](docs/releases/v0.17.3.md) | Correção de verdade pra janela duplicada na lista de fontes |
-| [0.17.2](docs/releases/v0.17.2.md) | Notificação nativa do Windows quando a atualização termina de baixar |
-| [0.17.1](docs/releases/v0.17.1.md) | Correções no campo de áudio e remoção de janelas duplicadas na lista |
-| [0.17.0](docs/releases/v0.17.0.md) | Escolha de tela inteira ou janela específica antes de listar as opções |
-| [0.16.1](docs/releases/v0.16.1.md) | Correções de responsividade da sala e anel de foco em botões |
-| [0.16.0](docs/releases/v0.16.0.md) | Tela de Atualizações reformulada: página cheia com changelog renderizado |
-| [0.15.0](docs/releases/v0.15.0.md) | Interruptor de atualização automática, trava de versão entre participantes |
-| [0.14.0](docs/releases/v0.14.0.md) | Tela de atualizações/changelog/versões no app, ícone atualizado |
-| [0.13.0](docs/releases/v0.13.0.md) | Aprovação manual de entrada pelo criador da sala, correções de foco/chat |
-| [0.12.0](docs/releases/v0.12.0.md) | Layout da sala redesenhado em 3 colunas (participantes, palco de vídeo, chat) |
-| [0.11.0](docs/releases/v0.11.0.md) | Senha de sala obrigatória, telas separadas de criar/entrar |
-| [0.10.0](docs/releases/v0.10.0.md) | Senha de sala, remoção de participantes, chat efêmero, reconexão automática, documentação pública |
-| [0.9.0](docs/releases/v0.9.0.md) | Interface reescrita em React + TypeScript, build com Vite, instalador compilado no CI |
-| [0.8.0](docs/releases/v0.8.0.md) | Etiquetas de tipo de fonte, áudio independente do vídeo, ícone próprio, correções de miniatura e filtro de notificações |
-| [0.7.0](docs/releases/v0.7.0.md) | Reorganização do código em camadas (main/preload/services/ui) |
-| [0.6.0](docs/releases/v0.6.0.md) | Diagnóstico de conexão, correção de mDNS, remoção de flag que causava travamento no Windows 10 |
-| [0.5.0](docs/releases/v0.5.0.md) | Compartilhamento de áudio, controle de volume por pessoa |
-| [0.4.0](docs/releases/v0.4.0.md) | Salas com múltiplas pessoas, compartilhamento simultâneo |
-| [0.3.0](docs/releases/v0.3.0.md) | Seletores de resolução e FPS, modo tela cheia |
-| [0.2.0](docs/releases/v0.2.0.md) | Redesign visual, barra de título customizada, ícone |
-| [0.1.0](docs/releases/v0.1.0.md) | Lançamento inicial, compartilhamento P2P via convite manual |
+| Versão                               | Resumo                                                                                                                  |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.15](docs/releases/v0.36.15.md) | Padronização de formatação de código, ícone do gato centralizado de verdade                                             |
+| [0.36.14](docs/releases/v0.36.14.md) | Organização interna do código, sem mudança visível                                                                      |
+| [0.36.13](docs/releases/v0.36.13.md) | Aviso de tecla de atalho em conflito, nome obrigatório, cor de texto ajustada                                           |
+| [0.36.12](docs/releases/v0.36.12.md) | Áudio isolado na tela inteira, gravação de tecla mais confiável, vídeo sem barra preta                                  |
+| [0.36.11](docs/releases/v0.36.11.md) | Diagnóstico de teclas de atalho, texto branco de volta, corrige clique no "Tela cheia"                                  |
+| [0.36.10](docs/releases/v0.36.10.md) | Sons na tela de atualização, corrige "Voltar" sem som no compartilhamento                                               |
+| [0.36.9](docs/releases/v0.36.9.md)   | Teclas de atalho globais, push-to-talk, mixer de sons por categoria, escala padrão 120%                                 |
+| [0.36.8](docs/releases/v0.36.8.md)   | Som próprio em cada etapa do fluxo de compartilhar tela                                                                 |
+| [0.36.7](docs/releases/v0.36.7.md)   | Sons diferentes ao abrir Logs e Configurações                                                                           |
+| [0.36.6](docs/releases/v0.36.6.md)   | Som ao clicar em "Voltar", corrige ícone de gato deslocado no perfil                                                    |
+| [0.36.5](docs/releases/v0.36.5.md)   | Som próprio ao clicar e ao digitar em cada campo de texto                                                               |
+| [0.36.4](docs/releases/v0.36.4.md)   | Sons ao sair da sala, texto branco em botões azuis menos forte                                                          |
+| [0.36.3](docs/releases/v0.36.3.md)   | Corrige tela de erro ao ativar áudio isolado por app junto do compartilhamento                                          |
+| [0.36.2](docs/releases/v0.36.2.md)   | Sons ao pedir pra entrar/trocar de aba/limpar histórico, corrige ícones tortos                                          |
+| [0.36.1](docs/releases/v0.36.1.md)   | Corrige mutar o microfone não silenciando de verdade, suaviza contraste de cores                                        |
+| [0.36.0](docs/releases/v0.36.0.md)   | Corrige voz parando ao ocultar sala, botão flutuante indevido, legibilidade; confirma exclusão de mensagem              |
+| [0.35.2](docs/releases/v0.35.2.md)   | Corrige chamada de voz não conectando com uma pessoa específica, sliders e vídeo                                        |
+| [0.35.1](docs/releases/v0.35.1.md)   | Foto de perfil (8 opções retrô), fonte mais legível, ícone em todo lugar, sons de ocultar sala/chat                     |
+| [0.35.0](docs/releases/v0.35.0.md)   | Participe de várias salas ao mesmo tempo, com voz só na sala em foco                                                    |
+| [0.34.0](docs/releases/v0.34.0.md)   | Mais sons nostálgicos espalhados pela interface (mutar, compartilhar, copiar, erros, etc)                               |
+| [0.33.0](docs/releases/v0.33.0.md)   | Apagar mensagens do chat, paginação em Logs/Changelog/Versões, fontes maiores                                           |
+| [0.32.1](docs/releases/v0.32.1.md)   | Ícone do app atualizado pro visual retrô (florzinha estilo Windows 98)                                                  |
+| [0.32.0](docs/releases/v0.32.0.md)   | Senha visível por padrão, sons de teclado/chat, escala da interface                                                     |
+| [0.31.0](docs/releases/v0.31.0.md)   | Visual nostálgico estilo Windows 98/ICQ: cores, biséis 3D, cantos retos e fonte pixelada                                |
+| [0.30.3](docs/releases/v0.30.3.md)   | Volume dos efeitos sonoros agora configurável, com padrão mais baixo                                                    |
+| [0.30.2](docs/releases/v0.30.2.md)   | Corrige convidados não se enxergando entre si em salas com 3+ pessoas                                                   |
+| [0.30.1](docs/releases/v0.30.1.md)   | Detecta desconexão real ao fechar o app, cards de participantes redesenhados, colunas redimensionáveis, e mais          |
+| [0.30.0](docs/releases/v0.30.0.md)   | Corrige stream/voz parando ao abrir Configurações/Logs, tela cheia, copiar e mais                                       |
+| [0.29.0](docs/releases/v0.29.0.md)   | Áudio isolado por aplicativo ao compartilhar janela (experimental)                                                      |
+| [0.28.0](docs/releases/v0.28.0.md)   | Cards de participantes mais limpos e responsivos, supressão de ruído configurável                                       |
+| [0.27.0](docs/releases/v0.27.0.md)   | Lista de telas/janelas atualiza sozinha, sem precisar clicar em "Atualizar lista"                                       |
+| [0.26.0](docs/releases/v0.26.0.md)   | Repositório recriado como `zerohop`; ícones da interface extraídos para componentes próprios                            |
+| [0.25.0](docs/releases/v0.25.0.md)   | Vídeo compartilhado mais nítido, editar o compartilhamento com a call rodando, ErrorBoundary, testes e CI               |
+| [0.24.0](docs/releases/v0.24.0.md)   | App renomeado de ScreenShare pra ZeroHop; correção do arquivo de configurações                                          |
+| [0.23.0](docs/releases/v0.23.0.md)   | Captura experimental (Windows.Graphics.Capture) pra jogos com cursor sumindo/travando                                   |
+| [0.22.0](docs/releases/v0.22.0.md)   | Tela de Logs com histórico auditável de tudo que o app faz; DevTools removido                                           |
+| [0.21.1](docs/releases/v0.21.1.md)   | Ícones de compartilhar tela e Configurações na barra de voz, centralizados                                              |
+| [0.21.0](docs/releases/v0.21.0.md)   | Diálogo de atualização pronta customizado, no tema do app                                                               |
+| [0.20.4](docs/releases/v0.20.4.md)   | Ícones desenhados e tooltip customizado nos controles de voz                                                            |
+| [0.20.3](docs/releases/v0.20.3.md)   | App verifica atualização a cada 30 minutos sozinho, não só ao abrir                                                     |
+| [0.20.2](docs/releases/v0.20.2.md)   | Controles de voz redesenhados como ícones pequenos, mais discretos                                                      |
+| [0.20.1](docs/releases/v0.20.1.md)   | Botão pra permitir o microfone depois, dentro de Configurações                                                          |
+| [0.20.0](docs/releases/v0.20.0.md)   | Chat de voz entre todos da sala, com mutar/silenciar e volume por pessoa                                                |
+| [0.19.1](docs/releases/v0.19.1.md)   | Aviso sobre janela ficando preta ao trocar de foco (Alt+Tab)                                                            |
+| [0.19.0](docs/releases/v0.19.0.md)   | Tela de Configurações com escolha de dispositivo de saída de áudio                                                      |
+| [0.18.1](docs/releases/v0.18.1.md)   | Correção da notificação de atualização, que não estava aparecendo no Windows                                            |
+| [0.18.0](docs/releases/v0.18.0.md)   | Clique na miniatura de compartilhamento pra ver ampliada                                                                |
+| [0.17.3](docs/releases/v0.17.3.md)   | Correção de verdade pra janela duplicada na lista de fontes                                                             |
+| [0.17.2](docs/releases/v0.17.2.md)   | Notificação nativa do Windows quando a atualização termina de baixar                                                    |
+| [0.17.1](docs/releases/v0.17.1.md)   | Correções no campo de áudio e remoção de janelas duplicadas na lista                                                    |
+| [0.17.0](docs/releases/v0.17.0.md)   | Escolha de tela inteira ou janela específica antes de listar as opções                                                  |
+| [0.16.1](docs/releases/v0.16.1.md)   | Correções de responsividade da sala e anel de foco em botões                                                            |
+| [0.16.0](docs/releases/v0.16.0.md)   | Tela de Atualizações reformulada: página cheia com changelog renderizado                                                |
+| [0.15.0](docs/releases/v0.15.0.md)   | Interruptor de atualização automática, trava de versão entre participantes                                              |
+| [0.14.0](docs/releases/v0.14.0.md)   | Tela de atualizações/changelog/versões no app, ícone atualizado                                                         |
+| [0.13.0](docs/releases/v0.13.0.md)   | Aprovação manual de entrada pelo criador da sala, correções de foco/chat                                                |
+| [0.12.0](docs/releases/v0.12.0.md)   | Layout da sala redesenhado em 3 colunas (participantes, palco de vídeo, chat)                                           |
+| [0.11.0](docs/releases/v0.11.0.md)   | Senha de sala obrigatória, telas separadas de criar/entrar                                                              |
+| [0.10.0](docs/releases/v0.10.0.md)   | Senha de sala, remoção de participantes, chat efêmero, reconexão automática, documentação pública                       |
+| [0.9.0](docs/releases/v0.9.0.md)     | Interface reescrita em React + TypeScript, build com Vite, instalador compilado no CI                                   |
+| [0.8.0](docs/releases/v0.8.0.md)     | Etiquetas de tipo de fonte, áudio independente do vídeo, ícone próprio, correções de miniatura e filtro de notificações |
+| [0.7.0](docs/releases/v0.7.0.md)     | Reorganização do código em camadas (main/preload/services/ui)                                                           |
+| [0.6.0](docs/releases/v0.6.0.md)     | Diagnóstico de conexão, correção de mDNS, remoção de flag que causava travamento no Windows 10                          |
+| [0.5.0](docs/releases/v0.5.0.md)     | Compartilhamento de áudio, controle de volume por pessoa                                                                |
+| [0.4.0](docs/releases/v0.4.0.md)     | Salas com múltiplas pessoas, compartilhamento simultâneo                                                                |
+| [0.3.0](docs/releases/v0.3.0.md)     | Seletores de resolução e FPS, modo tela cheia                                                                           |
+| [0.2.0](docs/releases/v0.2.0.md)     | Redesign visual, barra de título customizada, ícone                                                                     |
+| [0.1.0](docs/releases/v0.1.0.md)     | Lançamento inicial, compartilhamento P2P via convite manual                                                             |

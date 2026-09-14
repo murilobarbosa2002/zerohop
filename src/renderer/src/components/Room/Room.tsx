@@ -82,10 +82,7 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
     setPreviousJoinRequestCount(joinRequests.length);
   }, [joinRequests.length, previousJoinRequestCount]);
 
-  useEffect(
-    () => onTyped<RoomClientEventDetail['member-left']>(roomClient, 'member-left', () => playMemberLeftSound()),
-    [roomClient]
-  );
+  useEffect(() => onTyped<RoomClientEventDetail['member-left']>(roomClient, 'member-left', () => playMemberLeftSound()), [roomClient]);
 
   function toggleDeafen(): void {
     setDeafened((current) => {

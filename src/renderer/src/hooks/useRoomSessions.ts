@@ -40,19 +40,13 @@ export function useRoomSessions(): UseRoomSessionsResult {
     const unsubscribeJoined = onTyped<RoomClientEventDetail['member-joined']>(roomClient, 'member-joined', () => {
       playMemberJoinedSound();
     });
-    const unsubscribeMessage = onTyped<RoomClientEventDetail['chat-message-received']>(
-      roomClient,
-      'chat-message-received',
-      () => {
-        playMessageReceivedSound();
-        if (focusedSessionIdRef.current === sessionId) return;
-        setSessions((current) =>
-          current.map((session) =>
-            session.sessionId === sessionId ? { ...session, unreadCount: session.unreadCount + 1 } : session
-          )
-        );
-      }
-    );
+    const unsubscribeMessage = onTyped<RoomClientEventDetail['chat-message-received']>(roomClient, 'chat-message-received', () => {
+      playMessageReceivedSound();
+      if (focusedSessionIdRef.current === sessionId) return;
+      setSessions((current) =>
+        current.map((session) => (session.sessionId === sessionId ? { ...session, unreadCount: session.unreadCount + 1 } : session))
+      );
+    });
     cleanupsRef.current.set(sessionId, () => {
       unsubscribeJoined();
       unsubscribeMessage();
@@ -79,18 +73,14 @@ export function useRoomSessions(): UseRoomSessionsResult {
     next?.roomClient.resumeVoice();
     focusedSessionIdRef.current = sessionId;
     setFocusedSessionId(sessionId);
-    setSessions((current) =>
-      current.map((session) => (session.sessionId === sessionId ? { ...session, unreadCount: 0 } : session))
-    );
+    setSessions((current) => current.map((session) => (session.sessionId === sessionId ? { ...session, unreadCount: 0 } : session)));
   }, []);
 
   const markEntered = useCallback(
     (roomCode: string) => {
       const current = pendingSessionRef.current;
       if (!current) return;
-      setSessions((sessions) =>
-        sessions.map((session) => (session.sessionId === current.sessionId ? { ...session, roomCode } : session))
-      );
+      setSessions((sessions) => sessions.map((session) => (session.sessionId === current.sessionId ? { ...session, roomCode } : session)));
       focus(current.sessionId);
       setPendingSession(null);
     },
