@@ -21,7 +21,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     if (!this.state.hasError) return this.props.children;
 
     return (
-      <div className="h-screen flex items-center justify-center p-4">
+      <div className="h-screen flex items-center justify-center p-4 bg-bg text-text">
         <Card className="max-w-sm">
           <p className="font-bold text-body-sm-alt mb-1.5">{ERROR_BOUNDARY_STRINGS.title}</p>
           <p className="text-text-dim text-xs mb-3.5">{ERROR_BOUNDARY_STRINGS.description}</p>

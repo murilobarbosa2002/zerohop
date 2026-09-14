@@ -87,24 +87,34 @@ export function useRoomSessions(): UseRoomSessionsResult {
     [focus]
   );
 
-  const leave = useCallback((sessionId: string) => {
-    const session = sessionsRef.current.find((current) => current.sessionId === sessionId);
-    session?.roomClient.leaveRoom();
-    cleanupsRef.current.get(sessionId)?.();
-    cleanupsRef.current.delete(sessionId);
+  const leave = useCallback(
+    (sessionId: string) => {
+      const session = sessionsRef.current.find((current) => current.sessionId === sessionId);
+      session?.roomClient.leaveRoom();
+      cleanupsRef.current.get(sessionId)?.();
+      cleanupsRef.current.delete(sessionId);
 
-    const remaining = sessionsRef.current.filter((current) => current.sessionId !== sessionId);
-    setSessions(remaining);
+      const remaining = sessionsRef.current.filter((current) => current.sessionId !== sessionId);
+      setSessions(remaining);
 
-    if (focusedSessionIdRef.current === sessionId) {
-      const nextFocused = remaining[0] ?? null;
-      focusedSessionIdRef.current = nextFocused?.sessionId ?? null;
-      setFocusedSessionId(nextFocused?.sessionId ?? null);
-      nextFocused?.roomClient.resumeVoice();
-    }
+      if (focusedSessionIdRef.current === sessionId) {
+        const nextFocused = remaining[0] ?? null;
+        focusedSessionIdRef.current = nextFocused?.sessionId ?? null;
+        setFocusedSessionId(nextFocused?.sessionId ?? null);
+        nextFocused?.roomClient.resumeVoice();
+      }
 
-    setPendingSession((current) => (current?.sessionId === sessionId ? null : current));
-  }, []);
+      const stillPending = pendingSessionRef.current?.sessionId === sessionId ? null : pendingSessionRef.current;
+      const remainingEntered = remaining.some((current) => current.roomCode !== null);
+
+      if (!stillPending && !remainingEntered) {
+        setPendingSession(createSession());
+      } else {
+        setPendingSession(stillPending);
+      }
+    },
+    [createSession]
+  );
 
   const cancelPendingSession = useCallback(() => {
     if (pendingSessionRef.current) leave(pendingSessionRef.current.sessionId);

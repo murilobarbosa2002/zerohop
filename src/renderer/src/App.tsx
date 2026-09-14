@@ -22,6 +22,7 @@ import { Overlay } from '@/constants/overlay';
 
 export function App() {
   const {
+    sessions,
     enteredSessions,
     focusedSession,
     focusedSessionId,
@@ -36,7 +37,7 @@ export function App() {
   const { status: updaterStatus, installUpdate, version } = useAppUpdater();
   const [dismissedUpdateVersion, setDismissedUpdateVersion] = useState<string | null>(null);
 
-  const statusRoomClient = (pendingSession ?? focusedSession ?? enteredSessions[0]).roomClient;
+  const statusRoomClient = (pendingSession ?? focusedSession ?? sessions[0]).roomClient;
   const status = useRoomStatus(statusRoomClient);
 
   useEffect(() => {
