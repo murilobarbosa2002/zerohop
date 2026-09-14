@@ -7,6 +7,7 @@ import { useMicInputDevices } from '@/hooks/useMicInputDevices';
 import { useMicInputGain } from '@/hooks/useMicInputGain';
 import { useNoiseSuppression } from '@/hooks/useNoiseSuppression';
 import { useMicActive } from '@/hooks/useMicActive';
+import { useMicPermissionStatus } from '@/hooks/useMicPermissionStatus';
 import { requestMicPermission } from '@/services/MicCapture';
 import { SYSTEM_DEFAULT_MIC_INPUT_ID, MIN_MIC_GAIN, MAX_MIC_GAIN, MIC_GAIN_STEP } from '@/constants/micInput';
 import { SETTINGS_STRINGS } from '@/strings/settings.strings';
@@ -19,6 +20,20 @@ export function MicInputSettings({ roomClient }: MicInputSettingsProps) {
   const [noiseSuppression, setNoiseSuppression] = useNoiseSuppression();
   const micActive = useMicActive(roomClient);
   const [permissionStatus, setPermissionStatus] = useState<string | null>(null);
+  const [permissionRefreshKey, setPermissionRefreshKey] = useState(0);
+  const currentPermission = useMicPermissionStatus(permissionRefreshKey);
+  const currentPermissionLabel = {
+    granted: SETTINGS_STRINGS.micPermissionCurrentStatusGranted,
+    denied: SETTINGS_STRINGS.micPermissionCurrentStatusDenied,
+    prompt: SETTINGS_STRINGS.micPermissionCurrentStatusPrompt,
+    unknown: SETTINGS_STRINGS.micPermissionCurrentStatusUnknown
+  }[currentPermission];
+  const currentPermissionColor = {
+    granted: 'text-success',
+    denied: 'text-danger',
+    prompt: 'text-text-dim',
+    unknown: 'text-text-dim'
+  }[currentPermission];
   const options = [
     { value: SYSTEM_DEFAULT_MIC_INPUT_ID, label: SETTINGS_STRINGS.systemDefaultMicInputOption },
     ...devices.map((device) => ({ value: device.deviceId, label: device.label }))
@@ -31,16 +46,23 @@ export function MicInputSettings({ roomClient }: MicInputSettingsProps) {
       setPermissionStatus(
         roomClient.micActive ? SETTINGS_STRINGS.micPermissionGrantedStatus : SETTINGS_STRINGS.micPermissionStillDeniedStatus
       );
+      setPermissionRefreshKey((current) => current + 1);
       return;
     }
     const granted = await requestMicPermission();
     setPermissionStatus(granted ? SETTINGS_STRINGS.micPermissionGrantedStatus : SETTINGS_STRINGS.micPermissionStillDeniedStatus);
+    setPermissionRefreshKey((current) => current + 1);
   }
 
   return (
     <div className="max-w-modal mt-6">
       <p className="font-bold text-lg">{SETTINGS_STRINGS.micInputTitle}</p>
       <p className="text-text-dim text-xs mt-1.5 leading-relaxed">{SETTINGS_STRINGS.micInputHint}</p>
+
+      <p className="text-xs mt-2.5">
+        <span className="text-text-dim">{SETTINGS_STRINGS.micPermissionCurrentStatusLabel} </span>
+        <span className={`font-bold ${currentPermissionColor}`}>{currentPermissionLabel}</span>
+      </p>
 
       {roomClient && !micActive && <p className="text-warn text-xs mt-2.5 leading-relaxed">{SETTINGS_STRINGS.micPermissionDeniedHint}</p>}
       {!roomClient && <p className="text-text-dim text-xs mt-2.5 leading-relaxed">{SETTINGS_STRINGS.micPermissionOutsideRoomHint}</p>}

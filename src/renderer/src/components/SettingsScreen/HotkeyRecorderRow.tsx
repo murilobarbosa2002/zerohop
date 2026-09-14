@@ -69,27 +69,29 @@ export function HotkeyRecorderRow<T extends HotkeyBinding | AcceleratorBinding>(
     : (failureMessage ?? value?.label ?? SETTINGS_STRINGS.noHotkeySetLabel);
 
   return (
-    <div className="flex items-center gap-2 mt-2.5">
-      <span className="text-body-sm w-form-column-wide flex-shrink-0">{label}</span>
-      <span className={`text-xs flex-1 min-w-0 truncate ${!recording && failureMessage ? 'text-danger' : 'text-text-dim'}`}>
-        {statusLabel}
-      </span>
-      {recording ? (
-        <ActionButton variant="default" className="flex-shrink-0" onClick={stopRecording}>
-          {SETTINGS_STRINGS.cancelRecordingHotkeyButton}
-        </ActionButton>
-      ) : (
-        <>
-          <ActionButton variant="default" className="flex-shrink-0" onClick={startRecording}>
-            {SETTINGS_STRINGS.recordHotkeyButton}
+    <div className="mt-3">
+      <p className="text-body-sm">{label}</p>
+      <div className="flex items-center gap-2 mt-1">
+        <span className={`text-xs flex-1 min-w-0 break-words ${!recording && failureMessage ? 'text-danger' : 'text-text-dim'}`}>
+          {statusLabel}
+        </span>
+        {recording ? (
+          <ActionButton variant="default" className="flex-shrink-0" onClick={stopRecording}>
+            {SETTINGS_STRINGS.cancelRecordingHotkeyButton}
           </ActionButton>
-          {value && (
-            <ActionButton variant="danger" className="flex-shrink-0" onClick={() => onChange(null)}>
-              {SETTINGS_STRINGS.clearHotkeyButton}
+        ) : (
+          <>
+            <ActionButton variant="default" className="flex-shrink-0" onClick={startRecording}>
+              {SETTINGS_STRINGS.recordHotkeyButton}
             </ActionButton>
-          )}
-        </>
-      )}
+            {value && (
+              <ActionButton variant="danger" className="flex-shrink-0" onClick={() => onChange(null)}>
+                {SETTINGS_STRINGS.clearHotkeyButton}
+              </ActionButton>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
