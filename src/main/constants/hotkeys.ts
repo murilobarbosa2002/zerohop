@@ -1,0 +1,1 @@
+export const HOTKEYS_INIT_TIMEOUT_MS = 5000;
