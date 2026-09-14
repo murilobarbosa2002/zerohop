@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão | Resumo |
 | --- | --- |
+| [0.36.14](docs/releases/v0.36.14.md) | Organização interna do código, sem mudança visível |
 | [0.36.13](docs/releases/v0.36.13.md) | Aviso de tecla de atalho em conflito, nome obrigatório, cor de texto ajustada |
 | [0.36.12](docs/releases/v0.36.12.md) | Áudio isolado na tela inteira, gravação de tecla mais confiável, vídeo sem barra preta |
 | [0.36.11](docs/releases/v0.36.11.md) | Diagnóstico de teclas de atalho, texto branco de volta, corrige clique no "Tela cheia" |

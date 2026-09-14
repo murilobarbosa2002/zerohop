@@ -9,84 +9,57 @@ import { UpdatesScreen } from '@/components/UpdatesScreen';
 import { SettingsScreen } from '@/components/SettingsScreen';
 import { LogsScreen } from '@/components/LogsScreen';
 import { UpdateReadyModal } from '@/components/UpdateReadyModal';
-import { ActionButton } from '@/components/ActionButton';
-import { useRoomSessions, type RoomSession } from '@/hooks/useRoomSessions';
+import { AddRoomOverlay } from '@/components/AddRoomOverlay';
+import { useRoomSessions } from '@/hooks/useRoomSessions';
 import { useRoomStatus } from '@/hooks/useRoomStatus';
 import { useAppUpdater } from '@/hooks/useAppUpdater';
+import { useOverlay } from '@/hooks/useOverlay';
 import { logEvent } from '@/services/appLog';
-import { playJoinedRoomSound, playScreenOpenSound, playScreenCloseSound, playUpdateLaterSound } from '@/services/soundEffects';
+import { playJoinedRoomSound, playUpdateLaterSound } from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
-import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { LogCategory, LogLevel } from '@shared/logEntry';
 import { Overlay } from '@/constants/overlay';
 
 export function App() {
-  const { sessions, focusedSessionId, createSession, markEntered, focus, leave } = useRoomSessions();
-  const [pendingSession, setPendingSession] = useState<RoomSession | null>(() => createSession());
-  const [activeOverlay, setActiveOverlay] = useState<Overlay | null>(null);
+  const {
+    enteredSessions,
+    focusedSession,
+    focusedSessionId,
+    pendingSession,
+    startPendingSession,
+    cancelPendingSession,
+    markEntered,
+    focus,
+    leave
+  } = useRoomSessions();
+  const { activeOverlay, open: openOverlay, toggle: toggleOverlay, close: closeOverlay } = useOverlay();
   const { status: updaterStatus, installUpdate, version } = useAppUpdater();
   const [dismissedUpdateVersion, setDismissedUpdateVersion] = useState<string | null>(null);
 
-  const enteredSessions = sessions.filter((session) => session.roomCode !== null);
-  const focusedSession = enteredSessions.find((session) => session.sessionId === focusedSessionId) ?? null;
-  const statusRoomClient = (pendingSession ?? focusedSession ?? sessions[0]).roomClient;
+  const statusRoomClient = (pendingSession ?? focusedSession ?? enteredSessions[0]).roomClient;
   const status = useRoomStatus(statusRoomClient);
-
-  useEffect(() => {
-    if (enteredSessions.length === 0 && !pendingSession) {
-      setPendingSession(createSession());
-    }
-  }, [enteredSessions.length, pendingSession, createSession]);
 
   useEffect(() => {
     if (version) logEvent(LogCategory.APP, LogLevel.INFO, LOG_STRINGS.appStartedMessage(version));
   }, [version]);
+
   const updateReady =
     updaterStatus?.type === 'downloaded' && updaterStatus.version !== dismissedUpdateVersion ? updaterStatus : null;
 
   function handleEnteredRoom(code: string): void {
-    if (!pendingSession) return;
-    markEntered(pendingSession.sessionId, code);
-    setPendingSession(null);
-    setActiveOverlay(null);
+    markEntered(code);
+    closeOverlay();
     playJoinedRoomSound();
   }
 
   function handleAddRoom(): void {
-    setPendingSession(createSession());
-    playScreenOpenSound();
-    setActiveOverlay(Overlay.ADD_ROOM);
+    startPendingSession();
+    openOverlay(Overlay.ADD_ROOM);
   }
 
   function handleCancelAddRoom(): void {
-    if (pendingSession) leave(pendingSession.sessionId);
-    setPendingSession(null);
-    playScreenCloseSound();
-    setActiveOverlay(null);
-  }
-
-  function handleFocusSession(sessionId: string): void {
-    focus(sessionId);
-  }
-
-  function handleLeaveSession(sessionId: string): void {
-    leave(sessionId);
-  }
-
-  function toggleOverlay(overlay: Overlay): void {
-    setActiveOverlay((current) => {
-      if (current === overlay) {
-        playScreenCloseSound();
-        return null;
-      }
-      playScreenOpenSound();
-      return overlay;
-    });
-  }
-
-  function closeOverlay(): void {
-    playScreenCloseSound();
-    setActiveOverlay(null);
+    cancelPendingSession();
+    closeOverlay();
   }
 
   return (
@@ -111,8 +84,8 @@ export function App() {
           <RoomSwitcher
             sessions={enteredSessions}
             focusedSessionId={focusedSessionId}
-            onFocus={handleFocusSession}
-            onLeave={handleLeaveSession}
+            onFocus={focus}
+            onLeave={leave}
             onAddRoom={handleAddRoom}
           />
         )}
@@ -122,7 +95,7 @@ export function App() {
             <Room
               roomClient={focusedSession.roomClient}
               roomCode={focusedSession.roomCode}
-              onLeft={() => handleLeaveSession(focusedSession.sessionId)}
+              onLeft={() => leave(focusedSession.sessionId)}
               onOpenSettings={() => toggleOverlay(Overlay.SETTINGS)}
               onOpenLogs={() => toggleOverlay(Overlay.LOGS)}
             />
@@ -153,15 +126,7 @@ export function App() {
             </div>
           )}
           {activeOverlay === Overlay.ADD_ROOM && pendingSession && (
-            <div className="absolute inset-0 z-20 flex flex-col bg-bg overflow-y-auto px-7 py-7">
-              <div className="flex items-center gap-3 mb-4">
-                <ActionButton variant="default" onClick={handleCancelAddRoom}>
-                  {PRE_ROOM_STRINGS.backButton}
-                </ActionButton>
-              </div>
-              <Header />
-              <PreRoom roomClient={pendingSession.roomClient} onEntered={handleEnteredRoom} />
-            </div>
+            <AddRoomOverlay roomClient={pendingSession.roomClient} onEntered={handleEnteredRoom} onCancel={handleCancelAddRoom} />
           )}
         </div>
       </div>
