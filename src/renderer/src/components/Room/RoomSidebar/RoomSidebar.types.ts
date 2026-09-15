@@ -11,6 +11,7 @@ export interface RoomSidebarProps {
   onLeave: () => void;
   micMuted: boolean;
   deafened: boolean;
+  pushToTalkActive: boolean;
   onToggleMic: () => void;
   onToggleDeafen: () => void;
   voiceAudioState: MemberAudioStateStore;

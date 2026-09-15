@@ -5,7 +5,8 @@ export const roomToolbarButtonVariants = tv({
   variants: {
     tone: {
       default: 'bg-panel-2 border-border text-text hover:border-accent',
-      danger: 'bg-danger/15 border-danger text-danger'
+      danger: 'bg-danger/15 border-danger text-danger',
+      success: 'bg-success/15 border-success text-success'
     }
   },
   defaultVariants: {

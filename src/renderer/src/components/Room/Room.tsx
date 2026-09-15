@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RoomSidebar } from '@/components/Room/RoomSidebar';
 import { RoomStage } from '@/components/Room/RoomStage';
 import { JoinRequestModal } from '@/components/Room/JoinRequestModal';
@@ -29,7 +29,9 @@ import {
   playMessageDeletedRemoteSound,
   playJoinRequestSound,
   playMemberLeftSound,
-  playRoomLeftSound
+  playRoomLeftSound,
+  playPushToTalkStartSound,
+  playPushToTalkStopSound
 } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
 import { ROOM_STRINGS } from '@/strings/room.strings';
@@ -43,6 +45,8 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
   const [sidebarWidth, setSidebarWidth] = useResizablePanelWidth('zerohop:sidebarWidth', 300, 300, 420);
   const [chatWidth, setChatWidth] = useResizablePanelWidth('zerohop:chatWidth', 300, 300, 480);
   const [deafened, setDeafened] = useState(false);
+  const [pushToTalkActive, setPushToTalkActive] = useState(false);
+  const pushToTalkOriginRef = useRef(false);
   const sourcePicker = useSourcePicker();
   const members = useMembers(roomClient);
   const sharing = useSharing(roomClient);
@@ -60,9 +64,10 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
 
   useEffect(
     () =>
-      onTyped<RoomClientEventDetail['mic-muted-changed']>(roomClient, 'mic-muted-changed', (detail) =>
-        detail.muted ? playMicMuteSound() : playMicUnmuteSound()
-      ),
+      onTyped<RoomClientEventDetail['mic-muted-changed']>(roomClient, 'mic-muted-changed', (detail) => {
+        if (pushToTalkOriginRef.current) return;
+        detail.muted ? playMicMuteSound() : playMicUnmuteSound();
+      }),
     [roomClient]
   );
 
@@ -97,7 +102,17 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
 
   useEffect(() => window.api.onHotkeyDeafenToggle(() => toggleDeafen()), []);
 
-  useEffect(() => window.api.onHotkeyPttActiveChanged((active) => roomClient.setMicMuted(!active)), [roomClient]);
+  useEffect(
+    () =>
+      window.api.onHotkeyPttActiveChanged((active) => {
+        pushToTalkOriginRef.current = true;
+        roomClient.setMicMuted(!active);
+        pushToTalkOriginRef.current = false;
+        setPushToTalkActive(active);
+        active ? playPushToTalkStartSound() : playPushToTalkStopSound();
+      }),
+    [roomClient]
+  );
 
   function handleLeave(): void {
     roomClient.leaveRoom();
@@ -170,6 +185,7 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
                 onLeave={handleLeave}
                 micMuted={micMuted}
                 deafened={deafened}
+                pushToTalkActive={pushToTalkActive}
                 onToggleMic={() => roomClient.toggleMicMuted()}
                 onToggleDeafen={toggleDeafen}
                 voiceAudioState={voiceAudioState}

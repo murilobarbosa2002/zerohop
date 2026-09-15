@@ -1,6 +1,7 @@
 export interface RoomToolbarProps {
   micMuted: boolean;
   deafened: boolean;
+  pushToTalkActive: boolean;
   onToggleMic: () => void;
   onToggleDeafen: () => void;
   onOpenLogs: () => void;

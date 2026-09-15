@@ -4,6 +4,7 @@ export const ROOM_STRINGS = {
   leaveRoomButton: 'Sair da sala',
   muteMicButton: 'Mutar mic',
   unmuteMicButton: 'Ativar mic',
+  pushToTalkSpeakingLabel: 'Falando...',
   deafenButton: 'Silenciar todos',
   undeafenButton: 'Ouvir todos',
   chooseSourceTitle: 'Escolha o que compartilhar',

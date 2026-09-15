@@ -6,21 +6,27 @@ import { ROOM_STRINGS } from '@/strings/room.strings';
 import { TITLE_BAR_STRINGS } from '@/strings/titleBar.strings';
 import type { RoomToolbarProps } from '@/components/Room/RoomToolbar.types';
 
-export function RoomToolbar({ micMuted, deafened, onToggleMic, onToggleDeafen, onOpenLogs, onOpenSettings }: RoomToolbarProps) {
+export function RoomToolbar({
+  micMuted,
+  deafened,
+  pushToTalkActive,
+  onToggleMic,
+  onToggleDeafen,
+  onOpenLogs,
+  onOpenSettings
+}: RoomToolbarProps) {
   const micLabel = micMuted ? ROOM_STRINGS.unmuteMicButton : ROOM_STRINGS.muteMicButton;
   const deafenLabel = deafened ? ROOM_STRINGS.undeafenButton : ROOM_STRINGS.deafenButton;
+  const micTone = pushToTalkActive ? 'success' : micMuted ? 'danger' : 'default';
 
   return (
     <div className="flex items-center justify-center gap-2 bg-panel border border-border rounded-lg px-3 py-2">
       <Tooltip label={micLabel}>
-        <button
-          onClick={onToggleMic}
-          aria-label={micLabel}
-          className={roomToolbarButtonVariants({ tone: micMuted ? 'danger' : 'default' })}
-        >
+        <button onClick={onToggleMic} aria-label={micLabel} className={roomToolbarButtonVariants({ tone: micTone })}>
           <MicIcon muted={micMuted} />
         </button>
       </Tooltip>
+      {pushToTalkActive && <span className="text-success text-badge-xs font-bold">{ROOM_STRINGS.pushToTalkSpeakingLabel}</span>}
       <Tooltip label={deafenLabel}>
         <button
           onClick={onToggleDeafen}

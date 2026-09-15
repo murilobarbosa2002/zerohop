@@ -7,6 +7,8 @@ import screenOpenSound from '@/assets/sounds/screen-open.wav';
 import screenCloseSound from '@/assets/sounds/screen-close.wav';
 import micMuteSound from '@/assets/sounds/mic-mute.wav';
 import micUnmuteSound from '@/assets/sounds/mic-unmute.wav';
+import pushToTalkStartSound from '@/assets/sounds/push-to-talk-start.wav';
+import pushToTalkStopSound from '@/assets/sounds/push-to-talk-stop.wav';
 import deafenSound from '@/assets/sounds/deafen.wav';
 import undeafenSound from '@/assets/sounds/undeafen.wav';
 import shareStartSound from '@/assets/sounds/share-start.wav';
@@ -107,6 +109,14 @@ export function playMicMuteSound(): void {
 
 export function playMicUnmuteSound(): void {
   play(micUnmuteSound, SoundCategory.VOICE);
+}
+
+export function playPushToTalkStartSound(): void {
+  play(pushToTalkStartSound, SoundCategory.VOICE);
+}
+
+export function playPushToTalkStopSound(): void {
+  play(pushToTalkStopSound, SoundCategory.VOICE);
 }
 
 export function playDeafenSound(): void {

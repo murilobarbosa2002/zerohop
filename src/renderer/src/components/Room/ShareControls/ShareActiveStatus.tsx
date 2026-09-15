@@ -11,7 +11,7 @@ export function ShareActiveStatus({ status, onStop, onEdit, videoRef, localStrea
 
   return (
     <Card>
-      <div className="flex items-center gap-3.5">
+      <div className="flex flex-wrap items-center gap-3.5">
         <button
           type="button"
           onClick={() => setLightboxOpen(true)}
@@ -30,7 +30,7 @@ export function ShareActiveStatus({ status, onStop, onEdit, videoRef, localStrea
           </span>
         </button>
         {lightboxOpen && <SelfPreviewLightbox stream={localStream} onClose={() => setLightboxOpen(false)} />}
-        <div className="flex-1">
+        <div className="flex-1 min-w-form-column">
           <p className="font-bold text-body-sm-alt flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-success" />
             {ROOM_STRINGS.sharingActiveLabel}

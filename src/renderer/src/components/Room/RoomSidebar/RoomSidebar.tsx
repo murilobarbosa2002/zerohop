@@ -15,6 +15,7 @@ export function RoomSidebar({
   onLeave,
   micMuted,
   deafened,
+  pushToTalkActive,
   onToggleMic,
   onToggleDeafen,
   voiceAudioState,
@@ -27,6 +28,7 @@ export function RoomSidebar({
       <RoomToolbar
         micMuted={micMuted}
         deafened={deafened}
+        pushToTalkActive={pushToTalkActive}
         onToggleMic={onToggleMic}
         onToggleDeafen={onToggleDeafen}
         onOpenLogs={onOpenLogs}
