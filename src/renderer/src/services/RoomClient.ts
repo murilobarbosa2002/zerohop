@@ -8,7 +8,13 @@ import { VoiceChat } from '@/services/room/VoiceChat';
 import { ChatService, type ChatMessageEntry, type ChatServiceEventDetail } from '@/services/room/ChatService';
 import { RoomAuthController, type JoinRequestEntry, type RoomAuthControllerEventDetail } from '@/services/room/RoomAuthController';
 import { PeerConnectionManager } from '@/services/room/PeerConnectionManager';
-import { RoomProtocol, type WatchRequestMessage, type UnwatchRequestMessage, type KickMessage } from '@/services/room/RoomProtocol';
+import {
+  RoomProtocol,
+  type WatchRequestMessage,
+  type UnwatchRequestMessage,
+  type KickMessage,
+  type InviteMessage
+} from '@/services/room/RoomProtocol';
 import { captureMicrophone } from '@/services/MicCapture';
 import {
   getMicInputDeviceId,
@@ -18,6 +24,7 @@ import {
   getNoiseSuppressionEnabled,
   subscribeToNoiseSuppression
 } from '@/services/micInputPreference';
+import { getPersonalId } from '@/services/personalRoomPreference';
 import { logEvent } from '@/services/appLog';
 import { onTyped } from '@/lib/typedEvents';
 import { RoomStatus } from '@/constants/roomStatus';
@@ -31,10 +38,11 @@ import { ROOM_STRINGS } from '@/strings/room.strings';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { LogCategory, LogLevel } from '@shared/logEntry';
-import { DEFAULT_AVATAR_ID } from '@/constants/avatars';
+import { DEFAULT_AVATAR_ID, normalizeAvatarId } from '@/constants/avatars';
 import type { AvatarId } from '@/constants/avatars';
 import type { QualitySettings } from '@/services/ScreenCapture';
 import type { MicCaptureHandle } from '@/services/MicCapture.types';
+import type { Contact } from '@shared/contact';
 
 const JOIN_CONFIRMATION_TIMEOUT_MS = ICE_CONNECTION_TIMEOUT_MS + AUTH_HELLO_TIMEOUT_MS + JOIN_APPROVAL_TIMEOUT_MS;
 
@@ -55,6 +63,14 @@ export interface RoomClientEventDetail {
   'mic-active-changed': { active: boolean };
   'member-joined': { id: string; name: string };
   'member-left': { id: string; name: string };
+  'invite-received': {
+    fromId: string;
+    roomCode: string;
+    roomPassword: string;
+    inviteToken: string;
+    hostName: string;
+    hostAvatarId: AvatarId;
+  };
 }
 
 export class RoomClient extends EventTarget {
@@ -78,6 +94,7 @@ export class RoomClient extends EventTarget {
   private protocol: RoomProtocol;
   private connections: PeerConnectionManager;
   private cachedMembersSnapshot: MemberSnapshot[] = [];
+  private pendingInviteToken: string | null = null;
 
   constructor() {
     super();
@@ -109,7 +126,8 @@ export class RoomClient extends EventTarget {
         const member = this.registry.get(id);
         logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.memberJoinedMessage(member?.name || id));
         this.dispatchEvent(new CustomEvent('member-joined', { detail: { id, name: member?.name || id } }));
-      }
+      },
+      getInviteToken: () => this.pendingInviteToken
     });
     this.protocol = new RoomProtocol({
       registry: this.registry,
@@ -123,7 +141,7 @@ export class RoomClient extends EventTarget {
       onAuthRejected: (id) => this.auth.handleAuthRejected(id),
       onAuthSuccess: (id) => this.auth.handleAuthSuccess(id),
       onVersionMismatch: (id, remoteVersion) => this.auth.handleVersionMismatch(id, remoteVersion),
-      onJoinRequest: (id, name) => this.auth.handleJoinRequest(id, name),
+      onJoinRequest: (id, name, inviteToken) => this.auth.handleJoinRequest(id, name, inviteToken),
       onJoinPending: () => this.auth.handleJoinPending(),
       onJoinApproved: (id) => this.auth.handleJoinApproved(id),
       onKick: (id) => this.applyKick(id)
@@ -134,6 +152,7 @@ export class RoomClient extends EventTarget {
       isBlocked: (id) => this.blockedIds.has(id),
       onMemberConnectionOpen: (id, connection) => this.handleMemberConnectionOpen(id, connection),
       onMessage: (fromId, message) => this.protocol.handleMessage(fromId, message),
+      onInviteMessage: (fromId, message) => this.handleInviteMessage(fromId, message),
       onMemberDisconnected: (id) => this.cleanupMember(id),
       onIncomingStream: (fromId, call, stream) => {
         this.registry.upsert(fromId, { stream, mediaConnIn: call });
@@ -204,7 +223,13 @@ export class RoomClient extends EventTarget {
     return this.currentPassword;
   }
 
-  async createRoom(name: string, password = '', avatarId: AvatarId = DEFAULT_AVATAR_ID, desiredCode?: string): Promise<string> {
+  async createRoom(
+    name: string,
+    password = '',
+    avatarId: AvatarId = DEFAULT_AVATAR_ID,
+    desiredCode?: string,
+    invitedContacts: Contact[] = []
+  ): Promise<string> {
     this.selfName = name || PARTICIPANTS_STRINGS.defaultMemberName;
     this.selfAvatarId = avatarId;
     this.currentPassword = password;
@@ -214,6 +239,7 @@ export class RoomClient extends EventTarget {
       this.roomCode = desiredCode;
       this.emitStatus(RoomStatus.CONNECTED);
       this.startVoiceChat();
+      this.inviteContacts(desiredCode, invitedContacts);
       logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.roomCreatedMessage(desiredCode));
       return desiredCode;
     }
@@ -225,6 +251,7 @@ export class RoomClient extends EventTarget {
         this.roomCode = code;
         this.emitStatus(RoomStatus.CONNECTED);
         this.startVoiceChat();
+        this.inviteContacts(code, invitedContacts);
         logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.roomCreatedMessage(code));
         return code;
       } catch (error) {
@@ -234,10 +261,11 @@ export class RoomClient extends EventTarget {
     throw lastError instanceof Error ? lastError : new Error(ROOM_STRINGS.createRoomFailedError);
   }
 
-  async joinRoom(name: string, code: string, password = '', avatarId: AvatarId = DEFAULT_AVATAR_ID): Promise<string> {
+  async joinRoom(name: string, code: string, password = '', avatarId: AvatarId = DEFAULT_AVATAR_ID, inviteToken?: string): Promise<string> {
     this.selfName = name || PARTICIPANTS_STRINGS.defaultMemberName;
     this.selfAvatarId = avatarId;
     this.currentPassword = password;
+    this.pendingInviteToken = inviteToken ?? null;
     const iceServers = await getIceServers();
     await this.connections.open(undefined, iceServers);
     try {
@@ -351,6 +379,42 @@ export class RoomClient extends EventTarget {
     const currentName = this.registry.get(id)?.name || id;
     this.registry.upsert(id, { conn: connection, name: currentName });
     await this.auth.sendHello(id, connection, this.media.sharing);
+  }
+
+  private inviteContacts(roomCode: string, contacts: Contact[]): void {
+    if (contacts.length === 0) return;
+    const hostId = getPersonalId();
+    for (const contact of contacts) {
+      const inviteToken = crypto.randomUUID();
+      this.auth.preAuthorizeToken(inviteToken);
+      this.connections.sendInvite(contact.id, {
+        type: 'invite',
+        roomCode,
+        roomPassword: this.currentPassword,
+        inviteToken,
+        hostId,
+        hostName: this.selfName,
+        hostAvatarId: this.selfAvatarId
+      });
+    }
+  }
+
+  private handleInviteMessage(fromId: string, message: InviteMessage): void {
+    window.api.getContacts().then((contacts) => {
+      if (!contacts.some((contact) => contact.id === message.hostId)) return;
+      this.dispatchEvent(
+        new CustomEvent('invite-received', {
+          detail: {
+            fromId,
+            roomCode: message.roomCode,
+            roomPassword: message.roomPassword,
+            inviteToken: message.inviteToken,
+            hostName: message.hostName,
+            hostAvatarId: normalizeAvatarId(message.hostAvatarId)
+          }
+        })
+      );
+    });
   }
 
   private applyKick(targetId: string): void {

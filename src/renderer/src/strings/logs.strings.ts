@@ -22,6 +22,7 @@ export const LOG_STRINGS = {
   roomJoinedMessage: (code: string) => `Você entrou na sala ${code}.`,
   roomLeftMessage: 'Você saiu da sala.',
   memberJoinedMessage: (name: string) => `${name} entrou na sala.`,
+  inviteJoinFailedMessage: (hostName: string) => `Não foi possível entrar na sala de ${hostName} pelo convite.`,
   memberLeftMessage: (name: string) => `${name} saiu da sala.`,
   connectionWarningMessage: (label: string) => `A conexão com ${label} está demorando a responder.`,
   connectionEstablishedDirectMessage: (label: string) => `Conexão com ${label} estabelecida direto (sem retransmissão).`,

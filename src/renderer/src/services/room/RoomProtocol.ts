@@ -17,7 +17,8 @@ import {
   chatMessageSchema,
   deleteChatMessageSchema,
   joinPendingMessageSchema,
-  joinApprovedMessageSchema
+  joinApprovedMessageSchema,
+  inviteMessageSchema
 } from '@/services/room/roomMessage.schema';
 
 export type HelloMessage = z.infer<typeof helloMessageSchema>;
@@ -31,6 +32,7 @@ export type ChatMessage = z.infer<typeof chatMessageSchema>;
 export type DeleteChatMessage = z.infer<typeof deleteChatMessageSchema>;
 export type JoinPendingMessage = z.infer<typeof joinPendingMessageSchema>;
 export type JoinApprovedMessage = z.infer<typeof joinApprovedMessageSchema>;
+export type InviteMessage = z.infer<typeof inviteMessageSchema>;
 export type RoomMessage = z.infer<typeof roomMessageSchema>;
 
 interface RoomProtocolDeps {
@@ -45,7 +47,7 @@ interface RoomProtocolDeps {
   onAuthRejected: (fromId: string) => void;
   onAuthSuccess: (fromId: string) => void;
   onVersionMismatch: (fromId: string, remoteVersion: string) => void;
-  onJoinRequest: (fromId: string, name: string) => void;
+  onJoinRequest: (fromId: string, name: string, inviteToken?: string) => void;
   onJoinPending: (fromId: string) => void;
   onJoinApproved: (fromId: string) => void;
   onKick: (targetId: string) => void;
@@ -111,7 +113,7 @@ export class RoomProtocol {
       return;
     }
     if (this.deps.isRoomCreator()) {
-      this.deps.onJoinRequest(fromId, message.name);
+      this.deps.onJoinRequest(fromId, message.name, message.inviteToken);
       return;
     }
     this.deps.registry.upsert(fromId, { authenticated: true });

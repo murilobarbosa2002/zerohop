@@ -39,6 +39,8 @@ import tabStatusSound from '@/assets/sounds/tab-status.wav';
 import tabChangelogSound from '@/assets/sounds/tab-changelog.wav';
 import tabVersionsSound from '@/assets/sounds/tab-versions.wav';
 import joinRequestSound from '@/assets/sounds/join-request.wav';
+import inviteReceivedSound from '@/assets/sounds/invite-received.wav';
+import inviteContactToggleSound from '@/assets/sounds/invite-contact-toggle.wav';
 import memberLeftSound from '@/assets/sounds/member-left.wav';
 import roomLeftSound from '@/assets/sounds/room-left.wav';
 import inputNameFocusSound from '@/assets/sounds/input-name-focus.wav';
@@ -242,6 +244,14 @@ export function playTabVersionsSound(): void {
 
 export function playJoinRequestSound(): void {
   play(joinRequestSound, SoundCategory.ROOM);
+}
+
+export function playInviteReceivedSound(): void {
+  play(inviteReceivedSound, SoundCategory.ROOM);
+}
+
+export function playInviteContactToggleSound(): void {
+  play(inviteContactToggleSound, SoundCategory.INTERFACE);
 }
 
 export function playMemberLeftSound(): void {

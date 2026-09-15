@@ -33,6 +33,7 @@ interface RoomAuthControllerDeps {
   onMembersChanged: () => void;
   onMemberAuthenticated: (id: string) => void;
   getAppVersion?: () => Promise<string>;
+  getInviteToken?: () => string | null;
 }
 
 export class RoomAuthController extends EventTarget {
@@ -42,6 +43,7 @@ export class RoomAuthController extends EventTarget {
   private pendingJoin: PendingJoin | null = null;
   private pendingJoinRequests = new Map<string, string>();
   private cachedJoinRequestsSnapshot: JoinRequestEntry[] = [];
+  private preAuthorizedTokens = new Set<string>();
 
   constructor(deps: RoomAuthControllerDeps) {
     super();
@@ -71,12 +73,14 @@ export class RoomAuthController extends EventTarget {
 
   async sendHello(id: string, connection: DataConnection, sharing: boolean): Promise<void> {
     const appVersion = await this.ownAppVersionPromise;
+    const inviteToken = this.deps.getInviteToken?.();
     sendTo(connection, {
       type: 'hello',
       name: this.deps.getSelfName(),
       avatarId: this.deps.getSelfAvatarId(),
       password: this.deps.getExpectedPassword(),
-      appVersion
+      appVersion,
+      ...(inviteToken ? { inviteToken } : {})
     } as HelloMessage);
     if (sharing) sendTo(connection, { type: 'sharing-status', sharing: true });
     this.scheduleAuthTimeout(id);
@@ -86,9 +90,7 @@ export class RoomAuthController extends EventTarget {
     if (!this.pendingJoinRequests.has(id)) return;
     this.pendingJoinRequests.delete(id);
     this.emitJoinRequests();
-    this.deps.registry.upsert(id, { authenticated: true });
-    this.handleAuthSuccess(id);
-    sendTo(this.deps.registry.get(id)?.conn, { type: 'join-approved' } as JoinApprovedMessage);
+    this.autoApprove(id);
   }
 
   denyJoinRequest(id: string): void {
@@ -98,7 +100,15 @@ export class RoomAuthController extends EventTarget {
     this.handleAuthRejected(id);
   }
 
-  handleJoinRequest(id: string, name: string): void {
+  preAuthorizeToken(token: string): void {
+    this.preAuthorizedTokens.add(token);
+  }
+
+  handleJoinRequest(id: string, name: string, inviteToken?: string): void {
+    if (inviteToken && this.preAuthorizedTokens.delete(inviteToken)) {
+      this.autoApprove(id);
+      return;
+    }
     this.pendingJoinRequests.set(id, name);
     this.emitJoinRequests();
     const member = this.deps.registry.get(id);
@@ -106,6 +116,12 @@ export class RoomAuthController extends EventTarget {
     setTimeout(() => {
       if (this.pendingJoinRequests.has(id)) this.denyJoinRequest(id);
     }, JOIN_APPROVAL_TIMEOUT_MS);
+  }
+
+  private autoApprove(id: string): void {
+    this.deps.registry.upsert(id, { authenticated: true });
+    this.handleAuthSuccess(id);
+    sendTo(this.deps.registry.get(id)?.conn, { type: 'join-approved' } as JoinApprovedMessage);
   }
 
   handleJoinPending(): void {

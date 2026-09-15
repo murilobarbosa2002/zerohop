@@ -8,11 +8,13 @@ import { TextInput } from '@/components/TextInput';
 import { PasswordInput } from '@/components/PasswordInput';
 import { AvatarPicker } from '@/components/AvatarPicker';
 import { useAvatarId } from '@/hooks/useAvatarId';
+import { useContacts } from '@/hooks/useContacts';
 import { getName, setName } from '@/services/namePreference';
 import { errorMessage } from '@/lib/errorMessage';
-import { playErrorSound, playBackButtonSound } from '@/services/soundEffects';
+import { playErrorSound, playBackButtonSound, playInviteContactToggleSound } from '@/services/soundEffects';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
+import { CONTACTS_STRINGS } from '@/strings/contacts.strings';
 import { ROOM_NAME_MAX_LENGTH } from '@/constants/roomIdentity';
 import { ROOM_PASSWORD_MAX_LENGTH } from '@/constants/roomPassword';
 import { createRoomSchema, type CreateRoomFormValues } from '@/components/PreRoom/CreateRoomForm.schema';
@@ -21,6 +23,8 @@ import type { CreateRoomFormProps } from '@/components/PreRoom/PreRoom.types';
 export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomFormProps) {
   const [status, setStatus] = useState('');
   const [avatarId, setAvatarId] = useAvatarId();
+  const { contacts } = useContacts();
+  const [invitedContactIds, setInvitedContactIds] = useState<Set<string>>(new Set());
   const {
     register,
     handleSubmit,
@@ -30,11 +34,22 @@ export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomForm
     defaultValues: { name: getName(), password: '' }
   });
 
+  function toggleInvitedContact(id: string): void {
+    playInviteContactToggleSound();
+    setInvitedContactIds((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
   async function handleCreate(values: CreateRoomFormValues): Promise<void> {
     setName(values.name);
     setStatus(PRE_ROOM_STRINGS.creatingRoomStatus);
     try {
-      const roomCode = await roomClient.createRoom(values.name, values.password, avatarId);
+      const invitedContacts = contacts.filter((contact) => invitedContactIds.has(contact.id));
+      const roomCode = await roomClient.createRoom(values.name, values.password, avatarId, undefined, invitedContacts);
       onEntered(roomCode);
     } catch (error) {
       setStatus(PRE_ROOM_STRINGS.createRoomError(errorMessage(error)));
@@ -69,6 +84,29 @@ export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomForm
             soundKind={TextInputSoundKind.PASSWORD}
           />
         </label>
+
+        {contacts.length > 0 && (
+          <div className="mb-3">
+            <p className="text-body-sm">{CONTACTS_STRINGS.inviteContactsTitle}</p>
+            <p className="text-text-dim text-xs mt-1 leading-relaxed">{CONTACTS_STRINGS.inviteContactsHint}</p>
+            <div className="mt-2">
+              {contacts.map((contact) => (
+                <label
+                  key={contact.id}
+                  className="flex items-center gap-2 bg-panel-2 border border-border rounded-lg px-3 py-2 mt-2 cursor-pointer"
+                >
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 accent-accent flex-shrink-0"
+                    checked={invitedContactIds.has(contact.id)}
+                    onChange={() => toggleInvitedContact(contact.id)}
+                  />
+                  <span className="font-bold text-body-sm truncate">{contact.name}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="flex gap-2 mt-2">
           <ActionButton

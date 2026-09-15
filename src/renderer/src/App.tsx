@@ -8,9 +8,12 @@ import { SettingsScreen } from '@/components/SettingsScreen';
 import { LogsScreen } from '@/components/LogsScreen';
 import { UpdateReadyModal } from '@/components/UpdateReadyModal';
 import { AddRoomOverlay } from '@/components/AddRoomOverlay';
+import { InviteReceivedModal } from '@/components/InviteReceivedModal';
 import { useRoomSessions } from '@/hooks/useRoomSessions';
 import { useAppUpdater } from '@/hooks/useAppUpdater';
 import { useOverlay } from '@/hooks/useOverlay';
+import { useNamePreference } from '@/hooks/useNamePreference';
+import { useAvatarId } from '@/hooks/useAvatarId';
 import { logEvent } from '@/services/appLog';
 import { playJoinedRoomSound, playUpdateLaterSound } from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
@@ -23,15 +26,20 @@ export function App() {
     focusedSession,
     focusedSessionId,
     pendingSession,
+    pendingInvites,
     startPendingSession,
     cancelPendingSession,
     markEntered,
     focus,
-    leave
+    leave,
+    acceptInvite,
+    declineInvite
   } = useRoomSessions();
   const { activeOverlay, open: openOverlay, toggle: toggleOverlay, close: closeOverlay } = useOverlay();
   const { status: updaterStatus, installUpdate, version } = useAppUpdater();
   const [dismissedUpdateVersion, setDismissedUpdateVersion] = useState<string | null>(null);
+  const [name] = useNamePreference();
+  const [avatarId] = useAvatarId();
 
   useEffect(() => {
     if (version) logEvent(LogCategory.APP, LogLevel.INFO, LOG_STRINGS.appStartedMessage(version));
@@ -67,6 +75,11 @@ export function App() {
           }}
         />
       )}
+      <InviteReceivedModal
+        invites={pendingInvites}
+        onAccept={(inviteId) => acceptInvite(inviteId, name, avatarId)}
+        onDecline={declineInvite}
+      />
       <TitleBar
         onOpenUpdates={() => toggleOverlay(Overlay.UPDATES)}
         onOpenSettings={() => toggleOverlay(Overlay.SETTINGS)}

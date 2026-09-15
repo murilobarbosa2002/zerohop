@@ -1,13 +1,18 @@
 import Peer, { type DataConnection, type MediaConnection } from 'peerjs';
-import { createPeer, safeCall } from '@/services/room/peerSession';
+import { createPeer, safeCall, sendTo } from '@/services/room/peerSession';
 import { watchConnection, watchForRealDisconnect } from '@/services/room/iceDiagnostics';
 import { roomMessageSchema } from '@/services/room/roomMessage.schema';
-import { ICE_CONNECTION_TIMEOUT_MS, PEER_RECONNECT_MAX_RETRIES, PEER_RECONNECT_RETRY_DELAY_MS } from '@/constants/timing';
+import {
+  ICE_CONNECTION_TIMEOUT_MS,
+  PEER_RECONNECT_MAX_RETRIES,
+  PEER_RECONNECT_RETRY_DELAY_MS,
+  INVITE_SEND_CLOSE_DELAY_MS
+} from '@/constants/timing';
 import { CallKind } from '@/constants/callKind';
 import { logEvent } from '@/services/appLog';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { LogCategory, LogLevel } from '@shared/logEntry';
-import type { RoomMessage } from '@/services/room/RoomProtocol';
+import type { RoomMessage, InviteMessage } from '@/services/room/RoomProtocol';
 
 interface PeerConnectionManagerDeps {
   isKnownMember: (id: string) => boolean;
@@ -15,6 +20,7 @@ interface PeerConnectionManagerDeps {
   isBlocked: (id: string) => boolean;
   onMemberConnectionOpen: (id: string, connection: DataConnection) => void;
   onMessage: (fromId: string, message: RoomMessage) => void;
+  onInviteMessage: (fromId: string, message: InviteMessage) => void;
   onMemberDisconnected: (id: string) => void;
   onIncomingStream: (fromId: string, call: MediaConnection, stream: MediaStream) => void;
   onIncomingStreamClosed: (fromId: string) => void;
@@ -58,6 +64,15 @@ export class PeerConnectionManager {
     this.openOutgoingConnection(id, 0);
   }
 
+  sendInvite(id: string, message: InviteMessage): void {
+    if (!this.peer || id === this.selfId) return;
+    const connection = this.peer.connect(id, { reliable: true });
+    connection.on('open', () => {
+      sendTo(connection, message);
+      setTimeout(() => safeCall(connection, 'close'), INVITE_SEND_CLOSE_DELAY_MS);
+    });
+  }
+
   private openOutgoingConnection(id: string, attempt: number): void {
     if (!this.peer) return;
     const connection = this.peer.connect(id, { reliable: true });
@@ -77,6 +92,11 @@ export class PeerConnectionManager {
       if (!parsed.success) {
         console.warn('[room] mensagem descartada por não seguir o protocolo esperado', parsed.error.issues);
         logEvent(LogCategory.CONNECTION, LogLevel.WARNING, LOG_STRINGS.invalidMessageDiscardedMessage, JSON.stringify(parsed.error.issues));
+        return;
+      }
+      if (parsed.data.type === 'invite') {
+        this.deps.onInviteMessage(connection.peer, parsed.data);
+        safeCall(connection, 'close');
         return;
       }
       this.deps.onMessage(connection.peer, parsed.data);

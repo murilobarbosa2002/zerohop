@@ -12,7 +12,8 @@ export const helloMessageSchema = z.object({
   name: z.string(),
   avatarId: z.string(),
   password: z.string(),
-  appVersion: z.string()
+  appVersion: z.string(),
+  inviteToken: z.string().optional()
 });
 
 export const membersMessageSchema = z.object({
@@ -62,6 +63,16 @@ export const joinApprovedMessageSchema = z.object({
   type: z.literal('join-approved')
 });
 
+export const inviteMessageSchema = z.object({
+  type: z.literal('invite'),
+  roomCode: z.string(),
+  roomPassword: z.string(),
+  inviteToken: z.string(),
+  hostId: z.string(),
+  hostName: z.string(),
+  hostAvatarId: z.string()
+});
+
 export const roomMessageSchema = z.discriminatedUnion('type', [
   helloMessageSchema,
   membersMessageSchema,
@@ -73,5 +84,6 @@ export const roomMessageSchema = z.discriminatedUnion('type', [
   chatMessageSchema,
   deleteChatMessageSchema,
   joinPendingMessageSchema,
-  joinApprovedMessageSchema
+  joinApprovedMessageSchema,
+  inviteMessageSchema
 ]);

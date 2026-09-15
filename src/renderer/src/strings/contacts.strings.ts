@@ -1,6 +1,9 @@
 export const CONTACTS_STRINGS = {
   contactsButton: 'Contatos',
   contactsHint: 'Sua sala pessoal e os amigos salvos — chame alguém sem trocar código toda vez.',
+  inviteContactsTitle: 'Convidar contatos (opcional)',
+  inviteContactsHint:
+    'Quem você marcar entra direto na sala, sem precisar de código/senha e sem você ter que aprovar — só funciona se a pessoa estiver com a sala pessoal dela aberta agora.',
   screenTitle: 'Contatos',
   backButton: 'Voltar',
   personalRoomTitle: 'Sua sala pessoal',

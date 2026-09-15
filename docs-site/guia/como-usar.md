@@ -68,6 +68,12 @@ Chamar um contato funciona exatamente como entrar numa sala normal: a pessoa rec
 
 O ID e a senha da sua sala pessoal ficam salvos só no seu computador (no mesmo lugar que as outras configurações do app), nunca em servidor nenhum.
 
+### Convidar contatos direto, sem aprovar entrada
+
+Ao criar uma sala nova, se você já tiver contatos salvos, aparece uma seção **"Convidar contatos (opcional)"** — marque quem quiser chamar direto pra essa sala. Diferente de "Chamar" (que é a pessoa entrando numa sala já existente), aqui é você trazendo alguém pra uma sala que você acabou de abrir: a pessoa convidada entra automaticamente, sem precisar de código/senha e sem você precisar aprovar a entrada dela.
+
+Só funciona se a pessoa convidada estiver com a **sala pessoal dela** aberta no momento em que você cria a sua — é a única forma do app te alcançar sem depender de nenhum servidor. Se ela não estiver alcançável, o convite simplesmente não chega, sem erro nenhum pra você.
+
 ## Como a sala é organizada
 
 Dentro da sala, a tela é dividida em três áreas, como um app de chamada:
