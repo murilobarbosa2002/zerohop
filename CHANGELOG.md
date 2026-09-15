@@ -4,7 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| [0.36.25](docs/releases/v0.36.25.md) | Convide contatos direto pra sala, sem precisar aprovar a entrada deles                                                  |
+| [0.36.25](docs/releases/v0.36.25.md) | Convide contatos direto pra sala; push-to-talk tenta funcionar sem foco de novo                                         |
 | [0.36.24](docs/releases/v0.36.24.md) | Tela inicial redesenhada com ícones, indicador de conexão quebrado removido                                             |
 | [0.36.23](docs/releases/v0.36.23.md) | Nome salvo automaticamente, cabeçalho dentro do mesmo quadro da tela                                                    |
 | [0.36.22](docs/releases/v0.36.22.md) | Push-to-talk sem biblioteca nativa (agora só funciona com o app em foco)                                                |
