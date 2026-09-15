@@ -65,9 +65,11 @@ export function usePushToTalk(roomClient: RoomClient, pushToTalkOriginRef: { cur
 
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
+    const unsubscribeNative = window.api.onHotkeyPttActiveChanged(setPushToTalkActive);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+      unsubscribeNative();
       if (releaseTimeoutRef.current) clearTimeout(releaseTimeoutRef.current);
       if (heldRef.current) {
         heldRef.current = false;

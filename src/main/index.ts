@@ -3,6 +3,7 @@ import { createWindow } from '@main/window';
 import { registerIpcHandlers } from '@main/ipc';
 import { initAutoUpdater, registerUpdaterIpcHandlers } from '@main/updater';
 import { applyToggleHotkeys } from '@main/toggleHotkeys';
+import { startGlobalHotkeys, stopGlobalHotkeys } from '@main/globalHotkeys';
 import { appendLog } from '@main/logger';
 import { getSettings, ensureSettingsFileExists } from '@main/settings';
 import { ensureContactsFileExists } from '@main/contacts';
@@ -34,6 +35,7 @@ app.whenReady().then(() => {
   registerUpdaterIpcHandlers();
   createWindow();
   initAutoUpdater();
+  startGlobalHotkeys();
   applyToggleHotkeys(getSettings().hotkeys);
 
   app.on('activate', () => {
@@ -47,4 +49,5 @@ app.on('window-all-closed', () => {
 
 app.on('will-quit', () => {
   globalShortcut.unregisterAll();
+  stopGlobalHotkeys();
 });

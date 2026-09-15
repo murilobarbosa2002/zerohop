@@ -34,6 +34,7 @@ declare global {
       onHotkeySettingsChanged: (callback: (hotkeys: HotkeySettings) => void) => () => void;
       onHotkeyMicMuteToggle: (callback: () => void) => () => void;
       onHotkeyDeafenToggle: (callback: () => void) => () => void;
+      onHotkeyPttActiveChanged: (callback: (active: boolean) => void) => () => void;
       onAppClosing: (callback: () => void) => () => void;
       getContacts: () => Promise<Contact[]>;
       addContact: (contact: Contact) => Promise<Contact[]>;

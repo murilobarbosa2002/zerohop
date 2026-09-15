@@ -62,6 +62,11 @@ const api = {
     ipcRenderer.on(IPC_CHANNELS.hotkeyDeafenToggle, listener);
     return () => ipcRenderer.removeListener(IPC_CHANNELS.hotkeyDeafenToggle, listener);
   },
+  onHotkeyPttActiveChanged: (callback: (active: boolean) => void): (() => void) => {
+    const listener = (_event: Electron.IpcRendererEvent, active: boolean): void => callback(active);
+    ipcRenderer.on(IPC_CHANNELS.hotkeyPttActiveChanged, listener);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.hotkeyPttActiveChanged, listener);
+  },
   onAppClosing: (callback: () => void): (() => void) => {
     const listener = (): void => callback();
     ipcRenderer.on(IPC_CHANNELS.appClosing, listener);
