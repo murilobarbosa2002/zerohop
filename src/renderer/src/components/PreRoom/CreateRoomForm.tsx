@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Card, CardTitle } from '@/components/Card';
+import { Header } from '@/components/Header';
 import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
 import { PasswordInput } from '@/components/PasswordInput';
 import { AvatarPicker } from '@/components/AvatarPicker';
 import { useAvatarId } from '@/hooks/useAvatarId';
+import { getName, setName } from '@/services/namePreference';
 import { errorMessage } from '@/lib/errorMessage';
 import { playErrorSound, playBackButtonSound } from '@/services/soundEffects';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
@@ -25,10 +27,11 @@ export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomForm
     formState: { errors }
   } = useForm<CreateRoomFormValues>({
     resolver: zodResolver(createRoomSchema),
-    defaultValues: { name: '', password: '' }
+    defaultValues: { name: getName(), password: '' }
   });
 
   async function handleCreate(values: CreateRoomFormValues): Promise<void> {
+    setName(values.name);
     setStatus(PRE_ROOM_STRINGS.creatingRoomStatus);
     try {
       const roomCode = await roomClient.createRoom(values.name, values.password, avatarId);
@@ -41,6 +44,7 @@ export function CreateRoomForm({ roomClient, onEntered, onBack }: CreateRoomForm
 
   return (
     <Card>
+      <Header />
       <CardTitle>{PRE_ROOM_STRINGS.createRoomTitle}</CardTitle>
       <form>
         <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mb-3">

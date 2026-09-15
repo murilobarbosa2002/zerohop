@@ -1,4 +1,5 @@
 import { Card, CardTitle } from '@/components/Card';
+import { Header } from '@/components/Header';
 import { ActionButton } from '@/components/ActionButton';
 import { playCreateRoomClickSound, playJoinRoomClickSound, playOpenContactsClickSound } from '@/services/soundEffects';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
@@ -8,6 +9,7 @@ import type { PreRoomChoiceProps } from '@/components/PreRoom/PreRoom.types';
 export function PreRoomChoice({ onSelectCreate, onSelectJoin, onSelectContacts }: PreRoomChoiceProps) {
   return (
     <Card>
+      <Header />
       <CardTitle>{PRE_ROOM_STRINGS.choiceTitle}</CardTitle>
       <div className="flex gap-4 flex-wrap">
         <ActionButton

@@ -60,7 +60,7 @@ Regra de ferro: **nada aqui importa de `components/` ou `hooks/`**. Serviços n�
 - **`MicCapture.ts`** — captura o microfone via um grafo do Web Audio API (`MediaStreamSource → GainNode → MediaStreamAudioDestinationNode`), pra permitir ajustar sensibilidade e mutar **na origem** (zerando o gain), não só desativando a `track`.
 - **`ScreenCapture.ts`** — captura de tela/janela via `desktopCapturer` do Electron.
 - **`soundEffects.ts`** — todos os efeitos sonoros do app, um `playXSound()` por ação, cada um com sua categoria de volume (ver [Sistema de sons](#sistema-de-sons)).
-- **`*Preference.ts`** (`soundEffectsPreference`, `uiScalePreference`, `micInputPreference`, `audioOutputPreference`, `avatarPreference`) — preferências do usuário guardadas no `localStorage` do renderer, cada uma com seu próprio `get`/`set`/`subscribe`.
+- **`*Preference.ts`** (`soundEffectsPreference`, `uiScalePreference`, `micInputPreference`, `audioOutputPreference`, `avatarPreference`, `namePreference`) — preferências do usuário guardadas no `localStorage` do renderer, cada uma com seu próprio `get`/`set`/`subscribe`. O nome (`namePreference.ts`, v0.36.23+) segue o mesmo padrão do avatar: salvo automaticamente sempre que muda, sem precisar de um botão "salvar" — assim quem já preencheu nome/avatar uma vez não precisa digitar de novo em Criar sala, Entrar numa sala ou Contatos, já vem tudo preenchido.
 - **`appLog.ts`** — grava eventos no histórico de logs a partir do renderer (chama o `main` via IPC).
 
 ## `src/renderer/src/hooks/` — a ponte entre `services/` e o React

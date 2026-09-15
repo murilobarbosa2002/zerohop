@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { TitleBar } from '@/components/TitleBar';
-import { Header } from '@/components/Header';
 import { StatusBar } from '@/components/StatusBar';
 import { PreRoom } from '@/components/PreRoom';
 import { Room } from '@/components/Room';
@@ -103,7 +102,6 @@ export function App() {
             pendingSession &&
             enteredSessions.length === 0 && (
               <div className="absolute inset-0 overflow-y-auto px-7 py-7">
-                <Header />
                 <PreRoom roomClient={pendingSession.roomClient} onEntered={handleEnteredRoom} />
                 <StatusBar status={status} />
               </div>

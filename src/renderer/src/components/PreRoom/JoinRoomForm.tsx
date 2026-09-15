@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Card, CardTitle } from '@/components/Card';
+import { Header } from '@/components/Header';
 import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
 import { PasswordInput } from '@/components/PasswordInput';
 import { AvatarPicker } from '@/components/AvatarPicker';
 import { useAvatarId } from '@/hooks/useAvatarId';
+import { getName, setName } from '@/services/namePreference';
 import { errorMessage } from '@/lib/errorMessage';
 import { playErrorSound, playBackButtonSound } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
@@ -26,10 +28,11 @@ export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProp
     formState: { errors }
   } = useForm<JoinRoomFormValues>({
     resolver: zodResolver(joinRoomSchema),
-    defaultValues: { name: '', code: '', password: '' }
+    defaultValues: { name: getName(), code: '', password: '' }
   });
 
   async function handleJoin(values: JoinRoomFormValues): Promise<void> {
+    setName(values.name);
     const code = values.code.toUpperCase();
     setStatus(PRE_ROOM_STRINGS.joiningRoomStatus);
     const stopListeningJoinPending = onTyped(roomClient, 'join-pending', () => {
@@ -48,6 +51,7 @@ export function JoinRoomForm({ roomClient, onEntered, onBack }: JoinRoomFormProp
 
   return (
     <Card>
+      <Header />
       <CardTitle>{PRE_ROOM_STRINGS.joinRoomTitle}</CardTitle>
       <form>
         <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mb-3">

@@ -1,4 +1,3 @@
-import { Header } from '@/components/Header';
 import { PreRoom } from '@/components/PreRoom';
 import { ActionButton } from '@/components/ActionButton';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
@@ -12,7 +11,6 @@ export function AddRoomOverlay({ roomClient, onEntered, onCancel }: AddRoomOverl
           {PRE_ROOM_STRINGS.backButton}
         </ActionButton>
       </div>
-      <Header />
       <PreRoom roomClient={roomClient} onEntered={onEntered} />
     </div>
   );

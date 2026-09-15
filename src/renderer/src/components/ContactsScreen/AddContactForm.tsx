@@ -35,7 +35,7 @@ export function AddContactForm({ onAdd }: AddContactFormProps) {
   }
 
   return (
-    <Card>
+    <Card muted>
       <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.addContactTitle}</p>
 
       <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold mt-3">

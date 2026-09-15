@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Card } from '@/components/Card';
+import { Header } from '@/components/Header';
 import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
 import { AvatarPicker } from '@/components/AvatarPicker';
@@ -7,6 +8,7 @@ import { PersonalRoomCard } from '@/components/ContactsScreen/PersonalRoomCard';
 import { ContactRow } from '@/components/ContactsScreen/ContactRow';
 import { AddContactForm } from '@/components/ContactsScreen/AddContactForm';
 import { useAvatarId } from '@/hooks/useAvatarId';
+import { useNamePreference } from '@/hooks/useNamePreference';
 import { useContacts } from '@/hooks/useContacts';
 import { usePersonalRoom } from '@/hooks/usePersonalRoom';
 import { errorMessage } from '@/lib/errorMessage';
@@ -20,7 +22,7 @@ import type { Contact } from '@shared/contact';
 import type { ContactsScreenProps } from '@/components/ContactsScreen/ContactsScreen.types';
 
 export function ContactsScreen({ roomClient, onEntered, onBack }: ContactsScreenProps) {
-  const [name, setName] = useState('');
+  const [name, setName] = useNamePreference();
   const [avatarId, setAvatarId] = useAvatarId();
   const { contacts, addContact, removeContact } = useContacts();
   const personalRoom = usePersonalRoom();
@@ -68,23 +70,24 @@ export function ContactsScreen({ roomClient, onEntered, onBack }: ContactsScreen
   }
 
   return (
-    <div className="max-w-contacts-screen mx-auto flex flex-col gap-4">
-      <div className="flex items-center gap-3">
-        <ActionButton
-          type="button"
-          variant="default"
-          onClick={() => {
-            playBackButtonSound();
-            onBack();
-          }}
-        >
-          {CONTACTS_STRINGS.backButton}
-        </ActionButton>
-        <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.screenTitle}</p>
-      </div>
-
+    <div className="max-w-contacts-screen mx-auto">
       <Card>
-        <div className="flex items-end gap-4 flex-wrap">
+        <Header />
+        <div className="flex items-center gap-3 mb-4">
+          <ActionButton
+            type="button"
+            variant="default"
+            onClick={() => {
+              playBackButtonSound();
+              onBack();
+            }}
+          >
+            {CONTACTS_STRINGS.backButton}
+          </ActionButton>
+          <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.screenTitle}</p>
+        </div>
+
+        <div className="flex items-end gap-4 flex-wrap mb-4">
           <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold flex-1 min-w-form-column">
             {PRE_ROOM_STRINGS.nameFieldLabel}
             <TextInput
@@ -97,32 +100,32 @@ export function ContactsScreen({ roomClient, onEntered, onBack }: ContactsScreen
           </label>
           <AvatarPicker value={avatarId} onChange={setAvatarId} />
         </div>
-      </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-        <PersonalRoomCard
-          id={personalRoom.id}
-          password={personalRoom.password}
-          onChangePassword={personalRoom.setPassword}
-          onOpen={handleOpenPersonalRoom}
-          status={status}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+          <PersonalRoomCard
+            id={personalRoom.id}
+            password={personalRoom.password}
+            onChangePassword={personalRoom.setPassword}
+            onOpen={handleOpenPersonalRoom}
+            status={status}
+          />
 
-        <div className="flex flex-col gap-4">
-          <Card>
-            <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.contactsListTitle}</p>
-            {contacts.length === 0 ? (
-              <p className="text-text-dim text-xs mt-2">{CONTACTS_STRINGS.noContactsMessage}</p>
-            ) : (
-              contacts.map((contact) => (
-                <ContactRow key={contact.id} contact={contact} onCall={handleCallContact} onRemove={removeContact} disabled={busy} />
-              ))
-            )}
-          </Card>
+          <div className="flex flex-col gap-4">
+            <Card muted>
+              <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.contactsListTitle}</p>
+              {contacts.length === 0 ? (
+                <p className="text-text-dim text-xs mt-2">{CONTACTS_STRINGS.noContactsMessage}</p>
+              ) : (
+                contacts.map((contact) => (
+                  <ContactRow key={contact.id} contact={contact} onCall={handleCallContact} onRemove={removeContact} disabled={busy} />
+                ))
+              )}
+            </Card>
 
-          <AddContactForm onAdd={addContact} />
+            <AddContactForm onAdd={addContact} />
+          </div>
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

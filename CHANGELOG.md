@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.23](docs/releases/v0.36.23.md) | Nome salvo automaticamente, cabeçalho dentro do mesmo quadro da tela                                                    |
 | [0.36.22](docs/releases/v0.36.22.md) | Push-to-talk sem biblioteca nativa (agora só funciona com o app em foco)                                                |
 | [0.36.21](docs/releases/v0.36.21.md) | Layout de Contatos em duas colunas, experimento na captura de tecla do push-to-talk                                     |
 | [0.36.20](docs/releases/v0.36.20.md) | Contatos: chame um amigo com um clique, sem trocar código toda vez                                                      |

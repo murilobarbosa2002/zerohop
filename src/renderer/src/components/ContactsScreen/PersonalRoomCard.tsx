@@ -17,7 +17,7 @@ interface PersonalRoomCardProps {
 
 export function PersonalRoomCard({ id, password, onChangePassword, onOpen, status }: PersonalRoomCardProps) {
   return (
-    <Card>
+    <Card muted>
       <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.personalRoomTitle}</p>
       <p className="text-text-dim text-xs mt-1.5 leading-relaxed">{CONTACTS_STRINGS.personalRoomHint}</p>
 
