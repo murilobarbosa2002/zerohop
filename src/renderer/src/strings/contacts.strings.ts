@@ -1,5 +1,6 @@
 export const CONTACTS_STRINGS = {
   contactsButton: 'Contatos',
+  contactsHint: 'Sua sala pessoal e os amigos salvos — chame alguém sem trocar código toda vez.',
   screenTitle: 'Contatos',
   backButton: 'Voltar',
   personalRoomTitle: 'Sua sala pessoal',

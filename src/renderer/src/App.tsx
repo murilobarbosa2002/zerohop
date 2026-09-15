@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { TitleBar } from '@/components/TitleBar';
-import { StatusBar } from '@/components/StatusBar';
 import { PreRoom } from '@/components/PreRoom';
 import { Room } from '@/components/Room';
 import { RoomSwitcher } from '@/components/RoomSwitcher';
@@ -10,7 +9,6 @@ import { LogsScreen } from '@/components/LogsScreen';
 import { UpdateReadyModal } from '@/components/UpdateReadyModal';
 import { AddRoomOverlay } from '@/components/AddRoomOverlay';
 import { useRoomSessions } from '@/hooks/useRoomSessions';
-import { useRoomStatus } from '@/hooks/useRoomStatus';
 import { useAppUpdater } from '@/hooks/useAppUpdater';
 import { useOverlay } from '@/hooks/useOverlay';
 import { logEvent } from '@/services/appLog';
@@ -21,7 +19,6 @@ import { Overlay } from '@/constants/overlay';
 
 export function App() {
   const {
-    sessions,
     enteredSessions,
     focusedSession,
     focusedSessionId,
@@ -35,9 +32,6 @@ export function App() {
   const { activeOverlay, open: openOverlay, toggle: toggleOverlay, close: closeOverlay } = useOverlay();
   const { status: updaterStatus, installUpdate, version } = useAppUpdater();
   const [dismissedUpdateVersion, setDismissedUpdateVersion] = useState<string | null>(null);
-
-  const statusRoomClient = (pendingSession ?? focusedSession ?? sessions[0]).roomClient;
-  const status = useRoomStatus(statusRoomClient);
 
   useEffect(() => {
     if (version) logEvent(LogCategory.APP, LogLevel.INFO, LOG_STRINGS.appStartedMessage(version));
@@ -103,7 +97,6 @@ export function App() {
             enteredSessions.length === 0 && (
               <div className="absolute inset-0 overflow-y-auto px-7 py-7">
                 <PreRoom roomClient={pendingSession.roomClient} onEntered={handleEnteredRoom} />
-                <StatusBar status={status} />
               </div>
             )
           )}

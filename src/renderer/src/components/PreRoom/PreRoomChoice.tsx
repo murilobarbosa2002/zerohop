@@ -1,6 +1,7 @@
-import { Card, CardTitle } from '@/components/Card';
+import { Card } from '@/components/Card';
 import { Header } from '@/components/Header';
-import { ActionButton } from '@/components/ActionButton';
+import { PreRoomChoiceOption } from '@/components/PreRoom/PreRoomChoiceOption';
+import { PlusCircleIcon, EnterDoorIcon, PeopleIcon } from '@/components/icons';
 import { playCreateRoomClickSound, playJoinRoomClickSound, playOpenContactsClickSound } from '@/services/soundEffects';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { CONTACTS_STRINGS } from '@/strings/contacts.strings';
@@ -10,41 +11,36 @@ export function PreRoomChoice({ onSelectCreate, onSelectJoin, onSelectContacts }
   return (
     <Card>
       <Header />
-      <CardTitle>{PRE_ROOM_STRINGS.choiceTitle}</CardTitle>
-      <div className="flex gap-4 flex-wrap">
-        <ActionButton
-          type="button"
-          variant="primary"
-          className="flex-1 min-w-form-column"
+      <p className="text-text-dim text-xs font-semibold mb-3">{PRE_ROOM_STRINGS.choiceHint}</p>
+      <div className="flex flex-col gap-2.5">
+        <PreRoomChoiceOption
+          primary
+          icon={<PlusCircleIcon />}
+          title={PRE_ROOM_STRINGS.createRoomButton}
+          hint={PRE_ROOM_STRINGS.createRoomHint}
           onClick={() => {
             playCreateRoomClickSound();
             onSelectCreate();
           }}
-        >
-          {PRE_ROOM_STRINGS.createRoomButton}
-        </ActionButton>
-        <ActionButton
-          type="button"
-          variant="default"
-          className="flex-1 min-w-form-column"
+        />
+        <PreRoomChoiceOption
+          icon={<EnterDoorIcon />}
+          title={PRE_ROOM_STRINGS.joinRoomButton}
+          hint={PRE_ROOM_STRINGS.joinRoomHint}
           onClick={() => {
             playJoinRoomClickSound();
             onSelectJoin();
           }}
-        >
-          {PRE_ROOM_STRINGS.joinRoomButton}
-        </ActionButton>
-        <ActionButton
-          type="button"
-          variant="default"
-          className="flex-1 min-w-form-column"
+        />
+        <PreRoomChoiceOption
+          icon={<PeopleIcon />}
+          title={CONTACTS_STRINGS.contactsButton}
+          hint={CONTACTS_STRINGS.contactsHint}
           onClick={() => {
             playOpenContactsClickSound();
             onSelectContacts();
           }}
-        >
-          {CONTACTS_STRINGS.contactsButton}
-        </ActionButton>
+        />
       </div>
     </Card>
   );

@@ -1,7 +1,9 @@
 export const PRE_ROOM_STRINGS = {
-  choiceTitle: 'ZeroHop',
+  choiceHint: 'Escolha como quer começar',
   createRoomButton: 'Criar sala nova',
+  createRoomHint: 'Abra uma sala com senha e mande o código pra quem você quiser chamar.',
   joinRoomButton: 'Entrar numa sala',
+  joinRoomHint: 'Já tem um código e senha? Cole aqui pra entrar direto.',
   backButton: 'Voltar',
   nameFieldLabel: 'Seu nome',
   nameFieldPlaceholder: 'Como seus amigos vão te ver',

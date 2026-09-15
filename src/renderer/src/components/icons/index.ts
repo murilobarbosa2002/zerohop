@@ -6,3 +6,6 @@ export { MinimizeIcon } from '@/components/icons/MinimizeIcon';
 export { MaximizeIcon } from '@/components/icons/MaximizeIcon';
 export { CloseIcon } from '@/components/icons/CloseIcon';
 export { EyeIcon } from '@/components/icons/EyeIcon';
+export { PlusCircleIcon } from '@/components/icons/PlusCircleIcon';
+export { EnterDoorIcon } from '@/components/icons/EnterDoorIcon';
+export { PeopleIcon } from '@/components/icons/PeopleIcon';

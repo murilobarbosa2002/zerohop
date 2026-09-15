@@ -56,7 +56,7 @@ export function HotkeySettings() {
         value={hotkeys.pushToTalkHotkey}
         onChange={(value: AcceleratorBinding | null) => setHotkeys({ ...hotkeys, pushToTalkHotkey: value })}
       />
-      <p className="text-text-dim text-xs -mt-2 leading-relaxed">{SETTINGS_STRINGS.pushToTalkHotkeyHint}</p>
+      <p className="text-text-dim text-xs mt-2 leading-relaxed">{SETTINGS_STRINGS.pushToTalkHotkeyHint}</p>
 
       <div className="mt-3.5">
         <p className="text-body-sm">{SETTINGS_STRINGS.pushToTalkReleaseDelayLabel}</p>
