@@ -9,7 +9,7 @@ import {
   PUSH_TO_TALK_RELEASE_DELAY_STEP_MS
 } from '@/constants/hotkeys';
 import { SETTINGS_STRINGS } from '@/strings/settings.strings';
-import type { AcceleratorBinding, HotkeyBinding } from '@shared/hotkeySettings';
+import type { AcceleratorBinding } from '@shared/hotkeySettings';
 
 export function HotkeySettings() {
   const [hotkeys, setHotkeys] = useHotkeySettings();
@@ -39,26 +39,24 @@ export function HotkeySettings() {
       <p className="font-bold text-lg">{SETTINGS_STRINGS.hotkeysTitle}</p>
       <p className="text-text-dim text-xs mt-1.5 leading-relaxed">{SETTINGS_STRINGS.hotkeysHint}</p>
 
-      <HotkeyRecorderRow<AcceleratorBinding>
-        mode="accelerator"
+      <HotkeyRecorderRow
         label={SETTINGS_STRINGS.micMuteHotkeyLabel}
         value={hotkeys.micMuteHotkey}
         onChange={updateMicMuteHotkey}
         errorMessage={micMuteError ? SETTINGS_STRINGS.hotkeyConflictError : null}
       />
-      <HotkeyRecorderRow<AcceleratorBinding>
-        mode="accelerator"
+      <HotkeyRecorderRow
         label={SETTINGS_STRINGS.deafenHotkeyLabel}
         value={hotkeys.deafenHotkey}
         onChange={updateDeafenHotkey}
         errorMessage={deafenError ? SETTINGS_STRINGS.hotkeyConflictError : null}
       />
-      <HotkeyRecorderRow<HotkeyBinding>
-        mode="globalKeycode"
+      <HotkeyRecorderRow
         label={SETTINGS_STRINGS.pushToTalkHotkeyLabel}
         value={hotkeys.pushToTalkHotkey}
-        onChange={(value) => setHotkeys({ ...hotkeys, pushToTalkHotkey: value })}
+        onChange={(value: AcceleratorBinding | null) => setHotkeys({ ...hotkeys, pushToTalkHotkey: value })}
       />
+      <p className="text-text-dim text-xs -mt-2 leading-relaxed">{SETTINGS_STRINGS.pushToTalkHotkeyHint}</p>
 
       <div className="mt-3.5">
         <p className="text-body-sm">{SETTINGS_STRINGS.pushToTalkReleaseDelayLabel}</p>

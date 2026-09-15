@@ -77,7 +77,7 @@ async function loadMinhaLibNativa() {
 }
 ```
 
-...chamado só de dentro da função que realmente usa a lib, nunca no topo do arquivo. Além disso, a dependência precisa entrar em `build.asarUnpack` no `package.json` (senão o `.node` compilado fica preso dentro do `app.asar` e não carrega no app empacotado). Exemplos reais no projeto: `loopback-capture`, `node-window-manager`, `node-global-key-listener`.
+...chamado só de dentro da função que realmente usa a lib, nunca no topo do arquivo. Além disso, a dependência precisa entrar em `build.asarUnpack` no `package.json` (senão o `.node` compilado fica preso dentro do `app.asar` e não carrega no app empacotado). Exemplos reais no projeto: `loopback-capture`, `node-window-manager`.
 
 ## Processo de release
 

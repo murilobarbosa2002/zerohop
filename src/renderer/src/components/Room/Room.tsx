@@ -13,6 +13,7 @@ import { useChatMessages } from '@/hooks/useChatMessages';
 import { useJoinRequests } from '@/hooks/useJoinRequests';
 import { useSourcePicker } from '@/hooks/useSourcePicker';
 import { useMicMuted } from '@/hooks/useMicMuted';
+import { usePushToTalk } from '@/hooks/usePushToTalk';
 import { useMemberAudioState } from '@/hooks/useMemberAudioState';
 import {
   playMicMuteSound,
@@ -29,9 +30,7 @@ import {
   playMessageDeletedRemoteSound,
   playJoinRequestSound,
   playMemberLeftSound,
-  playRoomLeftSound,
-  playPushToTalkStartSound,
-  playPushToTalkStopSound
+  playRoomLeftSound
 } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
 import { ROOM_STRINGS } from '@/strings/room.strings';
@@ -45,8 +44,8 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
   const [sidebarWidth, setSidebarWidth] = useResizablePanelWidth('zerohop:sidebarWidth', 300, 300, 420);
   const [chatWidth, setChatWidth] = useResizablePanelWidth('zerohop:chatWidth', 300, 300, 480);
   const [deafened, setDeafened] = useState(false);
-  const [pushToTalkActive, setPushToTalkActive] = useState(false);
   const pushToTalkOriginRef = useRef(false);
+  const pushToTalkActive = usePushToTalk(roomClient, pushToTalkOriginRef);
   const sourcePicker = useSourcePicker();
   const members = useMembers(roomClient);
   const sharing = useSharing(roomClient);
@@ -101,18 +100,6 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
   useEffect(() => window.api.onHotkeyMicMuteToggle(() => roomClient.toggleMicMuted()), [roomClient]);
 
   useEffect(() => window.api.onHotkeyDeafenToggle(() => toggleDeafen()), []);
-
-  useEffect(
-    () =>
-      window.api.onHotkeyPttActiveChanged((active) => {
-        pushToTalkOriginRef.current = true;
-        roomClient.setMicMuted(!active);
-        pushToTalkOriginRef.current = false;
-        setPushToTalkActive(active);
-        active ? playPushToTalkStartSound() : playPushToTalkStopSound();
-      }),
-    [roomClient]
-  );
 
   function handleLeave(): void {
     roomClient.leaveRoom();

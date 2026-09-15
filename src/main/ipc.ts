@@ -1,4 +1,4 @@
-import { ipcMain, shell, desktopCapturer, clipboard, type DesktopCapturerSource } from 'electron';
+import { ipcMain, shell, desktopCapturer, clipboard, BrowserWindow, type DesktopCapturerSource } from 'electron';
 import { getMainWindow } from '@main/window';
 import {
   CAPTURE_SOURCE_TYPES,
@@ -10,7 +10,6 @@ import { ALLOWED_EXTERNAL_URL_PROTOCOLS } from '@main/constants/externalUrl';
 import { appendLog, readLogs, clearLogs } from '@main/logger';
 import { getSettings, setHotkeySettings } from '@main/settings';
 import { findProcessIdByWindowTitle, startAudioLoopback, stopAudioLoopback } from '@main/audioLoopback';
-import { recordNextHotkey, cancelHotkeyRecording } from '@main/globalHotkeys';
 import { applyToggleHotkeys } from '@main/toggleHotkeys';
 import { readContacts, addContact, removeContact } from '@main/contacts';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
@@ -110,17 +109,11 @@ export function registerIpcHandlers(): void {
 
   ipcMain.handle(IPC_CHANNELS.setHotkeySettings, (_event, hotkeys: HotkeySettings): ToggleHotkeyRegistrationResult => {
     setHotkeySettings(hotkeys);
-    return applyToggleHotkeys(hotkeys);
-  });
-
-  ipcMain.handle(IPC_CHANNELS.recordNextHotkey, (event) => {
-    recordNextHotkey((binding) => {
-      if (!event.sender.isDestroyed()) event.sender.send(IPC_CHANNELS.hotkeyRecorded, binding);
-    });
-  });
-
-  ipcMain.handle(IPC_CHANNELS.cancelRecordHotkey, () => {
-    cancelHotkeyRecording();
+    const result = applyToggleHotkeys(hotkeys);
+    for (const win of BrowserWindow.getAllWindows()) {
+      if (!win.isDestroyed()) win.webContents.send(IPC_CHANNELS.hotkeySettingsChanged, hotkeys);
+    }
+    return result;
   });
 
   ipcMain.handle(IPC_CHANNELS.getContacts, (): Contact[] => readContacts());

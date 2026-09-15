@@ -2,7 +2,6 @@ import { app, BrowserWindow, Menu, session, globalShortcut } from 'electron';
 import { createWindow } from '@main/window';
 import { registerIpcHandlers } from '@main/ipc';
 import { initAutoUpdater, registerUpdaterIpcHandlers } from '@main/updater';
-import { startGlobalHotkeys, stopGlobalHotkeys } from '@main/globalHotkeys';
 import { applyToggleHotkeys } from '@main/toggleHotkeys';
 import { appendLog } from '@main/logger';
 import { getSettings, ensureSettingsFileExists } from '@main/settings';
@@ -35,7 +34,6 @@ app.whenReady().then(() => {
   registerUpdaterIpcHandlers();
   createWindow();
   initAutoUpdater();
-  startGlobalHotkeys();
   applyToggleHotkeys(getSettings().hotkeys);
 
   app.on('activate', () => {
@@ -49,5 +47,4 @@ app.on('window-all-closed', () => {
 
 app.on('will-quit', () => {
   globalShortcut.unregisterAll();
-  stopGlobalHotkeys();
 });
