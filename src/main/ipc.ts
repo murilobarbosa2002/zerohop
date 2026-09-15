@@ -12,10 +12,12 @@ import { getSettings, setHotkeySettings } from '@main/settings';
 import { findProcessIdByWindowTitle, startAudioLoopback, stopAudioLoopback } from '@main/audioLoopback';
 import { recordNextHotkey, cancelHotkeyRecording } from '@main/globalHotkeys';
 import { applyToggleHotkeys } from '@main/toggleHotkeys';
+import { readContacts, addContact, removeContact } from '@main/contacts';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
 import type { HotkeySettings, ToggleHotkeyRegistrationResult } from '@shared/hotkeySettings';
+import type { Contact } from '@shared/contact';
 
 function isNoiseSource(source: DesktopCapturerSource): boolean {
   return source.id.startsWith('window:') && NOISE_SOURCE_NAME_PATTERNS.some((pattern) => pattern.test(source.name));
@@ -120,4 +122,10 @@ export function registerIpcHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.cancelRecordHotkey, () => {
     cancelHotkeyRecording();
   });
+
+  ipcMain.handle(IPC_CHANNELS.getContacts, (): Contact[] => readContacts());
+
+  ipcMain.handle(IPC_CHANNELS.addContact, (_event, contact: Contact): Contact[] => addContact(contact));
+
+  ipcMain.handle(IPC_CHANNELS.removeContact, (_event, id: string): Contact[] => removeContact(id));
 }

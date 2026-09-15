@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.20](docs/releases/v0.36.20.md) | Contatos: chame um amigo com um clique, sem trocar código toda vez                                                      |
 | [0.36.19](docs/releases/v0.36.19.md) | Indicador de push-to-talk, corrige card de compartilhamento cortado                                                     |
 | [0.36.18](docs/releases/v0.36.18.md) | Mostra a tecla gravada de cada atalho e o status da permissão do microfone                                              |
 | [0.36.17](docs/releases/v0.36.17.md) | Diagnóstico mais fundo pra push-to-talk sem gravar tecla                                                                |

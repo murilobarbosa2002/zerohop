@@ -1,10 +1,11 @@
 import { Card, CardTitle } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
-import { playCreateRoomClickSound, playJoinRoomClickSound } from '@/services/soundEffects';
+import { playCreateRoomClickSound, playJoinRoomClickSound, playOpenContactsClickSound } from '@/services/soundEffects';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
+import { CONTACTS_STRINGS } from '@/strings/contacts.strings';
 import type { PreRoomChoiceProps } from '@/components/PreRoom/PreRoom.types';
 
-export function PreRoomChoice({ onSelectCreate, onSelectJoin }: PreRoomChoiceProps) {
+export function PreRoomChoice({ onSelectCreate, onSelectJoin, onSelectContacts }: PreRoomChoiceProps) {
   return (
     <Card>
       <CardTitle>{PRE_ROOM_STRINGS.choiceTitle}</CardTitle>
@@ -30,6 +31,17 @@ export function PreRoomChoice({ onSelectCreate, onSelectJoin }: PreRoomChoicePro
           }}
         >
           {PRE_ROOM_STRINGS.joinRoomButton}
+        </ActionButton>
+        <ActionButton
+          type="button"
+          variant="default"
+          className="flex-1 min-w-form-column"
+          onClick={() => {
+            playOpenContactsClickSound();
+            onSelectContacts();
+          }}
+        >
+          {CONTACTS_STRINGS.contactsButton}
         </ActionButton>
       </div>
     </Card>

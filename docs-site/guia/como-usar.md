@@ -57,6 +57,17 @@ Ao criar ou entrar numa sala, escolha uma foto de perfil entre 8 opções desenh
 
 Ao criar ou entrar numa sala com sucesso, toca um efeito sonoro nostálgico (estilo internet discada) só pra você; quem já está na sala ouve um som diferente quando alguém novo entra.
 
+## Contatos: chamar um amigo sem trocar código toda vez
+
+Na tela inicial, clique em **Contatos**. Lá tem duas partes:
+
+- **Sua sala pessoal:** um ID e uma senha que são só seus, sempre os mesmos. Mande os dois pro seu amigo uma vez (por WhatsApp, Discord, o que preferir) e ele salva como contato. Você escolhe a senha; o ID é gerado sozinho.
+- **Seus contatos:** a lista de gente que você salvou. Pra adicionar alguém, peça o "Seu ID" e a senha da sala pessoal dela, cole no formulário "Adicionar contato" junto com um apelido, e pronto — da próxima vez é só clicar em **Chamar**, sem digitar nada de novo.
+
+Chamar um contato funciona exatamente como entrar numa sala normal: a pessoa recebe um pedido de entrada e precisa aprovar (igual qualquer sala), então ela precisa estar com o ZeroHop aberto na hora. O que muda é que você nunca mais precisa perguntar "qual é o código da sala hoje?" — o ID dela é sempre o mesmo.
+
+O ID e a senha da sua sala pessoal ficam salvos só no seu computador (no mesmo lugar que as outras configurações do app), nunca em servidor nenhum.
+
 ## Como a sala é organizada
 
 Dentro da sala, a tela é dividida em três áreas, como um app de chamada:

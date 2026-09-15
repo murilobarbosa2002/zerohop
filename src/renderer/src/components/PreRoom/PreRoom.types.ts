@@ -8,6 +8,7 @@ export interface PreRoomProps {
 export interface PreRoomChoiceProps {
   onSelectCreate: () => void;
   onSelectJoin: () => void;
+  onSelectContacts: () => void;
 }
 
 export interface CreateRoomFormProps {

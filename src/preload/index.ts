@@ -4,6 +4,7 @@ import type { CaptureSource } from '@shared/ipc-types';
 import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
 import type { HotkeySettings, HotkeyBinding, ToggleHotkeyRegistrationResult } from '@shared/hotkeySettings';
+import type { Contact } from '@shared/contact';
 
 const api = {
   getSources: (): Promise<CaptureSource[]> => ipcRenderer.invoke(IPC_CHANNELS.getSources),
@@ -72,7 +73,10 @@ const api = {
     const listener = (): void => callback();
     ipcRenderer.on(IPC_CHANNELS.appClosing, listener);
     return () => ipcRenderer.removeListener(IPC_CHANNELS.appClosing, listener);
-  }
+  },
+  getContacts: (): Promise<Contact[]> => ipcRenderer.invoke(IPC_CHANNELS.getContacts),
+  addContact: (contact: Contact): Promise<Contact[]> => ipcRenderer.invoke(IPC_CHANNELS.addContact, contact),
+  removeContact: (id: string): Promise<Contact[]> => ipcRenderer.invoke(IPC_CHANNELS.removeContact, id)
 };
 
 export type ZeroHopApi = typeof api;

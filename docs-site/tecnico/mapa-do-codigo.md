@@ -98,6 +98,17 @@ Duas fontes de armazenamento persistente, cada uma por um motivo técnico espec�
 | Volume dos sons, escala da interface, dispositivo de mic/áudio, foto de perfil | `localStorage` do renderer               | São lidas/escritas só de dentro do processo de UI, não precisam existir fora dele.                                                                                                                  |
 | Atalhos de teclado, flags experimentais, auto-update                           | `settings.json` (via `main/settings.ts`) | Só o processo principal consegue rodar a captura global de teclado (`uiohook-napi`) e decidir se ativa flags do Chromium — essas preferências **precisam** existir no `main`, não só no `renderer`. |
 
+A **lista de contatos** foge desse padrão de propósito: mora num arquivo próprio, `contacts.json` (via `main/contacts.ts`), em vez de `localStorage`. É uma escolha deliberada, não técnica — é uma lista pequena que o usuário entende como "meus dados salvos", igual `logs.jsonl`/`settings.json`, mais fácil de inspecionar ou fazer backup manualmente do que algo preso dentro do perfil do Chromium.
+
+## Contatos e sala pessoal
+
+Duas peças novas, pensadas pra não mexer em nada do protocolo de sala existente:
+
+- **ID pessoal** (`services/personalRoomPreference.ts`): gerado uma vez por instalação (`localStorage`, não `contacts.json` — é um dado do PRÓPRIO usuário, não uma lista de terceiros) e usado como `desiredCode` ao chamar `RoomClient.createRoom(name, password, avatarId, desiredCode)` — um parâmetro novo, opcional, que faz o método pular o loop de gerar um `randomRoomCode()` e usar esse valor fixo direto. Na prática, sua "sala pessoal" é uma sala normal, só que sempre com o mesmo código.
+- **Contatos** (`contacts.json`, `hooks/useContacts.ts`): cada contato é `{ id, name, password }` — o `id` e a senha são exatamente o que a outra pessoa mostra na própria tela de Contatos, trocados manualmente uma vez (fora do app, por WhatsApp/Discord/etc). "Chamar" um contato é literalmente `RoomClient.joinRoom(name, contact.id, contact.password, avatarId)` — a mesma função que "Entrar numa sala" usa, só que os campos já vêm preenchidos.
+
+**Decisão deliberada: chamar um contato ainda passa pela aprovação manual de entrada**, igual qualquer sala — não foi criado nenhum caminho de "auto-aprovar" pra gente da lista de contatos. Mexer em `RoomAuthController` pra pular a aprovação só porque o peer ID bate com um contato salvo enfraqueceria a mesma proteção que já existe pra qualquer sala (senha errada precisa ser silenciosa, nunca revelar se alguém "quase" acertou) — o ganho de conveniência (um clique a menos) não pareceu valer esse risco. Se isso mudar no futuro, precisa de decisão explícita do usuário antes.
+
 ## Sistema de sons
 
 Ver `services/soundEffects.ts` na seção de serviços acima. Duas regras que não têm exceção:

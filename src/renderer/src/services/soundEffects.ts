@@ -9,6 +9,11 @@ import micMuteSound from '@/assets/sounds/mic-mute.wav';
 import micUnmuteSound from '@/assets/sounds/mic-unmute.wav';
 import pushToTalkStartSound from '@/assets/sounds/push-to-talk-start.wav';
 import pushToTalkStopSound from '@/assets/sounds/push-to-talk-stop.wav';
+import openContactsClickSound from '@/assets/sounds/open-contacts-click.wav';
+import callContactClickSound from '@/assets/sounds/call-contact-click.wav';
+import addContactClickSound from '@/assets/sounds/add-contact-click.wav';
+import removeContactClickSound from '@/assets/sounds/remove-contact-click.wav';
+import openPersonalRoomClickSound from '@/assets/sounds/open-personal-room-click.wav';
 import deafenSound from '@/assets/sounds/deafen.wav';
 import undeafenSound from '@/assets/sounds/undeafen.wav';
 import shareStartSound from '@/assets/sounds/share-start.wav';
@@ -189,6 +194,26 @@ export function playCreateRoomClickSound(): void {
 
 export function playJoinRoomClickSound(): void {
   play(joinRoomClickSound, SoundCategory.ROOM);
+}
+
+export function playOpenContactsClickSound(): void {
+  play(openContactsClickSound, SoundCategory.ROOM);
+}
+
+export function playCallContactClickSound(): void {
+  play(callContactClickSound, SoundCategory.ROOM);
+}
+
+export function playAddContactClickSound(): void {
+  play(addContactClickSound, SoundCategory.ROOM);
+}
+
+export function playRemoveContactClickSound(): void {
+  play(removeContactClickSound, SoundCategory.ROOM);
+}
+
+export function playOpenPersonalRoomClickSound(): void {
+  play(openPersonalRoomClickSound, SoundCategory.ROOM);
 }
 
 export function playLogsClearOpenSound(): void {

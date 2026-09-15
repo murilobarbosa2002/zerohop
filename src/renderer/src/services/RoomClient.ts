@@ -204,11 +204,19 @@ export class RoomClient extends EventTarget {
     return this.currentPassword;
   }
 
-  async createRoom(name: string, password = '', avatarId: AvatarId = DEFAULT_AVATAR_ID): Promise<string> {
+  async createRoom(name: string, password = '', avatarId: AvatarId = DEFAULT_AVATAR_ID, desiredCode?: string): Promise<string> {
     this.selfName = name || PARTICIPANTS_STRINGS.defaultMemberName;
     this.selfAvatarId = avatarId;
     this.currentPassword = password;
     const iceServers = await getIceServers();
+    if (desiredCode) {
+      await this.connections.open(desiredCode, iceServers);
+      this.roomCode = desiredCode;
+      this.emitStatus(RoomStatus.CONNECTED);
+      this.startVoiceChat();
+      logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.roomCreatedMessage(desiredCode));
+      return desiredCode;
+    }
     let lastError: unknown = null;
     for (let attempt = 0; attempt < ROOM_CODE_CREATE_MAX_ATTEMPTS; attempt++) {
       const code = randomRoomCode();

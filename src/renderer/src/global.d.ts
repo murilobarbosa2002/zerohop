@@ -2,6 +2,7 @@ import type { CaptureSource } from '@shared/ipc-types';
 import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
 import type { HotkeySettings, HotkeyBinding, ToggleHotkeyRegistrationResult } from '@shared/hotkeySettings';
+import type { Contact } from '@shared/contact';
 
 declare global {
   interface Window {
@@ -37,6 +38,9 @@ declare global {
       onHotkeyDeafenToggle: (callback: () => void) => () => void;
       onHotkeyPttActiveChanged: (callback: (active: boolean) => void) => () => void;
       onAppClosing: (callback: () => void) => () => void;
+      getContacts: () => Promise<Contact[]>;
+      addContact: (contact: Contact) => Promise<Contact[]>;
+      removeContact: (id: string) => Promise<Contact[]>;
     };
   }
 }

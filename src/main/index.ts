@@ -6,6 +6,7 @@ import { startGlobalHotkeys } from '@main/globalHotkeys';
 import { applyToggleHotkeys } from '@main/toggleHotkeys';
 import { appendLog } from '@main/logger';
 import { getSettings, ensureSettingsFileExists } from '@main/settings';
+import { ensureContactsFileExists } from '@main/contacts';
 import { APP_ID } from '@main/constants/app';
 import { EXPERIMENTAL_WGC_CAPTURE_FEATURES } from '@main/constants/capture';
 import { EXPERIMENTAL_STRINGS } from '@main/strings/experimental.strings';
@@ -16,6 +17,7 @@ Menu.setApplicationMenu(null);
 app.commandLine.appendSwitch('disable-features', 'WebRtcHideLocalIpsWithMdns');
 
 ensureSettingsFileExists();
+ensureContactsFileExists();
 
 if (getSettings().experimentalWgcCaptureEnabled) {
   app.commandLine.appendSwitch('enable-features', EXPERIMENTAL_WGC_CAPTURE_FEATURES);

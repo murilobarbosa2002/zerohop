@@ -28,5 +28,8 @@ export const IPC_CHANNELS = {
   hotkeyMicMuteToggle: 'hotkey-mic-mute-toggle',
   hotkeyDeafenToggle: 'hotkey-deafen-toggle',
   hotkeyPttActiveChanged: 'hotkey-ptt-active-changed',
-  appClosing: 'app-closing'
+  appClosing: 'app-closing',
+  getContacts: 'get-contacts',
+  addContact: 'add-contact',
+  removeContact: 'remove-contact'
 } as const;
