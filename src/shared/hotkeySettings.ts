@@ -1,7 +1,7 @@
 export const DEFAULT_PUSH_TO_TALK_RELEASE_DELAY_MS = 150;
 
 export interface HotkeyBinding {
-  keycode: number;
+  key: string;
   label: string;
 }
 

@@ -7,31 +7,24 @@ import { IPC_CHANNELS } from '@shared/ipcChannels';
 import { LogCategory, LogLevel } from '@shared/logEntry';
 import type { HotkeyBinding } from '@shared/hotkeySettings';
 
-type UiohookModule = typeof import('uiohook-napi');
-type UiohookKeyboardEvent = import('uiohook-napi').UiohookKeyboardEvent;
+type KeyListenerModule = typeof import('node-global-key-listener');
+type GlobalKeyEvent = import('node-global-key-listener').IGlobalKeyEvent;
 
-let uiohookModule: UiohookModule | null = null;
+let keyListenerModule: KeyListenerModule | null = null;
+let listener: InstanceType<KeyListenerModule['GlobalKeyboardListener']> | null = null;
 let started = false;
 let pttHeld = false;
 let pttReleaseTimeout: ReturnType<typeof setTimeout> | null = null;
 let recordingCallback: ((binding: HotkeyBinding) => void) | null = null;
-let keyLabelByCode: Map<number, string> | null = null;
 
-async function loadUiohook(): Promise<UiohookModule | null> {
-  if (uiohookModule) return uiohookModule;
+async function loadKeyListener(): Promise<KeyListenerModule | null> {
+  if (keyListenerModule) return keyListenerModule;
   try {
-    uiohookModule = await import('uiohook-napi');
-    return uiohookModule;
+    keyListenerModule = await import('node-global-key-listener');
+    return keyListenerModule;
   } catch {
     return null;
   }
-}
-
-function getKeyLabel(keycode: number): string {
-  if (!keyLabelByCode && uiohookModule) {
-    keyLabelByCode = new Map(Object.entries(uiohookModule.UiohookKey).map(([name, code]) => [code, name]));
-  }
-  return keyLabelByCode?.get(keycode) ?? `Tecla #${keycode}`;
 }
 
 function sendToRenderers(channel: string, ...args: unknown[]): void {
@@ -40,16 +33,21 @@ function sendToRenderers(channel: string, ...args: unknown[]): void {
   }
 }
 
-function handleKeyDown(event: UiohookKeyboardEvent): void {
-  if (recordingCallback) {
+function handleKeyEvent(event: GlobalKeyEvent): void {
+  const key = event.name;
+  if (!key) return;
+
+  if (event.state === 'DOWN' && recordingCallback) {
     const callback = recordingCallback;
     recordingCallback = null;
-    callback({ keycode: event.keycode, label: getKeyLabel(event.keycode) });
+    callback({ key, label: key });
     return;
   }
 
   const { hotkeys } = getSettings();
-  if (hotkeys.pushToTalkHotkey && event.keycode === hotkeys.pushToTalkHotkey.keycode) {
+  if (!hotkeys.pushToTalkHotkey || key !== hotkeys.pushToTalkHotkey.key) return;
+
+  if (event.state === 'DOWN') {
     if (pttReleaseTimeout) {
       clearTimeout(pttReleaseTimeout);
       pttReleaseTimeout = null;
@@ -58,17 +56,13 @@ function handleKeyDown(event: UiohookKeyboardEvent): void {
       pttHeld = true;
       sendToRenderers(IPC_CHANNELS.hotkeyPttActiveChanged, true);
     }
+  } else if (event.state === 'UP' && pttHeld) {
+    pttReleaseTimeout = setTimeout(() => {
+      pttHeld = false;
+      pttReleaseTimeout = null;
+      sendToRenderers(IPC_CHANNELS.hotkeyPttActiveChanged, false);
+    }, hotkeys.pushToTalkReleaseDelayMs);
   }
-}
-
-function handleKeyUp(event: UiohookKeyboardEvent): void {
-  const { hotkeys } = getSettings();
-  if (!hotkeys.pushToTalkHotkey || event.keycode !== hotkeys.pushToTalkHotkey.keycode || !pttHeld) return;
-  pttReleaseTimeout = setTimeout(() => {
-    pttHeld = false;
-    pttReleaseTimeout = null;
-    sendToRenderers(IPC_CHANNELS.hotkeyPttActiveChanged, false);
-  }, hotkeys.pushToTalkReleaseDelayMs);
 }
 
 function timeout(ms: number): Promise<'timeout'> {
@@ -79,7 +73,7 @@ export async function startGlobalHotkeys(): Promise<void> {
   if (started) return;
   appendLog({ category: LogCategory.HOTKEYS, level: LogLevel.INFO, message: HOTKEYS_STRINGS.captureStartingMessage });
 
-  const mod = await Promise.race([loadUiohook(), timeout(HOTKEYS_INIT_TIMEOUT_MS)]);
+  const mod = await Promise.race([loadKeyListener(), timeout(HOTKEYS_INIT_TIMEOUT_MS)]);
   if (mod === 'timeout') {
     appendLog({ category: LogCategory.HOTKEYS, level: LogLevel.WARNING, message: HOTKEYS_STRINGS.captureLoadTimedOutMessage });
     return;
@@ -90,9 +84,19 @@ export async function startGlobalHotkeys(): Promise<void> {
   }
 
   try {
-    mod.uIOhook.on('keydown', handleKeyDown);
-    mod.uIOhook.on('keyup', handleKeyUp);
-    const startResult = await Promise.race([Promise.resolve().then(() => mod.uIOhook.start()), timeout(HOTKEYS_INIT_TIMEOUT_MS)]);
+    listener = new mod.GlobalKeyboardListener({
+      windows: {
+        onError: (errorCode) =>
+          appendLog({
+            category: LogCategory.HOTKEYS,
+            level: LogLevel.WARNING,
+            message: HOTKEYS_STRINGS.captureRuntimeErrorMessage,
+            detail: `HRESULT/código: ${errorCode}`
+          }),
+        onInfo: (info) => appendLog({ category: LogCategory.HOTKEYS, level: LogLevel.INFO, message: info })
+      }
+    });
+    const startResult = await Promise.race([listener.addListener(handleKeyEvent), timeout(HOTKEYS_INIT_TIMEOUT_MS)]);
     if (startResult === 'timeout') {
       appendLog({ category: LogCategory.HOTKEYS, level: LogLevel.WARNING, message: HOTKEYS_STRINGS.captureStartTimedOutMessage });
       return;
@@ -107,6 +111,15 @@ export async function startGlobalHotkeys(): Promise<void> {
       detail: (error as Error).message
     });
   }
+}
+
+export function stopGlobalHotkeys(): void {
+  if (!started || !listener) return;
+  try {
+    listener.kill();
+  } catch {}
+  listener = null;
+  started = false;
 }
 
 export function recordNextHotkey(callback: (binding: HotkeyBinding) => void): void {

@@ -1,6 +1,6 @@
 {
   "name": "zerohop",
-  "version": "0.36.20",
+  "version": "0.36.21",
   "description": "Compartilhamento de tela, chat de voz e chat de texto P2P via WebRTC, sem servidor",
   "main": "./out/main/index.js",
   "author": {
@@ -64,7 +64,7 @@
       "**/node_modules/loopback-capture/**",
       "**/node_modules/node-window-manager/**",
       "**/node_modules/extract-file-icon/**",
-      "**/node_modules/uiohook-napi/**"
+      "**/node_modules/node-global-key-listener/**"
     ],
     "icon": "build/icon.png",
     "publish": {
@@ -85,8 +85,7 @@
     "electron@32.3.3": true,
     "esbuild@0.21.5": true,
     "node-window-manager@2.2.4": true,
-    "extract-file-icon@0.3.2": true,
-    "uiohook-napi@1.5.5": true
+    "extract-file-icon@0.3.2": true
   },
   "overrides": {
     "node-gyp": "^13.0.2"
@@ -96,13 +95,13 @@
     "clsx": "^2.1.1",
     "electron-updater": "^6.8.9",
     "loopback-capture": "^3.0.2",
+    "node-global-key-listener": "^0.3.0",
     "node-window-manager": "^2.2.4",
     "peerjs": "^1.5.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-hook-form": "^7.87.0",
     "tailwind-variants": "^3.3.1",
-    "uiohook-napi": "^1.5.5",
     "zod": "^3.25.76"
   }
 }

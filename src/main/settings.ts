@@ -20,8 +20,8 @@ interface AppSettings {
 function parseHotkeyBinding(value: unknown): HotkeyBinding | null {
   if (!value || typeof value !== 'object') return null;
   const candidate = value as Record<string, unknown>;
-  if (typeof candidate.keycode !== 'number' || typeof candidate.label !== 'string') return null;
-  return { keycode: candidate.keycode, label: candidate.label };
+  if (typeof candidate.key !== 'string' || typeof candidate.label !== 'string') return null;
+  return { key: candidate.key, label: candidate.label };
 }
 
 function parseAcceleratorBinding(value: unknown): AcceleratorBinding | null {

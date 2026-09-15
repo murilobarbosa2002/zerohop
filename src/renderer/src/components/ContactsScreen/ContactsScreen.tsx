@@ -68,56 +68,61 @@ export function ContactsScreen({ roomClient, onEntered, onBack }: ContactsScreen
   }
 
   return (
-    <div className="max-w-modal mx-auto flex flex-col gap-4">
+    <div className="max-w-contacts-screen mx-auto flex flex-col gap-4">
+      <div className="flex items-center gap-3">
+        <ActionButton
+          type="button"
+          variant="default"
+          onClick={() => {
+            playBackButtonSound();
+            onBack();
+          }}
+        >
+          {CONTACTS_STRINGS.backButton}
+        </ActionButton>
+        <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.screenTitle}</p>
+      </div>
+
       <Card>
-        <div className="flex items-center gap-3 mb-3">
-          <ActionButton
-            type="button"
-            variant="default"
-            onClick={() => {
-              playBackButtonSound();
-              onBack();
-            }}
-          >
-            {CONTACTS_STRINGS.backButton}
-          </ActionButton>
-          <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.screenTitle}</p>
+        <div className="flex items-end gap-4 flex-wrap">
+          <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold flex-1 min-w-form-column">
+            {PRE_ROOM_STRINGS.nameFieldLabel}
+            <TextInput
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              maxLength={ROOM_NAME_MAX_LENGTH}
+              placeholder={PRE_ROOM_STRINGS.nameFieldPlaceholder}
+              soundKind={TextInputSoundKind.NAME}
+            />
+          </label>
+          <AvatarPicker value={avatarId} onChange={setAvatarId} />
         </div>
-
-        <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold">
-          {PRE_ROOM_STRINGS.nameFieldLabel}
-          <TextInput
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            maxLength={ROOM_NAME_MAX_LENGTH}
-            placeholder={PRE_ROOM_STRINGS.nameFieldPlaceholder}
-            soundKind={TextInputSoundKind.NAME}
-          />
-        </label>
-
-        <AvatarPicker value={avatarId} onChange={setAvatarId} />
       </Card>
 
-      <PersonalRoomCard
-        id={personalRoom.id}
-        password={personalRoom.password}
-        onChangePassword={personalRoom.setPassword}
-        onOpen={handleOpenPersonalRoom}
-        status={status}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+        <PersonalRoomCard
+          id={personalRoom.id}
+          password={personalRoom.password}
+          onChangePassword={personalRoom.setPassword}
+          onOpen={handleOpenPersonalRoom}
+          status={status}
+        />
 
-      <Card>
-        <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.contactsListTitle}</p>
-        {contacts.length === 0 ? (
-          <p className="text-text-dim text-xs mt-2">{CONTACTS_STRINGS.noContactsMessage}</p>
-        ) : (
-          contacts.map((contact) => (
-            <ContactRow key={contact.id} contact={contact} onCall={handleCallContact} onRemove={removeContact} disabled={busy} />
-          ))
-        )}
-      </Card>
+        <div className="flex flex-col gap-4">
+          <Card>
+            <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.contactsListTitle}</p>
+            {contacts.length === 0 ? (
+              <p className="text-text-dim text-xs mt-2">{CONTACTS_STRINGS.noContactsMessage}</p>
+            ) : (
+              contacts.map((contact) => (
+                <ContactRow key={contact.id} contact={contact} onCall={handleCallContact} onRemove={removeContact} disabled={busy} />
+              ))
+            )}
+          </Card>
 
-      <AddContactForm onAdd={addContact} />
+          <AddContactForm onAdd={addContact} />
+        </div>
+      </div>
     </div>
   );
 }
