@@ -1,4 +1,6 @@
 export const ROOM_STRINGS = {
+  personalRoomIndicatorLabel: 'Sua sala pessoal',
+  autoRoomIndicatorLabel: 'Sua sala automática',
   roomCodeLabel: 'Código da sala:',
   roomPasswordLabel: 'Senha:',
   leaveRoomButton: 'Sair da sala',

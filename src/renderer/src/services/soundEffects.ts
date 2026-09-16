@@ -53,6 +53,14 @@ import inviteReceivedSound from '@/assets/sounds/invite-received.wav';
 import inviteContactToggleSound from '@/assets/sounds/invite-contact-toggle.wav';
 import memberLeftSound from '@/assets/sounds/member-left.wav';
 import roomLeftSound from '@/assets/sounds/room-left.wav';
+import personalAutoOpenToggleSound from '@/assets/sounds/personal-auto-open-toggle.wav';
+import autoRoomEnabledToggleSound from '@/assets/sounds/auto-room-enabled-toggle.wav';
+import markAllNotificationsReadSound from '@/assets/sounds/mark-all-notifications-read.wav';
+import notificationReadSound from '@/assets/sounds/notification-read.wav';
+import deleteNotificationOpenSound from '@/assets/sounds/delete-notification-open.wav';
+import deleteNotificationConfirmSound from '@/assets/sounds/delete-notification-confirm.wav';
+import switchRoomSound from '@/assets/sounds/switch-room.wav';
+import notificationFilterToggleSound from '@/assets/sounds/notification-filter-toggle.wav';
 import inputNameFocusSound from '@/assets/sounds/input-name-focus.wav';
 import inputNameTypeSound from '@/assets/sounds/input-name-type.wav';
 import inputPasswordFocusSound from '@/assets/sounds/input-password-focus.wav';
@@ -418,6 +426,38 @@ export function playUpdateInstallSound(): void {
 
 export function playUpdateLaterSound(): void {
   play(updateLaterSound, SoundCategory.INTERFACE);
+}
+
+export function playPersonalAutoOpenToggleSound(): void {
+  play(personalAutoOpenToggleSound, SoundCategory.INTERFACE);
+}
+
+export function playAutoRoomEnabledToggleSound(): void {
+  play(autoRoomEnabledToggleSound, SoundCategory.INTERFACE);
+}
+
+export function playMarkAllNotificationsReadSound(): void {
+  play(markAllNotificationsReadSound, SoundCategory.INTERFACE);
+}
+
+export function playNotificationReadSound(): void {
+  play(notificationReadSound, SoundCategory.INTERFACE);
+}
+
+export function playDeleteNotificationOpenSound(): void {
+  play(deleteNotificationOpenSound, SoundCategory.INTERFACE);
+}
+
+export function playDeleteNotificationConfirmSound(): void {
+  play(deleteNotificationConfirmSound, SoundCategory.INTERFACE);
+}
+
+export function playSwitchRoomSound(): void {
+  play(switchRoomSound, SoundCategory.ROOM);
+}
+
+export function playNotificationFilterToggleSound(): void {
+  play(notificationFilterToggleSound, SoundCategory.INTERFACE);
 }
 
 export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; type: () => void }> = {

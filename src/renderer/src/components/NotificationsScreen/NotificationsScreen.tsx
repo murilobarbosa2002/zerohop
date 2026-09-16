@@ -9,16 +9,31 @@ import {
   playNotificationsClearOpenSound,
   playNotificationsClearCancelSound,
   playNotificationsClearConfirmSound,
+  playMarkAllNotificationsReadSound,
+  playNotificationFilterToggleSound,
   playBackButtonSound
 } from '@/services/soundEffects';
 import { NOTIFICATIONS_STRINGS } from '@/strings/notifications.strings';
 import { NOTIFICATIONS_PAGE_SIZE } from '@/constants/pagination';
+import { NotificationKind, NotificationCategory, NOTIFICATION_KIND_CATEGORY } from '@shared/notificationEntry';
 import type { NotificationsScreenProps } from '@/components/NotificationsScreen/NotificationsScreen.types';
 
+function readSelectedValues(event: React.ChangeEvent<HTMLSelectElement>): string[] {
+  return Array.from(event.target.selectedOptions).map((option) => option.value);
+}
+
 export function NotificationsScreen({ onBack }: NotificationsScreenProps) {
-  const { entries, clear, markRead, markAllRead } = useNotifications();
+  const { entries, clear, markRead, markAllRead, remove } = useNotifications();
   const [confirmingClear, setConfirmingClear] = useState(false);
-  const sortedEntries = [...entries].reverse();
+  const [kindFilter, setKindFilter] = useState<string[]>([]);
+  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
+
+  const filteredEntries = entries.filter((entry) => {
+    if (kindFilter.length > 0 && !kindFilter.includes(entry.kind)) return false;
+    if (categoryFilter.length > 0 && !categoryFilter.includes(NOTIFICATION_KIND_CATEGORY[entry.kind])) return false;
+    return true;
+  });
+  const sortedEntries = [...filteredEntries].reverse();
   const { pageItems, page, totalPages, setPage } = usePagination(sortedEntries, NOTIFICATIONS_PAGE_SIZE);
 
   function handleClear(): void {
@@ -47,7 +62,14 @@ export function NotificationsScreen({ onBack }: NotificationsScreenProps) {
         <p className="font-bold text-body-sm-alt">{NOTIFICATIONS_STRINGS.screenTitle}</p>
         <div className="ml-auto flex items-center gap-2">
           {entries.some((entry) => !entry.read) && (
-            <ActionButton variant="default" className="flex-shrink-0" onClick={markAllRead}>
+            <ActionButton
+              variant="default"
+              className="flex-shrink-0"
+              onClick={() => {
+                playMarkAllNotificationsReadSound();
+                markAllRead();
+              }}
+            >
               {NOTIFICATIONS_STRINGS.markAllReadButton}
             </ActionButton>
           )}
@@ -71,11 +93,50 @@ export function NotificationsScreen({ onBack }: NotificationsScreenProps) {
           </div>
         )}
 
+        <div className="flex gap-4 flex-wrap mb-4">
+          <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold">
+            {NOTIFICATIONS_STRINGS.typeFilterLabel}
+            <select
+              multiple
+              className="bg-panel-2 border border-border rounded-lg px-2 py-1 min-w-[180px] text-body-sm"
+              value={kindFilter}
+              onChange={(event) => {
+                playNotificationFilterToggleSound();
+                setKindFilter(readSelectedValues(event));
+              }}
+            >
+              {Object.values(NotificationKind).map((kind) => (
+                <option key={kind} value={kind}>
+                  {NOTIFICATIONS_STRINGS.kindLabels[kind]}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold">
+            {NOTIFICATIONS_STRINGS.categoryFilterLabel}
+            <select
+              multiple
+              className="bg-panel-2 border border-border rounded-lg px-2 py-1 min-w-[180px] text-body-sm"
+              value={categoryFilter}
+              onChange={(event) => {
+                playNotificationFilterToggleSound();
+                setCategoryFilter(readSelectedValues(event));
+              }}
+            >
+              {Object.values(NotificationCategory).map((category) => (
+                <option key={category} value={category}>
+                  {NOTIFICATIONS_STRINGS.categoryLabels[category]}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
         <div className="flex flex-col gap-2">
           {sortedEntries.length === 0 ? (
             <p className="text-text-dim text-body-sm">{NOTIFICATIONS_STRINGS.emptyMessage}</p>
           ) : (
-            pageItems.map((entry) => <NotificationEntryRow key={entry.id} entry={entry} onRead={markRead} />)
+            pageItems.map((entry) => <NotificationEntryRow key={entry.id} entry={entry} onRead={markRead} onDelete={remove} />)
           )}
         </div>
 

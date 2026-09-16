@@ -66,11 +66,13 @@ Na tela inicial, clique em **Contatos**. Lá tem duas partes:
 
 Chamar um contato funciona exatamente como entrar numa sala normal: a pessoa recebe um pedido de entrada e precisa aprovar (igual qualquer sala), então ela precisa estar com o ZeroHop aberto na hora. O que muda é que você nunca mais precisa perguntar "qual é o código da sala hoje?" — o ID dela é sempre o mesmo.
 
-O ID e a senha da sua sala pessoal ficam salvos só no seu computador (no mesmo lugar que as outras configurações do app), nunca em servidor nenhum. **Assim que você define uma senha, sua sala pessoal passa a abrir sozinha toda vez que o ZeroHop inicia** — não precisa mais clicar em "Abrir minha sala pessoal" depois da primeira vez. Se você trocar a senha depois, a sala já aberta atualiza na hora, sem precisar fechar e abrir de novo.
+O ID e a senha da sua sala pessoal ficam salvos só no seu computador (no mesmo lugar que as outras configurações do app), nunca em servidor nenhum. **Assim que você define uma senha, sua sala pessoal passa a abrir sozinha toda vez que o ZeroHop inicia** — não precisa mais clicar em "Abrir minha sala pessoal" depois da primeira vez. Se você trocar a senha depois, a sala já aberta atualiza na hora, sem precisar fechar e abrir de novo. Esse comportamento é configurável: tem um checkbox "Abrir automaticamente quando o ZeroHop iniciar" no card da sala pessoal, ligado por padrão — desmarque se preferir abrir manualmente.
 
 ### Sala automática: convide contatos assim que eles ficarem online
 
-Além da sala pessoal, a tela de Contatos tem um segundo bloco: **"Sua sala automática"** — uma sala separada, com ID e senha próprios, que também abre sozinha assim que você liga o app. A diferença é que ela vem com uma lista de contatos marcáveis: quem você marcar ali recebe um convite automático (sem código/senha, sem você precisar aprovar) assim que ficar alcançável — sem você precisar fazer nada manualmente.
+Além da sala pessoal, a tela de Contatos tem um segundo bloco: **"Sua sala automática"** — uma sala separada, com ID e senha próprios, que também abre sozinha assim que você liga o app. A diferença é que ela vem com uma lista de contatos marcáveis: quem você marcar ali recebe um convite automático (sem código/senha, sem você precisar aprovar) assim que ficar alcançável — sem você precisar fazer nada manualmente. **Ao contrário da sala pessoal, a sala automática vem desligada por padrão** — precisa marcar o checkbox "Habilitar sala automática" no topo do card antes dela abrir sozinha.
+
+Dentro de qualquer uma das duas salas, uma etiqueta com ícone (casinha ou raio) aparece perto do código/senha confirmando que é a sua sala pessoal ou automática — além do selo que já aparece na aba lateral quando você tem várias salas abertas ao mesmo tempo.
 
 Como não existe servidor pra avisar "fulano acabou de abrir o app", o ZeroHop tenta convidar de novo a cada ~30 segundos enquanto a pessoa não entrar — então pode levar até meio minuto depois dela abrir a sala pessoal dela pra o convite chegar.
 
@@ -137,7 +139,7 @@ Clique em **Sair da sala** a qualquer momento, ou simplesmente feche o programa.
 
 ## Notificações
 
-O ícone de sino na barra de título abre a tela de **Notificações** — um histórico separado dos Logs, focado no que importa pra você como usuário (não é auditoria técnica): convite recebido/aceito/recusado, alguém entrando ou saindo de uma sala, pedido de entrada pendente, e aviso de atualização disponível. Uma bolinha vermelha aparece no sino quando tem notificação não lida; clicar numa notificação marca ela como lida. O histórico fica salvo mesmo depois de fechar e abrir o app de novo, e tem botão de "Limpar tudo" se quiser começar do zero.
+O ícone de sino na barra de título abre a tela de **Notificações** — um histórico separado dos Logs, focado no que importa pra você como usuário (não é auditoria técnica): convite recebido/aceito/recusado, alguém entrando ou saindo de uma sala, pedido de entrada pendente, e aviso de atualização disponível. Uma bolinha vermelha aparece no sino quando tem notificação não lida; clicar numa notificação marca ela como lida. O histórico fica salvo mesmo depois de fechar e abrir o app de novo, e tem botão de "Limpar tudo" se quiser começar do zero — e dá pra excluir uma notificação específica também, com confirmação. Dois filtros multi-select (por tipo e por categoria) ajudam a achar uma notificação antiga numa lista grande.
 
 ## Logs: veja tudo que o app está fazendo
 

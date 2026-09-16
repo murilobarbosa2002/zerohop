@@ -1,14 +1,21 @@
 import { Logo } from '@/components/Logo';
 import { WindowButton } from '@/components/WindowButton';
-import { LogsIcon, BellIcon, SettingsIcon, MinimizeIcon, MaximizeIcon, CloseIcon } from '@/components/icons';
+import { LogsIcon, BellIcon, PeopleIcon, SettingsIcon, MinimizeIcon, MaximizeIcon, CloseIcon } from '@/components/icons';
 import { useAppUpdater } from '@/hooks/useAppUpdater';
-import { playOpenLogsSound, playOpenSettingsSound, playOpenNotificationsSound } from '@/services/soundEffects';
+import { playOpenLogsSound, playOpenSettingsSound, playOpenNotificationsSound, playOpenContactsClickSound } from '@/services/soundEffects';
 import { APP_SHELL_STRINGS } from '@/strings/appShell.strings';
 import { TITLE_BAR_STRINGS } from '@/strings/titleBar.strings';
 import { UPDATES_STRINGS } from '@/strings/updates.strings';
 import type { TitleBarProps } from '@/components/TitleBar/TitleBar.types';
 
-export function TitleBar({ onOpenUpdates, onOpenSettings, onOpenLogs, onOpenNotifications, unreadNotificationsCount }: TitleBarProps) {
+export function TitleBar({
+  onOpenUpdates,
+  onOpenSettings,
+  onOpenLogs,
+  onOpenNotifications,
+  onOpenContacts,
+  unreadNotificationsCount
+}: TitleBarProps) {
   const { version } = useAppUpdater();
 
   return (
@@ -28,6 +35,15 @@ export function TitleBar({ onOpenUpdates, onOpenSettings, onOpenLogs, onOpenNoti
         )}
       </div>
       <div className="flex h-full">
+        <WindowButton
+          onClick={() => {
+            playOpenContactsClickSound();
+            onOpenContacts();
+          }}
+          label={TITLE_BAR_STRINGS.contactsButtonLabel}
+        >
+          <PeopleIcon className="w-3 h-3" />
+        </WindowButton>
         <div className="relative flex-shrink-0">
           <WindowButton
             onClick={() => {

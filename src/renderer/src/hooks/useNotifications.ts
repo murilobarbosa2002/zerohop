@@ -10,6 +10,7 @@ export function useNotifications(): NotificationsState {
   }, []);
 
   useEffect(() => window.api.onNotificationAdded((entry) => setEntries((current) => [...current, entry])), []);
+  useEffect(() => window.api.onNotificationsChanged((updated) => setEntries(updated)), []);
 
   const clear = useCallback(() => {
     window.api.clearNotifications();
@@ -26,7 +27,12 @@ export function useNotifications(): NotificationsState {
     window.api.markAllNotificationsRead();
   }, []);
 
+  const remove = useCallback((id: string) => {
+    setEntries((current) => current.filter((entry) => entry.id !== id));
+    window.api.deleteNotification(id);
+  }, []);
+
   const unreadCount = entries.filter((entry) => !entry.read).length;
 
-  return { entries, unreadCount, clear, markRead, markAllRead };
+  return { entries, unreadCount, clear, markRead, markAllRead, remove };
 }

@@ -35,5 +35,7 @@ export const IPC_CHANNELS = {
   notificationAdded: 'notification-added',
   clearNotifications: 'clear-notifications',
   markNotificationRead: 'mark-notification-read',
-  markAllNotificationsRead: 'mark-all-notifications-read'
+  markAllNotificationsRead: 'mark-all-notifications-read',
+  deleteNotification: 'delete-notification',
+  notificationsChanged: 'notifications-changed'
 } as const;

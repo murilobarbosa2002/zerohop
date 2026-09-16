@@ -16,11 +16,10 @@ export function RoomSidebar({
   micMuted,
   deafened,
   pushToTalkActive,
+  pushToTalkConfigured,
   onToggleMic,
   onToggleDeafen,
-  voiceAudioState,
-  onOpenLogs,
-  onOpenSettings
+  voiceAudioState
 }: RoomSidebarProps) {
   return (
     <div className="flex flex-col gap-4 h-full overflow-y-auto pr-1">
@@ -29,10 +28,9 @@ export function RoomSidebar({
         micMuted={micMuted}
         deafened={deafened}
         pushToTalkActive={pushToTalkActive}
+        pushToTalkConfigured={pushToTalkConfigured}
         onToggleMic={onToggleMic}
         onToggleDeafen={onToggleDeafen}
-        onOpenLogs={onOpenLogs}
-        onOpenSettings={onOpenSettings}
       />
       <Card>
         <CardTitle>{ROOM_STRINGS.participantsTitle}</CardTitle>

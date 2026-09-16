@@ -3,5 +3,6 @@ export interface TitleBarProps {
   onOpenSettings: () => void;
   onOpenLogs: () => void;
   onOpenNotifications: () => void;
+  onOpenContacts: () => void;
   unreadNotificationsCount: number;
 }

@@ -6,8 +6,8 @@ import { ContactsScreen } from '@/components/ContactsScreen';
 import { PreRoomScreen } from '@/constants/preRoomScreen';
 import type { PreRoomProps } from '@/components/PreRoom/PreRoom.types';
 
-export function PreRoom({ roomClient, onEntered, findSessionByRoomCode }: PreRoomProps) {
-  const [screen, setScreen] = useState<PreRoomScreen>(PreRoomScreen.CHOICE);
+export function PreRoom({ roomClient, onEntered, findSessionByRoomCode, initialScreen = PreRoomScreen.CHOICE }: PreRoomProps) {
+  const [screen, setScreen] = useState<PreRoomScreen>(initialScreen);
 
   return screen === PreRoomScreen.CREATE ? (
     <CreateRoomForm roomClient={roomClient} onEntered={onEntered} onBack={() => setScreen(PreRoomScreen.CHOICE)} />

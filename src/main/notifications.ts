@@ -33,8 +33,20 @@ function writeNotifications(entries: NotificationEntry[]): void {
   writeFileSync(getNotificationsFilePath(), lines.length > 0 ? lines.join('\n') + '\n' : '', 'utf-8');
 }
 
+function broadcastNotificationsChanged(entries: NotificationEntry[]): void {
+  getMainWindow()?.webContents.send(IPC_CHANNELS.notificationsChanged, entries);
+}
+
 export function clearNotifications(): void {
   writeNotifications([]);
+  broadcastNotificationsChanged([]);
+}
+
+export function deleteNotification(id: string): NotificationEntry[] {
+  const entries = readNotifications().filter((entry) => entry.id !== id);
+  writeNotifications(entries);
+  broadcastNotificationsChanged(entries);
+  return entries;
 }
 
 export function appendNotification(entry: NewNotificationEntry): NotificationEntry {
@@ -52,11 +64,13 @@ export function appendNotification(entry: NewNotificationEntry): NotificationEnt
 export function markNotificationRead(id: string): NotificationEntry[] {
   const entries = readNotifications().map((entry) => (entry.id === id ? { ...entry, read: true } : entry));
   writeNotifications(entries);
+  broadcastNotificationsChanged(entries);
   return entries;
 }
 
 export function markAllNotificationsRead(): NotificationEntry[] {
   const entries = readNotifications().map((entry) => ({ ...entry, read: true }));
   writeNotifications(entries);
+  broadcastNotificationsChanged(entries);
   return entries;
 }

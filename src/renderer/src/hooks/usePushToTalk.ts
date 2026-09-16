@@ -9,7 +9,12 @@ function isTypingTarget(target: EventTarget | null): boolean {
   return target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
 }
 
-export function usePushToTalk(roomClient: RoomClient, pushToTalkOriginRef: { current: boolean }): boolean {
+export interface UsePushToTalkResult {
+  active: boolean;
+  configured: boolean;
+}
+
+export function usePushToTalk(roomClient: RoomClient, pushToTalkOriginRef: { current: boolean }): UsePushToTalkResult {
   const [active, setActive] = useState(false);
   const [hotkey, setHotkey] = useState<AcceleratorBinding | null>(null);
   const [releaseDelayMs, setReleaseDelayMs] = useState(0);
@@ -78,5 +83,5 @@ export function usePushToTalk(roomClient: RoomClient, pushToTalkOriginRef: { cur
     };
   }, [hotkey, releaseDelayMs, roomClient, pushToTalkOriginRef]);
 
-  return active;
+  return { active, configured: hotkey !== null };
 }

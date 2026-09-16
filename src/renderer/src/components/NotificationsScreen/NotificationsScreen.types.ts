@@ -7,6 +7,7 @@ export interface NotificationsScreenProps {
 export interface NotificationEntryRowProps {
   entry: NotificationEntry;
   onRead: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 export interface ClearNotificationsConfirmationProps {

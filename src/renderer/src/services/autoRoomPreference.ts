@@ -1,6 +1,7 @@
 import {
   AUTO_ROOM_ID_STORAGE_KEY,
   AUTO_ROOM_PASSWORD_STORAGE_KEY,
+  AUTO_ROOM_ENABLED_STORAGE_KEY,
   AUTO_ROOM_INVITE_IDS_STORAGE_KEY,
   AUTO_ROOM_ID_LENGTH,
   AUTO_ROOM_ID_ALPHABET
@@ -26,6 +27,15 @@ export function getAutoRoomPassword(): string {
 
 export function setAutoRoomPassword(password: string): void {
   localStorage.setItem(AUTO_ROOM_PASSWORD_STORAGE_KEY, password);
+}
+
+export function getAutoRoomEnabled(): boolean {
+  const stored = localStorage.getItem(AUTO_ROOM_ENABLED_STORAGE_KEY);
+  return stored === null ? false : stored === 'true';
+}
+
+export function setAutoRoomEnabled(enabled: boolean): void {
+  localStorage.setItem(AUTO_ROOM_ENABLED_STORAGE_KEY, String(enabled));
 }
 
 export function getAutoInviteContactIds(): string[] {

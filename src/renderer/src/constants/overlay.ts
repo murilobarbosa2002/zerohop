@@ -3,5 +3,6 @@ export enum Overlay {
   SETTINGS = 'settings',
   LOGS = 'logs',
   NOTIFICATIONS = 'notifications',
-  ADD_ROOM = 'add-room'
+  ADD_ROOM = 'add-room',
+  CONTACTS = 'contacts'
 }

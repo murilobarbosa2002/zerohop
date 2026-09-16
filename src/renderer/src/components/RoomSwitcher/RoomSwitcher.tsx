@@ -1,20 +1,17 @@
 import { HouseIcon, BoltIcon } from '@/components/icons';
-import { getPersonalId } from '@/services/personalRoomPreference';
-import { getAutoRoomId } from '@/services/autoRoomPreference';
+import { getRoomKind } from '@/services/roomKind';
 import { ROOM_SWITCHER_STRINGS } from '@/strings/roomSwitcher.strings';
 import type { RoomSwitcherProps } from '@/components/RoomSwitcher/RoomSwitcher.types';
 
 export function RoomSwitcher({ sessions, focusedSessionId, onFocus, onLeave, onAddRoom }: RoomSwitcherProps) {
-  const personalId = getPersonalId();
-  const autoRoomId = getAutoRoomId();
-
   return (
     <div className="w-14 flex-shrink-0 border-r border-border flex flex-col items-center gap-2 py-3 overflow-y-auto">
       {sessions.map((session) => {
         const label = (session.roomCode ?? ROOM_SWITCHER_STRINGS.unnamedRoomLabel).slice(0, 2).toUpperCase();
         const isFocused = session.sessionId === focusedSessionId;
-        const isPersonal = session.roomCode === personalId;
-        const isAuto = session.roomCode === autoRoomId;
+        const roomKind = getRoomKind(session.roomCode);
+        const isPersonal = roomKind === 'personal';
+        const isAuto = roomKind === 'auto';
         const badgeTooltip = isPersonal
           ? ROOM_SWITCHER_STRINGS.personalRoomBadgeTooltip
           : isAuto

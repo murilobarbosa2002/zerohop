@@ -17,7 +17,8 @@ import {
   appendNotification,
   clearNotifications,
   markNotificationRead,
-  markAllNotificationsRead
+  markAllNotificationsRead,
+  deleteNotification
 } from '@main/notifications';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
@@ -141,4 +142,6 @@ export function registerIpcHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.markNotificationRead, (_event, id: string): NotificationEntry[] => markNotificationRead(id));
 
   ipcMain.handle(IPC_CHANNELS.markAllNotificationsRead, (): NotificationEntry[] => markAllNotificationsRead());
+
+  ipcMain.handle(IPC_CHANNELS.deleteNotification, (_event, id: string): NotificationEntry[] => deleteNotification(id));
 }

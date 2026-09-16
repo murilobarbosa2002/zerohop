@@ -46,6 +46,8 @@ declare global {
       clearNotifications: () => Promise<void>;
       markNotificationRead: (id: string) => Promise<NotificationEntry[]>;
       markAllNotificationsRead: () => Promise<NotificationEntry[]>;
+      deleteNotification: (id: string) => Promise<NotificationEntry[]>;
+      onNotificationsChanged: (callback: (entries: NotificationEntry[]) => void) => () => void;
     };
   }
 }

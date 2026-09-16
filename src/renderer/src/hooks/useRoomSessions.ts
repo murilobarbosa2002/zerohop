@@ -10,8 +10,8 @@ import { LogCategory, LogLevel } from '@shared/logEntry';
 import { NotificationKind } from '@shared/notificationEntry';
 import { getName } from '@/services/namePreference';
 import { getAvatarId } from '@/services/avatarPreference';
-import { getPersonalId, getPersonalPassword } from '@/services/personalRoomPreference';
-import { getAutoRoomId, getAutoRoomPassword } from '@/services/autoRoomPreference';
+import { getPersonalId, getPersonalPassword, getPersonalAutoOpenEnabled } from '@/services/personalRoomPreference';
+import { getAutoRoomId, getAutoRoomPassword, getAutoRoomEnabled } from '@/services/autoRoomPreference';
 import type { AvatarId } from '@/constants/avatars';
 
 export interface RoomSession {
@@ -121,7 +121,7 @@ export function useRoomSessions(): UseRoomSessionsResult {
     const avatarId = getAvatarId();
 
     const personalPassword = getPersonalPassword();
-    if (personalPassword) {
+    if (personalPassword && getPersonalAutoOpenEnabled()) {
       const session = createSession();
       session.roomClient.createRoom(name, personalPassword, avatarId, getPersonalId()).then((roomCode) => {
         setSessions((current) => current.map((item) => (item.sessionId === session.sessionId ? { ...item, roomCode } : item)));
@@ -129,7 +129,7 @@ export function useRoomSessions(): UseRoomSessionsResult {
     }
 
     const autoRoomPassword = getAutoRoomPassword();
-    if (autoRoomPassword) {
+    if (autoRoomPassword && getAutoRoomEnabled()) {
       const session = createSession();
       session.roomClient.createRoom(name, autoRoomPassword, avatarId, getAutoRoomId()).then((roomCode) => {
         setSessions((current) => current.map((item) => (item.sessionId === session.sessionId ? { ...item, roomCode } : item)));

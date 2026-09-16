@@ -4,7 +4,7 @@ import { CopyButton } from '@/components/CopyButton';
 import { PasswordInput } from '@/components/PasswordInput';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
 import { ROOM_PASSWORD_MAX_LENGTH } from '@/constants/roomPassword';
-import { playOpenPersonalRoomClickSound } from '@/services/soundEffects';
+import { playOpenPersonalRoomClickSound, playPersonalAutoOpenToggleSound } from '@/services/soundEffects';
 import { CONTACTS_STRINGS } from '@/strings/contacts.strings';
 
 interface PersonalRoomCardProps {
@@ -13,9 +13,19 @@ interface PersonalRoomCardProps {
   onChangePassword: (value: string) => void;
   onOpen: () => void;
   status: string;
+  autoOpenEnabled: boolean;
+  onToggleAutoOpen: (enabled: boolean) => void;
 }
 
-export function PersonalRoomCard({ id, password, onChangePassword, onOpen, status }: PersonalRoomCardProps) {
+export function PersonalRoomCard({
+  id,
+  password,
+  onChangePassword,
+  onOpen,
+  status,
+  autoOpenEnabled,
+  onToggleAutoOpen
+}: PersonalRoomCardProps) {
   return (
     <Card muted>
       <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.personalRoomTitle}</p>
@@ -38,6 +48,19 @@ export function PersonalRoomCard({ id, password, onChangePassword, onOpen, statu
           placeholder={CONTACTS_STRINGS.personalPasswordPlaceholder}
           soundKind={TextInputSoundKind.PASSWORD}
         />
+      </label>
+
+      <label className="flex items-center gap-2 bg-panel border border-border rounded-lg px-3 py-2 mt-3 cursor-pointer">
+        <input
+          type="checkbox"
+          className="w-4 h-4 accent-accent flex-shrink-0"
+          checked={autoOpenEnabled}
+          onChange={(event) => {
+            playPersonalAutoOpenToggleSound();
+            onToggleAutoOpen(event.target.checked);
+          }}
+        />
+        <span className="font-bold text-body-sm">{CONTACTS_STRINGS.personalAutoOpenLabel}</span>
       </label>
 
       <ActionButton

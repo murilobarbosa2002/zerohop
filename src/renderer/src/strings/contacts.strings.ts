@@ -13,6 +13,7 @@ export const CONTACTS_STRINGS = {
   personalPasswordLabel: 'Sua senha',
   personalPasswordPlaceholder: 'Escolha uma senha pra proteger sua sala pessoal',
   openPersonalRoomButton: 'Abrir minha sala pessoal',
+  personalAutoOpenLabel: 'Abrir automaticamente quando o ZeroHop iniciar',
   personalPasswordTooShortError: 'A senha precisa ter pelo menos 4 caracteres antes de abrir sua sala.',
   contactsListTitle: 'Seus contatos',
   noContactsMessage: 'Nenhum contato salvo ainda. Adicione um abaixo.',
@@ -33,6 +34,7 @@ export const CONTACTS_STRINGS = {
   autoRoomTitle: 'Sua sala automática',
   autoRoomHint:
     'Abre sozinha assim que você liga o ZeroHop, e convida direto (sem código/senha, sem aprovação) os contatos que você marcar abaixo — assim que eles ficarem alcançáveis.',
+  autoRoomEnabledLabel: 'Habilitar sala automática',
   autoRoomIdLabel: 'ID da sala automática',
   autoRoomPasswordLabel: 'Senha da sala automática',
   autoRoomPasswordPlaceholder: 'Escolha uma senha pra proteger sua sala automática',

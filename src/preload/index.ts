@@ -85,7 +85,13 @@ const api = {
   },
   clearNotifications: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.clearNotifications),
   markNotificationRead: (id: string): Promise<NotificationEntry[]> => ipcRenderer.invoke(IPC_CHANNELS.markNotificationRead, id),
-  markAllNotificationsRead: (): Promise<NotificationEntry[]> => ipcRenderer.invoke(IPC_CHANNELS.markAllNotificationsRead)
+  markAllNotificationsRead: (): Promise<NotificationEntry[]> => ipcRenderer.invoke(IPC_CHANNELS.markAllNotificationsRead),
+  deleteNotification: (id: string): Promise<NotificationEntry[]> => ipcRenderer.invoke(IPC_CHANNELS.deleteNotification, id),
+  onNotificationsChanged: (callback: (entries: NotificationEntry[]) => void): (() => void) => {
+    const listener = (_event: Electron.IpcRendererEvent, entries: NotificationEntry[]): void => callback(entries);
+    ipcRenderer.on(IPC_CHANNELS.notificationsChanged, listener);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.notificationsChanged, listener);
+  }
 };
 
 export type ZeroHopApi = typeof api;

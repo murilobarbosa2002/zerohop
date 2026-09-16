@@ -129,11 +129,15 @@ export function ContactsScreen({ roomClient, onEntered, onBack, findSessionByRoo
               onChangePassword={handleChangePersonalPassword}
               onOpen={handleOpenPersonalRoom}
               status={status}
+              autoOpenEnabled={personalRoom.autoOpenEnabled}
+              onToggleAutoOpen={personalRoom.setAutoOpenEnabled}
             />
             <AutoRoomCard
               id={autoRoom.id}
               password={autoRoom.password}
               onChangePassword={handleChangeAutoRoomPassword}
+              enabled={autoRoom.enabled}
+              onToggleEnabled={autoRoom.setEnabled}
               contacts={contacts}
               inviteContactIds={autoRoom.inviteContactIds}
               onToggleInviteContact={handleToggleAutoInviteContact}

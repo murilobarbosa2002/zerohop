@@ -12,9 +12,8 @@ export interface RoomSidebarProps {
   micMuted: boolean;
   deafened: boolean;
   pushToTalkActive: boolean;
+  pushToTalkConfigured: boolean;
   onToggleMic: () => void;
   onToggleDeafen: () => void;
   voiceAudioState: MemberAudioStateStore;
-  onOpenLogs: () => void;
-  onOpenSettings: () => void;
 }

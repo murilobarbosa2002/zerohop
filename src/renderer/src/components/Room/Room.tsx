@@ -38,14 +38,14 @@ import { CHAT_STRINGS } from '@/strings/chat.strings';
 import type { RoomClientEventDetail } from '@/services/RoomClient';
 import type { RoomProps } from '@/components/Room/Room.types';
 
-export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs }: RoomProps) {
+export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useResizablePanelWidth('zerohop:sidebarWidth', 300, 300, 420);
   const [chatWidth, setChatWidth] = useResizablePanelWidth('zerohop:chatWidth', 300, 300, 480);
   const [deafened, setDeafened] = useState(false);
   const pushToTalkOriginRef = useRef(false);
-  const pushToTalkActive = usePushToTalk(roomClient, pushToTalkOriginRef);
+  const { active: pushToTalkActive, configured: pushToTalkConfigured } = usePushToTalk(roomClient, pushToTalkOriginRef);
   const sourcePicker = useSourcePicker();
   const members = useMembers(roomClient);
   const sharing = useSharing(roomClient);
@@ -176,8 +176,7 @@ export function Room({ roomClient, roomCode, onLeft, onOpenSettings, onOpenLogs 
                 onToggleMic={() => roomClient.toggleMicMuted()}
                 onToggleDeafen={toggleDeafen}
                 voiceAudioState={voiceAudioState}
-                onOpenLogs={onOpenLogs}
-                onOpenSettings={onOpenSettings}
+                pushToTalkConfigured={pushToTalkConfigured}
               />
             </div>
             <ResizeHandle onDrag={(deltaX) => setSidebarWidth((width) => width + deltaX)} />

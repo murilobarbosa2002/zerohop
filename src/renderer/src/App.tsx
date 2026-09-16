@@ -22,12 +22,13 @@ import { useAutoInvite } from '@/hooks/useAutoInvite';
 import { getAutoRoomId } from '@/services/autoRoomPreference';
 import { logEvent } from '@/services/appLog';
 import { notifyUser } from '@/services/notifyUser';
-import { playJoinedRoomSound, playUpdateLaterSound } from '@/services/soundEffects';
+import { playJoinedRoomSound, playUpdateLaterSound, playSwitchRoomSound } from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { NOTIFICATIONS_STRINGS } from '@/strings/notifications.strings';
 import { LogCategory, LogLevel } from '@shared/logEntry';
 import { NotificationKind } from '@shared/notificationEntry';
 import { Overlay } from '@/constants/overlay';
+import { PreRoomScreen } from '@/constants/preRoomScreen';
 
 export function App() {
   const {
@@ -79,9 +80,21 @@ export function App() {
     openOverlay(Overlay.ADD_ROOM);
   }
 
+  function handleOpenContacts(): void {
+    startPendingSession();
+    openOverlay(Overlay.CONTACTS);
+  }
+
   function handleCancelAddRoom(): void {
     cancelPendingSession();
     closeOverlay();
+  }
+
+  function handleFocusSession(sessionId: string): void {
+    if (sessionId === focusedSessionId) return;
+    playSwitchRoomSound();
+    closeOverlay();
+    focus(sessionId);
   }
 
   return (
@@ -106,6 +119,7 @@ export function App() {
         onOpenSettings={() => toggleOverlay(Overlay.SETTINGS)}
         onOpenLogs={() => toggleOverlay(Overlay.LOGS)}
         onOpenNotifications={() => toggleOverlay(Overlay.NOTIFICATIONS)}
+        onOpenContacts={handleOpenContacts}
         unreadNotificationsCount={unreadNotificationsCount}
       />
       <div className="flex-1 flex overflow-hidden">
@@ -113,7 +127,7 @@ export function App() {
           <RoomSwitcher
             sessions={enteredSessions}
             focusedSessionId={focusedSessionId}
-            onFocus={focus}
+            onFocus={handleFocusSession}
             onLeave={leave}
             onAddRoom={handleAddRoom}
           />
@@ -125,8 +139,6 @@ export function App() {
               roomClient={focusedSession.roomClient}
               roomCode={focusedSession.roomCode}
               onLeft={() => leave(focusedSession.sessionId)}
-              onOpenSettings={() => toggleOverlay(Overlay.SETTINGS)}
-              onOpenLogs={() => toggleOverlay(Overlay.LOGS)}
             />
           ) : (
             pendingSession &&
@@ -161,12 +173,13 @@ export function App() {
               <NotificationsScreen onBack={closeOverlay} />
             </div>
           )}
-          {activeOverlay === Overlay.ADD_ROOM && pendingSession && (
+          {(activeOverlay === Overlay.ADD_ROOM || activeOverlay === Overlay.CONTACTS) && pendingSession && (
             <AddRoomOverlay
               roomClient={pendingSession.roomClient}
               onEntered={handleEnteredRoom}
               onCancel={handleCancelAddRoom}
               findSessionByRoomCode={findSessionByRoomCode}
+              initialScreen={activeOverlay === Overlay.CONTACTS ? PreRoomScreen.CONTACTS : undefined}
             />
           )}
         </div>

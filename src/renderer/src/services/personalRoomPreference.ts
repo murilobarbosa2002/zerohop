@@ -1,4 +1,10 @@
-import { PERSONAL_ID_STORAGE_KEY, PERSONAL_PASSWORD_STORAGE_KEY, PERSONAL_ID_LENGTH, PERSONAL_ID_ALPHABET } from '@/constants/personalRoom';
+import {
+  PERSONAL_ID_STORAGE_KEY,
+  PERSONAL_PASSWORD_STORAGE_KEY,
+  PERSONAL_AUTO_OPEN_STORAGE_KEY,
+  PERSONAL_ID_LENGTH,
+  PERSONAL_ID_ALPHABET
+} from '@/constants/personalRoom';
 
 function generatePersonalId(): string {
   let id = '';
@@ -20,4 +26,13 @@ export function getPersonalPassword(): string {
 
 export function setPersonalPassword(password: string): void {
   localStorage.setItem(PERSONAL_PASSWORD_STORAGE_KEY, password);
+}
+
+export function getPersonalAutoOpenEnabled(): boolean {
+  const stored = localStorage.getItem(PERSONAL_AUTO_OPEN_STORAGE_KEY);
+  return stored === null ? true : stored === 'true';
+}
+
+export function setPersonalAutoOpenEnabled(enabled: boolean): void {
+  localStorage.setItem(PERSONAL_AUTO_OPEN_STORAGE_KEY, String(enabled));
 }
