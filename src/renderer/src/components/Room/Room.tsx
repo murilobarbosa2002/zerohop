@@ -15,6 +15,7 @@ import { useSourcePicker } from '@/hooks/useSourcePicker';
 import { useMicMuted } from '@/hooks/useMicMuted';
 import { usePushToTalk } from '@/hooks/usePushToTalk';
 import { useMemberAudioState } from '@/hooks/useMemberAudioState';
+import { useContacts } from '@/hooks/useContacts';
 import {
   playMicMuteSound,
   playMicUnmuteSound,
@@ -48,6 +49,7 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
   const { active: pushToTalkActive, configured: pushToTalkConfigured } = usePushToTalk(roomClient, pushToTalkOriginRef);
   const sourcePicker = useSourcePicker();
   const members = useMembers(roomClient);
+  const { contacts, addContact } = useContacts();
   const sharing = useSharing(roomClient);
   const micMuted = useMicMuted(roomClient);
   const voiceAudioState = useMemberAudioState();
@@ -177,6 +179,10 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
                 onToggleDeafen={toggleDeafen}
                 voiceAudioState={voiceAudioState}
                 pushToTalkConfigured={pushToTalkConfigured}
+                contacts={contacts}
+                onAddContact={addContact}
+                onInviteContact={(contact) => roomClient.inviteContact(contact)}
+                hasContactJoinedViaInvite={(contactId) => roomClient.hasContactJoinedViaInvite(contactId)}
               />
             </div>
             <ResizeHandle onDrag={(deltaX) => setSidebarWidth((width) => width + deltaX)} />

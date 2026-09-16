@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
 import { ActionButton } from '@/components/ActionButton';
+import { CheckboxFilterGroup } from '@/components/CheckboxFilterGroup';
 import { NotificationEntryRow } from '@/components/NotificationsScreen/NotificationEntryRow';
 import { ClearNotificationsConfirmation } from '@/components/NotificationsScreen/ClearNotificationsConfirmation';
 import { Pagination } from '@/components/Pagination';
 import { useNotifications } from '@/hooks/useNotifications';
 import { usePagination } from '@/hooks/usePagination';
-import { readSelectedValues } from '@/lib/selectValues';
+import { toggleArrayValue } from '@/lib/toggleArrayValue';
 import {
   playNotificationsClearOpenSound,
   playNotificationsClearCancelSound,
@@ -19,7 +20,7 @@ import { NOTIFICATIONS_PAGE_SIZE } from '@/constants/pagination';
 import { NOTIFICATION_KIND_CATEGORY } from '@shared/notificationEntry';
 import type { NotificationsScreenProps } from '@/components/NotificationsScreen/NotificationsScreen.types';
 
-export function NotificationsScreen({ onBack }: NotificationsScreenProps) {
+export function NotificationsScreen({ onBack, pendingInvites, onAcceptInvite, onDeclineInvite }: NotificationsScreenProps) {
   const { entries, clear, markRead, markAllRead, remove } = useNotifications();
   const [confirmingClear, setConfirmingClear] = useState(false);
   const [kindFilter, setKindFilter] = useState<string[]>([]);
@@ -94,49 +95,41 @@ export function NotificationsScreen({ onBack }: NotificationsScreenProps) {
         )}
 
         <div className="flex gap-4 flex-wrap mb-4">
-          <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold">
-            {NOTIFICATIONS_STRINGS.typeFilterLabel}
-            <select
-              multiple
-              className="bg-panel-2 border border-border rounded-lg px-2 py-1 min-w-[180px] text-body-sm"
-              value={kindFilter}
-              onChange={(event) => {
-                playNotificationFilterToggleSound();
-                setKindFilter(readSelectedValues(event));
-              }}
-            >
-              {availableKinds.map((kind) => (
-                <option key={kind} value={kind}>
-                  {NOTIFICATIONS_STRINGS.kindLabels[kind]}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold">
-            {NOTIFICATIONS_STRINGS.categoryFilterLabel}
-            <select
-              multiple
-              className="bg-panel-2 border border-border rounded-lg px-2 py-1 min-w-[180px] text-body-sm"
-              value={categoryFilter}
-              onChange={(event) => {
-                playNotificationFilterToggleSound();
-                setCategoryFilter(readSelectedValues(event));
-              }}
-            >
-              {availableCategories.map((category) => (
-                <option key={category} value={category}>
-                  {NOTIFICATIONS_STRINGS.categoryLabels[category]}
-                </option>
-              ))}
-            </select>
-          </label>
+          <CheckboxFilterGroup
+            label={NOTIFICATIONS_STRINGS.typeFilterLabel}
+            options={availableKinds.map((kind) => ({ value: kind, label: NOTIFICATIONS_STRINGS.kindLabels[kind] }))}
+            selected={kindFilter}
+            onToggle={(value) => {
+              playNotificationFilterToggleSound();
+              setKindFilter((current) => toggleArrayValue(current, value));
+            }}
+          />
+          <CheckboxFilterGroup
+            label={NOTIFICATIONS_STRINGS.categoryFilterLabel}
+            options={availableCategories.map((category) => ({ value: category, label: NOTIFICATIONS_STRINGS.categoryLabels[category] }))}
+            selected={categoryFilter}
+            onToggle={(value) => {
+              playNotificationFilterToggleSound();
+              setCategoryFilter((current) => toggleArrayValue(current, value));
+            }}
+          />
         </div>
 
         <div className="flex flex-col gap-2">
           {sortedEntries.length === 0 ? (
             <p className="text-text-dim text-body-sm">{NOTIFICATIONS_STRINGS.emptyMessage}</p>
           ) : (
-            pageItems.map((entry) => <NotificationEntryRow key={entry.id} entry={entry} onRead={markRead} onDelete={remove} />)
+            pageItems.map((entry) => (
+              <NotificationEntryRow
+                key={entry.id}
+                entry={entry}
+                onRead={markRead}
+                onDelete={remove}
+                isInvitePending={pendingInvites.some((invite) => invite.inviteId === entry.inviteId)}
+                onAcceptInvite={onAcceptInvite}
+                onDeclineInvite={onDeclineInvite}
+              />
+            ))
           )}
         </div>
 

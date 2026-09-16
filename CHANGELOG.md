@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.30](docs/releases/v0.36.30.md) | Remove sala automática, convide contatos de dentro da sala, filtros viram checkbox                                      |
 | [0.36.29](docs/releases/v0.36.29.md) | Filtros de Logs e Notificações agora mostram só categorias/tipos que existem                                            |
 | [0.36.28](docs/releases/v0.36.28.md) | Toggles de auto-abertura, notificações com filtro/exclusão, corrige badge preso                                         |
 | [0.36.27](docs/releases/v0.36.27.md) | Selo visual no seletor de salas: pessoal, automática ou normal                                                          |

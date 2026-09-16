@@ -5,14 +5,12 @@ import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
 import { AvatarPicker } from '@/components/AvatarPicker';
 import { PersonalRoomCard } from '@/components/ContactsScreen/PersonalRoomCard';
-import { AutoRoomCard } from '@/components/ContactsScreen/AutoRoomCard';
 import { ContactRow } from '@/components/ContactsScreen/ContactRow';
 import { AddContactForm } from '@/components/ContactsScreen/AddContactForm';
 import { useAvatarId } from '@/hooks/useAvatarId';
 import { useNamePreference } from '@/hooks/useNamePreference';
 import { useContacts } from '@/hooks/useContacts';
 import { usePersonalRoom } from '@/hooks/usePersonalRoom';
-import { useAutoRoom } from '@/hooks/useAutoRoom';
 import { errorMessage } from '@/lib/errorMessage';
 import { playBackButtonSound, playErrorSound } from '@/services/soundEffects';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
@@ -28,25 +26,12 @@ export function ContactsScreen({ roomClient, onEntered, onBack, findSessionByRoo
   const [avatarId, setAvatarId] = useAvatarId();
   const { contacts, addContact, removeContact } = useContacts();
   const personalRoom = usePersonalRoom();
-  const autoRoom = useAutoRoom();
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
 
   function handleChangePersonalPassword(value: string): void {
     personalRoom.setPassword(value);
     findSessionByRoomCode(personalRoom.id)?.roomClient.setPassword(value);
-  }
-
-  function handleChangeAutoRoomPassword(value: string): void {
-    autoRoom.setPassword(value);
-    findSessionByRoomCode(autoRoom.id)?.roomClient.setPassword(value);
-  }
-
-  function handleToggleAutoInviteContact(id: string): void {
-    const next = autoRoom.inviteContactIds.includes(id)
-      ? autoRoom.inviteContactIds.filter((current) => current !== id)
-      : [...autoRoom.inviteContactIds, id];
-    autoRoom.setInviteContactIds(next);
   }
 
   function requireName(): boolean {
@@ -131,16 +116,6 @@ export function ContactsScreen({ roomClient, onEntered, onBack, findSessionByRoo
               status={status}
               autoOpenEnabled={personalRoom.autoOpenEnabled}
               onToggleAutoOpen={personalRoom.setAutoOpenEnabled}
-            />
-            <AutoRoomCard
-              id={autoRoom.id}
-              password={autoRoom.password}
-              onChangePassword={handleChangeAutoRoomPassword}
-              enabled={autoRoom.enabled}
-              onToggleEnabled={autoRoom.setEnabled}
-              contacts={contacts}
-              inviteContactIds={autoRoom.inviteContactIds}
-              onToggleInviteContact={handleToggleAutoInviteContact}
             />
           </div>
 

@@ -15,6 +15,14 @@
   scrollbar-color: theme('colors.bevel-dark') theme('colors.panel-2');
 }
 
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 ::-webkit-scrollbar {
   width: 16px;
   height: 16px;

@@ -11,7 +11,6 @@ import { NotificationKind } from '@shared/notificationEntry';
 import { getName } from '@/services/namePreference';
 import { getAvatarId } from '@/services/avatarPreference';
 import { getPersonalId, getPersonalPassword, getPersonalAutoOpenEnabled } from '@/services/personalRoomPreference';
-import { getAutoRoomId, getAutoRoomPassword, getAutoRoomEnabled } from '@/services/autoRoomPreference';
 import type { AvatarId } from '@/constants/avatars';
 
 export interface RoomSession {
@@ -80,9 +79,10 @@ export function useRoomSessions(): UseRoomSessionsResult {
       );
     });
     const unsubscribeInvite = onTyped<RoomClientEventDetail['invite-received']>(roomClient, 'invite-received', (detail) => {
+      const inviteId = crypto.randomUUID();
       playInviteReceivedSound();
-      notifyUser(NotificationKind.INVITE_RECEIVED, NOTIFICATIONS_STRINGS.inviteReceivedMessage(detail.hostName));
-      setPendingInvites((current) => [...current, { inviteId: crypto.randomUUID(), ...detail }]);
+      notifyUser(NotificationKind.INVITE_RECEIVED, NOTIFICATIONS_STRINGS.inviteReceivedMessage(detail.hostName), { inviteId });
+      setPendingInvites((current) => [...current, { inviteId, ...detail }]);
     });
     const unsubscribeJoinRequests = onTyped<RoomClientEventDetail['join-requests-changed']>(
       roomClient,
@@ -124,14 +124,6 @@ export function useRoomSessions(): UseRoomSessionsResult {
     if (personalPassword && getPersonalAutoOpenEnabled()) {
       const session = createSession();
       session.roomClient.createRoom(name, personalPassword, avatarId, getPersonalId()).then((roomCode) => {
-        setSessions((current) => current.map((item) => (item.sessionId === session.sessionId ? { ...item, roomCode } : item)));
-      });
-    }
-
-    const autoRoomPassword = getAutoRoomPassword();
-    if (autoRoomPassword && getAutoRoomEnabled()) {
-      const session = createSession();
-      session.roomClient.createRoom(name, autoRoomPassword, avatarId, getAutoRoomId()).then((roomCode) => {
         setSessions((current) => current.map((item) => (item.sessionId === session.sessionId ? { ...item, roomCode } : item)));
       });
     }

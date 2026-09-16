@@ -1,10 +1,20 @@
 import { Tooltip } from '@/components/Tooltip';
-import { MicIcon, SpeakerIcon } from '@/components/icons';
+import { MicIcon, SpeakerIcon, PeopleIcon } from '@/components/icons';
 import { roomToolbarButtonVariants } from '@/components/Room/RoomToolbar.variants';
+import { playToggleInviteContactsPanelSound } from '@/services/soundEffects';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { RoomToolbarProps } from '@/components/Room/RoomToolbar.types';
 
-export function RoomToolbar({ micMuted, deafened, pushToTalkActive, pushToTalkConfigured, onToggleMic, onToggleDeafen }: RoomToolbarProps) {
+export function RoomToolbar({
+  micMuted,
+  deafened,
+  pushToTalkActive,
+  pushToTalkConfigured,
+  onToggleMic,
+  onToggleDeafen,
+  contactsPanelOpen,
+  onToggleContactsPanel
+}: RoomToolbarProps) {
   const micLabel = micMuted ? ROOM_STRINGS.unmuteMicButton : ROOM_STRINGS.muteMicButton;
   const deafenLabel = deafened ? ROOM_STRINGS.undeafenButton : ROOM_STRINGS.deafenButton;
   const micIdleFromPushToTalk = pushToTalkConfigured && micMuted && !pushToTalkActive;
@@ -25,6 +35,18 @@ export function RoomToolbar({ micMuted, deafened, pushToTalkActive, pushToTalkCo
           className={roomToolbarButtonVariants({ tone: deafened ? 'danger' : 'default' })}
         >
           <SpeakerIcon muted={deafened} />
+        </button>
+      </Tooltip>
+      <Tooltip label={ROOM_STRINGS.inviteContactsPanelButton}>
+        <button
+          onClick={() => {
+            playToggleInviteContactsPanelSound();
+            onToggleContactsPanel();
+          }}
+          aria-label={ROOM_STRINGS.inviteContactsPanelButton}
+          className={roomToolbarButtonVariants({ tone: contactsPanelOpen ? 'success' : 'default' })}
+        >
+          <PeopleIcon className="w-3.5 h-3.5" />
         </button>
       </Tooltip>
     </div>

@@ -16,13 +16,15 @@ import { useOverlay } from '@/hooks/useOverlay';
 import { useNamePreference } from '@/hooks/useNamePreference';
 import { useAvatarId } from '@/hooks/useAvatarId';
 import { useNotifications } from '@/hooks/useNotifications';
-import { useContacts } from '@/hooks/useContacts';
-import { useAutoRoom } from '@/hooks/useAutoRoom';
-import { useAutoInvite } from '@/hooks/useAutoInvite';
-import { getAutoRoomId } from '@/services/autoRoomPreference';
 import { logEvent } from '@/services/appLog';
 import { notifyUser } from '@/services/notifyUser';
-import { playJoinedRoomSound, playUpdateLaterSound, playSwitchRoomSound } from '@/services/soundEffects';
+import {
+  playJoinedRoomSound,
+  playUpdateLaterSound,
+  playSwitchRoomSound,
+  playInviteAcceptSound,
+  playInviteDeclineSound
+} from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { NOTIFICATIONS_STRINGS } from '@/strings/notifications.strings';
 import { LogCategory, LogLevel } from '@shared/logEntry';
@@ -52,10 +54,6 @@ export function App() {
   const [name] = useNamePreference();
   const [avatarId] = useAvatarId();
   const { unreadCount: unreadNotificationsCount } = useNotifications();
-  const { contacts } = useContacts();
-  const { inviteContactIds } = useAutoRoom();
-  const autoRoomSession = findSessionByRoomCode(getAutoRoomId());
-  useAutoInvite(autoRoomSession?.roomClient ?? null, contacts, inviteContactIds);
 
   useEffect(() => {
     if (version) logEvent(LogCategory.APP, LogLevel.INFO, LOG_STRINGS.appStartedMessage(version));
@@ -90,10 +88,21 @@ export function App() {
     closeOverlay();
   }
 
+  function handleAcceptInvite(inviteId: string): void {
+    playInviteAcceptSound();
+    acceptInvite(inviteId, name, avatarId);
+  }
+
+  function handleDeclineInvite(inviteId: string): void {
+    playInviteDeclineSound();
+    declineInvite(inviteId);
+  }
+
   function handleFocusSession(sessionId: string): void {
-    if (sessionId === focusedSessionId) return;
-    playSwitchRoomSound();
+    const alreadyFocused = sessionId === focusedSessionId;
     closeOverlay();
+    if (alreadyFocused) return;
+    playSwitchRoomSound();
     focus(sessionId);
   }
 
@@ -109,11 +118,7 @@ export function App() {
           }}
         />
       )}
-      <InviteReceivedModal
-        invites={pendingInvites}
-        onAccept={(inviteId) => acceptInvite(inviteId, name, avatarId)}
-        onDecline={declineInvite}
-      />
+      <InviteReceivedModal invites={pendingInvites} onAccept={handleAcceptInvite} onDecline={handleDeclineInvite} />
       <TitleBar
         onOpenUpdates={() => toggleOverlay(Overlay.UPDATES)}
         onOpenSettings={() => toggleOverlay(Overlay.SETTINGS)}
@@ -170,7 +175,12 @@ export function App() {
           )}
           {activeOverlay === Overlay.NOTIFICATIONS && (
             <div className="absolute inset-0 z-20 flex flex-col bg-bg">
-              <NotificationsScreen onBack={closeOverlay} />
+              <NotificationsScreen
+                onBack={closeOverlay}
+                pendingInvites={pendingInvites}
+                onAcceptInvite={handleAcceptInvite}
+                onDeclineInvite={handleDeclineInvite}
+              />
             </div>
           )}
           {(activeOverlay === Overlay.ADD_ROOM || activeOverlay === Overlay.CONTACTS) && pendingSession && (

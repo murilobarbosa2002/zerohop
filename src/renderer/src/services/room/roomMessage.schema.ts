@@ -13,7 +13,8 @@ export const helloMessageSchema = z.object({
   avatarId: z.string(),
   password: z.string(),
   appVersion: z.string(),
-  inviteToken: z.string().optional()
+  inviteToken: z.string().optional(),
+  personalId: z.string().optional()
 });
 
 export const membersMessageSchema = z.object({

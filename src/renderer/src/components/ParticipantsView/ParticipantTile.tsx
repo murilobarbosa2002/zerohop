@@ -1,15 +1,49 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import { ActionButton } from '@/components/ActionButton';
 import { VolumeControl } from '@/components/ParticipantsView/VolumeControl';
 import { Avatar } from '@/components/Avatar';
+import { PasswordInput } from '@/components/PasswordInput';
 import { MicIcon } from '@/components/icons';
+import { TextInputSoundKind } from '@/constants/textInputSoundKind';
+import { ROOM_PASSWORD_MAX_LENGTH } from '@/constants/roomPassword';
+import {
+  playAddContactToRoomOpenSound,
+  playAddContactToRoomCancelSound,
+  playAddContactClickSound,
+  playErrorSound
+} from '@/services/soundEffects';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
 import type { ParticipantTileProps } from '@/components/ParticipantsView/ParticipantTile.types';
 
-export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceAudioState }: ParticipantTileProps) {
+export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceAudioState, contacts, onAddContact }: ParticipantTileProps) {
   const avatarInitial = (member.name || '?').charAt(0).toUpperCase();
   const [, forceRender] = useReducer((renderCount: number) => renderCount + 1, 0);
   const voiceState = voiceAudioState.get(member.id);
+  const [addingContact, setAddingContact] = useState(false);
+  const [contactPassword, setContactPassword] = useState('');
+  const [contactError, setContactError] = useState('');
+
+  const isAlreadyContact = member.personalId !== null && contacts.some((contact) => contact.id === member.personalId);
+
+  function handleConfirmAddContact(): void {
+    if (!contactPassword.trim() || !member.personalId) {
+      setContactError(PARTICIPANTS_STRINGS.addToContactsFieldRequiredError);
+      playErrorSound();
+      return;
+    }
+    playAddContactClickSound();
+    onAddContact({ id: member.personalId, name: member.name, password: contactPassword.trim() });
+    setAddingContact(false);
+    setContactPassword('');
+    setContactError('');
+  }
+
+  function handleCancelAddContact(): void {
+    playAddContactToRoomCancelSound();
+    setAddingContact(false);
+    setContactPassword('');
+    setContactError('');
+  }
 
   function toggleVoiceMute(): void {
     voiceState.muted = !voiceState.muted;
@@ -77,6 +111,47 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
               {PARTICIPANTS_STRINGS.kickMemberButton}
             </button>
           )}
+        </div>
+      )}
+
+      {member.personalId !== null && isAlreadyContact && (
+        <p className="text-text-dim text-badge-xs font-bold mt-2">{PARTICIPANTS_STRINGS.alreadyContactBadge}</p>
+      )}
+
+      {member.personalId !== null && !isAlreadyContact && !addingContact && (
+        <ActionButton
+          variant="default"
+          className="w-full mt-2 text-badge-xs"
+          onClick={() => {
+            playAddContactToRoomOpenSound();
+            setAddingContact(true);
+          }}
+        >
+          {PARTICIPANTS_STRINGS.addToContactsButton}
+        </ActionButton>
+      )}
+
+      {addingContact && (
+        <div className="mt-2 bg-panel border border-border rounded-lg px-2.5 py-2">
+          <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold">
+            {PARTICIPANTS_STRINGS.addToContactsPasswordLabel}
+            <PasswordInput
+              value={contactPassword}
+              onChange={(event) => setContactPassword(event.target.value)}
+              maxLength={ROOM_PASSWORD_MAX_LENGTH}
+              placeholder={PARTICIPANTS_STRINGS.addToContactsPasswordPlaceholder}
+              soundKind={TextInputSoundKind.PASSWORD}
+            />
+          </label>
+          {contactError && <p className="text-danger text-xs mt-1.5">{contactError}</p>}
+          <div className="flex gap-1.5 mt-2">
+            <ActionButton variant="default" className="flex-1 text-badge-xs" onClick={handleCancelAddContact}>
+              {PARTICIPANTS_STRINGS.addToContactsCancelButton}
+            </ActionButton>
+            <ActionButton variant="primary" className="flex-1 text-badge-xs" onClick={handleConfirmAddContact}>
+              {PARTICIPANTS_STRINGS.addToContactsConfirmButton}
+            </ActionButton>
+          </div>
         </div>
       )}
     </div>

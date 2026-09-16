@@ -68,19 +68,15 @@ Chamar um contato funciona exatamente como entrar numa sala normal: a pessoa rec
 
 O ID e a senha da sua sala pessoal ficam salvos só no seu computador (no mesmo lugar que as outras configurações do app), nunca em servidor nenhum. **Assim que você define uma senha, sua sala pessoal passa a abrir sozinha toda vez que o ZeroHop inicia** — não precisa mais clicar em "Abrir minha sala pessoal" depois da primeira vez. Se você trocar a senha depois, a sala já aberta atualiza na hora, sem precisar fechar e abrir de novo. Esse comportamento é configurável: tem um checkbox "Abrir automaticamente quando o ZeroHop iniciar" no card da sala pessoal, ligado por padrão — desmarque se preferir abrir manualmente.
 
-### Sala automática: convide contatos assim que eles ficarem online
-
-Além da sala pessoal, a tela de Contatos tem um segundo bloco: **"Sua sala automática"** — uma sala separada, com ID e senha próprios, que também abre sozinha assim que você liga o app. A diferença é que ela vem com uma lista de contatos marcáveis: quem você marcar ali recebe um convite automático (sem código/senha, sem você precisar aprovar) assim que ficar alcançável — sem você precisar fazer nada manualmente. **Ao contrário da sala pessoal, a sala automática vem desligada por padrão** — precisa marcar o checkbox "Habilitar sala automática" no topo do card antes dela abrir sozinha.
-
-Dentro de qualquer uma das duas salas, uma etiqueta com ícone (casinha ou raio) aparece perto do código/senha confirmando que é a sua sala pessoal ou automática — além do selo que já aparece na aba lateral quando você tem várias salas abertas ao mesmo tempo.
-
-Como não existe servidor pra avisar "fulano acabou de abrir o app", o ZeroHop tenta convidar de novo a cada ~30 segundos enquanto a pessoa não entrar — então pode levar até meio minuto depois dela abrir a sala pessoal dela pra o convite chegar.
+Dentro da sua sala pessoal, uma etiqueta com ícone de casinha aparece perto do código/senha confirmando que é ela — além do selo que já aparece na aba lateral quando você tem várias salas abertas ao mesmo tempo.
 
 ### Convidar contatos direto, sem aprovar entrada
 
 Ao criar uma sala nova, se você já tiver contatos salvos, aparece uma seção **"Convidar contatos (opcional)"** — marque quem quiser chamar direto pra essa sala. Diferente de "Chamar" (que é a pessoa entrando numa sala já existente), aqui é você trazendo alguém pra uma sala que você acabou de abrir: a pessoa convidada entra automaticamente, sem precisar de código/senha e sem você precisar aprovar a entrada dela.
 
-Só funciona se a pessoa convidada estiver com a **sala pessoal dela** aberta no momento em que você cria a sua — é a única forma do app te alcançar sem depender de nenhum servidor. Se ela não estiver alcançável, o convite simplesmente não chega, sem erro nenhum pra você.
+O mesmo dá pra fazer a qualquer momento **dentro de uma sala já aberta** (pessoal ou normal): o botão de pessoas na barra de mic/áudio abre um painel com seus contatos salvos, cada um com um botão **Convidar** — funciona exatamente igual, sem código/senha.
+
+Só funciona se a pessoa convidada estiver com o ZeroHop aberto no momento em que você convida — é a única forma do app te alcançar sem depender de nenhum servidor. Se ela não estiver alcançável, o convite simplesmente não chega, sem erro nenhum pra você. Quem recebe o convite vê um aviso na hora (e também consegue aceitar ou recusar depois, pela tela de Notificações, se preferir revisar antes).
 
 ## Como a sala é organizada
 

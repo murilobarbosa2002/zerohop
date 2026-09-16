@@ -5,4 +5,6 @@ export interface RoomToolbarProps {
   pushToTalkConfigured: boolean;
   onToggleMic: () => void;
   onToggleDeafen: () => void;
+  contactsPanelOpen: boolean;
+  onToggleContactsPanel: () => void;
 }

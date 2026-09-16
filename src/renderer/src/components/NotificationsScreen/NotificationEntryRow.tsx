@@ -8,13 +8,21 @@ import {
   playNotificationsClearCancelSound
 } from '@/services/soundEffects';
 import { NOTIFICATIONS_STRINGS } from '@/strings/notifications.strings';
+import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { NotificationEntryRowProps } from '@/components/NotificationsScreen/NotificationsScreen.types';
 
 function formatTimestamp(timestamp: string): string {
   return new Date(timestamp).toLocaleString([], { dateStyle: 'short', timeStyle: 'medium' });
 }
 
-export function NotificationEntryRow({ entry, onRead, onDelete }: NotificationEntryRowProps) {
+export function NotificationEntryRow({
+  entry,
+  onRead,
+  onDelete,
+  isInvitePending,
+  onAcceptInvite,
+  onDeclineInvite
+}: NotificationEntryRowProps) {
   const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   function handleRead(): void {
@@ -31,7 +39,16 @@ export function NotificationEntryRow({ entry, onRead, onDelete }: NotificationEn
           <p className="text-text-dim text-sm mt-1">{formatTimestamp(entry.timestamp)}</p>
         </div>
       </button>
-      {confirmingDelete ? (
+      {isInvitePending && entry.inviteId ? (
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <ActionButton variant="default" onClick={() => onDeclineInvite(entry.inviteId as string)}>
+            {ROOM_STRINGS.inviteReceivedDeclineButton}
+          </ActionButton>
+          <ActionButton variant="primary" onClick={() => onAcceptInvite(entry.inviteId as string)}>
+            {ROOM_STRINGS.inviteReceivedAcceptButton}
+          </ActionButton>
+        </div>
+      ) : confirmingDelete ? (
         <div className="flex items-center gap-2 flex-shrink-0">
           <ActionButton
             variant="default"

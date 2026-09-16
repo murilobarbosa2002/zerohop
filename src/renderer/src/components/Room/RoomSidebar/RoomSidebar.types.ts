@@ -1,5 +1,6 @@
 import type { MemberSnapshot } from '@/services/room/MemberRegistry';
 import type { MemberAudioStateStore } from '@/hooks/useMemberAudioState.types';
+import type { Contact } from '@shared/contact';
 
 export interface RoomSidebarProps {
   roomCode: string;
@@ -16,4 +17,8 @@ export interface RoomSidebarProps {
   onToggleMic: () => void;
   onToggleDeafen: () => void;
   voiceAudioState: MemberAudioStateStore;
+  contacts: Contact[];
+  onAddContact: (contact: Contact) => void;
+  onInviteContact: (contact: Contact) => void;
+  hasContactJoinedViaInvite: (contactId: string) => boolean;
 }

@@ -30,6 +30,7 @@ export interface NotificationEntry {
   kind: NotificationKind;
   message: string;
   read: boolean;
+  inviteId?: string;
 }
 
 export type NewNotificationEntry = Omit<NotificationEntry, 'id' | 'timestamp' | 'read'>;

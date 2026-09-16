@@ -1,13 +1,14 @@
 import { useMemo, useState } from 'react';
 import { ActionButton } from '@/components/ActionButton';
 import { CopyButton } from '@/components/CopyButton';
+import { CheckboxFilterGroup } from '@/components/CheckboxFilterGroup';
 import { LogEntryRow } from '@/components/LogsScreen/LogEntryRow';
 import { ClearLogsConfirmation } from '@/components/LogsScreen/ClearLogsConfirmation';
 import { Pagination } from '@/components/Pagination';
 import { useAppLogs } from '@/hooks/useAppLogs';
 import { usePagination } from '@/hooks/usePagination';
 import { formatLogsAsText } from '@/lib/formatLogsAsText';
-import { readSelectedValues } from '@/lib/selectValues';
+import { toggleArrayValue } from '@/lib/toggleArrayValue';
 import {
   playLogsClearOpenSound,
   playLogsClearCancelSound,
@@ -82,44 +83,26 @@ export function LogsScreen({ onBack }: LogsScreenProps) {
         )}
 
         <div className="flex gap-4 flex-wrap mb-4">
-          <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold">
-            {LOG_STRINGS.typeFilterLabel}
-            <select
-              multiple
-              className="bg-panel-2 border border-border rounded-lg px-2 py-1 min-w-[180px] text-body-sm"
-              value={levelFilter}
-              onChange={(event) => {
-                playLogLevelFilterToggleSound();
-                setLevelFilter(readSelectedValues(event));
-                setPage(1);
-              }}
-            >
-              {availableLevels.map((level) => (
-                <option key={level} value={level}>
-                  {LOG_STRINGS.levelLabels[level]}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold">
-            {LOG_STRINGS.categoryFilterLabel}
-            <select
-              multiple
-              className="bg-panel-2 border border-border rounded-lg px-2 py-1 min-w-[180px] text-body-sm"
-              value={categoryFilter}
-              onChange={(event) => {
-                playLogCategoryFilterClickSound();
-                setCategoryFilter(readSelectedValues(event));
-                setPage(1);
-              }}
-            >
-              {availableCategories.map((category) => (
-                <option key={category} value={category}>
-                  {LOG_STRINGS.categoryLabels[category]}
-                </option>
-              ))}
-            </select>
-          </label>
+          <CheckboxFilterGroup
+            label={LOG_STRINGS.typeFilterLabel}
+            options={availableLevels.map((level) => ({ value: level, label: LOG_STRINGS.levelLabels[level] }))}
+            selected={levelFilter}
+            onToggle={(value) => {
+              playLogLevelFilterToggleSound();
+              setLevelFilter((current) => toggleArrayValue(current, value));
+              setPage(1);
+            }}
+          />
+          <CheckboxFilterGroup
+            label={LOG_STRINGS.categoryFilterLabel}
+            options={availableCategories.map((category) => ({ value: category, label: LOG_STRINGS.categoryLabels[category] }))}
+            selected={categoryFilter}
+            onToggle={(value) => {
+              playLogCategoryFilterClickSound();
+              setCategoryFilter((current) => toggleArrayValue(current, value));
+              setPage(1);
+            }}
+          />
         </div>
 
         <div className="flex flex-col gap-2">

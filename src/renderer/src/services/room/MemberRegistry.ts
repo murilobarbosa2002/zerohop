@@ -4,6 +4,7 @@ import type { AvatarId } from '@/constants/avatars';
 export interface Member {
   name: string;
   avatarId: AvatarId | null;
+  personalId: string | null;
   conn: DataConnection | null;
   sharing: boolean;
   watching: boolean;
@@ -19,6 +20,7 @@ export interface MemberSnapshot {
   id: string;
   name: string;
   avatarId: AvatarId | null;
+  personalId: string | null;
   sharing: boolean;
   watching: boolean;
   stream: MediaStream | null;
@@ -30,6 +32,7 @@ function defaultMember(name: string): Member {
   return {
     name,
     avatarId: null,
+    personalId: null,
     conn: null,
     sharing: false,
     watching: false,
@@ -83,6 +86,7 @@ export class MemberRegistry {
         id,
         name: member.name,
         avatarId: member.avatarId,
+        personalId: member.personalId,
         sharing: member.sharing,
         watching: member.watching,
         stream: member.stream || null,

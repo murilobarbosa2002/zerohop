@@ -10,5 +10,12 @@ export const PARTICIPANTS_STRINGS = {
   muteButtonLabel: 'Mudo',
   unmuteButtonLabel: 'Reativar som',
   kickMemberButton: 'Remover da sala',
-  defaultMemberName: 'Sem nome'
+  defaultMemberName: 'Sem nome',
+  addToContactsButton: 'Adicionar aos contatos',
+  alreadyContactBadge: 'Já é seu contato',
+  addToContactsPasswordLabel: 'Senha da sala pessoal dela',
+  addToContactsPasswordPlaceholder: 'Peça pra ela te passar a senha da sala pessoal dela',
+  addToContactsConfirmButton: 'Adicionar',
+  addToContactsCancelButton: 'Cancelar',
+  addToContactsFieldRequiredError: 'Preencha a senha antes de adicionar.'
 } as const;

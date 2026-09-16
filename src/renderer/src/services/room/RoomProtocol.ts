@@ -107,7 +107,11 @@ export class RoomProtocol {
       this.deps.onAuthRejected(fromId);
       return;
     }
-    this.deps.registry.upsert(fromId, { name: message.name, avatarId: normalizeAvatarId(message.avatarId) });
+    this.deps.registry.upsert(fromId, {
+      name: message.name,
+      avatarId: normalizeAvatarId(message.avatarId),
+      personalId: message.personalId ?? null
+    });
     if (message.appVersion !== this.deps.getOwnAppVersion()) {
       this.deps.onVersionMismatch(fromId, message.appVersion);
       return;

@@ -1,4 +1,4 @@
-import { HouseIcon, BoltIcon } from '@/components/icons';
+import { HouseIcon } from '@/components/icons';
 import { getRoomKind } from '@/services/roomKind';
 import { ROOM_SWITCHER_STRINGS } from '@/strings/roomSwitcher.strings';
 import type { RoomSwitcherProps } from '@/components/RoomSwitcher/RoomSwitcher.types';
@@ -9,14 +9,8 @@ export function RoomSwitcher({ sessions, focusedSessionId, onFocus, onLeave, onA
       {sessions.map((session) => {
         const label = (session.roomCode ?? ROOM_SWITCHER_STRINGS.unnamedRoomLabel).slice(0, 2).toUpperCase();
         const isFocused = session.sessionId === focusedSessionId;
-        const roomKind = getRoomKind(session.roomCode);
-        const isPersonal = roomKind === 'personal';
-        const isAuto = roomKind === 'auto';
-        const badgeTooltip = isPersonal
-          ? ROOM_SWITCHER_STRINGS.personalRoomBadgeTooltip
-          : isAuto
-            ? ROOM_SWITCHER_STRINGS.autoRoomBadgeTooltip
-            : null;
+        const isPersonal = getRoomKind(session.roomCode) === 'personal';
+        const badgeTooltip = isPersonal ? ROOM_SWITCHER_STRINGS.personalRoomBadgeTooltip : null;
         return (
           <div key={session.sessionId} className="relative group">
             <button
@@ -31,11 +25,9 @@ export function RoomSwitcher({ sessions, focusedSessionId, onFocus, onLeave, onA
             {badgeTooltip && (
               <span
                 title={badgeTooltip}
-                className={`absolute -top-1 -left-1 w-4 h-4 rounded-full flex items-center justify-center border border-bg ${
-                  isPersonal ? 'bg-accent text-text-on-accent' : 'bg-warn text-text-on-accent'
-                }`}
+                className="absolute -top-1 -left-1 w-4 h-4 rounded-full flex items-center justify-center border border-bg bg-accent text-text-on-accent"
               >
-                {isPersonal ? <HouseIcon /> : <BoltIcon />}
+                <HouseIcon />
               </span>
             )}
             {session.unreadCount > 0 && (
