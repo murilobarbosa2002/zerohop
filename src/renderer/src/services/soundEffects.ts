@@ -61,6 +61,7 @@ import deleteNotificationOpenSound from '@/assets/sounds/delete-notification-ope
 import deleteNotificationConfirmSound from '@/assets/sounds/delete-notification-confirm.wav';
 import switchRoomSound from '@/assets/sounds/switch-room.wav';
 import notificationFilterToggleSound from '@/assets/sounds/notification-filter-toggle.wav';
+import logLevelFilterToggleSound from '@/assets/sounds/log-level-filter-toggle.wav';
 import inputNameFocusSound from '@/assets/sounds/input-name-focus.wav';
 import inputNameTypeSound from '@/assets/sounds/input-name-type.wav';
 import inputPasswordFocusSound from '@/assets/sounds/input-password-focus.wav';
@@ -458,6 +459,10 @@ export function playSwitchRoomSound(): void {
 
 export function playNotificationFilterToggleSound(): void {
   play(notificationFilterToggleSound, SoundCategory.INTERFACE);
+}
+
+export function playLogLevelFilterToggleSound(): void {
+  play(logLevelFilterToggleSound, SoundCategory.INTERFACE);
 }
 
 export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; type: () => void }> = {

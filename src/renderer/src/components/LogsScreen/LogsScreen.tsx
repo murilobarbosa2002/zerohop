@@ -1,24 +1,39 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ActionButton } from '@/components/ActionButton';
 import { CopyButton } from '@/components/CopyButton';
-import { CategoryFilter } from '@/components/LogsScreen/CategoryFilter';
 import { LogEntryRow } from '@/components/LogsScreen/LogEntryRow';
 import { ClearLogsConfirmation } from '@/components/LogsScreen/ClearLogsConfirmation';
 import { Pagination } from '@/components/Pagination';
 import { useAppLogs } from '@/hooks/useAppLogs';
 import { usePagination } from '@/hooks/usePagination';
 import { formatLogsAsText } from '@/lib/formatLogsAsText';
-import { playLogsClearOpenSound, playLogsClearCancelSound, playLogsClearConfirmSound, playBackButtonSound } from '@/services/soundEffects';
+import { readSelectedValues } from '@/lib/selectValues';
+import {
+  playLogsClearOpenSound,
+  playLogsClearCancelSound,
+  playLogsClearConfirmSound,
+  playLogCategoryFilterClickSound,
+  playLogLevelFilterToggleSound,
+  playBackButtonSound
+} from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { LOGS_PAGE_SIZE } from '@/constants/pagination';
-import type { LogCategory } from '@shared/logEntry';
 import type { LogsScreenProps } from '@/components/LogsScreen/LogsScreen.types';
 
 export function LogsScreen({ onBack }: LogsScreenProps) {
   const { entries, clear } = useAppLogs();
-  const [categoryFilter, setCategoryFilter] = useState<LogCategory | null>(null);
+  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
+  const [levelFilter, setLevelFilter] = useState<string[]>([]);
   const [confirmingClear, setConfirmingClear] = useState(false);
-  const filteredEntries = categoryFilter ? entries.filter((entry) => entry.category === categoryFilter) : entries;
+
+  const availableCategories = useMemo(() => [...new Set(entries.map((entry) => entry.category))], [entries]);
+  const availableLevels = useMemo(() => [...new Set(entries.map((entry) => entry.level))], [entries]);
+
+  const filteredEntries = entries.filter((entry) => {
+    if (categoryFilter.length > 0 && !categoryFilter.includes(entry.category)) return false;
+    if (levelFilter.length > 0 && !levelFilter.includes(entry.level)) return false;
+    return true;
+  });
   const sortedEntries = [...filteredEntries].reverse();
   const { pageItems, page, totalPages, setPage } = usePagination(sortedEntries, LOGS_PAGE_SIZE);
 
@@ -66,15 +81,48 @@ export function LogsScreen({ onBack }: LogsScreenProps) {
           </div>
         )}
 
-        <CategoryFilter
-          selected={categoryFilter}
-          onSelect={(category) => {
-            setCategoryFilter(category);
-            setPage(1);
-          }}
-        />
+        <div className="flex gap-4 flex-wrap mb-4">
+          <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold">
+            {LOG_STRINGS.typeFilterLabel}
+            <select
+              multiple
+              className="bg-panel-2 border border-border rounded-lg px-2 py-1 min-w-[180px] text-body-sm"
+              value={levelFilter}
+              onChange={(event) => {
+                playLogLevelFilterToggleSound();
+                setLevelFilter(readSelectedValues(event));
+                setPage(1);
+              }}
+            >
+              {availableLevels.map((level) => (
+                <option key={level} value={level}>
+                  {LOG_STRINGS.levelLabels[level]}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold">
+            {LOG_STRINGS.categoryFilterLabel}
+            <select
+              multiple
+              className="bg-panel-2 border border-border rounded-lg px-2 py-1 min-w-[180px] text-body-sm"
+              value={categoryFilter}
+              onChange={(event) => {
+                playLogCategoryFilterClickSound();
+                setCategoryFilter(readSelectedValues(event));
+                setPage(1);
+              }}
+            >
+              {availableCategories.map((category) => (
+                <option key={category} value={category}>
+                  {LOG_STRINGS.categoryLabels[category]}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
 
-        <div className="flex flex-col gap-2 mt-4">
+        <div className="flex flex-col gap-2">
           {sortedEntries.length === 0 ? (
             <p className="text-text-dim text-body-sm">{LOG_STRINGS.emptyMessage}</p>
           ) : (

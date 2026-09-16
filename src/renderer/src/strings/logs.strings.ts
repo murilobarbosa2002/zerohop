@@ -8,6 +8,8 @@ export const LOG_STRINGS = {
   clearConfirmButton: 'Sim, apagar',
   clearCancelButton: 'Cancelar',
   allCategoriesFilter: 'Tudo',
+  categoryFilterLabel: 'Filtrar por categoria',
+  typeFilterLabel: 'Filtrar por tipo',
   categoryLabels: {
     app: 'App',
     room: 'Sala',
@@ -16,6 +18,11 @@ export const LOG_STRINGS = {
     connection: 'Conexão',
     update: 'Atualização',
     hotkeys: 'Teclas de atalho'
+  },
+  levelLabels: {
+    info: 'Informação',
+    warning: 'Aviso',
+    error: 'Erro'
   },
   appStartedMessage: (version: string) => `ZeroHop v${version} foi aberto.`,
   roomCreatedMessage: (code: string) => `Você criou a sala ${code}.`,

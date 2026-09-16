@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ActionButton } from '@/components/ActionButton';
 import { NotificationEntryRow } from '@/components/NotificationsScreen/NotificationEntryRow';
 import { ClearNotificationsConfirmation } from '@/components/NotificationsScreen/ClearNotificationsConfirmation';
 import { Pagination } from '@/components/Pagination';
 import { useNotifications } from '@/hooks/useNotifications';
 import { usePagination } from '@/hooks/usePagination';
+import { readSelectedValues } from '@/lib/selectValues';
 import {
   playNotificationsClearOpenSound,
   playNotificationsClearCancelSound,
@@ -15,18 +16,17 @@ import {
 } from '@/services/soundEffects';
 import { NOTIFICATIONS_STRINGS } from '@/strings/notifications.strings';
 import { NOTIFICATIONS_PAGE_SIZE } from '@/constants/pagination';
-import { NotificationKind, NotificationCategory, NOTIFICATION_KIND_CATEGORY } from '@shared/notificationEntry';
+import { NOTIFICATION_KIND_CATEGORY } from '@shared/notificationEntry';
 import type { NotificationsScreenProps } from '@/components/NotificationsScreen/NotificationsScreen.types';
-
-function readSelectedValues(event: React.ChangeEvent<HTMLSelectElement>): string[] {
-  return Array.from(event.target.selectedOptions).map((option) => option.value);
-}
 
 export function NotificationsScreen({ onBack }: NotificationsScreenProps) {
   const { entries, clear, markRead, markAllRead, remove } = useNotifications();
   const [confirmingClear, setConfirmingClear] = useState(false);
   const [kindFilter, setKindFilter] = useState<string[]>([]);
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
+
+  const availableKinds = useMemo(() => [...new Set(entries.map((entry) => entry.kind))], [entries]);
+  const availableCategories = useMemo(() => [...new Set(entries.map((entry) => NOTIFICATION_KIND_CATEGORY[entry.kind]))], [entries]);
 
   const filteredEntries = entries.filter((entry) => {
     if (kindFilter.length > 0 && !kindFilter.includes(entry.kind)) return false;
@@ -105,7 +105,7 @@ export function NotificationsScreen({ onBack }: NotificationsScreenProps) {
                 setKindFilter(readSelectedValues(event));
               }}
             >
-              {Object.values(NotificationKind).map((kind) => (
+              {availableKinds.map((kind) => (
                 <option key={kind} value={kind}>
                   {NOTIFICATIONS_STRINGS.kindLabels[kind]}
                 </option>
@@ -123,7 +123,7 @@ export function NotificationsScreen({ onBack }: NotificationsScreenProps) {
                 setCategoryFilter(readSelectedValues(event));
               }}
             >
-              {Object.values(NotificationCategory).map((category) => (
+              {availableCategories.map((category) => (
                 <option key={category} value={category}>
                   {NOTIFICATIONS_STRINGS.categoryLabels[category]}
                 </option>
