@@ -1,14 +1,14 @@
 import { Logo } from '@/components/Logo';
 import { WindowButton } from '@/components/WindowButton';
-import { LogsIcon, SettingsIcon, MinimizeIcon, MaximizeIcon, CloseIcon } from '@/components/icons';
+import { LogsIcon, BellIcon, SettingsIcon, MinimizeIcon, MaximizeIcon, CloseIcon } from '@/components/icons';
 import { useAppUpdater } from '@/hooks/useAppUpdater';
-import { playOpenLogsSound, playOpenSettingsSound } from '@/services/soundEffects';
+import { playOpenLogsSound, playOpenSettingsSound, playOpenNotificationsSound } from '@/services/soundEffects';
 import { APP_SHELL_STRINGS } from '@/strings/appShell.strings';
 import { TITLE_BAR_STRINGS } from '@/strings/titleBar.strings';
 import { UPDATES_STRINGS } from '@/strings/updates.strings';
 import type { TitleBarProps } from '@/components/TitleBar/TitleBar.types';
 
-export function TitleBar({ onOpenUpdates, onOpenSettings, onOpenLogs }: TitleBarProps) {
+export function TitleBar({ onOpenUpdates, onOpenSettings, onOpenLogs, onOpenNotifications, unreadNotificationsCount }: TitleBarProps) {
   const { version } = useAppUpdater();
 
   return (
@@ -28,6 +28,20 @@ export function TitleBar({ onOpenUpdates, onOpenSettings, onOpenLogs }: TitleBar
         )}
       </div>
       <div className="flex h-full">
+        <div className="relative flex-shrink-0">
+          <WindowButton
+            onClick={() => {
+              playOpenNotificationsSound();
+              onOpenNotifications();
+            }}
+            label={TITLE_BAR_STRINGS.notificationsButtonLabel}
+          >
+            <BellIcon className="w-3 h-3" />
+          </WindowButton>
+          {unreadNotificationsCount > 0 && (
+            <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-danger pointer-events-none" />
+          )}
+        </div>
         <WindowButton
           onClick={() => {
             playOpenLogsSound();

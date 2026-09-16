@@ -30,7 +30,7 @@ try {
   await callerWin.getByRole('button', { name: 'Salvar contato' }).click();
   await callerWin.waitForTimeout(300);
 
-  check('saved contact appears in the list', await callerWin.getByText('Meu amigo', { exact: true }).isVisible());
+  check('saved contact appears in the list', await callerWin.getByText('Meu amigo', { exact: true }).first().isVisible());
 
   await callerWin.getByRole('button', { name: 'Chamar' }).click();
   await approveJoinRequest(hostWin);

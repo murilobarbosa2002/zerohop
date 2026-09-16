@@ -95,6 +95,8 @@ export class RoomClient extends EventTarget {
   private connections: PeerConnectionManager;
   private cachedMembersSnapshot: MemberSnapshot[] = [];
   private pendingInviteToken: string | null = null;
+  private inviteTokenToContactId = new Map<string, string>();
+  private joinedAutoInviteContactIds = new Set<string>();
 
   constructor() {
     super();
@@ -127,7 +129,13 @@ export class RoomClient extends EventTarget {
         logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.memberJoinedMessage(member?.name || id));
         this.dispatchEvent(new CustomEvent('member-joined', { detail: { id, name: member?.name || id } }));
       },
-      getInviteToken: () => this.pendingInviteToken
+      getInviteToken: () => this.pendingInviteToken,
+      onTokenAutoApproved: (token) => {
+        const contactId = this.inviteTokenToContactId.get(token);
+        if (!contactId) return;
+        this.inviteTokenToContactId.delete(token);
+        this.joinedAutoInviteContactIds.add(contactId);
+      }
     });
     this.protocol = new RoomProtocol({
       registry: this.registry,
@@ -223,6 +231,10 @@ export class RoomClient extends EventTarget {
     return this.currentPassword;
   }
 
+  setPassword(password: string): void {
+    this.currentPassword = password;
+  }
+
   async createRoom(
     name: string,
     password = '',
@@ -239,7 +251,7 @@ export class RoomClient extends EventTarget {
       this.roomCode = desiredCode;
       this.emitStatus(RoomStatus.CONNECTED);
       this.startVoiceChat();
-      this.inviteContacts(desiredCode, invitedContacts);
+      this.inviteContacts(invitedContacts);
       logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.roomCreatedMessage(desiredCode));
       return desiredCode;
     }
@@ -251,7 +263,7 @@ export class RoomClient extends EventTarget {
         this.roomCode = code;
         this.emitStatus(RoomStatus.CONNECTED);
         this.startVoiceChat();
-        this.inviteContacts(code, invitedContacts);
+        this.inviteContacts(invitedContacts);
         logEvent(LogCategory.ROOM, LogLevel.INFO, LOG_STRINGS.roomCreatedMessage(code));
         return code;
       } catch (error) {
@@ -381,22 +393,28 @@ export class RoomClient extends EventTarget {
     await this.auth.sendHello(id, connection, this.media.sharing);
   }
 
-  private inviteContacts(roomCode: string, contacts: Contact[]): void {
-    if (contacts.length === 0) return;
-    const hostId = getPersonalId();
-    for (const contact of contacts) {
-      const inviteToken = crypto.randomUUID();
-      this.auth.preAuthorizeToken(inviteToken);
-      this.connections.sendInvite(contact.id, {
-        type: 'invite',
-        roomCode,
-        roomPassword: this.currentPassword,
-        inviteToken,
-        hostId,
-        hostName: this.selfName,
-        hostAvatarId: this.selfAvatarId
-      });
-    }
+  inviteContact(contact: Contact): void {
+    if (!this.roomCode) return;
+    const inviteToken = crypto.randomUUID();
+    this.auth.preAuthorizeToken(inviteToken);
+    this.inviteTokenToContactId.set(inviteToken, contact.id);
+    this.connections.sendInvite(contact.id, {
+      type: 'invite',
+      roomCode: this.roomCode,
+      roomPassword: this.currentPassword,
+      inviteToken,
+      hostId: getPersonalId(),
+      hostName: this.selfName,
+      hostAvatarId: this.selfAvatarId
+    });
+  }
+
+  hasContactJoinedViaInvite(contactId: string): boolean {
+    return this.joinedAutoInviteContactIds.has(contactId);
+  }
+
+  private inviteContacts(contacts: Contact[]): void {
+    for (const contact of contacts) this.inviteContact(contact);
   }
 
   private handleInviteMessage(fromId: string, message: InviteMessage): void {

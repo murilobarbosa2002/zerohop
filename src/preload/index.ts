@@ -5,6 +5,7 @@ import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
 import type { HotkeySettings, ToggleHotkeyRegistrationResult } from '@shared/hotkeySettings';
 import type { Contact } from '@shared/contact';
+import type { NotificationEntry, NewNotificationEntry } from '@shared/notificationEntry';
 
 const api = {
   getSources: (): Promise<CaptureSource[]> => ipcRenderer.invoke(IPC_CHANNELS.getSources),
@@ -74,7 +75,17 @@ const api = {
   },
   getContacts: (): Promise<Contact[]> => ipcRenderer.invoke(IPC_CHANNELS.getContacts),
   addContact: (contact: Contact): Promise<Contact[]> => ipcRenderer.invoke(IPC_CHANNELS.addContact, contact),
-  removeContact: (id: string): Promise<Contact[]> => ipcRenderer.invoke(IPC_CHANNELS.removeContact, id)
+  removeContact: (id: string): Promise<Contact[]> => ipcRenderer.invoke(IPC_CHANNELS.removeContact, id),
+  getNotifications: (): Promise<NotificationEntry[]> => ipcRenderer.invoke(IPC_CHANNELS.getNotifications),
+  addNotification: (entry: NewNotificationEntry): Promise<NotificationEntry> => ipcRenderer.invoke(IPC_CHANNELS.addNotification, entry),
+  onNotificationAdded: (callback: (entry: NotificationEntry) => void): (() => void) => {
+    const listener = (_event: Electron.IpcRendererEvent, entry: NotificationEntry): void => callback(entry);
+    ipcRenderer.on(IPC_CHANNELS.notificationAdded, listener);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.notificationAdded, listener);
+  },
+  clearNotifications: (): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.clearNotifications),
+  markNotificationRead: (id: string): Promise<NotificationEntry[]> => ipcRenderer.invoke(IPC_CHANNELS.markNotificationRead, id),
+  markAllNotificationsRead: (): Promise<NotificationEntry[]> => ipcRenderer.invoke(IPC_CHANNELS.markAllNotificationsRead)
 };
 
 export type ZeroHopApi = typeof api;

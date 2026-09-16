@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.26](docs/releases/v0.36.26.md) | Sala pessoal/automática abre sozinha, notificações, senha ao vivo                                                       |
 | [0.36.25](docs/releases/v0.36.25.md) | Convide contatos direto pra sala; push-to-talk tenta funcionar sem foco de novo                                         |
 | [0.36.24](docs/releases/v0.36.24.md) | Tela inicial redesenhada com ícones, indicador de conexão quebrado removido                                             |
 | [0.36.23](docs/releases/v0.36.23.md) | Nome salvo automaticamente, cabeçalho dentro do mesmo quadro da tela                                                    |

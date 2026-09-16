@@ -12,11 +12,19 @@ import { getSettings, setHotkeySettings } from '@main/settings';
 import { findProcessIdByWindowTitle, startAudioLoopback, stopAudioLoopback } from '@main/audioLoopback';
 import { applyToggleHotkeys } from '@main/toggleHotkeys';
 import { readContacts, addContact, removeContact } from '@main/contacts';
+import {
+  readNotifications,
+  appendNotification,
+  clearNotifications,
+  markNotificationRead,
+  markAllNotificationsRead
+} from '@main/notifications';
 import { IPC_CHANNELS } from '@shared/ipcChannels';
 import type { CaptureSource } from '@shared/ipc-types';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
 import type { HotkeySettings, ToggleHotkeyRegistrationResult } from '@shared/hotkeySettings';
 import type { Contact } from '@shared/contact';
+import type { NotificationEntry, NewNotificationEntry } from '@shared/notificationEntry';
 
 function isNoiseSource(source: DesktopCapturerSource): boolean {
   return source.id.startsWith('window:') && NOISE_SOURCE_NAME_PATTERNS.some((pattern) => pattern.test(source.name));
@@ -121,4 +129,16 @@ export function registerIpcHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.addContact, (_event, contact: Contact): Contact[] => addContact(contact));
 
   ipcMain.handle(IPC_CHANNELS.removeContact, (_event, id: string): Contact[] => removeContact(id));
+
+  ipcMain.handle(IPC_CHANNELS.getNotifications, (): NotificationEntry[] => readNotifications());
+
+  ipcMain.handle(IPC_CHANNELS.addNotification, (_event, entry: NewNotificationEntry): NotificationEntry => appendNotification(entry));
+
+  ipcMain.handle(IPC_CHANNELS.clearNotifications, () => {
+    clearNotifications();
+  });
+
+  ipcMain.handle(IPC_CHANNELS.markNotificationRead, (_event, id: string): NotificationEntry[] => markNotificationRead(id));
+
+  ipcMain.handle(IPC_CHANNELS.markAllNotificationsRead, (): NotificationEntry[] => markAllNotificationsRead());
 }

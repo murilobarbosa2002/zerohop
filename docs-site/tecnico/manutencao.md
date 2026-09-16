@@ -40,7 +40,7 @@ ELECTRON_RUN_AS_NODE= xvfb-run -a node e2e/run-all.mjs
 
 (`xvfb-run` só é necessário em Linux sem display gráfico — no Windows/macOS com interface, `node e2e/run-all.mjs` sozinho já funciona.)
 
-Cada arquivo em `e2e/*.spec.mjs` é um cenário independente. `e2e/helpers/launchApp.mjs` centraliza como o Electron é iniciado nos testes (com `--use-fake-device-for-media-stream` pra simular câmera/microfone sem hardware real). **Toda mudança de comportamento visível precisa de um teste novo ou atualizado** — é assim que regressões como "a voz para de tocar ao ocultar a sala" ou "a malha quebra com 3+ pessoas" não voltam a acontecer.
+Cada arquivo em `e2e/*.spec.mjs` é um cenário independente. `e2e/helpers/launchApp.mjs` centraliza como o Electron é iniciado nos testes (com `--use-fake-device-for-media-stream` pra simular câmera/microfone sem hardware real, e um `--user-data-dir` único por instância — cada chamada de `launchApp()` ganha um perfil isolado, sem compartilhar `contacts.json`/`settings.json`/`localStorage` entre specs ou entre processos do mesmo teste). **Toda mudança de comportamento visível precisa de um teste novo ou atualizado** — é assim que regressões como "a voz para de tocar ao ocultar a sala" ou "a malha quebra com 3+ pessoas" não voltam a acontecer.
 
 ## Como adicionar coisas comuns
 

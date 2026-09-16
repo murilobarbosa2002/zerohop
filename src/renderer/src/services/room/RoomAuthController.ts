@@ -34,6 +34,7 @@ interface RoomAuthControllerDeps {
   onMemberAuthenticated: (id: string) => void;
   getAppVersion?: () => Promise<string>;
   getInviteToken?: () => string | null;
+  onTokenAutoApproved?: (token: string) => void;
 }
 
 export class RoomAuthController extends EventTarget {
@@ -107,6 +108,7 @@ export class RoomAuthController extends EventTarget {
   handleJoinRequest(id: string, name: string, inviteToken?: string): void {
     if (inviteToken && this.preAuthorizedTokens.delete(inviteToken)) {
       this.autoApprove(id);
+      this.deps.onTokenAutoApproved?.(inviteToken);
       return;
     }
     this.pendingJoinRequests.set(id, name);

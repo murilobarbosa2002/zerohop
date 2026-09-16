@@ -48,6 +48,10 @@ export const SETTINGS_STRINGS = {
   cancelRecordingHotkeyButton: 'Cancelar',
   clearHotkeyButton: 'Remover',
   noHotkeySetLabel: 'Nenhuma',
+  hotkeyRecognizedTitle: (label: string) => `Tecla identificada: ${label}`,
+  hotkeyRecognizedConflictHint: (label: string) => `Essa tecla já está sendo usada em "${label}". Se confirmar, ela troca de lugar.`,
+  hotkeyConfirmButton: 'Confirmar',
+  hotkeyCancelButton: 'Cancelar',
   pushToTalkReleaseDelayLabel: 'Atraso pra desligar o mic ao soltar a tecla',
   pushToTalkReleaseDelayHint: 'Evita cortar palavras entre pausas curtas na fala.'
 } as const;

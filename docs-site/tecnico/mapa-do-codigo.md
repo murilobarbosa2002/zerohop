@@ -116,6 +116,31 @@ Pedido explícito do usuário: ao **criar** uma sala nova, dá pra marcar contat
 - **Por que um token, e não só "peer ID pré-autorizado":** a primeira versão dessa ideia tentava pré-autorizar o `contact.id` (o ID pessoal do convidado) direto em `RoomAuthController`. Não funciona: `joinRoom` sempre abre a conexão com um peer ID novo e aleatório (`this.connections.open(undefined, ...)`), nunca com o ID pessoal — então o pedido de entrada que chega de verdade nunca bate com o ID que foi pré-autorizado. A solução foi trocar por um **token de uso único**: `RoomAuthController.preAuthorizeToken(token)` guarda o token gerado na hora do convite; o convidado carrega esse token junto do `hello` (`helloMessageSchema.inviteToken`, opcional) quando entra; `handleJoinRequest` confere o token (não o peer ID) e, se bater, aprova igual `approveJoinRequest` faria — sem nunca colocar na fila (`pendingJoinRequests`) nem mostrar o `JoinRequestModal`.
 - **Limitação aceita:** só dá pra convidar um contato que esteja com a sala pessoal DELE aberta no momento — é a única forma de alcançar o peer ID dele sem servidor de presença (mesma limitação de "Chamar", só que na direção contrária).
 
+### Sala pessoal e sala automática abrindo sozinhas (v0.36.26+)
+
+`useRoomSessions.ts` ganhou um `useEffect` de bootstrap (guardado por um `ref` pra rodar só uma vez, mesmo sob `<StrictMode>`) que, ao montar, chama `createSession()` + `RoomClient.createRoom(...)` automaticamente pra duas salas, cada uma só se já tiver senha configurada:
+
+- **Sala pessoal**: `desiredCode = getPersonalId()`, senha de `personalRoomPreference.ts`.
+- **Sala automática** (nova peça, `services/autoRoomPreference.ts` — espelha `personalRoomPreference.ts` com chaves de `localStorage` próprias): `desiredCode = getAutoRoomId()`, senha própria, **mais uma lista de IDs de contato pra convidar automaticamente** (`getAutoInviteContactIds()`/`setAutoInviteContactIds()`).
+
+Essas sessões entram na lista normal de `sessions` (aparecem no `RoomSwitcher` assim que conectam), mas **não roubam o foco** — a tela de escolha (`pendingSession`) continua aparecendo normalmente pro usuário.
+
+**Convite automático por presença** (`hooks/useAutoInvite.ts`): enquanto a sala automática está com `roomClient` disponível, um `setInterval` de `AUTO_INVITE_RETRY_INTERVAL_MS` (~30s) tenta `roomClient.inviteContact(contact)` pra cada contato marcado que ainda não entrou. **Não dá pra saber quando alguém "abriu o app"** sem servidor — a única coisa que dá pra fazer é tentar de novo periodicamente e deixar a tentativa falhar em silêncio se a pessoa não estiver alcançável (exatamente como qualquer convite avulso já fazia).
+
+Pra saber quando PARAR de re-tentar um contato (ele já entrou), `RoomClient` guarda um `Map<inviteToken, contactId>` só na hora de convidar (`inviteContact`), e `RoomAuthController` ganhou um dep `onTokenAutoApproved(token)` chamado no exato momento em que um token de convite é consumido com sucesso — `RoomClient` usa isso pra marcar `joinedAutoInviteContactIds.add(contactId)`, consultado depois via `hasContactJoinedViaInvite(contactId)`. **Por que não checar isso batendo peer ID:** o peer ID de quem entra é sempre um ID aleatório novo (`joinRoom` abre com `desiredId: undefined`), nunca o ID pessoal do contato — só o token consumido no momento certo dá certeza de qual contato realmente entrou.
+
+### Trocar senha sem reabrir a sala
+
+`RoomClient.setPassword(password)` (método novo, só atualiza `this.currentPassword`) existe porque agora a sala pessoal/automática ficam abertas o tempo inteiro — mudar a senha em Contatos precisa refletir na sessão já viva. `useRoomSessions.ts` expõe `findSessionByRoomCode(roomCode)` (usado por `ContactsScreen.tsx` pra achar a sessão certa e chamar `setPassword` nela) — esse helper precisou ser passado por prop através de `PreRoom`/`AddRoomOverlay`, já que `ContactsScreen` só recebia o `roomClient` da sessão pendente antes disso.
+
+## Sistema de notificações (v0.36.26+)
+
+Separado da tela de Logs de propósito: Logs é auditoria técnica (todo evento, incluindo ruído de diagnóstico), Notificações é só o que interessa pro usuário como pessoa — convite recebido/aceito/recusado, membro entrou/saiu, pedido de entrada, atualização disponível. Mesma receita de `contacts.json`/`logs.jsonl`, com o extra de lida/não-lida:
+
+- **Main**: `main/notifications.ts` (espelha `main/logger.ts`) grava em `notifications.jsonl`, empurra pro renderer via IPC (`notificationAdded`) a cada entrada nova. `shared/notificationEntry.ts` define `NotificationKind` (enum) e `NotificationEntry { id, timestamp, kind, message, read }`.
+- **Renderer**: `services/notifyUser.ts` (equivalente ao `logEvent` de sempre) chamado nos mesmos pontos onde já se gera log técnico, mas só pros eventos que interessam ao usuário — a maioria vive dentro de `useRoomSessions.ts`, junto dos listeners que já existiam pra tocar som (`member-joined`, `invite-received`, etc.).
+- **Tela**: `components/NotificationsScreen/` espelha `LogsScreen/` (lista + paginação + confirmação de limpar). Acesso por um ícone de sino novo na `TitleBar`, com uma bolinha de não-lida contada via `useNotifications()`.
+
 ## Sistema de sons
 
 Ver `services/soundEffects.ts` na seção de serviços acima. Duas regras que não têm exceção:

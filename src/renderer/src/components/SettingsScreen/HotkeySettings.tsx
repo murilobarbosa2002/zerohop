@@ -34,6 +34,19 @@ export function HotkeySettings() {
     }
   }
 
+  function checkConflict(excluding: 'micMuteHotkey' | 'deafenHotkey' | 'pushToTalkHotkey', binding: AcceleratorBinding): string | null {
+    if (excluding !== 'micMuteHotkey' && hotkeys.micMuteHotkey?.accelerator === binding.accelerator) {
+      return SETTINGS_STRINGS.micMuteHotkeyLabel;
+    }
+    if (excluding !== 'deafenHotkey' && hotkeys.deafenHotkey?.accelerator === binding.accelerator) {
+      return SETTINGS_STRINGS.deafenHotkeyLabel;
+    }
+    if (excluding !== 'pushToTalkHotkey' && hotkeys.pushToTalkHotkey?.accelerator === binding.accelerator) {
+      return SETTINGS_STRINGS.pushToTalkHotkeyLabel;
+    }
+    return null;
+  }
+
   return (
     <div className="max-w-modal mt-6">
       <p className="font-bold text-lg">{SETTINGS_STRINGS.hotkeysTitle}</p>
@@ -44,17 +57,20 @@ export function HotkeySettings() {
         value={hotkeys.micMuteHotkey}
         onChange={updateMicMuteHotkey}
         errorMessage={micMuteError ? SETTINGS_STRINGS.hotkeyConflictError : null}
+        checkConflict={(binding) => checkConflict('micMuteHotkey', binding)}
       />
       <HotkeyRecorderRow
         label={SETTINGS_STRINGS.deafenHotkeyLabel}
         value={hotkeys.deafenHotkey}
         onChange={updateDeafenHotkey}
         errorMessage={deafenError ? SETTINGS_STRINGS.hotkeyConflictError : null}
+        checkConflict={(binding) => checkConflict('deafenHotkey', binding)}
       />
       <HotkeyRecorderRow
         label={SETTINGS_STRINGS.pushToTalkHotkeyLabel}
         value={hotkeys.pushToTalkHotkey}
         onChange={(value: AcceleratorBinding | null) => setHotkeys({ ...hotkeys, pushToTalkHotkey: value })}
+        checkConflict={(binding) => checkConflict('pushToTalkHotkey', binding)}
       />
       <p className="text-text-dim text-xs mt-2 leading-relaxed">{SETTINGS_STRINGS.pushToTalkHotkeyHint}</p>
 

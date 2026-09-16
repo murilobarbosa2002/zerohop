@@ -33,6 +33,16 @@ import messageDeletedRemoteSound from '@/assets/sounds/message-deleted-remote.wa
 import createRoomClickSound from '@/assets/sounds/create-room-click.wav';
 import joinRoomClickSound from '@/assets/sounds/join-room-click.wav';
 import logsClearOpenSound from '@/assets/sounds/logs-clear-open.wav';
+import notificationsClearOpenSound from '@/assets/sounds/notifications-clear-open.wav';
+import notificationsClearCancelSound from '@/assets/sounds/notifications-clear-cancel.wav';
+import notificationsClearConfirmSound from '@/assets/sounds/notifications-clear-confirm.wav';
+import openNotificationsSound from '@/assets/sounds/open-notifications.wav';
+import recordHotkeyClickSound from '@/assets/sounds/record-hotkey-click.wav';
+import removeHotkeyClickSound from '@/assets/sounds/remove-hotkey-click.wav';
+import hotkeyKeyRecognizedSound from '@/assets/sounds/hotkey-key-recognized.wav';
+import hotkeyConfirmClickSound from '@/assets/sounds/hotkey-confirm-click.wav';
+import hotkeyCancelClickSound from '@/assets/sounds/hotkey-cancel-click.wav';
+import logCategoryFilterClickSound from '@/assets/sounds/log-category-filter-click.wav';
 import logsClearCancelSound from '@/assets/sounds/logs-clear-cancel.wav';
 import logsClearConfirmSound from '@/assets/sounds/logs-clear-confirm.wav';
 import tabStatusSound from '@/assets/sounds/tab-status.wav';
@@ -220,6 +230,46 @@ export function playOpenPersonalRoomClickSound(): void {
 
 export function playLogsClearOpenSound(): void {
   play(logsClearOpenSound, SoundCategory.INTERFACE);
+}
+
+export function playNotificationsClearOpenSound(): void {
+  play(notificationsClearOpenSound, SoundCategory.INTERFACE);
+}
+
+export function playNotificationsClearCancelSound(): void {
+  play(notificationsClearCancelSound, SoundCategory.INTERFACE);
+}
+
+export function playNotificationsClearConfirmSound(): void {
+  play(notificationsClearConfirmSound, SoundCategory.INTERFACE);
+}
+
+export function playOpenNotificationsSound(): void {
+  play(openNotificationsSound, SoundCategory.INTERFACE);
+}
+
+export function playRecordHotkeyClickSound(): void {
+  play(recordHotkeyClickSound, SoundCategory.INTERFACE);
+}
+
+export function playRemoveHotkeyClickSound(): void {
+  play(removeHotkeyClickSound, SoundCategory.INTERFACE);
+}
+
+export function playHotkeyKeyRecognizedSound(): void {
+  play(hotkeyKeyRecognizedSound, SoundCategory.INTERFACE);
+}
+
+export function playHotkeyConfirmClickSound(): void {
+  play(hotkeyConfirmClickSound, SoundCategory.INTERFACE);
+}
+
+export function playHotkeyCancelClickSound(): void {
+  play(hotkeyCancelClickSound, SoundCategory.INTERFACE);
+}
+
+export function playLogCategoryFilterClickSound(): void {
+  play(logCategoryFilterClickSound, SoundCategory.INTERFACE);
 }
 
 export function playLogsClearCancelSound(): void {

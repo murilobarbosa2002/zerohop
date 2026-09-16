@@ -3,6 +3,7 @@ import type { UpdaterStatus, UpdaterInfo } from '@shared/updaterStatus';
 import type { LogEntry, NewLogEntry } from '@shared/logEntry';
 import type { HotkeySettings, ToggleHotkeyRegistrationResult } from '@shared/hotkeySettings';
 import type { Contact } from '@shared/contact';
+import type { NotificationEntry, NewNotificationEntry } from '@shared/notificationEntry';
 
 declare global {
   interface Window {
@@ -39,6 +40,12 @@ declare global {
       getContacts: () => Promise<Contact[]>;
       addContact: (contact: Contact) => Promise<Contact[]>;
       removeContact: (id: string) => Promise<Contact[]>;
+      getNotifications: () => Promise<NotificationEntry[]>;
+      addNotification: (entry: NewNotificationEntry) => Promise<NotificationEntry>;
+      onNotificationAdded: (callback: (entry: NotificationEntry) => void) => () => void;
+      clearNotifications: () => Promise<void>;
+      markNotificationRead: (id: string) => Promise<NotificationEntry[]>;
+      markAllNotificationsRead: () => Promise<NotificationEntry[]>;
     };
   }
 }

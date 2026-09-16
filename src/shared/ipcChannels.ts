@@ -29,5 +29,11 @@ export const IPC_CHANNELS = {
   appClosing: 'app-closing',
   getContacts: 'get-contacts',
   addContact: 'add-contact',
-  removeContact: 'remove-contact'
+  removeContact: 'remove-contact',
+  getNotifications: 'get-notifications',
+  addNotification: 'add-notification',
+  notificationAdded: 'notification-added',
+  clearNotifications: 'clear-notifications',
+  markNotificationRead: 'mark-notification-read',
+  markAllNotificationsRead: 'mark-all-notifications-read'
 } as const;

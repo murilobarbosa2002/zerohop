@@ -6,7 +6,7 @@ import { ContactsScreen } from '@/components/ContactsScreen';
 import { PreRoomScreen } from '@/constants/preRoomScreen';
 import type { PreRoomProps } from '@/components/PreRoom/PreRoom.types';
 
-export function PreRoom({ roomClient, onEntered }: PreRoomProps) {
+export function PreRoom({ roomClient, onEntered, findSessionByRoomCode }: PreRoomProps) {
   const [screen, setScreen] = useState<PreRoomScreen>(PreRoomScreen.CHOICE);
 
   return screen === PreRoomScreen.CREATE ? (
@@ -14,7 +14,12 @@ export function PreRoom({ roomClient, onEntered }: PreRoomProps) {
   ) : screen === PreRoomScreen.JOIN ? (
     <JoinRoomForm roomClient={roomClient} onEntered={onEntered} onBack={() => setScreen(PreRoomScreen.CHOICE)} />
   ) : screen === PreRoomScreen.CONTACTS ? (
-    <ContactsScreen roomClient={roomClient} onEntered={onEntered} onBack={() => setScreen(PreRoomScreen.CHOICE)} />
+    <ContactsScreen
+      roomClient={roomClient}
+      onEntered={onEntered}
+      onBack={() => setScreen(PreRoomScreen.CHOICE)}
+      findSessionByRoomCode={findSessionByRoomCode}
+    />
   ) : (
     <PreRoomChoice
       onSelectCreate={() => setScreen(PreRoomScreen.CREATE)}

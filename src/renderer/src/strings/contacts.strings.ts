@@ -29,5 +29,13 @@ export const CONTACTS_STRINGS = {
   contactFieldsRequiredError: 'Preencha apelido, ID e senha antes de salvar.',
   callingContactStatus: 'Chamando...',
   callContactError: (reason: string) => `Não foi possível conectar (${reason}). A pessoa pode estar offline agora.`,
-  openingPersonalRoomStatus: 'Abrindo sua sala pessoal...'
+  openingPersonalRoomStatus: 'Abrindo sua sala pessoal...',
+  autoRoomTitle: 'Sua sala automática',
+  autoRoomHint:
+    'Abre sozinha assim que você liga o ZeroHop, e convida direto (sem código/senha, sem aprovação) os contatos que você marcar abaixo — assim que eles ficarem alcançáveis.',
+  autoRoomIdLabel: 'ID da sala automática',
+  autoRoomPasswordLabel: 'Senha da sala automática',
+  autoRoomPasswordPlaceholder: 'Escolha uma senha pra proteger sua sala automática',
+  autoRoomInviteListTitle: 'Convidar automaticamente',
+  autoRoomNoContactsMessage: 'Adicione contatos abaixo pra poder escolher quem convidar automaticamente.'
 } as const;

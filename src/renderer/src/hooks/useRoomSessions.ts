@@ -3,8 +3,15 @@ import { RoomClient, type RoomClientEventDetail } from '@/services/RoomClient';
 import { onTyped } from '@/lib/typedEvents';
 import { playMemberJoinedSound, playMessageReceivedSound, playInviteReceivedSound, playJoinedRoomSound } from '@/services/soundEffects';
 import { logEvent } from '@/services/appLog';
+import { notifyUser } from '@/services/notifyUser';
 import { LOG_STRINGS } from '@/strings/logs.strings';
+import { NOTIFICATIONS_STRINGS } from '@/strings/notifications.strings';
 import { LogCategory, LogLevel } from '@shared/logEntry';
+import { NotificationKind } from '@shared/notificationEntry';
+import { getName } from '@/services/namePreference';
+import { getAvatarId } from '@/services/avatarPreference';
+import { getPersonalId, getPersonalPassword } from '@/services/personalRoomPreference';
+import { getAutoRoomId, getAutoRoomPassword } from '@/services/autoRoomPreference';
 import type { AvatarId } from '@/constants/avatars';
 
 export interface RoomSession {
@@ -38,6 +45,7 @@ export interface UseRoomSessionsResult {
   leave: (sessionId: string) => void;
   acceptInvite: (inviteId: string, name: string, avatarId: AvatarId) => Promise<void>;
   declineInvite: (inviteId: string) => void;
+  findSessionByRoomCode: (roomCode: string) => RoomSession | null;
 }
 
 export function useRoomSessions(): UseRoomSessionsResult {
@@ -55,8 +63,14 @@ export function useRoomSessions(): UseRoomSessionsResult {
     const sessionId = crypto.randomUUID();
     const roomClient = new RoomClient();
 
-    const unsubscribeJoined = onTyped<RoomClientEventDetail['member-joined']>(roomClient, 'member-joined', () => {
+    let previousJoinRequestCount = 0;
+
+    const unsubscribeJoined = onTyped<RoomClientEventDetail['member-joined']>(roomClient, 'member-joined', (detail) => {
       playMemberJoinedSound();
+      notifyUser(NotificationKind.MEMBER_JOINED, NOTIFICATIONS_STRINGS.memberJoinedMessage(detail.name));
+    });
+    const unsubscribeLeft = onTyped<RoomClientEventDetail['member-left']>(roomClient, 'member-left', (detail) => {
+      notifyUser(NotificationKind.MEMBER_LEFT, NOTIFICATIONS_STRINGS.memberLeftMessage(detail.name));
     });
     const unsubscribeMessage = onTyped<RoomClientEventDetail['chat-message-received']>(roomClient, 'chat-message-received', () => {
       playMessageReceivedSound();
@@ -67,12 +81,26 @@ export function useRoomSessions(): UseRoomSessionsResult {
     });
     const unsubscribeInvite = onTyped<RoomClientEventDetail['invite-received']>(roomClient, 'invite-received', (detail) => {
       playInviteReceivedSound();
+      notifyUser(NotificationKind.INVITE_RECEIVED, NOTIFICATIONS_STRINGS.inviteReceivedMessage(detail.hostName));
       setPendingInvites((current) => [...current, { inviteId: crypto.randomUUID(), ...detail }]);
     });
+    const unsubscribeJoinRequests = onTyped<RoomClientEventDetail['join-requests-changed']>(
+      roomClient,
+      'join-requests-changed',
+      (detail) => {
+        if (detail.requests.length > previousJoinRequestCount) {
+          const newest = detail.requests[detail.requests.length - 1];
+          notifyUser(NotificationKind.JOIN_REQUEST, NOTIFICATIONS_STRINGS.joinRequestMessage(newest.name));
+        }
+        previousJoinRequestCount = detail.requests.length;
+      }
+    );
     cleanupsRef.current.set(sessionId, () => {
       unsubscribeJoined();
+      unsubscribeLeft();
       unsubscribeMessage();
       unsubscribeInvite();
+      unsubscribeJoinRequests();
     });
 
     const session: RoomSession = { sessionId, roomClient, roomCode: null, unreadCount: 0 };
@@ -83,6 +111,31 @@ export function useRoomSessions(): UseRoomSessionsResult {
   const [pendingSession, setPendingSession] = useState<RoomSession | null>(() => createSession());
   const pendingSessionRef = useRef<RoomSession | null>(null);
   pendingSessionRef.current = pendingSession;
+
+  const hasBootstrappedAutoSessions = useRef(false);
+  useEffect(() => {
+    if (hasBootstrappedAutoSessions.current) return;
+    hasBootstrappedAutoSessions.current = true;
+
+    const name = getName();
+    const avatarId = getAvatarId();
+
+    const personalPassword = getPersonalPassword();
+    if (personalPassword) {
+      const session = createSession();
+      session.roomClient.createRoom(name, personalPassword, avatarId, getPersonalId()).then((roomCode) => {
+        setSessions((current) => current.map((item) => (item.sessionId === session.sessionId ? { ...item, roomCode } : item)));
+      });
+    }
+
+    const autoRoomPassword = getAutoRoomPassword();
+    if (autoRoomPassword) {
+      const session = createSession();
+      session.roomClient.createRoom(name, autoRoomPassword, avatarId, getAutoRoomId()).then((roomCode) => {
+        setSessions((current) => current.map((item) => (item.sessionId === session.sessionId ? { ...item, roomCode } : item)));
+      });
+    }
+  }, [createSession]);
 
   const startPendingSession = useCallback(() => {
     setPendingSession(createSession());
@@ -144,13 +197,17 @@ export function useRoomSessions(): UseRoomSessionsResult {
   }, [leave]);
 
   const declineInvite = useCallback((inviteId: string) => {
-    setPendingInvites((current) => current.filter((invite) => invite.inviteId !== inviteId));
+    setPendingInvites((current) => {
+      const invite = current.find((item) => item.inviteId === inviteId);
+      if (invite) notifyUser(NotificationKind.INVITE_DECLINED, NOTIFICATIONS_STRINGS.inviteDeclinedMessage(invite.hostName));
+      return current.filter((item) => item.inviteId !== inviteId);
+    });
   }, []);
 
   const acceptInvite = useCallback(
     async (inviteId: string, name: string, avatarId: AvatarId) => {
       const invite = pendingInvites.find((current) => current.inviteId === inviteId);
-      declineInvite(inviteId);
+      setPendingInvites((current) => current.filter((item) => item.inviteId !== inviteId));
       if (!invite) return;
       const session = createSession();
       try {
@@ -158,12 +215,18 @@ export function useRoomSessions(): UseRoomSessionsResult {
         setSessions((current) => current.map((item) => (item.sessionId === session.sessionId ? { ...item, roomCode } : item)));
         focus(session.sessionId);
         playJoinedRoomSound();
+        notifyUser(NotificationKind.INVITE_ACCEPTED, NOTIFICATIONS_STRINGS.inviteAcceptedMessage(invite.hostName));
       } catch (error) {
         logEvent(LogCategory.ROOM, LogLevel.WARNING, LOG_STRINGS.inviteJoinFailedMessage(invite.hostName), (error as Error).message);
         leave(session.sessionId);
       }
     },
-    [pendingInvites, declineInvite, createSession, focus, leave]
+    [pendingInvites, createSession, focus, leave]
+  );
+
+  const findSessionByRoomCode = useCallback(
+    (roomCode: string): RoomSession | null => sessionsRef.current.find((session) => session.roomCode === roomCode) ?? null,
+    []
   );
 
   const enteredSessions = sessions.filter((session) => session.roomCode !== null);
@@ -186,6 +249,7 @@ export function useRoomSessions(): UseRoomSessionsResult {
     focus,
     leave,
     acceptInvite,
-    declineInvite
+    declineInvite,
+    findSessionByRoomCode
   };
 }
