@@ -1,12 +1,25 @@
+import { HouseIcon, BoltIcon } from '@/components/icons';
+import { getPersonalId } from '@/services/personalRoomPreference';
+import { getAutoRoomId } from '@/services/autoRoomPreference';
 import { ROOM_SWITCHER_STRINGS } from '@/strings/roomSwitcher.strings';
 import type { RoomSwitcherProps } from '@/components/RoomSwitcher/RoomSwitcher.types';
 
 export function RoomSwitcher({ sessions, focusedSessionId, onFocus, onLeave, onAddRoom }: RoomSwitcherProps) {
+  const personalId = getPersonalId();
+  const autoRoomId = getAutoRoomId();
+
   return (
     <div className="w-14 flex-shrink-0 border-r border-border flex flex-col items-center gap-2 py-3 overflow-y-auto">
       {sessions.map((session) => {
         const label = (session.roomCode ?? ROOM_SWITCHER_STRINGS.unnamedRoomLabel).slice(0, 2).toUpperCase();
         const isFocused = session.sessionId === focusedSessionId;
+        const isPersonal = session.roomCode === personalId;
+        const isAuto = session.roomCode === autoRoomId;
+        const badgeTooltip = isPersonal
+          ? ROOM_SWITCHER_STRINGS.personalRoomBadgeTooltip
+          : isAuto
+            ? ROOM_SWITCHER_STRINGS.autoRoomBadgeTooltip
+            : null;
         return (
           <div key={session.sessionId} className="relative group">
             <button
@@ -18,6 +31,16 @@ export function RoomSwitcher({ sessions, focusedSessionId, onFocus, onLeave, onA
             >
               {label}
             </button>
+            {badgeTooltip && (
+              <span
+                title={badgeTooltip}
+                className={`absolute -top-1 -left-1 w-4 h-4 rounded-full flex items-center justify-center border border-bg ${
+                  isPersonal ? 'bg-accent text-text-on-accent' : 'bg-warn text-text-on-accent'
+                }`}
+              >
+                {isPersonal ? <HouseIcon /> : <BoltIcon />}
+              </span>
+            )}
             {session.unreadCount > 0 && (
               <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 bg-danger text-text-on-accent text-[10px] font-bold flex items-center justify-center border border-bg">
                 {session.unreadCount > 9 ? '9+' : session.unreadCount}
