@@ -1,7 +1,7 @@
 export const HOME_STRINGS = {
   personalIdTitle: 'Seu ID',
   personalIdHint: 'Mande pra um amigo pra ele te chamar direto.',
-  onlineContactsTitle: 'Contatos',
+  onlineContactsTitle: 'Quem está online',
   onlineContactsCount: (online: number, total: number) => `${online} de ${total} online agora`,
   onlineContactsNone: 'Nenhum contato salvo ainda.',
   onlineContactsChecking: 'Verificando quem está online...',

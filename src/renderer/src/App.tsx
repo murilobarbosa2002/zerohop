@@ -197,7 +197,11 @@ export function App() {
           ) : (
             pendingSession &&
             enteredSessions.length === 0 && (
-              <div className="absolute inset-0 overflow-y-auto px-7 py-7">
+              <div
+                className="absolute inset-0 overflow-y-auto px-7 py-7"
+                aria-hidden={activeOverlay !== null}
+                inert={activeOverlay !== null}
+              >
                 <PreRoom
                   roomClient={pendingSession.roomClient}
                   onEntered={handleEnteredRoom}
