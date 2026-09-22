@@ -48,6 +48,8 @@ declare global {
       markAllNotificationsRead: () => Promise<NotificationEntry[]>;
       deleteNotification: (id: string) => Promise<NotificationEntry[]>;
       onNotificationsChanged: (callback: (entries: NotificationEntry[]) => void) => () => void;
+      getAllowUnknownInvites: () => Promise<boolean>;
+      setAllowUnknownInvites: (value: boolean) => Promise<void>;
     };
   }
 }
