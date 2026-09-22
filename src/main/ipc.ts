@@ -8,7 +8,7 @@ import {
 } from '@main/constants/capture';
 import { ALLOWED_EXTERNAL_URL_PROTOCOLS } from '@main/constants/externalUrl';
 import { appendLog, readLogs, clearLogs } from '@main/logger';
-import { getSettings, setHotkeySettings } from '@main/settings';
+import { getSettings, setHotkeySettings, setAllowUnknownInvites } from '@main/settings';
 import { findProcessIdByWindowTitle, startAudioLoopback, stopAudioLoopback } from '@main/audioLoopback';
 import { applyToggleHotkeys } from '@main/toggleHotkeys';
 import { readContacts, addContact, removeContact } from '@main/contacts';
@@ -144,4 +144,10 @@ export function registerIpcHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.markAllNotificationsRead, (): NotificationEntry[] => markAllNotificationsRead());
 
   ipcMain.handle(IPC_CHANNELS.deleteNotification, (_event, id: string): NotificationEntry[] => deleteNotification(id));
+
+  ipcMain.handle(IPC_CHANNELS.getAllowUnknownInvites, (): boolean => getSettings().allowUnknownInvites);
+
+  ipcMain.handle(IPC_CHANNELS.setAllowUnknownInvites, (_event, value: boolean) => {
+    setAllowUnknownInvites(value);
+  });
 }

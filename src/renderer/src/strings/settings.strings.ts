@@ -53,5 +53,9 @@ export const SETTINGS_STRINGS = {
   hotkeyConfirmButton: 'Confirmar',
   hotkeyCancelButton: 'Cancelar',
   pushToTalkReleaseDelayLabel: 'Atraso pra desligar o mic ao soltar a tecla',
-  pushToTalkReleaseDelayHint: 'Evita cortar palavras entre pausas curtas na fala.'
+  pushToTalkReleaseDelayHint: 'Evita cortar palavras entre pausas curtas na fala.',
+  invitesTitle: 'Convites',
+  allowUnknownInvitesToggleLabel: 'Aceitar convites de quem não é meu contato',
+  allowUnknownInvitesHint:
+    'Por padrão, um convite só aparece pra você se já tiver salvo quem te convidou como contato. Ative pra aceitar convites de qualquer pessoa que souber seu ID pessoal.'
 } as const;

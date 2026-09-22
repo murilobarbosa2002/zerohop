@@ -13,7 +13,8 @@ import {
   type WatchRequestMessage,
   type UnwatchRequestMessage,
   type KickMessage,
-  type InviteMessage
+  type InviteMessage,
+  type InviteRejectedMessage
 } from '@/services/room/RoomProtocol';
 import { captureMicrophone } from '@/services/MicCapture';
 import {
@@ -32,7 +33,8 @@ import {
   AUTH_HELLO_TIMEOUT_MS,
   ICE_CONNECTION_TIMEOUT_MS,
   JOIN_APPROVAL_TIMEOUT_MS,
-  ROOM_CODE_CREATE_MAX_ATTEMPTS
+  ROOM_CODE_CREATE_MAX_ATTEMPTS,
+  INVITE_SEND_CLOSE_DELAY_MS
 } from '@/constants/timing';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
@@ -71,6 +73,8 @@ export interface RoomClientEventDetail {
     hostName: string;
     hostAvatarId: AvatarId;
   };
+  'invite-send-failed': { contactId: string };
+  'invite-rejected': { contactId: string; reason: InviteRejectedMessage['reason'] };
 }
 
 export class RoomClient extends EventTarget {
@@ -160,7 +164,9 @@ export class RoomClient extends EventTarget {
       isBlocked: (id) => this.blockedIds.has(id),
       onMemberConnectionOpen: (id, connection) => this.handleMemberConnectionOpen(id, connection),
       onMessage: (fromId, message) => this.protocol.handleMessage(fromId, message),
-      onInviteMessage: (fromId, message) => this.handleInviteMessage(fromId, message),
+      onInviteMessage: (fromId, message, connection) => this.handleInviteMessage(fromId, message, connection),
+      onInviteSendFailed: (id) => this.handleInviteSendFailed(id),
+      onInviteRejected: (id, reason) => this.handleInviteRejected(id, reason),
       onMemberDisconnected: (id) => this.cleanupMember(id),
       onIncomingStream: (fromId, call, stream) => {
         this.registry.upsert(fromId, { stream, mediaConnIn: call });
@@ -417,22 +423,45 @@ export class RoomClient extends EventTarget {
     for (const contact of contacts) this.inviteContact(contact);
   }
 
-  private handleInviteMessage(fromId: string, message: InviteMessage): void {
-    window.api.getContacts().then((contacts) => {
-      if (!contacts.some((contact) => contact.id === message.hostId)) return;
-      this.dispatchEvent(
-        new CustomEvent('invite-received', {
-          detail: {
-            fromId,
-            roomCode: message.roomCode,
-            roomPassword: message.roomPassword,
-            inviteToken: message.inviteToken,
-            hostName: message.hostName,
-            hostAvatarId: normalizeAvatarId(message.hostAvatarId)
-          }
-        })
-      );
-    });
+  private async handleInviteMessage(fromId: string, message: InviteMessage, connection: DataConnection): Promise<void> {
+    const contacts = await window.api.getContacts();
+    const isKnownContact = contacts.some((contact) => contact.id === message.hostId);
+    if (!isKnownContact && !(await window.api.getAllowUnknownInvites())) {
+      sendTo(connection, { type: 'invite-rejected', reason: 'unknown-sender' } as InviteRejectedMessage);
+      setTimeout(() => safeCall(connection, 'close'), INVITE_SEND_CLOSE_DELAY_MS);
+      return;
+    }
+    this.dispatchEvent(
+      new CustomEvent('invite-received', {
+        detail: {
+          fromId,
+          roomCode: message.roomCode,
+          roomPassword: message.roomPassword,
+          inviteToken: message.inviteToken,
+          hostName: message.hostName,
+          hostAvatarId: normalizeAvatarId(message.hostAvatarId)
+        }
+      })
+    );
+    safeCall(connection, 'close');
+  }
+
+  private handleInviteSendFailed(contactId: string): void {
+    this.forgetInviteToken(contactId);
+    this.dispatchEvent(new CustomEvent('invite-send-failed', { detail: { contactId } }));
+  }
+
+  private handleInviteRejected(contactId: string, reason: InviteRejectedMessage['reason']): void {
+    this.forgetInviteToken(contactId);
+    this.dispatchEvent(new CustomEvent('invite-rejected', { detail: { contactId, reason } }));
+  }
+
+  private forgetInviteToken(contactId: string): void {
+    for (const [token, id] of this.inviteTokenToContactId) {
+      if (id !== contactId) continue;
+      this.inviteTokenToContactId.delete(token);
+      this.auth.invalidateToken(token);
+    }
   }
 
   private applyKick(targetId: string): void {

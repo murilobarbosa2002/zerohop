@@ -18,7 +18,8 @@ import {
   deleteChatMessageSchema,
   joinPendingMessageSchema,
   joinApprovedMessageSchema,
-  inviteMessageSchema
+  inviteMessageSchema,
+  inviteRejectedMessageSchema
 } from '@/services/room/roomMessage.schema';
 
 export type HelloMessage = z.infer<typeof helloMessageSchema>;
@@ -33,6 +34,7 @@ export type DeleteChatMessage = z.infer<typeof deleteChatMessageSchema>;
 export type JoinPendingMessage = z.infer<typeof joinPendingMessageSchema>;
 export type JoinApprovedMessage = z.infer<typeof joinApprovedMessageSchema>;
 export type InviteMessage = z.infer<typeof inviteMessageSchema>;
+export type InviteRejectedMessage = z.infer<typeof inviteRejectedMessageSchema>;
 export type RoomMessage = z.infer<typeof roomMessageSchema>;
 
 interface RoomProtocolDeps {

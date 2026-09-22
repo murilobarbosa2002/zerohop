@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card } from '@/components/Card';
 import { Header } from '@/components/Header';
 import { ActionButton } from '@/components/ActionButton';
@@ -11,6 +11,7 @@ import { useAvatarId } from '@/hooks/useAvatarId';
 import { useNamePreference } from '@/hooks/useNamePreference';
 import { useContacts } from '@/hooks/useContacts';
 import { usePersonalRoom } from '@/hooks/usePersonalRoom';
+import { watchContactsPresence } from '@/services/contactPresence';
 import { errorMessage } from '@/lib/errorMessage';
 import { playBackButtonSound, playErrorSound } from '@/services/soundEffects';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
@@ -28,6 +29,16 @@ export function ContactsScreen({ roomClient, onEntered, onBack, findSessionByRoo
   const personalRoom = usePersonalRoom();
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
+  const [onlineStatus, setOnlineStatus] = useState<Map<string, boolean>>(new Map());
+
+  useEffect(() => {
+    setOnlineStatus(new Map());
+    if (contacts.length === 0) return;
+    return watchContactsPresence(
+      contacts.map((contact) => contact.id),
+      (contactId, online) => setOnlineStatus((current) => new Map(current).set(contactId, online))
+    );
+  }, [contacts]);
 
   function handleChangePersonalPassword(value: string): void {
     personalRoom.setPassword(value);
@@ -126,7 +137,14 @@ export function ContactsScreen({ roomClient, onEntered, onBack, findSessionByRoo
                 <p className="text-text-dim text-xs mt-2">{CONTACTS_STRINGS.noContactsMessage}</p>
               ) : (
                 contacts.map((contact) => (
-                  <ContactRow key={contact.id} contact={contact} onCall={handleCallContact} onRemove={removeContact} disabled={busy} />
+                  <ContactRow
+                    key={contact.id}
+                    contact={contact}
+                    onCall={handleCallContact}
+                    onRemove={removeContact}
+                    disabled={busy}
+                    online={onlineStatus.get(contact.id)}
+                  />
                 ))
               )}
             </Card>

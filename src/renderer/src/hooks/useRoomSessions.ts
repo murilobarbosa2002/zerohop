@@ -11,7 +11,13 @@ import { NotificationKind } from '@shared/notificationEntry';
 import { getName } from '@/services/namePreference';
 import { getAvatarId } from '@/services/avatarPreference';
 import { getPersonalId, getPersonalPassword, getPersonalAutoOpenEnabled } from '@/services/personalRoomPreference';
+import { INVITE_TOKEN_TTL_MS } from '@/constants/timing';
 import type { AvatarId } from '@/constants/avatars';
+
+async function resolveContactName(contactId: string): Promise<string> {
+  const contacts = await window.api.getContacts();
+  return contacts.find((contact) => contact.id === contactId)?.name ?? contactId;
+}
 
 export interface RoomSession {
   sessionId: string;
@@ -83,6 +89,23 @@ export function useRoomSessions(): UseRoomSessionsResult {
       playInviteReceivedSound();
       notifyUser(NotificationKind.INVITE_RECEIVED, NOTIFICATIONS_STRINGS.inviteReceivedMessage(detail.hostName), { inviteId });
       setPendingInvites((current) => [...current, { inviteId, ...detail }]);
+      setTimeout(() => {
+        setPendingInvites((current) => current.filter((item) => item.inviteId !== inviteId));
+      }, INVITE_TOKEN_TTL_MS);
+    });
+    const unsubscribeInviteSendFailed = onTyped<RoomClientEventDetail['invite-send-failed']>(
+      roomClient,
+      'invite-send-failed',
+      (detail) => {
+        resolveContactName(detail.contactId).then((name) => {
+          notifyUser(NotificationKind.INVITE_FAILED, NOTIFICATIONS_STRINGS.inviteSendFailedMessage(name));
+        });
+      }
+    );
+    const unsubscribeInviteRejected = onTyped<RoomClientEventDetail['invite-rejected']>(roomClient, 'invite-rejected', (detail) => {
+      resolveContactName(detail.contactId).then((name) => {
+        notifyUser(NotificationKind.INVITE_FAILED, NOTIFICATIONS_STRINGS.inviteRejectedUnknownSenderMessage(name));
+      });
     });
     const unsubscribeJoinRequests = onTyped<RoomClientEventDetail['join-requests-changed']>(
       roomClient,
@@ -100,6 +123,8 @@ export function useRoomSessions(): UseRoomSessionsResult {
       unsubscribeLeft();
       unsubscribeMessage();
       unsubscribeInvite();
+      unsubscribeInviteSendFailed();
+      unsubscribeInviteRejected();
       unsubscribeJoinRequests();
     });
 

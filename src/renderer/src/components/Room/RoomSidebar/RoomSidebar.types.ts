@@ -21,4 +21,5 @@ export interface RoomSidebarProps {
   onAddContact: (contact: Contact) => void;
   onInviteContact: (contact: Contact) => void;
   hasContactJoinedViaInvite: (contactId: string) => boolean;
+  failedInviteContactIds: Set<string>;
 }

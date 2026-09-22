@@ -2,17 +2,12 @@ import Peer, { type DataConnection, type MediaConnection } from 'peerjs';
 import { createPeer, safeCall, sendTo } from '@/services/room/peerSession';
 import { watchConnection, watchForRealDisconnect } from '@/services/room/iceDiagnostics';
 import { roomMessageSchema } from '@/services/room/roomMessage.schema';
-import {
-  ICE_CONNECTION_TIMEOUT_MS,
-  PEER_RECONNECT_MAX_RETRIES,
-  PEER_RECONNECT_RETRY_DELAY_MS,
-  INVITE_SEND_CLOSE_DELAY_MS
-} from '@/constants/timing';
+import { ICE_CONNECTION_TIMEOUT_MS, PEER_RECONNECT_MAX_RETRIES, PEER_RECONNECT_RETRY_DELAY_MS, INVITE_SEND_TIMEOUT_MS } from '@/constants/timing';
 import { CallKind } from '@/constants/callKind';
 import { logEvent } from '@/services/appLog';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { LogCategory, LogLevel } from '@shared/logEntry';
-import type { RoomMessage, InviteMessage } from '@/services/room/RoomProtocol';
+import type { RoomMessage, InviteMessage, InviteRejectedMessage } from '@/services/room/RoomProtocol';
 
 interface PeerConnectionManagerDeps {
   isKnownMember: (id: string) => boolean;
@@ -20,7 +15,9 @@ interface PeerConnectionManagerDeps {
   isBlocked: (id: string) => boolean;
   onMemberConnectionOpen: (id: string, connection: DataConnection) => void;
   onMessage: (fromId: string, message: RoomMessage) => void;
-  onInviteMessage: (fromId: string, message: InviteMessage) => void;
+  onInviteMessage: (fromId: string, message: InviteMessage, connection: DataConnection) => void;
+  onInviteSendFailed: (id: string) => void;
+  onInviteRejected: (id: string, reason: InviteRejectedMessage['reason']) => void;
   onMemberDisconnected: (id: string) => void;
   onIncomingStream: (fromId: string, call: MediaConnection, stream: MediaStream) => void;
   onIncomingStreamClosed: (fromId: string) => void;
@@ -67,9 +64,35 @@ export class PeerConnectionManager {
   sendInvite(id: string, message: InviteMessage): void {
     if (!this.peer || id === this.selfId) return;
     const connection = this.peer.connect(id, { reliable: true });
+    let settled = false;
+    const timeout = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      safeCall(connection, 'close');
+      this.deps.onInviteSendFailed(id);
+    }, INVITE_SEND_TIMEOUT_MS);
     connection.on('open', () => {
       sendTo(connection, message);
-      setTimeout(() => safeCall(connection, 'close'), INVITE_SEND_CLOSE_DELAY_MS);
+    });
+    connection.on('data', (data) => {
+      if (settled) return;
+      const parsed = roomMessageSchema.safeParse(data);
+      if (!parsed.success || parsed.data.type !== 'invite-rejected') return;
+      settled = true;
+      clearTimeout(timeout);
+      this.deps.onInviteRejected(id, parsed.data.reason);
+      safeCall(connection, 'close');
+    });
+    connection.on('close', () => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeout);
+    });
+    connection.on('error', () => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeout);
+      this.deps.onInviteSendFailed(id);
     });
   }
 
@@ -95,8 +118,7 @@ export class PeerConnectionManager {
         return;
       }
       if (parsed.data.type === 'invite') {
-        this.deps.onInviteMessage(connection.peer, parsed.data);
-        safeCall(connection, 'close');
+        this.deps.onInviteMessage(connection.peer, parsed.data, connection);
         return;
       }
       this.deps.onMessage(connection.peer, parsed.data);

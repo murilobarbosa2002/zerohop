@@ -25,7 +25,8 @@ export function RoomSidebar({
   contacts,
   onAddContact,
   onInviteContact,
-  hasContactJoinedViaInvite
+  hasContactJoinedViaInvite,
+  failedInviteContactIds
 }: RoomSidebarProps) {
   const [contactsPanelOpen, setContactsPanelOpen] = useState(false);
 
@@ -48,6 +49,7 @@ export function RoomSidebar({
           members={members}
           hasContactJoinedViaInvite={hasContactJoinedViaInvite}
           onInvite={onInviteContact}
+          failedContactIds={failedInviteContactIds}
         />
       )}
       <Card>

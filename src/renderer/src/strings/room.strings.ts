@@ -14,6 +14,8 @@ export const ROOM_STRINGS = {
   inviteContactAlreadyInRoomLabel: 'Já está na sala',
   inviteContactSentLabel: 'Convite enviado',
   inviteContactButton: 'Convidar',
+  inviteContactFailedLabel: 'Falhou',
+  inviteContactRetryButton: 'Tentar de novo',
   chooseSourceTitle: 'Escolha o que compartilhar',
   resolutionFieldLabel: 'Resolução',
   fpsFieldLabel: 'FPS',

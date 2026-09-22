@@ -5,7 +5,8 @@ import {
   SETTINGS_FILE_NAME,
   DEFAULT_AUTO_UPDATE_ENABLED,
   DEFAULT_EXPERIMENTAL_WGC_CAPTURE_ENABLED,
-  DEFAULT_EXPERIMENTAL_PER_APP_AUDIO_ENABLED
+  DEFAULT_EXPERIMENTAL_PER_APP_AUDIO_ENABLED,
+  DEFAULT_ALLOW_UNKNOWN_INVITES
 } from '@main/constants/settings';
 import { DEFAULT_PUSH_TO_TALK_RELEASE_DELAY_MS } from '@shared/hotkeySettings';
 import type { AcceleratorBinding, HotkeySettings } from '@shared/hotkeySettings';
@@ -14,6 +15,7 @@ interface AppSettings {
   autoUpdateEnabled: boolean;
   experimentalWgcCaptureEnabled: boolean;
   experimentalPerAppAudioEnabled: boolean;
+  allowUnknownInvites: boolean;
   hotkeys: HotkeySettings;
 }
 
@@ -62,6 +64,7 @@ export function getSettings(): AppSettings {
         typeof parsed.experimentalPerAppAudioEnabled === 'boolean'
           ? parsed.experimentalPerAppAudioEnabled
           : DEFAULT_EXPERIMENTAL_PER_APP_AUDIO_ENABLED,
+      allowUnknownInvites: typeof parsed.allowUnknownInvites === 'boolean' ? parsed.allowUnknownInvites : DEFAULT_ALLOW_UNKNOWN_INVITES,
       hotkeys: parseHotkeys(parsed.hotkeys)
     };
   } catch {
@@ -69,6 +72,7 @@ export function getSettings(): AppSettings {
       autoUpdateEnabled: DEFAULT_AUTO_UPDATE_ENABLED,
       experimentalWgcCaptureEnabled: DEFAULT_EXPERIMENTAL_WGC_CAPTURE_ENABLED,
       experimentalPerAppAudioEnabled: DEFAULT_EXPERIMENTAL_PER_APP_AUDIO_ENABLED,
+      allowUnknownInvites: DEFAULT_ALLOW_UNKNOWN_INVITES,
       hotkeys: defaultHotkeys()
     };
   }
@@ -77,6 +81,12 @@ export function getSettings(): AppSettings {
 export function setAutoUpdateEnabled(value: boolean): void {
   const settings = getSettings();
   settings.autoUpdateEnabled = value;
+  writeFileSync(getSettingsFilePath(), JSON.stringify(settings), 'utf-8');
+}
+
+export function setAllowUnknownInvites(value: boolean): void {
+  const settings = getSettings();
+  settings.allowUnknownInvites = value;
   writeFileSync(getSettingsFilePath(), JSON.stringify(settings), 'utf-8');
 }
 

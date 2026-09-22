@@ -17,6 +17,7 @@ export const NOTIFICATIONS_STRINGS = {
     'invite-received': 'Convite recebido',
     'invite-accepted': 'Convite aceito',
     'invite-declined': 'Convite recusado',
+    'invite-failed': 'Falha ao convidar',
     'member-joined': 'Membro entrou',
     'member-left': 'Membro saiu',
     'join-request': 'Pedido de entrada',
@@ -30,6 +31,9 @@ export const NOTIFICATIONS_STRINGS = {
   inviteReceivedMessage: (name: string) => `${name} te convidou pra uma sala.`,
   inviteAcceptedMessage: (name: string) => `Você entrou na sala de ${name} pelo convite.`,
   inviteDeclinedMessage: (name: string) => `Você recusou o convite de ${name}.`,
+  inviteSendFailedMessage: (name: string) => `Não foi possível convidar ${name} — a pessoa parece estar offline agora.`,
+  inviteRejectedUnknownSenderMessage: (name: string) =>
+    `Não foi possível convidar ${name}: ela desabilitou convites de quem não é contato dela.`,
   memberJoinedMessage: (name: string) => `${name} entrou na sala.`,
   memberLeftMessage: (name: string) => `${name} saiu da sala.`,
   joinRequestMessage: (name: string) => `${name} pediu pra entrar na sua sala.`,

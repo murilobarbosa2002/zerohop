@@ -62,7 +62,7 @@ Ao criar ou entrar numa sala com sucesso, toca um efeito sonoro nostálgico (est
 Na tela inicial, clique em **Contatos**. Lá tem duas partes:
 
 - **Sua sala pessoal:** um ID e uma senha que são só seus, sempre os mesmos. Mande os dois pro seu amigo uma vez (por WhatsApp, Discord, o que preferir) e ele salva como contato. Você escolhe a senha; o ID é gerado sozinho.
-- **Seus contatos:** a lista de gente que você salvou. Pra adicionar alguém, peça o "Seu ID" e a senha da sala pessoal dela, cole no formulário "Adicionar contato" junto com um apelido, e pronto — da próxima vez é só clicar em **Chamar**, sem digitar nada de novo.
+- **Seus contatos:** a lista de gente que você salvou. Pra adicionar alguém, peça o "Seu ID" e a senha da sala pessoal dela, cole no formulário "Adicionar contato" junto com um apelido, e pronto — da próxima vez é só clicar em **Chamar**, sem digitar nada de novo. Uma bolinha ao lado do nome mostra se a pessoa está online agora (sala pessoal dela aberta) ou offline — assim dá pra saber antes de tentar chamar.
 
 Chamar um contato funciona exatamente como entrar numa sala normal: a pessoa recebe um pedido de entrada e precisa aprovar (igual qualquer sala), então ela precisa estar com o ZeroHop aberto na hora. O que muda é que você nunca mais precisa perguntar "qual é o código da sala hoje?" — o ID dela é sempre o mesmo.
 
@@ -76,7 +76,9 @@ Ao criar uma sala nova, se você já tiver contatos salvos, aparece uma seção 
 
 O mesmo dá pra fazer a qualquer momento **dentro de uma sala já aberta** (pessoal ou normal): o botão de pessoas na barra de mic/áudio abre um painel com seus contatos salvos, cada um com um botão **Convidar** — funciona exatamente igual, sem código/senha.
 
-Só funciona se a pessoa convidada estiver com o ZeroHop aberto no momento em que você convida — é a única forma do app te alcançar sem depender de nenhum servidor. Se ela não estiver alcançável, o convite simplesmente não chega, sem erro nenhum pra você. Quem recebe o convite vê um aviso na hora (e também consegue aceitar ou recusar depois, pela tela de Notificações, se preferir revisar antes).
+Só funciona se a pessoa convidada estiver com o ZeroHop aberto no momento em que você convida — é a única forma do app te alcançar sem depender de nenhum servidor. Se ela não estiver alcançável, você recebe um aviso nas Notificações avisando que o convite falhou, com um botão pra tentar de novo. Quem recebe o convite vê um aviso na hora (e também consegue aceitar ou recusar depois, pela tela de Notificações, se preferir revisar antes) — o convite fica válido por 5 minutos; passado esse tempo, precisa ser reenviado.
+
+Por padrão, qualquer pessoa que souber seu ID pessoal pode te convidar, mesmo que você não a tenha salvo como contato. Se preferir só aceitar convite de quem você já salvou, desligue **"Aceitar convites de quem não é meu contato"** em Configurações → Convites — quem tentar te convidar sem ser seu contato recebe um aviso de que você desativou isso.
 
 ## Como a sala é organizada
 

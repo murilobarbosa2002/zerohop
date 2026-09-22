@@ -6,4 +6,5 @@ export interface InviteContactsPanelProps {
   members: MemberSnapshot[];
   hasContactJoinedViaInvite: (contactId: string) => boolean;
   onInvite: (contact: Contact) => void;
+  failedContactIds: Set<string>;
 }

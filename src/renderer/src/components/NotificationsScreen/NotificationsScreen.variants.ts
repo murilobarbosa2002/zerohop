@@ -7,6 +7,7 @@ export const notificationDotVariants = tv({
       'invite-received': 'bg-accent',
       'invite-accepted': 'bg-success',
       'invite-declined': 'bg-text-dim',
+      'invite-failed': 'bg-danger',
       'member-joined': 'bg-success',
       'member-left': 'bg-text-dim',
       'join-request': 'bg-warn',

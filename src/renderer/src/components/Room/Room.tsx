@@ -57,6 +57,7 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
   const chatMessages = useChatMessages(roomClient);
   const joinRequests = useJoinRequests(roomClient);
   const [previousJoinRequestCount, setPreviousJoinRequestCount] = useState(0);
+  const [failedInviteContactIds, setFailedInviteContactIds] = useState<Set<string>>(new Set());
 
   const { refresh } = sourcePicker;
   useEffect(() => {
@@ -89,6 +90,22 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
   }, [joinRequests.length, previousJoinRequestCount]);
 
   useEffect(() => onTyped<RoomClientEventDetail['member-left']>(roomClient, 'member-left', () => playMemberLeftSound()), [roomClient]);
+
+  useEffect(
+    () =>
+      onTyped<RoomClientEventDetail['invite-send-failed']>(roomClient, 'invite-send-failed', (detail) => {
+        setFailedInviteContactIds((current) => new Set(current).add(detail.contactId));
+      }),
+    [roomClient]
+  );
+
+  useEffect(
+    () =>
+      onTyped<RoomClientEventDetail['invite-rejected']>(roomClient, 'invite-rejected', (detail) => {
+        setFailedInviteContactIds((current) => new Set(current).add(detail.contactId));
+      }),
+    [roomClient]
+  );
 
   function toggleDeafen(): void {
     setDeafened((current) => {
@@ -181,8 +198,17 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
                 pushToTalkConfigured={pushToTalkConfigured}
                 contacts={contacts}
                 onAddContact={addContact}
-                onInviteContact={(contact) => roomClient.inviteContact(contact)}
+                onInviteContact={(contact) => {
+                  setFailedInviteContactIds((current) => {
+                    if (!current.has(contact.id)) return current;
+                    const next = new Set(current);
+                    next.delete(contact.id);
+                    return next;
+                  });
+                  roomClient.inviteContact(contact);
+                }}
                 hasContactJoinedViaInvite={(contactId) => roomClient.hasContactJoinedViaInvite(contactId)}
+                failedInviteContactIds={failedInviteContactIds}
               />
             </div>
             <ResizeHandle onDrag={(deltaX) => setSidebarWidth((width) => width + deltaX)} />

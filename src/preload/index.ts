@@ -91,7 +91,9 @@ const api = {
     const listener = (_event: Electron.IpcRendererEvent, entries: NotificationEntry[]): void => callback(entries);
     ipcRenderer.on(IPC_CHANNELS.notificationsChanged, listener);
     return () => ipcRenderer.removeListener(IPC_CHANNELS.notificationsChanged, listener);
-  }
+  },
+  getAllowUnknownInvites: (): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.getAllowUnknownInvites),
+  setAllowUnknownInvites: (value: boolean): Promise<void> => ipcRenderer.invoke(IPC_CHANNELS.setAllowUnknownInvites, value)
 };
 
 export type ZeroHopApi = typeof api;

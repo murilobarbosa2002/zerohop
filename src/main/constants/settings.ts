@@ -2,3 +2,4 @@ export const SETTINGS_FILE_NAME = 'settings.json';
 export const DEFAULT_AUTO_UPDATE_ENABLED = true;
 export const DEFAULT_EXPERIMENTAL_WGC_CAPTURE_ENABLED = true;
 export const DEFAULT_EXPERIMENTAL_PER_APP_AUDIO_ENABLED = true;
+export const DEFAULT_ALLOW_UNKNOWN_INVITES = true;

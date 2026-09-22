@@ -5,7 +5,7 @@ import { playInviteContactSentSound } from '@/services/soundEffects';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { InviteContactsPanelProps } from '@/components/Room/InviteContactsPanel.types';
 
-export function InviteContactsPanel({ contacts, members, hasContactJoinedViaInvite, onInvite }: InviteContactsPanelProps) {
+export function InviteContactsPanel({ contacts, members, hasContactJoinedViaInvite, onInvite, failedContactIds }: InviteContactsPanelProps) {
   const [sentIds, setSentIds] = useState<Set<string>>(new Set());
 
   function handleInvite(contactId: string): void {
@@ -27,7 +27,8 @@ export function InviteContactsPanel({ contacts, members, hasContactJoinedViaInvi
         <div className="mt-2 flex flex-col gap-2">
           {contacts.map((contact) => {
             const alreadyInRoom = members.some((member) => member.personalId === contact.id);
-            const alreadySent = sentIds.has(contact.id) || hasContactJoinedViaInvite(contact.id);
+            const failed = failedContactIds.has(contact.id);
+            const alreadySent = !failed && (sentIds.has(contact.id) || hasContactJoinedViaInvite(contact.id));
             return (
               <div key={contact.id} className="flex items-center gap-2 bg-panel-2 border border-border rounded-lg px-3 py-2">
                 <span className="font-bold text-body-sm truncate flex-1 min-w-0">{contact.name}</span>
@@ -35,6 +36,13 @@ export function InviteContactsPanel({ contacts, members, hasContactJoinedViaInvi
                   <span className="text-text-dim text-badge-xs font-bold flex-shrink-0">
                     {ROOM_STRINGS.inviteContactAlreadyInRoomLabel}
                   </span>
+                ) : failed ? (
+                  <div className="flex items-center gap-1.5 flex-shrink-0">
+                    <span className="text-danger text-badge-xs font-bold">{ROOM_STRINGS.inviteContactFailedLabel}</span>
+                    <ActionButton variant="default" className="text-badge-xs" onClick={() => handleInvite(contact.id)}>
+                      {ROOM_STRINGS.inviteContactRetryButton}
+                    </ActionButton>
+                  </div>
                 ) : alreadySent ? (
                   <span className="text-text-dim text-badge-xs font-bold flex-shrink-0">{ROOM_STRINGS.inviteContactSentLabel}</span>
                 ) : (

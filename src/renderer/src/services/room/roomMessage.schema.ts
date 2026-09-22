@@ -74,6 +74,11 @@ export const inviteMessageSchema = z.object({
   hostAvatarId: z.string()
 });
 
+export const inviteRejectedMessageSchema = z.object({
+  type: z.literal('invite-rejected'),
+  reason: z.literal('unknown-sender')
+});
+
 export const roomMessageSchema = z.discriminatedUnion('type', [
   helloMessageSchema,
   membersMessageSchema,
@@ -86,5 +91,6 @@ export const roomMessageSchema = z.discriminatedUnion('type', [
   deleteChatMessageSchema,
   joinPendingMessageSchema,
   joinApprovedMessageSchema,
-  inviteMessageSchema
+  inviteMessageSchema,
+  inviteRejectedMessageSchema
 ]);

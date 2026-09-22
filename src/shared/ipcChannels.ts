@@ -37,5 +37,7 @@ export const IPC_CHANNELS = {
   markNotificationRead: 'mark-notification-read',
   markAllNotificationsRead: 'mark-all-notifications-read',
   deleteNotification: 'delete-notification',
-  notificationsChanged: 'notifications-changed'
+  notificationsChanged: 'notifications-changed',
+  getAllowUnknownInvites: 'get-allow-unknown-invites',
+  setAllowUnknownInvites: 'set-allow-unknown-invites'
 } as const;
