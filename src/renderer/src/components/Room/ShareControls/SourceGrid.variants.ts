@@ -1,4 +1,4 @@
-import { tv } from 'tailwind-variants';
+import { tv } from '@/lib/tv';
 
 export const sourceCardVariants = tv({
   base: 'border-2 rounded-source-card p-1.5 w-source-card-width text-center bg-panel-2 transition-colors',

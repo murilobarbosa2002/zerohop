@@ -1,4 +1,4 @@
-import { tv } from 'tailwind-variants';
+import { tv } from '@/lib/tv';
 
 export const selectFieldVariants = tv({
   base: 'flex flex-col gap-1.5 text-xs text-text-dim font-semibold min-w-0',

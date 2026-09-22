@@ -1,4 +1,4 @@
-import { tv } from 'tailwind-variants';
+import { tv } from '@/lib/tv';
 
 export const notificationDotVariants = tv({
   base: 'w-status-dot-size h-status-dot-size rounded-full flex-shrink-0 mt-1',
@@ -11,7 +11,8 @@ export const notificationDotVariants = tv({
       'member-joined': 'bg-success',
       'member-left': 'bg-text-dim',
       'join-request': 'bg-warn',
-      'update-available': 'bg-accent'
+      'update-available': 'bg-accent',
+      'personal-room-password-missing': 'bg-warn'
     }
   }
 });

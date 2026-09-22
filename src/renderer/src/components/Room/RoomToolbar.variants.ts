@@ -1,4 +1,4 @@
-import { tv } from 'tailwind-variants';
+import { tv } from '@/lib/tv';
 
 export const roomToolbarButtonVariants = tv({
   base: 'rounded-lg w-volume-button-size h-volume-button-size text-body-sm flex items-center justify-center flex-shrink-0 border',

@@ -1,4 +1,4 @@
-import { tv } from 'tailwind-variants';
+import { tv } from '@/lib/tv';
 
 export const windowButtonVariants = tv({
   base: 'w-window-button-width h-full flex items-center justify-center text-text-dim transition-colors [-webkit-app-region:no-drag]',

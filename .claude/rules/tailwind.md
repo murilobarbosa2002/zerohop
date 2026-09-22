@@ -9,7 +9,7 @@ paths:
 
 - **Nenhum valor arbitrário solto em classe** (`bg-[#0c0e1a]`, `w-[46px]`, `text-[13px]`, `shadow-[...]`). Todo valor usado vira token nomeado em `theme.extend` no `tailwind.config.js` (`colors`, `spacing`, `fontSize`, `borderRadius`, `boxShadow`, `maxHeight`) — só usar um valor arbitrário na primeira vez que aparece é aceitável enquanto se decide o nome, mas antes de terminar a tarefa ele vira token configurado.
 - Nomes de token são **descritivos do papel**, não do valor (`titlebar-height`, não `h-38`; `input-bg`, não `custom-dark`).
-- **Componentes com variantes usam `tailwind-variants`** (`tv({...})`), num arquivo `<Componente>.variants.ts` separado do `.tsx` — o componente só importa e chama a função de variante, nunca monta a lógica de classes condicionais na mão dentro do JSX. Exemplo real:
+- **Componentes com variantes usam `tailwind-variants`** (`tv({...})`), num arquivo `<Componente>.variants.ts` separado do `.tsx` — o componente só importa e chama a função de variante, nunca monta a lógica de classes condicionais na mão dentro do JSX. **Sempre importar `tv` de `@/lib/tv`, nunca direto de `'tailwind-variants'`** — ver `.claude/rules/bug-history-ui.md` pro bug real que isso corrige (o `tailwind-merge` por baixo do `tv()` não reconhece os tokens customizados do `tailwind.config.js` por padrão, e descarta silenciosamente uma classe quando um token de tamanho e um de cor customizados aparecem juntos). Exemplo real:
 
   ```ts
   // src/renderer/src/components/ActionButton/ActionButton.variants.ts

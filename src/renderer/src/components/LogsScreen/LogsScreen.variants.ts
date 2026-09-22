@@ -1,4 +1,4 @@
-import { tv } from 'tailwind-variants';
+import { tv } from '@/lib/tv';
 
 export const categoryPillVariants = tv({
   base: 'px-3 py-1.5 rounded-full text-body-sm flex-shrink-0',
