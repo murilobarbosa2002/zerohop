@@ -23,7 +23,8 @@ import {
   getPersonalPassword,
   getPersonalAutoOpenEnabled,
   getPersonalPasswordReminderLastShownDate,
-  setPersonalPasswordReminderLastShownDate
+  setPersonalPasswordReminderLastShownDate,
+  hasPersonalRoomBeenConfigured
 } from '@/services/personalRoomPreference';
 import {
   playJoinedRoomSound,
@@ -72,7 +73,7 @@ export function App() {
   }, [version]);
 
   useEffect(() => {
-    if (!getPersonalAutoOpenEnabled() || getPersonalPassword()) return;
+    if (!hasPersonalRoomBeenConfigured() || !getPersonalAutoOpenEnabled() || getPersonalPassword()) return;
     setShowPersonalRoomPasswordWarning(true);
     const today = new Date().toDateString();
     if (getPersonalPasswordReminderLastShownDate() === today) return;

@@ -45,3 +45,7 @@ export function getPersonalPasswordReminderLastShownDate(): string | null {
 export function setPersonalPasswordReminderLastShownDate(date: string): void {
   localStorage.setItem(PERSONAL_PASSWORD_REMINDER_LAST_SHOWN_STORAGE_KEY, date);
 }
+
+export function hasPersonalRoomBeenConfigured(): boolean {
+  return localStorage.getItem(PERSONAL_AUTO_OPEN_STORAGE_KEY) !== null || localStorage.getItem(PERSONAL_PASSWORD_STORAGE_KEY) !== null;
+}
