@@ -5,4 +5,5 @@ export interface ContactsScreenProps {
   onEntered: (code: string) => void;
   onBack: () => void;
   findSessionByRoomCode: (roomCode: string) => { roomClient: RoomClient } | null;
+  autoFocusPersonalPassword?: boolean;
 }

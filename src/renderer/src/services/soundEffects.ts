@@ -1,4 +1,4 @@
-import dialUpInternetSound from '@/assets/sounds/dial-up-internet.mp3';
+import roomJoinedConnectSound from '@/assets/sounds/room-joined-connect.wav';
 import icqUhOhSound from '@/assets/sounds/icq-uh-oh.mp3';
 import keyClickSound from '@/assets/sounds/key-click.wav';
 import messageSentSound from '@/assets/sounds/message-sent.wav';
@@ -94,6 +94,15 @@ import updateFoundSound from '@/assets/sounds/update-found.wav';
 import updateDownloadedSound from '@/assets/sounds/update-downloaded.wav';
 import updateInstallSound from '@/assets/sounds/update-install.wav';
 import updateLaterSound from '@/assets/sounds/update-later.wav';
+import personalRoomPasswordReminderDismissSound from '@/assets/sounds/personal-room-password-reminder-dismiss.wav';
+import inviteFailedNotificationSound from '@/assets/sounds/invite-failed-notification.wav';
+import updateAvailableNotificationSound from '@/assets/sounds/update-available-notification.wav';
+import personalRoomPasswordMissingNotificationSound from '@/assets/sounds/personal-room-password-missing-notification.wav';
+import memberSharingStartedSound from '@/assets/sounds/member-sharing-started.wav';
+import watchStartedSound from '@/assets/sounds/watch-started.wav';
+import watchStoppedSound from '@/assets/sounds/watch-stopped.wav';
+import viewerJoinedWatchingSound from '@/assets/sounds/viewer-joined-watching.wav';
+import viewerLeftWatchingSound from '@/assets/sounds/viewer-left-watching.wav';
 import { getSoundEffectsVolume } from '@/services/soundEffectsPreference';
 import { SoundCategory } from '@/constants/soundEffects';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
@@ -107,7 +116,7 @@ function play(source: string, category: SoundCategory, multiplier = 1): void {
 }
 
 export function playJoinedRoomSound(): void {
-  play(dialUpInternetSound, SoundCategory.ROOM);
+  play(roomJoinedConnectSound, SoundCategory.ROOM);
 }
 
 export function playMemberJoinedSound(): void {
@@ -488,6 +497,42 @@ export function playInviteAcceptSound(): void {
 
 export function playInviteDeclineSound(): void {
   play(inviteDeclineSound, SoundCategory.ROOM);
+}
+
+export function playPersonalRoomPasswordReminderDismissSound(): void {
+  play(personalRoomPasswordReminderDismissSound, SoundCategory.INTERFACE);
+}
+
+export function playInviteFailedNotificationSound(): void {
+  play(inviteFailedNotificationSound, SoundCategory.ROOM);
+}
+
+export function playUpdateAvailableNotificationSound(): void {
+  play(updateAvailableNotificationSound, SoundCategory.INTERFACE);
+}
+
+export function playPersonalRoomPasswordMissingNotificationSound(): void {
+  play(personalRoomPasswordMissingNotificationSound, SoundCategory.INTERFACE);
+}
+
+export function playMemberSharingStartedSound(): void {
+  play(memberSharingStartedSound, SoundCategory.SHARING);
+}
+
+export function playWatchStartedSound(): void {
+  play(watchStartedSound, SoundCategory.SHARING);
+}
+
+export function playWatchStoppedSound(): void {
+  play(watchStoppedSound, SoundCategory.SHARING);
+}
+
+export function playViewerJoinedWatchingSound(): void {
+  play(viewerJoinedWatchingSound, SoundCategory.SHARING);
+}
+
+export function playViewerLeftWatchingSound(): void {
+  play(viewerLeftWatchingSound, SoundCategory.SHARING);
 }
 
 export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; type: () => void }> = {

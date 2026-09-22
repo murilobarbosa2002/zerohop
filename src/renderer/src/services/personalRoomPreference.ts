@@ -2,6 +2,7 @@ import {
   PERSONAL_ID_STORAGE_KEY,
   PERSONAL_PASSWORD_STORAGE_KEY,
   PERSONAL_AUTO_OPEN_STORAGE_KEY,
+  PERSONAL_PASSWORD_REMINDER_LAST_SHOWN_STORAGE_KEY,
   PERSONAL_ID_LENGTH,
   PERSONAL_ID_ALPHABET
 } from '@/constants/personalRoom';
@@ -35,4 +36,12 @@ export function getPersonalAutoOpenEnabled(): boolean {
 
 export function setPersonalAutoOpenEnabled(enabled: boolean): void {
   localStorage.setItem(PERSONAL_AUTO_OPEN_STORAGE_KEY, String(enabled));
+}
+
+export function getPersonalPasswordReminderLastShownDate(): string | null {
+  return localStorage.getItem(PERSONAL_PASSWORD_REMINDER_LAST_SHOWN_STORAGE_KEY);
+}
+
+export function setPersonalPasswordReminderLastShownDate(date: string): void {
+  localStorage.setItem(PERSONAL_PASSWORD_REMINDER_LAST_SHOWN_STORAGE_KEY, date);
 }

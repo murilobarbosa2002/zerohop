@@ -6,7 +6,13 @@ import { ContactsScreen } from '@/components/ContactsScreen';
 import { PreRoomScreen } from '@/constants/preRoomScreen';
 import type { PreRoomProps } from '@/components/PreRoom/PreRoom.types';
 
-export function PreRoom({ roomClient, onEntered, findSessionByRoomCode, initialScreen = PreRoomScreen.CHOICE }: PreRoomProps) {
+export function PreRoom({
+  roomClient,
+  onEntered,
+  findSessionByRoomCode,
+  initialScreen = PreRoomScreen.CHOICE,
+  focusContactsPassword = false
+}: PreRoomProps) {
   const [screen, setScreen] = useState<PreRoomScreen>(initialScreen);
 
   return screen === PreRoomScreen.CREATE ? (
@@ -19,6 +25,7 @@ export function PreRoom({ roomClient, onEntered, findSessionByRoomCode, initialS
       onEntered={onEntered}
       onBack={() => setScreen(PreRoomScreen.CHOICE)}
       findSessionByRoomCode={findSessionByRoomCode}
+      autoFocusPersonalPassword={focusContactsPassword}
     />
   ) : (
     <PreRoomChoice

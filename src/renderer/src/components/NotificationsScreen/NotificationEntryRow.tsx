@@ -21,13 +21,15 @@ export function NotificationEntryRow({
   onDelete,
   isInvitePending,
   onAcceptInvite,
-  onDeclineInvite
+  onDeclineInvite,
+  onNavigate
 }: NotificationEntryRowProps) {
   const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   function handleRead(): void {
     if (!entry.read) playNotificationReadSound();
     onRead(entry.id);
+    onNavigate(entry);
   }
 
   return (

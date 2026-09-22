@@ -21,7 +21,8 @@ export const NOTIFICATIONS_STRINGS = {
     'member-joined': 'Membro entrou',
     'member-left': 'Membro saiu',
     'join-request': 'Pedido de entrada',
-    'update-available': 'Atualização disponível'
+    'update-available': 'Atualização disponível',
+    'personal-room-password-missing': 'Sala pessoal sem senha'
   },
   categoryLabels: {
     invites: 'Convites',
@@ -37,5 +38,7 @@ export const NOTIFICATIONS_STRINGS = {
   memberJoinedMessage: (name: string) => `${name} entrou na sala.`,
   memberLeftMessage: (name: string) => `${name} saiu da sala.`,
   joinRequestMessage: (name: string) => `${name} pediu pra entrar na sua sala.`,
-  updateAvailableMessage: (version: string) => `Versão ${version} disponível pra instalar.`
+  updateAvailableMessage: (version: string) => `Versão ${version} disponível pra instalar.`,
+  personalRoomPasswordMissingMessage:
+    'Sua sala pessoal está configurada pra abrir sozinha, mas ainda não tem senha — defina uma pra ela funcionar.'
 } as const;

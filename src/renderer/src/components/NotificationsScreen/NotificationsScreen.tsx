@@ -20,7 +20,7 @@ import { NOTIFICATIONS_PAGE_SIZE } from '@/constants/pagination';
 import { NOTIFICATION_KIND_CATEGORY } from '@shared/notificationEntry';
 import type { NotificationsScreenProps } from '@/components/NotificationsScreen/NotificationsScreen.types';
 
-export function NotificationsScreen({ onBack, pendingInvites, onAcceptInvite, onDeclineInvite }: NotificationsScreenProps) {
+export function NotificationsScreen({ onBack, pendingInvites, onAcceptInvite, onDeclineInvite, onNavigate }: NotificationsScreenProps) {
   const { entries, clear, markRead, markAllRead, remove } = useNotifications();
   const [confirmingClear, setConfirmingClear] = useState(false);
   const [kindFilter, setKindFilter] = useState<string[]>([]);
@@ -128,6 +128,7 @@ export function NotificationsScreen({ onBack, pendingInvites, onAcceptInvite, on
                 isInvitePending={pendingInvites.some((invite) => invite.inviteId === entry.inviteId)}
                 onAcceptInvite={onAcceptInvite}
                 onDeclineInvite={onDeclineInvite}
+                onNavigate={onNavigate}
               />
             ))
           )}

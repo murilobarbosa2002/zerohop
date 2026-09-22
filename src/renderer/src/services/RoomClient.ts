@@ -75,6 +75,11 @@ export interface RoomClientEventDetail {
   };
   'invite-send-failed': { contactId: string };
   'invite-rejected': { contactId: string; reason: InviteRejectedMessage['reason'] };
+  'member-sharing-started': { id: string; name: string };
+  'watch-started': { peerId: string };
+  'watch-stopped': { peerId: string };
+  'viewer-added': { peerId: string };
+  'viewer-removed': { peerId: string };
 }
 
 export class RoomClient extends EventTarget {
@@ -156,7 +161,8 @@ export class RoomClient extends EventTarget {
       onJoinRequest: (id, name, inviteToken) => this.auth.handleJoinRequest(id, name, inviteToken),
       onJoinPending: () => this.auth.handleJoinPending(),
       onJoinApproved: (id) => this.auth.handleJoinApproved(id),
-      onKick: (id) => this.applyKick(id)
+      onKick: (id) => this.applyKick(id),
+      onMemberStartedSharing: (id) => this.handleMemberStartedSharing(id)
     });
     this.connections = new PeerConnectionManager({
       isKnownMember: (id) => this.registry.has(id),
@@ -171,10 +177,13 @@ export class RoomClient extends EventTarget {
       onIncomingStream: (fromId, call, stream) => {
         this.registry.upsert(fromId, { stream, mediaConnIn: call });
         this.emitMembers();
+        this.dispatchEvent(new CustomEvent('watch-started', { detail: { peerId: fromId } }));
       },
       onIncomingStreamClosed: (fromId) => {
+        const wasWatching = this.registry.get(fromId)?.watching === true;
         this.registry.upsert(fromId, { stream: null, watching: false });
         this.emitMembers();
+        if (wasWatching) this.dispatchEvent(new CustomEvent('watch-stopped', { detail: { peerId: fromId } }));
       },
       onIncomingVoiceStream: (fromId, call, stream) => {
         this.registry.upsert(fromId, { voiceStream: stream, voiceConnIn: call });
@@ -195,6 +204,12 @@ export class RoomClient extends EventTarget {
     });
     onTyped<OutgoingCallDetail>(this.media, 'outgoing-call', (detail) => {
       this.dispatchEvent(new CustomEvent('outgoing-call', { detail }));
+    });
+    onTyped<{ peerId: string }>(this.media, 'viewer-added', (detail) => {
+      this.dispatchEvent(new CustomEvent('viewer-added', { detail }));
+    });
+    onTyped<{ peerId: string }>(this.media, 'viewer-removed', (detail) => {
+      this.dispatchEvent(new CustomEvent('viewer-removed', { detail }));
     });
     onTyped<RoomClientEventDetail['mic-muted-changed']>(this.voice, 'mic-muted-changed', (detail) => {
       logEvent(LogCategory.VOICE, LogLevel.INFO, detail.muted ? LOG_STRINGS.micMutedMessage : LOG_STRINGS.micUnmutedMessage);
@@ -373,6 +388,7 @@ export class RoomClient extends EventTarget {
       if (member.mediaConnIn) safeCall(member.mediaConnIn, 'close');
       this.registry.upsert(id, { watching: false, mediaConnIn: null, stream: null });
       sendTo(member.conn, { type: 'unwatch-request' } as UnwatchRequestMessage);
+      this.dispatchEvent(new CustomEvent('watch-stopped', { detail: { peerId: id } }));
     }
     this.emitMembers();
   }
@@ -462,6 +478,11 @@ export class RoomClient extends EventTarget {
       this.inviteTokenToContactId.delete(token);
       this.auth.invalidateToken(token);
     }
+  }
+
+  private handleMemberStartedSharing(id: string): void {
+    const member = this.registry.get(id);
+    this.dispatchEvent(new CustomEvent('member-sharing-started', { detail: { id, name: member?.name || id } }));
   }
 
   private applyKick(targetId: string): void {

@@ -31,7 +31,12 @@ import {
   playMessageDeletedRemoteSound,
   playJoinRequestSound,
   playMemberLeftSound,
-  playRoomLeftSound
+  playRoomLeftSound,
+  playMemberSharingStartedSound,
+  playWatchStartedSound,
+  playWatchStoppedSound,
+  playViewerJoinedWatchingSound,
+  playViewerLeftWatchingSound
 } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
 import { ROOM_STRINGS } from '@/strings/room.strings';
@@ -90,6 +95,32 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
   }, [joinRequests.length, previousJoinRequestCount]);
 
   useEffect(() => onTyped<RoomClientEventDetail['member-left']>(roomClient, 'member-left', () => playMemberLeftSound()), [roomClient]);
+
+  useEffect(
+    () =>
+      onTyped<RoomClientEventDetail['member-sharing-started']>(roomClient, 'member-sharing-started', () => playMemberSharingStartedSound()),
+    [roomClient]
+  );
+
+  useEffect(
+    () => onTyped<RoomClientEventDetail['watch-started']>(roomClient, 'watch-started', () => playWatchStartedSound()),
+    [roomClient]
+  );
+
+  useEffect(
+    () => onTyped<RoomClientEventDetail['watch-stopped']>(roomClient, 'watch-stopped', () => playWatchStoppedSound()),
+    [roomClient]
+  );
+
+  useEffect(
+    () => onTyped<RoomClientEventDetail['viewer-added']>(roomClient, 'viewer-added', () => playViewerJoinedWatchingSound()),
+    [roomClient]
+  );
+
+  useEffect(
+    () => onTyped<RoomClientEventDetail['viewer-removed']>(roomClient, 'viewer-removed', () => playViewerLeftWatchingSound()),
+    [roomClient]
+  );
 
   useEffect(
     () =>

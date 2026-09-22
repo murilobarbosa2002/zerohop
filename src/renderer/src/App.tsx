@@ -8,6 +8,7 @@ import { SettingsScreen } from '@/components/SettingsScreen';
 import { LogsScreen } from '@/components/LogsScreen';
 import { NotificationsScreen } from '@/components/NotificationsScreen';
 import { UpdateReadyModal } from '@/components/UpdateReadyModal';
+import { PersonalRoomPasswordMissingModal } from '@/components/PersonalRoomPasswordMissingModal';
 import { AddRoomOverlay } from '@/components/AddRoomOverlay';
 import { InviteReceivedModal } from '@/components/InviteReceivedModal';
 import { useRoomSessions } from '@/hooks/useRoomSessions';
@@ -19,11 +20,19 @@ import { useNotifications } from '@/hooks/useNotifications';
 import { logEvent } from '@/services/appLog';
 import { notifyUser } from '@/services/notifyUser';
 import {
+  getPersonalPassword,
+  getPersonalAutoOpenEnabled,
+  getPersonalPasswordReminderLastShownDate,
+  setPersonalPasswordReminderLastShownDate
+} from '@/services/personalRoomPreference';
+import {
   playJoinedRoomSound,
   playUpdateLaterSound,
   playSwitchRoomSound,
   playInviteAcceptSound,
-  playInviteDeclineSound
+  playInviteDeclineSound,
+  playUpdateAvailableNotificationSound,
+  playPersonalRoomPasswordMissingNotificationSound
 } from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { NOTIFICATIONS_STRINGS } from '@/strings/notifications.strings';
@@ -31,6 +40,7 @@ import { LogCategory, LogLevel } from '@shared/logEntry';
 import { NotificationKind } from '@shared/notificationEntry';
 import { Overlay } from '@/constants/overlay';
 import { PreRoomScreen } from '@/constants/preRoomScreen';
+import type { NotificationEntry } from '@shared/notificationEntry';
 
 export function App() {
   const {
@@ -54,15 +64,28 @@ export function App() {
   const [name] = useNamePreference();
   const [avatarId] = useAvatarId();
   const { unreadCount: unreadNotificationsCount } = useNotifications();
+  const [showPersonalRoomPasswordWarning, setShowPersonalRoomPasswordWarning] = useState(false);
+  const [focusContactsPassword, setFocusContactsPassword] = useState(false);
 
   useEffect(() => {
     if (version) logEvent(LogCategory.APP, LogLevel.INFO, LOG_STRINGS.appStartedMessage(version));
   }, [version]);
 
+  useEffect(() => {
+    if (!getPersonalAutoOpenEnabled() || getPersonalPassword()) return;
+    setShowPersonalRoomPasswordWarning(true);
+    const today = new Date().toDateString();
+    if (getPersonalPasswordReminderLastShownDate() === today) return;
+    setPersonalPasswordReminderLastShownDate(today);
+    playPersonalRoomPasswordMissingNotificationSound();
+    notifyUser(NotificationKind.PERSONAL_ROOM_PASSWORD_MISSING, NOTIFICATIONS_STRINGS.personalRoomPasswordMissingMessage);
+  }, []);
+
   const updateReady = updaterStatus?.type === 'downloaded' && updaterStatus.version !== dismissedUpdateVersion ? updaterStatus : null;
 
   useEffect(() => {
     if (updaterStatus?.type === 'downloaded') {
+      playUpdateAvailableNotificationSound();
       notifyUser(NotificationKind.UPDATE_AVAILABLE, NOTIFICATIONS_STRINGS.updateAvailableMessage(updaterStatus.version));
     }
   }, [updaterStatus]);
@@ -74,13 +97,32 @@ export function App() {
   }
 
   function handleAddRoom(): void {
+    setFocusContactsPassword(false);
     startPendingSession();
     openOverlay(Overlay.ADD_ROOM);
   }
 
-  function handleOpenContacts(): void {
+  function openContactsScreen(focusPassword: boolean): void {
+    setFocusContactsPassword(focusPassword);
     startPendingSession();
     openOverlay(Overlay.CONTACTS);
+  }
+
+  function handleOpenContacts(): void {
+    openContactsScreen(false);
+  }
+
+  function handleSetPersonalRoomPasswordNow(): void {
+    setShowPersonalRoomPasswordWarning(false);
+    openContactsScreen(true);
+  }
+
+  function handleNotificationNavigate(entry: NotificationEntry): void {
+    if (entry.kind === NotificationKind.UPDATE_AVAILABLE) {
+      openOverlay(Overlay.UPDATES);
+    } else if (entry.kind === NotificationKind.PERSONAL_ROOM_PASSWORD_MISSING) {
+      openContactsScreen(true);
+    }
   }
 
   function handleCancelAddRoom(): void {
@@ -116,6 +158,12 @@ export function App() {
             playUpdateLaterSound();
             setDismissedUpdateVersion(updateReady.version);
           }}
+        />
+      )}
+      {showPersonalRoomPasswordWarning && (
+        <PersonalRoomPasswordMissingModal
+          onSetPasswordNow={handleSetPersonalRoomPasswordNow}
+          onDismiss={() => setShowPersonalRoomPasswordWarning(false)}
         />
       )}
       <InviteReceivedModal invites={pendingInvites} onAccept={handleAcceptInvite} onDecline={handleDeclineInvite} />
@@ -180,6 +228,7 @@ export function App() {
                 pendingInvites={pendingInvites}
                 onAcceptInvite={handleAcceptInvite}
                 onDeclineInvite={handleDeclineInvite}
+                onNavigate={handleNotificationNavigate}
               />
             </div>
           )}
@@ -190,6 +239,7 @@ export function App() {
               onCancel={handleCancelAddRoom}
               findSessionByRoomCode={findSessionByRoomCode}
               initialScreen={activeOverlay === Overlay.CONTACTS ? PreRoomScreen.CONTACTS : undefined}
+              focusContactsPassword={focusContactsPassword}
             />
           )}
         </div>

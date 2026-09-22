@@ -1,7 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RoomClient, type RoomClientEventDetail } from '@/services/RoomClient';
 import { onTyped } from '@/lib/typedEvents';
-import { playMemberJoinedSound, playMessageReceivedSound, playInviteReceivedSound, playJoinedRoomSound } from '@/services/soundEffects';
+import {
+  playMemberJoinedSound,
+  playMessageReceivedSound,
+  playInviteReceivedSound,
+  playJoinedRoomSound,
+  playInviteFailedNotificationSound
+} from '@/services/soundEffects';
 import { logEvent } from '@/services/appLog';
 import { notifyUser } from '@/services/notifyUser';
 import { LOG_STRINGS } from '@/strings/logs.strings';
@@ -95,11 +101,13 @@ export function useRoomSessions(): UseRoomSessionsResult {
     });
     const unsubscribeInviteSendFailed = onTyped<RoomClientEventDetail['invite-send-failed']>(roomClient, 'invite-send-failed', (detail) => {
       resolveContactName(detail.contactId).then((name) => {
+        playInviteFailedNotificationSound();
         notifyUser(NotificationKind.INVITE_FAILED, NOTIFICATIONS_STRINGS.inviteSendFailedMessage(name));
       });
     });
     const unsubscribeInviteRejected = onTyped<RoomClientEventDetail['invite-rejected']>(roomClient, 'invite-rejected', (detail) => {
       resolveContactName(detail.contactId).then((name) => {
+        playInviteFailedNotificationSound();
         notifyUser(NotificationKind.INVITE_FAILED, NOTIFICATIONS_STRINGS.inviteRejectedUnknownSenderMessage(name));
       });
     });

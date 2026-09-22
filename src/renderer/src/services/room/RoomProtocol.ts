@@ -53,6 +53,7 @@ interface RoomProtocolDeps {
   onJoinPending: (fromId: string) => void;
   onJoinApproved: (fromId: string) => void;
   onKick: (targetId: string) => void;
+  onMemberStartedSharing: (fromId: string) => void;
 }
 
 export class RoomProtocol {
@@ -132,6 +133,8 @@ export class RoomProtocol {
     if (!message.sharing) {
       if (member?.mediaConnIn) safeCall(member.mediaConnIn, 'close');
       Object.assign(patch, { watching: false, stream: null, mediaConnIn: null });
+    } else if (!member?.sharing) {
+      this.deps.onMemberStartedSharing(fromId);
     }
     this.deps.registry.upsert(fromId, patch);
     this.deps.onMembersChanged();

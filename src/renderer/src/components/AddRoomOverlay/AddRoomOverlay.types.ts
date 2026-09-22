@@ -7,4 +7,5 @@ export interface AddRoomOverlayProps {
   onCancel: () => void;
   findSessionByRoomCode: (roomCode: string) => { roomClient: RoomClient } | null;
   initialScreen?: PreRoomScreen;
+  focusContactsPassword?: boolean;
 }

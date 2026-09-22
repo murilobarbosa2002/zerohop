@@ -6,6 +6,7 @@ export interface NotificationsScreenProps {
   pendingInvites: PendingInvite[];
   onAcceptInvite: (inviteId: string) => void;
   onDeclineInvite: (inviteId: string) => void;
+  onNavigate: (entry: NotificationEntry) => void;
 }
 
 export interface NotificationEntryRowProps {
@@ -15,6 +16,7 @@ export interface NotificationEntryRowProps {
   isInvitePending: boolean;
   onAcceptInvite: (inviteId: string) => void;
   onDeclineInvite: (inviteId: string) => void;
+  onNavigate: (entry: NotificationEntry) => void;
 }
 
 export interface ClearNotificationsConfirmationProps {

@@ -15,6 +15,7 @@ interface PersonalRoomCardProps {
   status: string;
   autoOpenEnabled: boolean;
   onToggleAutoOpen: (enabled: boolean) => void;
+  autoFocusPassword: boolean;
 }
 
 export function PersonalRoomCard({
@@ -24,7 +25,8 @@ export function PersonalRoomCard({
   onOpen,
   status,
   autoOpenEnabled,
-  onToggleAutoOpen
+  onToggleAutoOpen,
+  autoFocusPassword
 }: PersonalRoomCardProps) {
   return (
     <Card muted>
@@ -47,6 +49,7 @@ export function PersonalRoomCard({
           maxLength={ROOM_PASSWORD_MAX_LENGTH}
           placeholder={CONTACTS_STRINGS.personalPasswordPlaceholder}
           soundKind={TextInputSoundKind.PASSWORD}
+          autoFocus={autoFocusPassword}
         />
       </label>
 

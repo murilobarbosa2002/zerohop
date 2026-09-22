@@ -22,7 +22,13 @@ import { CONTACTS_STRINGS } from '@/strings/contacts.strings';
 import type { Contact } from '@shared/contact';
 import type { ContactsScreenProps } from '@/components/ContactsScreen/ContactsScreen.types';
 
-export function ContactsScreen({ roomClient, onEntered, onBack, findSessionByRoomCode }: ContactsScreenProps) {
+export function ContactsScreen({
+  roomClient,
+  onEntered,
+  onBack,
+  findSessionByRoomCode,
+  autoFocusPersonalPassword = false
+}: ContactsScreenProps) {
   const [name, setName] = useNamePreference();
   const [avatarId, setAvatarId] = useAvatarId();
   const { contacts, addContact, removeContact } = useContacts();
@@ -127,6 +133,7 @@ export function ContactsScreen({ roomClient, onEntered, onBack, findSessionByRoo
               status={status}
               autoOpenEnabled={personalRoom.autoOpenEnabled}
               onToggleAutoOpen={personalRoom.setAutoOpenEnabled}
+              autoFocusPassword={autoFocusPersonalPassword}
             />
           </div>
 

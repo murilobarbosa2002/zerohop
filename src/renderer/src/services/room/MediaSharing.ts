@@ -75,9 +75,11 @@ export class MediaSharing extends EventTarget {
     this.outgoingCalls.set(fromId, call);
     call.on('close', () => this.outgoingCalls.delete(fromId));
     this.dispatchEvent(new CustomEvent('outgoing-call', { detail: { peerId: fromId, call, quality: this.quality } }));
+    this.dispatchEvent(new CustomEvent('viewer-added', { detail: { peerId: fromId } }));
   }
 
   handleUnwatchRequest(fromId: string): void {
+    if (this.outgoingCalls.has(fromId)) this.dispatchEvent(new CustomEvent('viewer-removed', { detail: { peerId: fromId } }));
     this.removeViewer(fromId);
   }
 

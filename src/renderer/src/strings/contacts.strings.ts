@@ -33,5 +33,10 @@ export const CONTACTS_STRINGS = {
   contactFieldsRequiredError: 'Preencha apelido, ID e senha antes de salvar.',
   callingContactStatus: 'Chamando...',
   callContactError: (reason: string) => `Não foi possível conectar (${reason}). A pessoa pode estar offline agora.`,
-  openingPersonalRoomStatus: 'Abrindo sua sala pessoal...'
+  openingPersonalRoomStatus: 'Abrindo sua sala pessoal...',
+  personalPasswordMissingPopupTitle: 'Sua sala pessoal está sem senha',
+  personalPasswordMissingPopupBody:
+    'Você deixou "Abrir automaticamente" ligado, mas sem uma senha definida ela não consegue abrir sozinha (nem manualmente) — toda sala do ZeroHop precisa de senha.',
+  personalPasswordMissingPopupSetNowButton: 'Definir senha agora',
+  personalPasswordMissingPopupDismissButton: 'Lembrar depois'
 } as const;

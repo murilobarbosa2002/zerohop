@@ -4,6 +4,8 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.33](docs/releases/v0.36.33.md) | Corrige texto escuro em botões azuis, sons de compartilhamento e de assistir                                            |
+| [0.36.32](docs/releases/v0.36.32.md) | Aviso de sala pessoal sem senha, notificações clicáveis, som de conectar mais curto                                     |
 | [0.36.31](docs/releases/v0.36.31.md) | Status online dos contatos, aviso de falha ao convidar, expiração de convite, aceitar convite de quem não é contato     |
 | [0.36.30](docs/releases/v0.36.30.md) | Remove sala automática, convide contatos de dentro da sala, filtros viram checkbox                                      |
 | [0.36.29](docs/releases/v0.36.29.md) | Filtros de Logs e Notificações agora mostram só categorias/tipos que existem                                            |
