@@ -1,0 +1,5 @@
+# Formatação e lint
+
+- **Prettier formata o projeto inteiro** (config em `.prettierrc.json`: aspas simples, ponto e vírgula, 140 colunas, sem vírgula sobrando no último item). `npm run format` aplica, `npm run format:check` só confere (é o que o CI roda). Markdown fica de fora (`.prettierignore`) — quem cuida de `.md` é o `markdownlint` (`npm run lint:md`).
+- **ESLint** (`eslint.config.mjs`, flat config) cobre hoje só `.js`/`.mjs`/config files — **`.ts`/`.tsx` ficam de fora de propósito**, porque o projeto usa TypeScript 7.x e `typescript-eslint` ainda não suporta essa versão (checado direto no registro do npm antes de decidir). **Nunca rebaixar o TypeScript do projeto só pra fazer o ESLint funcionar** — esperar `typescript-eslint` publicar suporte e então estender `eslint.config.mjs`. Enquanto isso, `.ts`/`.tsx` ficam cobertos só pelo `tsc` (`npm run typecheck`).
+- Ao checar se uma dependência de tooling suporta uma versão nova de outra dependência, **checar direto no registro do npm** (`npm view <pacote> versions`/`dist-tags`), nunca assumir pelo que "parece familiar" de treinamento.
