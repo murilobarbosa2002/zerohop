@@ -2,7 +2,12 @@ import Peer, { type DataConnection, type MediaConnection } from 'peerjs';
 import { createPeer, safeCall, sendTo } from '@/services/room/peerSession';
 import { watchConnection, watchForRealDisconnect } from '@/services/room/iceDiagnostics';
 import { roomMessageSchema } from '@/services/room/roomMessage.schema';
-import { ICE_CONNECTION_TIMEOUT_MS, PEER_RECONNECT_MAX_RETRIES, PEER_RECONNECT_RETRY_DELAY_MS, INVITE_SEND_TIMEOUT_MS } from '@/constants/timing';
+import {
+  ICE_CONNECTION_TIMEOUT_MS,
+  PEER_RECONNECT_MAX_RETRIES,
+  PEER_RECONNECT_RETRY_DELAY_MS,
+  INVITE_SEND_TIMEOUT_MS
+} from '@/constants/timing';
 import { CallKind } from '@/constants/callKind';
 import { logEvent } from '@/services/appLog';
 import { LOG_STRINGS } from '@/strings/logs.strings';

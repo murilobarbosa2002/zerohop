@@ -5,7 +5,13 @@ import { playInviteContactSentSound } from '@/services/soundEffects';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { InviteContactsPanelProps } from '@/components/Room/InviteContactsPanel.types';
 
-export function InviteContactsPanel({ contacts, members, hasContactJoinedViaInvite, onInvite, failedContactIds }: InviteContactsPanelProps) {
+export function InviteContactsPanel({
+  contacts,
+  members,
+  hasContactJoinedViaInvite,
+  onInvite,
+  failedContactIds
+}: InviteContactsPanelProps) {
   const [sentIds, setSentIds] = useState<Set<string>>(new Set());
 
   function handleInvite(contactId: string): void {

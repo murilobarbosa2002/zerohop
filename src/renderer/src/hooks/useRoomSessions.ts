@@ -93,15 +93,11 @@ export function useRoomSessions(): UseRoomSessionsResult {
         setPendingInvites((current) => current.filter((item) => item.inviteId !== inviteId));
       }, INVITE_TOKEN_TTL_MS);
     });
-    const unsubscribeInviteSendFailed = onTyped<RoomClientEventDetail['invite-send-failed']>(
-      roomClient,
-      'invite-send-failed',
-      (detail) => {
-        resolveContactName(detail.contactId).then((name) => {
-          notifyUser(NotificationKind.INVITE_FAILED, NOTIFICATIONS_STRINGS.inviteSendFailedMessage(name));
-        });
-      }
-    );
+    const unsubscribeInviteSendFailed = onTyped<RoomClientEventDetail['invite-send-failed']>(roomClient, 'invite-send-failed', (detail) => {
+      resolveContactName(detail.contactId).then((name) => {
+        notifyUser(NotificationKind.INVITE_FAILED, NOTIFICATIONS_STRINGS.inviteSendFailedMessage(name));
+      });
+    });
     const unsubscribeInviteRejected = onTyped<RoomClientEventDetail['invite-rejected']>(roomClient, 'invite-rejected', (detail) => {
       resolveContactName(detail.contactId).then((name) => {
         notifyUser(NotificationKind.INVITE_FAILED, NOTIFICATIONS_STRINGS.inviteRejectedUnknownSenderMessage(name));
