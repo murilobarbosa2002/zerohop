@@ -7,6 +7,7 @@ export interface PreRoomProps {
   findSessionByRoomCode: (roomCode: string) => { roomClient: RoomClient } | null;
   initialScreen?: PreRoomScreen;
   focusContactsPassword?: boolean;
+  onOpenUpdates: () => void;
 }
 
 export interface PreRoomChoiceProps {

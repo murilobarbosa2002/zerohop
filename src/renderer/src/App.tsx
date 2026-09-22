@@ -202,6 +202,7 @@ export function App() {
                   roomClient={pendingSession.roomClient}
                   onEntered={handleEnteredRoom}
                   findSessionByRoomCode={findSessionByRoomCode}
+                  onOpenUpdates={() => openOverlay(Overlay.UPDATES)}
                 />
               </div>
             )
@@ -241,6 +242,7 @@ export function App() {
               findSessionByRoomCode={findSessionByRoomCode}
               initialScreen={activeOverlay === Overlay.CONTACTS ? PreRoomScreen.CONTACTS : undefined}
               focusContactsPassword={focusContactsPassword}
+              onOpenUpdates={() => openOverlay(Overlay.UPDATES)}
             />
           )}
         </div>

@@ -32,6 +32,8 @@ A **captura otimizada para jogos** (Windows.Graphics.Capture) e o **áudio isola
 
 Ao abrir o ZeroHop, a primeira tela pergunta o que você quer fazer: **Criar sala nova** ou **Entrar numa sala**. Cada opção leva pra um formulário dedicado só com os campos daquela ação, sem misturar os dois fluxos.
 
+Ao lado das opções, um painel mostra: seu ID pessoal com botão de copiar, quantos dos seus contatos estão online agora, atalho pra chamar de novo os últimos contatos chamados, um resumo da versão mais recente do changelog, e um relógio com uma dica que muda todo dia.
+
 ## Criar uma sala
 
 1. Na tela inicial, clique em **Criar sala nova**.

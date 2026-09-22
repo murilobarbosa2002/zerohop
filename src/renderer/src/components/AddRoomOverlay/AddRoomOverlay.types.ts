@@ -8,4 +8,5 @@ export interface AddRoomOverlayProps {
   findSessionByRoomCode: (roomCode: string) => { roomClient: RoomClient } | null;
   initialScreen?: PreRoomScreen;
   focusContactsPassword?: boolean;
+  onOpenUpdates: () => void;
 }

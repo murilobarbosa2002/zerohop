@@ -98,6 +98,7 @@ import personalRoomPasswordReminderDismissSound from '@/assets/sounds/personal-r
 import inviteFailedNotificationSound from '@/assets/sounds/invite-failed-notification.wav';
 import updateAvailableNotificationSound from '@/assets/sounds/update-available-notification.wav';
 import personalRoomPasswordMissingNotificationSound from '@/assets/sounds/personal-room-password-missing-notification.wav';
+import openUpdatesTeaserSound from '@/assets/sounds/open-updates-teaser.wav';
 import memberSharingStartedSound from '@/assets/sounds/member-sharing-started.wav';
 import watchStartedSound from '@/assets/sounds/watch-started.wav';
 import watchStoppedSound from '@/assets/sounds/watch-stopped.wav';
@@ -533,6 +534,10 @@ export function playViewerJoinedWatchingSound(): void {
 
 export function playViewerLeftWatchingSound(): void {
   play(viewerLeftWatchingSound, SoundCategory.SHARING);
+}
+
+export function playOpenUpdatesTeaserSound(): void {
+  play(openUpdatesTeaserSound, SoundCategory.INTERFACE);
 }
 
 export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; type: () => void }> = {

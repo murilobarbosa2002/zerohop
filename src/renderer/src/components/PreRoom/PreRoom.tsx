@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PreRoomChoice } from '@/components/PreRoom/PreRoomChoice';
+import { HomeExtras } from '@/components/PreRoom/HomeExtras';
 import { CreateRoomForm } from '@/components/PreRoom/CreateRoomForm';
 import { JoinRoomForm } from '@/components/PreRoom/JoinRoomForm';
 import { ContactsScreen } from '@/components/ContactsScreen';
@@ -11,7 +12,8 @@ export function PreRoom({
   onEntered,
   findSessionByRoomCode,
   initialScreen = PreRoomScreen.CHOICE,
-  focusContactsPassword = false
+  focusContactsPassword = false,
+  onOpenUpdates
 }: PreRoomProps) {
   const [screen, setScreen] = useState<PreRoomScreen>(initialScreen);
 
@@ -28,10 +30,13 @@ export function PreRoom({
       autoFocusPersonalPassword={focusContactsPassword}
     />
   ) : (
-    <PreRoomChoice
-      onSelectCreate={() => setScreen(PreRoomScreen.CREATE)}
-      onSelectJoin={() => setScreen(PreRoomScreen.JOIN)}
-      onSelectContacts={() => setScreen(PreRoomScreen.CONTACTS)}
-    />
+    <div className="max-w-contacts-screen mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+      <PreRoomChoice
+        onSelectCreate={() => setScreen(PreRoomScreen.CREATE)}
+        onSelectJoin={() => setScreen(PreRoomScreen.JOIN)}
+        onSelectContacts={() => setScreen(PreRoomScreen.CONTACTS)}
+      />
+      <HomeExtras roomClient={roomClient} onEntered={onEntered} onOpenUpdates={onOpenUpdates} />
+    </div>
   );
 }

@@ -89,6 +89,18 @@ App
      └─ JoinRequestModal (se você for dono da sala)
 ```
 
+## Painel da tela inicial (v0.36.35+)
+
+`components/PreRoom/HomeExtras/` — cinco cards lado a lado com `PreRoomChoice` (grid de 2 colunas em `PreRoom.tsx`, `max-w-contacts-screen` igual `ContactsScreen`), preenchendo o espaço vazio da tela inicial com informação real, não decoração:
+
+- **`PersonalIdPanel.tsx`**: reaproveita `usePersonalRoom()` + `CopyButton`, mesmo padrão do card "Sua sala pessoal" em Contatos.
+- **`OnlineContactsPanel.tsx`**: reaproveita `watchContactsPresence` (o mesmo serviço de sondagem de presença da tela de Contatos) pra contar quantos contatos estão online, sem duplicar lógica.
+- **`RecentContactsPanel.tsx`**: `services/recentContactPreference.ts` (`localStorage`, até `RECENT_CONTACTS_MAX` IDs, mais recente primeiro) grava um contato toda vez que `ContactsScreen.handleCallContact` chama com sucesso — o painel lê essa lista e permite chamar de novo direto da tela inicial, sem abrir Contatos.
+- **`ChangelogTeaserPanel.tsx`**: reaproveita `useMarkdownFile('CHANGELOG.md')` + `parseSimpleMarkdown` (o mesmo hook que já alimenta a aba Changelog da tela de Atualizações — busca do GitHub raw, não duplica o conteúdo) e mostra só a primeira linha da tabela (versão mais recente).
+- **`RetroClockTipPanel.tsx`**: relógio atualizado a cada `CLOCK_TICK_INTERVAL_MS` e uma dica de `HOME_STRINGS.tips` escolhida por `dia do ano % tamanho da lista` — estável o dia inteiro, muda sozinha no dia seguinte, sem precisar de estado persistido.
+
+`onOpenUpdates` (abre `Overlay.UPDATES`) é passado de `App.tsx` pros dois pontos que renderizam `<PreRoom>` (o principal e o de dentro de `AddRoomOverlay`), pra o botão "Ver tudo que mudou" funcionar nos dois fluxos.
+
 ## Onde cada preferência mora
 
 Duas fontes de armazenamento persistente, cada uma por um motivo técnico específico:

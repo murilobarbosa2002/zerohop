@@ -12,6 +12,7 @@ import { useNamePreference } from '@/hooks/useNamePreference';
 import { useContacts } from '@/hooks/useContacts';
 import { usePersonalRoom } from '@/hooks/usePersonalRoom';
 import { watchContactsPresence } from '@/services/contactPresence';
+import { recordRecentContact } from '@/services/recentContactPreference';
 import { errorMessage } from '@/lib/errorMessage';
 import { playBackButtonSound, playErrorSound } from '@/services/soundEffects';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
@@ -83,6 +84,7 @@ export function ContactsScreen({
     setStatus(CONTACTS_STRINGS.callingContactStatus);
     try {
       const code = await roomClient.joinRoom(name, contact.id, contact.password, avatarId);
+      recordRecentContact(contact.id);
       onEntered(code);
     } catch (error) {
       setStatus(CONTACTS_STRINGS.callContactError(errorMessage(error)));

@@ -9,7 +9,8 @@ export function AddRoomOverlay({
   onCancel,
   findSessionByRoomCode,
   initialScreen,
-  focusContactsPassword
+  focusContactsPassword,
+  onOpenUpdates
 }: AddRoomOverlayProps) {
   return (
     <div className="absolute inset-0 z-20 flex flex-col bg-bg overflow-y-auto px-7 py-7">
@@ -24,6 +25,7 @@ export function AddRoomOverlay({
         findSessionByRoomCode={findSessionByRoomCode}
         initialScreen={initialScreen}
         focusContactsPassword={focusContactsPassword}
+        onOpenUpdates={onOpenUpdates}
       />
     </div>
   );
