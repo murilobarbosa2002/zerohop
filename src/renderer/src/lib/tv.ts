@@ -3,7 +3,7 @@ import { createTV } from 'tailwind-variants';
 /**
  * `tv()` pré-configurado pra reconhecer os tokens customizados de `tailwind.config.js`.
  * Sem isso, o `tailwind-merge` (usado por baixo dos panos pelo `tailwind-variants`) não sabe
- * que `text-badge-xs` é um tamanho de fonte e `text-text-on-accent` é uma cor — os dois caem
+ * que `text-body-xs` é um tamanho de fonte e `text-text-on-accent` é uma cor — os dois caem
  * no mesmo grupo de conflito genérico, e o `tv()` descarta silenciosamente um dos dois.
  * Todo `.variants.ts` do projeto deve importar `tv` daqui, nunca direto de `tailwind-variants`.
  */
@@ -62,7 +62,7 @@ export const tv = createTV({
           'modal',
           'contacts-screen'
         ],
-        text: ['label-xs', 'body-xs', 'body-sm', 'body-sm-alt', 'badge-xs', 'badge-xxs'],
+        text: ['label-xs', 'body-xs', 'body-sm', 'body-sm-alt'],
         radius: ['card', 'button', 'window-icon', 'source-card'],
         shadow: ['glow-accent', 'glow-success']
       }

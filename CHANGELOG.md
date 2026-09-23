@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.41](docs/releases/v0.36.41.md) | Aumenta textos pequenos de mais em botões, paginação, tooltips e no badge de mensagens não lidas                        |
 | [0.36.40](docs/releases/v0.36.40.md) | Adiciona política de segurança de conteúdo (CSP) e valida contatos antes de salvar                                      |
 | [0.36.39](docs/releases/v0.36.39.md) | Corrige tela em branco ao abrir o app com a sala pessoal configurada pra auto-abrir                                     |
 | [0.36.38](docs/releases/v0.36.38.md) | Configurações por categoria, editar contato salvo, não deixa chamar quem está offline                                   |

@@ -39,20 +39,18 @@ export function InviteContactsPanel({
               <div key={contact.id} className="flex items-center gap-2 bg-panel-2 border border-border rounded-lg px-3 py-2">
                 <span className="font-bold text-body-sm truncate flex-1 min-w-0">{contact.name}</span>
                 {alreadyInRoom ? (
-                  <span className="text-text-dim text-badge-xs font-bold flex-shrink-0">
-                    {ROOM_STRINGS.inviteContactAlreadyInRoomLabel}
-                  </span>
+                  <span className="text-text-dim text-body-xs font-bold flex-shrink-0">{ROOM_STRINGS.inviteContactAlreadyInRoomLabel}</span>
                 ) : failed ? (
                   <div className="flex items-center gap-1.5 flex-shrink-0">
-                    <span className="text-danger text-badge-xs font-bold">{ROOM_STRINGS.inviteContactFailedLabel}</span>
-                    <ActionButton variant="default" className="text-badge-xs" onClick={() => handleInvite(contact.id)}>
+                    <span className="text-danger text-body-xs font-bold">{ROOM_STRINGS.inviteContactFailedLabel}</span>
+                    <ActionButton variant="default" className="text-body-xs" onClick={() => handleInvite(contact.id)}>
                       {ROOM_STRINGS.inviteContactRetryButton}
                     </ActionButton>
                   </div>
                 ) : alreadySent ? (
-                  <span className="text-text-dim text-badge-xs font-bold flex-shrink-0">{ROOM_STRINGS.inviteContactSentLabel}</span>
+                  <span className="text-text-dim text-body-xs font-bold flex-shrink-0">{ROOM_STRINGS.inviteContactSentLabel}</span>
                 ) : (
-                  <ActionButton variant="primary" className="flex-shrink-0 text-badge-xs" onClick={() => handleInvite(contact.id)}>
+                  <ActionButton variant="primary" className="flex-shrink-0 text-body-xs" onClick={() => handleInvite(contact.id)}>
                     {ROOM_STRINGS.inviteContactButton}
                   </ActionButton>
                 )}

@@ -97,7 +97,7 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
           {member.sharing && (
             <ActionButton
               variant={member.watching ? 'default' : 'primary'}
-              className="flex-1 mr-0 my-0 text-badge-xs"
+              className="flex-1 mr-0 my-0 text-body-xs"
               onClick={() => onToggleWatch(member.id)}
             >
               {member.watching ? PARTICIPANTS_STRINGS.stopWatchingButton : PARTICIPANTS_STRINGS.watchButton}
@@ -106,7 +106,7 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
           {canKick && (
             <button
               onClick={() => onKick(member.id)}
-              className="flex-1 text-badge-xs font-bold text-danger bg-danger/15 rounded-lg px-2 py-1.5 hover:brightness-110"
+              className="flex-1 text-body-xs font-bold text-danger bg-danger/15 rounded-lg px-2 py-1.5 hover:brightness-110"
             >
               {PARTICIPANTS_STRINGS.kickMemberButton}
             </button>
@@ -115,13 +115,13 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
       )}
 
       {member.personalId !== null && isAlreadyContact && (
-        <p className="text-text-dim text-badge-xs font-bold mt-2">{PARTICIPANTS_STRINGS.alreadyContactBadge}</p>
+        <p className="text-text-dim text-body-xs font-bold mt-2">{PARTICIPANTS_STRINGS.alreadyContactBadge}</p>
       )}
 
       {member.personalId !== null && !isAlreadyContact && !addingContact && (
         <ActionButton
           variant="default"
-          className="w-full mt-2 text-badge-xs"
+          className="w-full mt-2 text-body-xs"
           onClick={() => {
             playAddContactToRoomOpenSound();
             setAddingContact(true);
@@ -145,10 +145,10 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
           </label>
           {contactError && <p className="text-danger text-xs mt-1.5">{contactError}</p>}
           <div className="flex gap-1.5 mt-2">
-            <ActionButton variant="default" className="flex-1 text-badge-xs" onClick={handleCancelAddContact}>
+            <ActionButton variant="default" className="flex-1 text-body-xs" onClick={handleCancelAddContact}>
               {PARTICIPANTS_STRINGS.addToContactsCancelButton}
             </ActionButton>
-            <ActionButton variant="primary" className="flex-1 text-badge-xs" onClick={handleConfirmAddContact}>
+            <ActionButton variant="primary" className="flex-1 text-body-xs" onClick={handleConfirmAddContact}>
               {PARTICIPANTS_STRINGS.addToContactsConfirmButton}
             </ActionButton>
           </div>

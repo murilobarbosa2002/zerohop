@@ -31,14 +31,14 @@ export function RoomSwitcher({ sessions, focusedSessionId, onFocus, onLeave, onA
               </span>
             )}
             {session.unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-unread-badge-min-width h-4 px-1 bg-danger text-text-on-accent text-badge-xxs font-bold flex items-center justify-center border border-bg">
+              <span className="absolute -top-1 -right-1 min-w-unread-badge-min-width h-5 px-1 bg-danger text-text-on-accent text-body-xs font-bold flex items-center justify-center border border-bg">
                 {session.unreadCount > 9 ? '9+' : session.unreadCount}
               </span>
             )}
             <button
               onClick={() => onLeave(session.sessionId)}
               title={ROOM_SWITCHER_STRINGS.leaveRoomTooltip}
-              className="absolute -bottom-1 -right-1 w-4 h-4 bg-danger text-text-on-accent text-badge-xxs font-bold items-center justify-center border border-bg hidden group-hover:flex"
+              className="absolute -bottom-1 -right-1 w-5 h-5 bg-danger text-text-on-accent text-body-xs font-bold items-center justify-center border border-bg hidden group-hover:flex"
             >
               ×
             </button>

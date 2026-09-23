@@ -28,7 +28,7 @@ export function TitleBar({
         {version && (
           <button
             onClick={onOpenUpdates}
-            className="text-badge-xs font-normal text-text-dim bg-panel-2 border border-border rounded-full px-2 py-0.5 hover:border-accent [-webkit-app-region:no-drag]"
+            className="text-body-xs font-normal text-text-dim bg-panel-2 border border-border rounded-full px-2 py-0.5 hover:border-accent [-webkit-app-region:no-drag]"
           >
             {UPDATES_STRINGS.currentVersionLabel(version)}
           </button>

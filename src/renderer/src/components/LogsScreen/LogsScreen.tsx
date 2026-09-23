@@ -57,7 +57,7 @@ export function LogsScreen({ onBack }: LogsScreenProps) {
             playBackButtonSound();
             onBack();
           }}
-          className="text-badge-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent"
+          className="text-body-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent"
         >
           {LOG_STRINGS.backButton}
         </button>

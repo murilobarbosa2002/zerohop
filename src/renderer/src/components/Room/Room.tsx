@@ -182,7 +182,7 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
               return next;
             })
           }
-          className="text-badge-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent"
+          className="text-body-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent"
         >
           {sidebarOpen ? ROOM_STRINGS.hideSidebarButton : ROOM_STRINGS.showSidebarButton}
         </button>
@@ -195,7 +195,7 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
               return next;
             })
           }
-          className="text-badge-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent ml-auto"
+          className="text-body-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent ml-auto"
         >
           {chatOpen ? ROOM_STRINGS.hideChatButton : ROOM_STRINGS.showChatButton}
         </button>

@@ -27,7 +27,7 @@ export function RoomToolbar({
           <MicIcon muted={micMuted} />
         </button>
       </Tooltip>
-      {pushToTalkActive && <span className="text-success text-badge-xs font-bold">{ROOM_STRINGS.pushToTalkSpeakingLabel}</span>}
+      {pushToTalkActive && <span className="text-success text-body-xs font-bold">{ROOM_STRINGS.pushToTalkSpeakingLabel}</span>}
       <Tooltip label={deafenLabel}>
         <button
           onClick={onToggleDeafen}

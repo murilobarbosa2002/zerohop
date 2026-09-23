@@ -31,7 +31,7 @@ export function SettingsScreen({ onBack, roomClient }: SettingsScreenProps) {
             playBackButtonSound();
             onBack();
           }}
-          className="text-badge-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent"
+          className="text-body-xs font-bold text-text-dim bg-panel-2 border border-border rounded-full px-3 py-1 hover:border-accent"
         >
           {SETTINGS_STRINGS.backButton}
         </button>

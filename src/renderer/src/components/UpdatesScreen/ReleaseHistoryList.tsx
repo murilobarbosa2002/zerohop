@@ -14,14 +14,14 @@ export function ReleaseHistoryList({ releases, currentVersion, onSelect }: Relea
             <span className="text-body-sm flex items-center gap-2">
               {release.name}
               {isCurrent && (
-                <span className="text-badge-xs font-bold text-success bg-success/15 rounded-full px-2 py-0.5">
+                <span className="text-body-xs font-bold text-success bg-success/15 rounded-full px-2 py-0.5">
                   {UPDATES_STRINGS.versionCurrentBadge}
                 </span>
               )}
             </span>
             <button
               onClick={() => onSelect(release)}
-              className="text-badge-xs font-bold text-accent bg-accent-soft rounded-full px-2.5 py-1 hover:brightness-110 flex-shrink-0"
+              className="text-body-xs font-bold text-accent bg-accent-soft rounded-full px-2.5 py-1 hover:brightness-110 flex-shrink-0"
             >
               {UPDATES_STRINGS.openDownloadPageButton}
             </button>

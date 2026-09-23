@@ -29,7 +29,7 @@ export function ChangelogTeaserPanel({ onOpenUpdates }: Pick<HomeExtrasProps, 'o
       )}
       <ActionButton
         variant="default"
-        className="mt-2.5 w-full text-badge-xs"
+        className="mt-2.5 w-full text-body-xs"
         onClick={() => {
           playOpenUpdatesTeaserSound();
           onOpenUpdates();

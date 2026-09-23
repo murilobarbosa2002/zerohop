@@ -17,7 +17,7 @@ export function CopyButton({ text }: CopyButtonProps) {
   return (
     <button
       onClick={handleClick}
-      className="bg-accent-soft text-accent rounded-full px-2.5 py-1 text-badge-xs font-bold hover:brightness-110 flex-shrink-0"
+      className="bg-accent-soft text-accent rounded-full px-2.5 py-1 text-body-xs font-bold hover:brightness-110 flex-shrink-0"
     >
       {copied ? COMMON_STRINGS.copiedButton : COMMON_STRINGS.copyButton}
     </button>

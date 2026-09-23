@@ -50,7 +50,7 @@ export function RecentContactsPanel({ roomClient, onEntered }: Pick<HomeExtrasPr
             <span className="font-bold text-body-sm truncate flex-1 min-w-0">{contact.name}</span>
             <ActionButton
               variant="primary"
-              className="flex-shrink-0 text-badge-xs"
+              className="flex-shrink-0 text-body-xs"
               disabled={busyId !== null || onlineStatus.get(contact.id) === false}
               onClick={() => handleCall(contact)}
             >
