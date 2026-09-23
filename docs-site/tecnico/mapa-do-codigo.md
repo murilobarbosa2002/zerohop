@@ -99,10 +99,16 @@ App
 
 ## Piso de legibilidade de fonte, sem depender de escala do app (v0.36.41+)
 
-Primeira etapa de um plano maior de reflow/responsividade da interface (containers fixos, botões grandes de mais, texto pequeno de mais em janelas menores). Levantamento completo em `docs-site/tecnico/mapa-do-codigo.md` (esta seção) documenta só o que foi entregue; as próximas etapas (variante compacta de botão, containers fluidos, reflow de linhas densas) ainda não foram feitas.
+Primeira etapa de um plano maior de reflow/responsividade da interface (containers fixos, botões grandes de mais, texto pequeno de mais em janelas menores). Levantamento completo em `docs-site/tecnico/mapa-do-codigo.md` (esta seção) documenta só o que foi entregue; a etapa de containers fluidos e reflow de linhas densas ainda não foi feita.
 
 - **Tokens `fontSize.badge-xs` (12.5px) e `fontSize.badge-xxs` (10px) foram removidos.** Levantamento mostrou que praticamente todo uso de `badge-xs` era texto funcional de verdade (conteúdo de botão inteiro, paginação, tooltips, versão do app, indicador de push-to-talk), não decoração — abaixo do piso legível na escala padrão do app, obrigando a aumentar a escala geral (Configurações → Interface) só pra conseguir ler. Todos os usos de `text-badge-xs` viraram `text-body-xs` (13px, já existente).
 - **Badge de mensagens não lidas do `RoomSwitcher` aumentado de 16px/10px pra 20px/13px** (`spacing.unread-badge-min-width` de 16px → 20px, fonte de `badge-xxs` removido → `body-xs`) — o número de não lidas e o "×" de sair da sala eram o texto mais pequeno de todo o app.
+
+## `ActionButton` ganhou tamanho compacto, pra linhas densas (v0.36.42+)
+
+- **`ActionButton.variants.ts` ganhou a variante `size` (`'default' | 'compact'`)**, junto da já existente `variant`. `compact` reduz padding/margem (`px-2 py-1 mr-0.5 my-0.5`) e fonte (`text-body-xs`), mantendo `variant='default'` como padrão pra não afetar nenhum botão que já não declarava `size` explicitamente. Botões de ação principal (Entrar, Salvar sala, confirmar atualização, etc.) continuam sem `size`, no tamanho de sempre.
+- **Aplicado nos contextos de lista densa identificados no levantamento de responsividade**: `ContactRowView`/`ContactRowEditForm` (3 botões + nome numa linha só, dentro do card estreito de Contatos), `NotificationEntryRow`, `HotkeyRecorderRow`, `ParticipantTile` (que antes só compensava com `text-badge-xs` manual no `className`, sem reduzir o padding — trocado pela variante formal), `InviteContactsPanel`.
+- **Modais de confirmação com par de botão (`UpdateReadyModal`, `PersonalRoomPasswordMissingModal`, `ReleaseSwitchConfirmation`) ficaram de fora de propósito** — são ação principal, não linha de lista, e o container já dá espaço de sobra pros dois botões lado a lado.
 
 ## Configurações por categoria, editar contato, chamar só quem está online (v0.36.38+)
 

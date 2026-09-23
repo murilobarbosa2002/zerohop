@@ -50,10 +50,16 @@ export function ContactRowEditForm({ contact, onSave, onCancel }: ContactRowEdit
           <p className="text-danger text-xs mt-1.5">{CONTACTS_STRINGS.contactFieldsRequiredError}</p>
         )}
         <div className="flex gap-2 mt-2.5">
-          <ActionButton type="button" variant="default" className="flex-1" onClick={handleCancel}>
+          <ActionButton type="button" size="compact" variant="default" className="flex-1" onClick={handleCancel}>
             {CONTACTS_STRINGS.editContactCancelButton}
           </ActionButton>
-          <ActionButton type="button" variant="primary" className="flex-1" onClick={handleSubmit(handleSave, playErrorSound)}>
+          <ActionButton
+            type="button"
+            size="compact"
+            variant="primary"
+            className="flex-1"
+            onClick={handleSubmit(handleSave, playErrorSound)}
+          >
             {CONTACTS_STRINGS.editContactSaveButton}
           </ActionButton>
         </div>

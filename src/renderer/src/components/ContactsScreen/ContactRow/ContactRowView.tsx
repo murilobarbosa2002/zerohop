@@ -25,6 +25,7 @@ export function ContactRowView({ contact, onCall, onEditClick, onRemove, disable
       <span className="font-bold text-body-sm flex-1 min-w-0 truncate">{contact.name}</span>
       <ActionButton
         type="button"
+        size="compact"
         variant="primary"
         className="flex-shrink-0"
         disabled={disabled || online === false}
@@ -36,11 +37,12 @@ export function ContactRowView({ contact, onCall, onEditClick, onRemove, disable
       >
         {CONTACTS_STRINGS.callContactButton}
       </ActionButton>
-      <ActionButton type="button" variant="default" className="flex-shrink-0" disabled={disabled} onClick={onEditClick}>
+      <ActionButton type="button" size="compact" variant="default" className="flex-shrink-0" disabled={disabled} onClick={onEditClick}>
         {CONTACTS_STRINGS.editContactButton}
       </ActionButton>
       <ActionButton
         type="button"
+        size="compact"
         variant="danger"
         className="flex-shrink-0"
         disabled={disabled}

@@ -67,10 +67,10 @@ export function HotkeyRecorderRow({ label, value, onChange, errorMessage, checkC
         <p className="text-body-sm-alt font-bold mt-1">{SETTINGS_STRINGS.hotkeyRecognizedTitle(pendingBinding.label)}</p>
         {conflictLabel && <p className="text-warn text-xs mt-1">{SETTINGS_STRINGS.hotkeyRecognizedConflictHint(conflictLabel)}</p>}
         <div className="flex gap-2 mt-2.5">
-          <ActionButton variant="default" className="flex-1" onClick={handleCancel}>
+          <ActionButton variant="default" size="compact" className="flex-1" onClick={handleCancel}>
             {SETTINGS_STRINGS.hotkeyCancelButton}
           </ActionButton>
-          <ActionButton variant="primary" className="flex-1" onClick={handleConfirm}>
+          <ActionButton variant="primary" size="compact" className="flex-1" onClick={handleConfirm}>
             {SETTINGS_STRINGS.hotkeyConfirmButton}
           </ActionButton>
         </div>
@@ -90,17 +90,18 @@ export function HotkeyRecorderRow({ label, value, onChange, errorMessage, checkC
           {statusLabel}
         </span>
         {recording ? (
-          <ActionButton variant="default" className="flex-shrink-0" onClick={stopRecording}>
+          <ActionButton variant="default" size="compact" className="flex-shrink-0" onClick={stopRecording}>
             {SETTINGS_STRINGS.cancelRecordingHotkeyButton}
           </ActionButton>
         ) : (
           <>
-            <ActionButton variant="default" className="flex-shrink-0" onClick={startRecording}>
+            <ActionButton variant="default" size="compact" className="flex-shrink-0" onClick={startRecording}>
               {SETTINGS_STRINGS.recordHotkeyButton}
             </ActionButton>
             {value && (
               <ActionButton
                 variant="danger"
+                size="compact"
                 className="flex-shrink-0"
                 onClick={() => {
                   playRemoveHotkeyClickSound();

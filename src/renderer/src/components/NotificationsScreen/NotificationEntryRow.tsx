@@ -43,10 +43,10 @@ export function NotificationEntryRow({
       </button>
       {isInvitePending && entry.inviteId ? (
         <div className="flex items-center gap-2 flex-shrink-0">
-          <ActionButton variant="default" onClick={() => onDeclineInvite(entry.inviteId as string)}>
+          <ActionButton variant="default" size="compact" onClick={() => onDeclineInvite(entry.inviteId as string)}>
             {ROOM_STRINGS.inviteReceivedDeclineButton}
           </ActionButton>
-          <ActionButton variant="primary" onClick={() => onAcceptInvite(entry.inviteId as string)}>
+          <ActionButton variant="primary" size="compact" onClick={() => onAcceptInvite(entry.inviteId as string)}>
             {ROOM_STRINGS.inviteReceivedAcceptButton}
           </ActionButton>
         </div>
@@ -54,6 +54,7 @@ export function NotificationEntryRow({
         <div className="flex items-center gap-2 flex-shrink-0">
           <ActionButton
             variant="default"
+            size="compact"
             onClick={() => {
               playNotificationsClearCancelSound();
               setConfirmingDelete(false);
@@ -63,6 +64,7 @@ export function NotificationEntryRow({
           </ActionButton>
           <ActionButton
             variant="danger"
+            size="compact"
             onClick={() => {
               playDeleteNotificationConfirmSound();
               onDelete(entry.id);
@@ -74,6 +76,7 @@ export function NotificationEntryRow({
       ) : (
         <ActionButton
           variant="danger"
+          size="compact"
           className="flex-shrink-0 self-start"
           onClick={() => {
             playDeleteNotificationOpenSound();

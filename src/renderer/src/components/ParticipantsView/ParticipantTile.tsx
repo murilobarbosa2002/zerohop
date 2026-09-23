@@ -97,7 +97,8 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
           {member.sharing && (
             <ActionButton
               variant={member.watching ? 'default' : 'primary'}
-              className="flex-1 mr-0 my-0 text-body-xs"
+              size="compact"
+              className="flex-1 mr-0 my-0"
               onClick={() => onToggleWatch(member.id)}
             >
               {member.watching ? PARTICIPANTS_STRINGS.stopWatchingButton : PARTICIPANTS_STRINGS.watchButton}
@@ -121,7 +122,8 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
       {member.personalId !== null && !isAlreadyContact && !addingContact && (
         <ActionButton
           variant="default"
-          className="w-full mt-2 text-body-xs"
+          size="compact"
+          className="w-full mt-2"
           onClick={() => {
             playAddContactToRoomOpenSound();
             setAddingContact(true);
@@ -145,10 +147,10 @@ export function ParticipantTile({ member, onToggleWatch, canKick, onKick, voiceA
           </label>
           {contactError && <p className="text-danger text-xs mt-1.5">{contactError}</p>}
           <div className="flex gap-1.5 mt-2">
-            <ActionButton variant="default" className="flex-1 text-body-xs" onClick={handleCancelAddContact}>
+            <ActionButton variant="default" size="compact" className="flex-1" onClick={handleCancelAddContact}>
               {PARTICIPANTS_STRINGS.addToContactsCancelButton}
             </ActionButton>
-            <ActionButton variant="primary" className="flex-1 text-body-xs" onClick={handleConfirmAddContact}>
+            <ActionButton variant="primary" size="compact" className="flex-1" onClick={handleConfirmAddContact}>
               {PARTICIPANTS_STRINGS.addToContactsConfirmButton}
             </ActionButton>
           </div>

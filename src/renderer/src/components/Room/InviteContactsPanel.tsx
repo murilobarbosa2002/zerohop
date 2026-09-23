@@ -43,14 +43,14 @@ export function InviteContactsPanel({
                 ) : failed ? (
                   <div className="flex items-center gap-1.5 flex-shrink-0">
                     <span className="text-danger text-body-xs font-bold">{ROOM_STRINGS.inviteContactFailedLabel}</span>
-                    <ActionButton variant="default" className="text-body-xs" onClick={() => handleInvite(contact.id)}>
+                    <ActionButton variant="default" size="compact" onClick={() => handleInvite(contact.id)}>
                       {ROOM_STRINGS.inviteContactRetryButton}
                     </ActionButton>
                   </div>
                 ) : alreadySent ? (
                   <span className="text-text-dim text-body-xs font-bold flex-shrink-0">{ROOM_STRINGS.inviteContactSentLabel}</span>
                 ) : (
-                  <ActionButton variant="primary" className="flex-shrink-0 text-body-xs" onClick={() => handleInvite(contact.id)}>
+                  <ActionButton variant="primary" size="compact" className="flex-shrink-0" onClick={() => handleInvite(contact.id)}>
                     {ROOM_STRINGS.inviteContactButton}
                   </ActionButton>
                 )}
