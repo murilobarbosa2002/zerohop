@@ -4,7 +4,7 @@ export function CheckboxFilterGroup({ label, options, selected, onToggle }: Chec
   return (
     <div className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold">
       {label}
-      <div className="flex flex-col gap-1.5 bg-panel-2 border border-border rounded-lg p-2 min-w-[180px]">
+      <div className="flex flex-col gap-1.5 bg-panel-2 border border-border rounded-lg p-2 min-w-form-column">
         {options.map((option) => (
           <label key={option.value} className="flex items-center gap-2 cursor-pointer">
             <input

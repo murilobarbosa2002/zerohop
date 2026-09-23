@@ -48,6 +48,7 @@ export const tv = createTV({
           'status-dot-size',
           'card-padding-y',
           'badge-size',
+          'unread-badge-min-width',
           'form-column',
           'form-column-wide',
           'self-preview-width',
@@ -61,7 +62,7 @@ export const tv = createTV({
           'modal',
           'contacts-screen'
         ],
-        text: ['label-xs', 'body-xs', 'body-sm', 'body-sm-alt', 'badge-xs'],
+        text: ['label-xs', 'body-xs', 'body-sm', 'body-sm-alt', 'badge-xs', 'badge-xxs'],
         radius: ['card', 'button', 'window-icon', 'source-card'],
         shadow: ['glow-accent', 'glow-success']
       }

@@ -29,6 +29,7 @@ function writeContacts(contacts: Contact[]): void {
 }
 
 export function addContact(contact: Contact): Contact[] {
+  if (!isContact(contact)) return readContacts();
   const contacts = readContacts().filter((existing) => existing.id !== contact.id);
   contacts.push(contact);
   writeContacts(contacts);
@@ -36,6 +37,7 @@ export function addContact(contact: Contact): Contact[] {
 }
 
 export function updateContact(originalId: string, contact: Contact): Contact[] {
+  if (!isContact(contact)) return readContacts();
   const contacts = readContacts().filter((existing) => existing.id !== originalId && existing.id !== contact.id);
   contacts.push(contact);
   writeContacts(contacts);

@@ -40,6 +40,7 @@ export default {
         'status-dot-size': '9px',
         'card-padding-y': '18px',
         'badge-size': '22px',
+        'unread-badge-min-width': '16px',
         'form-column': '180px',
         'form-column-wide': '280px',
         'self-preview-width': '160px',
@@ -52,7 +53,8 @@ export default {
         'body-xs': '13px',
         'body-sm': '15px',
         'body-sm-alt': '15.5px',
-        'badge-xs': '12.5px'
+        'badge-xs': '12.5px',
+        'badge-xxs': '10px'
       },
       fontFamily: {
         sans: ['"Jersey10"', '"Segoe UI"', 'Tahoma', 'sans-serif']

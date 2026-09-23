@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.40](docs/releases/v0.36.40.md) | Adiciona política de segurança de conteúdo (CSP) e valida contatos antes de salvar                                      |
 | [0.36.39](docs/releases/v0.36.39.md) | Corrige tela em branco ao abrir o app com a sala pessoal configurada pra auto-abrir                                     |
 | [0.36.38](docs/releases/v0.36.38.md) | Configurações por categoria, editar contato salvo, não deixa chamar quem está offline                                   |
 | [0.36.37](docs/releases/v0.36.37.md) | Notificação (com som) quando um contato salvo fica online, nos dois sentidos                                            |

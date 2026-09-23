@@ -89,6 +89,14 @@ App
      └─ JoinRequestModal (se você for dono da sala)
 ```
 
+## Endurecimento de convenções e segurança (v0.36.40+)
+
+- **`ContactRow.tsx` virou pasta** (`components/ContactsScreen/ContactRow/`), seguindo o mesmo padrão já usado em `Room/JoinRequestModal/`: `ContactRow.tsx` é só o decisor com um único `return` (exibição vs. edição), `ContactRowView.tsx` e `ContactRowEditForm.tsx` são os dois estados visuais distintos, `ContactRow.types.ts` concentra os três tipos de props compartilhados, `index.ts` faz o barrel export.
+- **Formulários de contato (adicionar e editar) migraram de `useState` por campo para React Hook Form + Zod**, mesmo padrão já usado em `CreateRoomForm.tsx`: `ContactForm.schema.ts` (novo) define o schema `{ name, id, password }` compartilhado por `AddContactForm.tsx` e `ContactRowEditForm.tsx`, evitando duplicar validação entre os dois.
+- **Novos tokens Tailwind nomeados** substituindo valores arbitrários: `spacing.unread-badge-min-width` (16px, badge de mensagens não lidas do `RoomSwitcher`) e `fontSize.badge-xxs` (10px, texto desse mesmo badge e do botão de sair da sala). `CheckboxFilterGroup.tsx` passou a reaproveitar o token `form-column` já existente em vez de um valor arbitrário duplicado. Os dois tokens novos foram espelhados em `lib/tv.ts` (ver `.claude/rules/bug-history-ui.md` sobre por que isso é obrigatório).
+- **CSP adicionada em `renderer/index.html`**: restringe `connect-src` ao broker PeerJS (`0.peerjs.com`, http/ws), STUN do Google, e às duas origens do GitHub usadas pra buscar changelog/release notes (`raw.githubusercontent.com`, `api.github.com`); `img-src`/`font-src`/`script-src` restritos a `'self'`; `style-src` mantém `'unsafe-inline'` (necessário pro Tailwind/React injetarem estilo inline).
+- **`main/contacts.ts` valida o formato do contato antes de gravar** em `addContact`/`updateContact` (mesmo `isContact()` já usado em `readContacts()`) — antes só a leitura filtrava entradas malformadas, a escrita confiava cegamente no que chegava pelo IPC.
+
 ## Configurações por categoria, editar contato, chamar só quem está online (v0.36.38+)
 
 - **`SettingsScreen.tsx` ganhou um menu de categorias na lateral** (`constants/settingsCategory.ts`: `AUDIO`/`SOUNDS`/`INTERFACE`/`HOTKEYS`/`CONTACTS`) em vez de empilhar todos os blocos de configuração verticalmente numa lista só — mesmo padrão visual de configurações de jogo. Cada categoria só monta os componentes daquele grupo (`AudioOutputSettings`+`MicInputSettings` em `AUDIO`, etc.), sem re-render dos outros.

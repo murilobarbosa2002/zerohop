@@ -47,8 +47,8 @@ export function initAutoUpdater(): void {
     appendLog({ category: LogCategory.UPDATE, level: LogLevel.INFO, message: UPDATER_STRINGS.logDownloadedMessage(info.version) });
   });
 
-  autoUpdater.on('error', (err) => {
-    appendLog({ category: LogCategory.UPDATE, level: LogLevel.ERROR, message: UPDATER_STRINGS.logErrorMessage, detail: err.message });
+  autoUpdater.on('error', (error) => {
+    appendLog({ category: LogCategory.UPDATE, level: LogLevel.ERROR, message: UPDATER_STRINGS.logErrorMessage, detail: error.message });
   });
 
   if (getSettings().autoUpdateEnabled) autoUpdater.checkForUpdates();
