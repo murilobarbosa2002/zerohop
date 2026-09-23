@@ -77,7 +77,7 @@ export default {
       maxWidth: {
         'chat-bubble': '80%',
         modal: '360px',
-        'contacts-screen': '760px'
+        'contacts-screen': 'min(94vw, 900px)'
       }
     }
   },

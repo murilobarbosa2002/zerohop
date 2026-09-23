@@ -34,8 +34,8 @@ export function UpdatesScreen({ onBack }: UpdatesScreenProps) {
         <p className="font-bold text-body-sm-alt">{UPDATES_STRINGS.modalTitle}</p>
       </div>
 
-      <div className="flex-1 flex overflow-hidden">
-        <div className="w-room-sidebar-width flex-shrink-0 border-r border-border p-4 flex flex-col gap-1.5">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        <div className="w-full md:w-room-sidebar-width flex-shrink-0 border-b md:border-b-0 md:border-r border-border p-2 md:p-4 flex flex-row flex-wrap md:flex-col gap-1.5">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.tab}

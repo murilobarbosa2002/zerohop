@@ -38,8 +38,8 @@ export function SettingsScreen({ onBack, roomClient }: SettingsScreenProps) {
         <p className="font-bold text-body-sm-alt">{SETTINGS_STRINGS.screenTitle}</p>
       </div>
 
-      <div className="flex-1 flex overflow-hidden">
-        <div className="w-form-column flex-shrink-0 border-r border-border overflow-y-auto py-3 px-2 flex flex-col gap-1">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        <div className="w-full md:w-form-column flex-shrink-0 border-b md:border-b-0 md:border-r border-border overflow-y-auto py-2 px-2 flex flex-row flex-wrap md:flex-col gap-1">
           {CATEGORIES.map((item) => (
             <button
               key={item.category}
