@@ -215,7 +215,7 @@ export function App() {
             />
           ) : (
             pendingSession &&
-            enteredSessions.length === 0 && (
+            !focusedSession && (
               <div
                 className="absolute inset-0 overflow-y-auto px-7 py-7"
                 aria-hidden={activeOverlay !== null}
