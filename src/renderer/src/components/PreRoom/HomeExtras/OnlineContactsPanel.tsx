@@ -1,21 +1,11 @@
-import { useEffect, useState } from 'react';
 import { Card } from '@/components/Card';
 import { useContacts } from '@/hooks/useContacts';
-import { watchContactsPresence } from '@/services/contactPresence';
+import { useContactsPresence } from '@/hooks/useContactsPresence';
 import { HOME_STRINGS } from '@/strings/home.strings';
 
 export function OnlineContactsPanel() {
   const { contacts } = useContacts();
-  const [onlineStatus, setOnlineStatus] = useState<Map<string, boolean>>(new Map());
-
-  useEffect(() => {
-    setOnlineStatus(new Map());
-    if (contacts.length === 0) return;
-    return watchContactsPresence(
-      contacts.map((contact) => contact.id),
-      (contactId, online) => setOnlineStatus((current) => new Map(current).set(contactId, online))
-    );
-  }, [contacts]);
+  const onlineStatus = useContactsPresence(contacts);
 
   const checked = contacts.filter((contact) => onlineStatus.has(contact.id)).length;
   const onlineCount = contacts.filter((contact) => onlineStatus.get(contact.id) === true).length;

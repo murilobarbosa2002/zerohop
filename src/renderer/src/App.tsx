@@ -17,8 +17,11 @@ import { useOverlay } from '@/hooks/useOverlay';
 import { useNamePreference } from '@/hooks/useNamePreference';
 import { useAvatarId } from '@/hooks/useAvatarId';
 import { useNotifications } from '@/hooks/useNotifications';
+import { useContacts } from '@/hooks/useContacts';
 import { logEvent } from '@/services/appLog';
 import { notifyUser } from '@/services/notifyUser';
+import { contactsPresenceStore, type ContactsPresenceEventDetail } from '@/services/contactsPresenceStore';
+import { onTyped } from '@/lib/typedEvents';
 import {
   getPersonalPassword,
   getPersonalAutoOpenEnabled,
@@ -33,7 +36,8 @@ import {
   playInviteAcceptSound,
   playInviteDeclineSound,
   playUpdateAvailableNotificationSound,
-  playPersonalRoomPasswordMissingNotificationSound
+  playPersonalRoomPasswordMissingNotificationSound,
+  playContactOnlineNotificationSound
 } from '@/services/soundEffects';
 import { LOG_STRINGS } from '@/strings/logs.strings';
 import { NOTIFICATIONS_STRINGS } from '@/strings/notifications.strings';
@@ -64,12 +68,33 @@ export function App() {
   const [name] = useNamePreference();
   const [avatarId] = useAvatarId();
   const { unreadCount: unreadNotificationsCount } = useNotifications();
+  const { contacts } = useContacts();
   const [showPersonalRoomPasswordWarning, setShowPersonalRoomPasswordWarning] = useState(false);
   const [focusContactsPassword, setFocusContactsPassword] = useState(false);
 
   useEffect(() => {
     if (version) logEvent(LogCategory.APP, LogLevel.INFO, LOG_STRINGS.appStartedMessage(version));
   }, [version]);
+
+  useEffect(() => {
+    contactsPresenceStore.setContactIds(contacts.map((contact) => contact.id));
+  }, [contacts]);
+
+  useEffect(() => {
+    contactsPresenceStore.start();
+    return () => contactsPresenceStore.stop();
+  }, []);
+
+  useEffect(
+    () =>
+      onTyped<ContactsPresenceEventDetail['contact-online']>(contactsPresenceStore, 'contact-online', ({ contactId }) => {
+        const contact = contacts.find((current) => current.id === contactId);
+        if (!contact) return;
+        playContactOnlineNotificationSound();
+        notifyUser(NotificationKind.CONTACT_ONLINE, NOTIFICATIONS_STRINGS.contactOnlineMessage(contact.name));
+      }),
+    [contacts]
+  );
 
   useEffect(() => {
     if (!hasPersonalRoomBeenConfigured() || !getPersonalAutoOpenEnabled() || getPersonalPassword()) return;

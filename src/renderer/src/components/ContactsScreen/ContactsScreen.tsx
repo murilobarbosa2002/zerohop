@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Card } from '@/components/Card';
 import { Header } from '@/components/Header';
 import { ActionButton } from '@/components/ActionButton';
@@ -11,7 +11,7 @@ import { useAvatarId } from '@/hooks/useAvatarId';
 import { useNamePreference } from '@/hooks/useNamePreference';
 import { useContacts } from '@/hooks/useContacts';
 import { usePersonalRoom } from '@/hooks/usePersonalRoom';
-import { watchContactsPresence } from '@/services/contactPresence';
+import { useContactsPresence } from '@/hooks/useContactsPresence';
 import { recordRecentContact } from '@/services/recentContactPreference';
 import { errorMessage } from '@/lib/errorMessage';
 import { playBackButtonSound, playErrorSound } from '@/services/soundEffects';
@@ -36,16 +36,7 @@ export function ContactsScreen({
   const personalRoom = usePersonalRoom();
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
-  const [onlineStatus, setOnlineStatus] = useState<Map<string, boolean>>(new Map());
-
-  useEffect(() => {
-    setOnlineStatus(new Map());
-    if (contacts.length === 0) return;
-    return watchContactsPresence(
-      contacts.map((contact) => contact.id),
-      (contactId, online) => setOnlineStatus((current) => new Map(current).set(contactId, online))
-    );
-  }, [contacts]);
+  const onlineStatus = useContactsPresence(contacts);
 
   function handleChangePersonalPassword(value: string): void {
     personalRoom.setPassword(value);

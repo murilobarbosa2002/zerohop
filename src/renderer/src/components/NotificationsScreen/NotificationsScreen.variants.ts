@@ -12,7 +12,8 @@ export const notificationDotVariants = tv({
       'member-left': 'bg-text-dim',
       'join-request': 'bg-warn',
       'update-available': 'bg-accent',
-      'personal-room-password-missing': 'bg-warn'
+      'personal-room-password-missing': 'bg-warn',
+      'contact-online': 'bg-success'
     }
   }
 });

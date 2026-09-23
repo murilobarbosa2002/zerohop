@@ -89,6 +89,15 @@ App
      └─ JoinRequestModal (se você for dono da sala)
 ```
 
+## Notificação de contato online (v0.36.37+)
+
+`services/contactsPresenceStore.ts` — um singleton (`EventTarget`, sem estado do React) que substitui as sondagens avulsas que `ContactsScreen`/`OnlineContactsPanel` faziam cada uma por conta própria. Motivo: rodar continuamente em segundo plano, independente de qual tela está aberta, é o que permite avisar "fulano ficou online" mesmo com a tela de Contatos fechada.
+
+- `App.tsx` chama `contactsPresenceStore.start()` uma vez (nunca para, já que `App` nunca desmonta) e `setContactIds()` toda vez que a lista de contatos muda. Isso dispara `watchContactsPresence` (o mesmo sondador de sempre, `services/contactPresence.ts`) a cada `CONTACT_PRESENCE_POLL_INTERVAL_MS` (60s).
+- A cada resultado, a store compara com o valor anterior (`wasOnline === false`) — só nesse caso específico (offline confirmado → online) dispara o evento `contact-online`. Isso evita notificar sobre todo mundo que já estava online quando o app abriu (não tem "valor anterior" pra comparar nesse caso, `wasOnline` é `undefined`).
+- **A notificação é automaticamente bidirecional, sem nenhum código extra pro "outro lado".** Se a Pessoa B também salvou a Pessoa A como contato, o app da Pessoa B está rodando esse mesmo `contactsPresenceStore` sondando a Pessoa A — quando a sala pessoal da Pessoa A fica alcançável, é o app da PRÓPRIA Pessoa B que detecta a transição e notifica, de forma completamente independente. Não existe (nem poderia existir, sem servidor) um "aviso" indo de A pra B — cada lado descobre sozinho.
+- `hooks/useContactsPresence.ts` (`useSyncExternalStore` + `onTyped`, mesmo padrão de sempre pra ligar um serviço `EventTarget` ao React) é a única porta de entrada pra UI ler o mapa de presença — `ContactsScreen` e `OnlineContactsPanel` foram migrados pra usá-lo em vez de rodar `watchContactsPresence` cada um por conta própria, então agora existe uma única sondagem ativa, não três.
+
 ## Painel da tela inicial (v0.36.35+)
 
 `components/PreRoom/HomeExtras/` — cinco cards lado a lado com `PreRoomChoice` (grid de 2 colunas em `PreRoom.tsx`, `max-w-contacts-screen` igual `ContactsScreen`), preenchendo o espaço vazio da tela inicial com informação real, não decoração:

@@ -7,7 +7,8 @@ export enum NotificationKind {
   MEMBER_LEFT = 'member-left',
   JOIN_REQUEST = 'join-request',
   UPDATE_AVAILABLE = 'update-available',
-  PERSONAL_ROOM_PASSWORD_MISSING = 'personal-room-password-missing'
+  PERSONAL_ROOM_PASSWORD_MISSING = 'personal-room-password-missing',
+  CONTACT_ONLINE = 'contact-online'
 }
 
 export enum NotificationCategory {
@@ -25,7 +26,8 @@ export const NOTIFICATION_KIND_CATEGORY: Record<NotificationKind, NotificationCa
   [NotificationKind.MEMBER_LEFT]: NotificationCategory.ROOM,
   [NotificationKind.JOIN_REQUEST]: NotificationCategory.ROOM,
   [NotificationKind.UPDATE_AVAILABLE]: NotificationCategory.SYSTEM,
-  [NotificationKind.PERSONAL_ROOM_PASSWORD_MISSING]: NotificationCategory.SYSTEM
+  [NotificationKind.PERSONAL_ROOM_PASSWORD_MISSING]: NotificationCategory.SYSTEM,
+  [NotificationKind.CONTACT_ONLINE]: NotificationCategory.ROOM
 };
 
 export interface NotificationEntry {

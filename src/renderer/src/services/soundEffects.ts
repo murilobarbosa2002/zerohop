@@ -99,6 +99,7 @@ import inviteFailedNotificationSound from '@/assets/sounds/invite-failed-notific
 import updateAvailableNotificationSound from '@/assets/sounds/update-available-notification.wav';
 import personalRoomPasswordMissingNotificationSound from '@/assets/sounds/personal-room-password-missing-notification.wav';
 import openUpdatesTeaserSound from '@/assets/sounds/open-updates-teaser.wav';
+import contactOnlineNotificationSound from '@/assets/sounds/contact-online-notification.wav';
 import memberSharingStartedSound from '@/assets/sounds/member-sharing-started.wav';
 import watchStartedSound from '@/assets/sounds/watch-started.wav';
 import watchStoppedSound from '@/assets/sounds/watch-stopped.wav';
@@ -538,6 +539,10 @@ export function playViewerLeftWatchingSound(): void {
 
 export function playOpenUpdatesTeaserSound(): void {
   play(openUpdatesTeaserSound, SoundCategory.INTERFACE);
+}
+
+export function playContactOnlineNotificationSound(): void {
+  play(contactOnlineNotificationSound, SoundCategory.INTERFACE);
 }
 
 export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; type: () => void }> = {
