@@ -50,7 +50,6 @@ export interface UseRoomSessionsResult {
   pendingSession: RoomSession | null;
   pendingInvites: PendingInvite[];
   startPendingSession: () => void;
-  cancelPendingSession: () => void;
   markEntered: (roomCode: string) => void;
   focus: (sessionId: string) => void;
   leave: (sessionId: string) => void;
@@ -213,10 +212,6 @@ export function useRoomSessions(): UseRoomSessionsResult {
     [createSession]
   );
 
-  const cancelPendingSession = useCallback(() => {
-    if (pendingSessionRef.current) leave(pendingSessionRef.current.sessionId);
-  }, [leave]);
-
   const declineInvite = useCallback((inviteId: string) => {
     setPendingInvites((current) => {
       const invite = current.find((item) => item.inviteId === inviteId);
@@ -265,7 +260,6 @@ export function useRoomSessions(): UseRoomSessionsResult {
     pendingSession,
     pendingInvites,
     startPendingSession,
-    cancelPendingSession,
     markEntered,
     focus,
     leave,

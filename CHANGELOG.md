@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.36](docs/releases/v0.36.36.md) | Remove botão "Voltar" duplicado ao adicionar sala/ver contatos                                                          |
 | [0.36.35](docs/releases/v0.36.35.md) | Painel novo na tela inicial: ID pessoal, contatos online, chamar de novo, novidades, relógio                            |
 | [0.36.34](docs/releases/v0.36.34.md) | Corrige popup de sala pessoal travando a tela inicial numa instalação nova                                              |
 | [0.36.33](docs/releases/v0.36.33.md) | Corrige texto escuro em botões azuis, sons de compartilhamento e de assistir                                            |

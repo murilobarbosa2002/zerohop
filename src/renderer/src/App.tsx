@@ -51,7 +51,6 @@ export function App() {
     pendingSession,
     pendingInvites,
     startPendingSession,
-    cancelPendingSession,
     markEntered,
     focus,
     leave,
@@ -124,11 +123,6 @@ export function App() {
     } else if (entry.kind === NotificationKind.PERSONAL_ROOM_PASSWORD_MISSING) {
       openContactsScreen(true);
     }
-  }
-
-  function handleCancelAddRoom(): void {
-    cancelPendingSession();
-    closeOverlay();
   }
 
   function handleAcceptInvite(inviteId: string): void {
@@ -242,7 +236,6 @@ export function App() {
             <AddRoomOverlay
               roomClient={pendingSession.roomClient}
               onEntered={handleEnteredRoom}
-              onCancel={handleCancelAddRoom}
               findSessionByRoomCode={findSessionByRoomCode}
               initialScreen={activeOverlay === Overlay.CONTACTS ? PreRoomScreen.CONTACTS : undefined}
               focusContactsPassword={focusContactsPassword}
