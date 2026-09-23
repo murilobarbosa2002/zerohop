@@ -18,13 +18,13 @@ Clicando no número da versão, no canto superior esquerdo da janela (ao lado do
 
 ## Configurações
 
-O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações:
+O ícone de engrenagem na barra de título (ao lado dos botões de minimizar/maximizar/fechar) abre a tela de Configurações, organizada num menu de categorias na lateral esquerda (igual configurações de jogo), pra não virar uma lista enorme só rolando pra baixo:
 
-- **Áudio:** em qual dispositivo (alto-falante, fone, etc.) você quer ouvir quem está compartilhando.
-- **Microfone:** qual usar pra falar na sala, a sensibilidade dele, e a **supressão de ruído** (vem ligada por padrão).
-- **Mixer de efeitos sonoros:** um volume separado pra cada grupo de sons — Interface, Sala, Chat, Chamada de voz e Compartilhamento. Cada interação do app tem um som próprio e único, no clima nostálgico do app, e você decide o quanto ouvir de cada grupo.
-- **Escala da interface:** vem em 120% por padrão; aumenta ou diminui o tamanho de tudo (texto, botões, ícones) se estiver pequeno ou grande demais pra sua tela ou visão.
-- **Teclas de atalho:** mutar/desmutar o microfone, silenciar/ativar o áudio, e push-to-talk (segurar uma tecla pra falar, com atraso configurável pra desligar o mic ao soltar). Mutar mic e mutar áudio funcionam em qualquer lugar, mesmo com outro programa ou jogo em foco. Push-to-talk tenta funcionar assim também, mas isso depende do sistema permitir — se não permitir, ainda funciona normalmente com o ZeroHop em primeiro plano. Enquanto você segura a tecla de push-to-talk, o botão de microfone na sala fica destacado em verde com um "Falando..." do lado, e toca um som ao começar e outro ao parar de transmitir — assim dá pra confirmar que está funcionando sem precisar olhar pra tela toda hora.
+- **Áudio:** em qual dispositivo (alto-falante, fone, etc.) você quer ouvir quem está compartilhando, qual microfone usar pra falar na sala, a sensibilidade dele, e a **supressão de ruído** (vem ligada por padrão).
+- **Sons:** o mixer de efeitos sonoros, com um volume separado pra cada grupo — Interface, Sala, Chat, Chamada de voz e Compartilhamento. Cada interação do app tem um som próprio e único, no clima nostálgico do app, e você decide o quanto ouvir de cada grupo.
+- **Interface:** a escala da interface (vem em 120% por padrão), aumenta ou diminui o tamanho de tudo (texto, botões, ícones) se estiver pequeno ou grande demais pra sua tela ou visão.
+- **Atalhos:** mutar/desmutar o microfone, silenciar/ativar o áudio, e push-to-talk (segurar uma tecla pra falar, com atraso configurável pra desligar o mic ao soltar). Mutar mic e mutar áudio funcionam em qualquer lugar, mesmo com outro programa ou jogo em foco. Push-to-talk tenta funcionar assim também, mas isso depende do sistema permitir — se não permitir, ainda funciona normalmente com o ZeroHop em primeiro plano. Enquanto você segura a tecla de push-to-talk, o botão de microfone na sala fica destacado em verde com um "Falando..." do lado, e toca um som ao começar e outro ao parar de transmitir — assim dá pra confirmar que está funcionando sem precisar olhar pra tela toda hora.
+- **Sala pessoal e convites:** o interruptor "Abrir automaticamente quando o ZeroHop iniciar" (que antes ficava na tela de Contatos) e a opção de aceitar convite de quem não é seu contato.
 
 Os campos de senha (ao criar/entrar numa sala) mostram a senha em texto normal por padrão, com um ícone de olho pra ocultar se preferir.
 
@@ -64,13 +64,13 @@ Ao criar ou entrar numa sala com sucesso, toca um bipe curto de "conectado" (no 
 Na tela inicial, clique em **Contatos**. Lá tem duas partes:
 
 - **Sua sala pessoal:** um ID e uma senha que são só seus, sempre os mesmos. Mande os dois pro seu amigo uma vez (por WhatsApp, Discord, o que preferir) e ele salva como contato. Você escolhe a senha; o ID é gerado sozinho.
-- **Seus contatos:** a lista de gente que você salvou. Pra adicionar alguém, peça o "Seu ID" e a senha da sala pessoal dela, cole no formulário "Adicionar contato" junto com um apelido, e pronto — da próxima vez é só clicar em **Chamar**, sem digitar nada de novo. Uma bolinha ao lado do nome mostra se a pessoa está online agora (sala pessoal dela aberta) ou offline — assim dá pra saber antes de tentar chamar.
+- **Seus contatos:** a lista de gente que você salvou. Pra adicionar alguém, peça o "Seu ID" e a senha da sala pessoal dela, cole no formulário "Adicionar contato" junto com um apelido, e pronto — da próxima vez é só clicar em **Chamar**, sem digitar nada de novo. Uma bolinha ao lado do nome mostra se a pessoa está online agora (sala pessoal dela aberta) ou offline; enquanto estiver offline, o botão **Chamar** fica desativado (não adianta tentar chamar quem certamente não vai receber). Clique em **Editar** pra corrigir o apelido, o ID ou a senha salva de um contato sem precisar remover e adicionar de novo — útil se a pessoa reinstalou o ZeroHop e ganhou um ID novo, por exemplo.
 
 O ZeroHop também avisa sozinho: quando um contato salvo fica online, você recebe uma notificação (com som), mesmo sem estar com a tela de Contatos aberta. Isso é automático nos dois sentidos — se a pessoa também te tiver salvo como contato, ela recebe o mesmo aviso quando você fica online, sem precisar configurar nada.
 
 Chamar um contato funciona exatamente como entrar numa sala normal: a pessoa recebe um pedido de entrada e precisa aprovar (igual qualquer sala), então ela precisa estar com o ZeroHop aberto na hora. O que muda é que você nunca mais precisa perguntar "qual é o código da sala hoje?" — o ID dela é sempre o mesmo.
 
-O ID e a senha da sua sala pessoal ficam salvos só no seu computador (no mesmo lugar que as outras configurações do app), nunca em servidor nenhum. **Assim que você define uma senha, sua sala pessoal passa a abrir sozinha toda vez que o ZeroHop inicia** — não precisa mais clicar em "Abrir minha sala pessoal" depois da primeira vez. Se você trocar a senha depois, a sala já aberta atualiza na hora, sem precisar fechar e abrir de novo. Esse comportamento é configurável: tem um checkbox "Abrir automaticamente quando o ZeroHop iniciar" no card da sala pessoal, ligado por padrão — desmarque se preferir abrir manualmente.
+O ID e a senha da sua sala pessoal ficam salvos só no seu computador (no mesmo lugar que as outras configurações do app), nunca em servidor nenhum. **Assim que você define uma senha, sua sala pessoal passa a abrir sozinha toda vez que o ZeroHop inicia** — não precisa mais clicar em "Abrir minha sala pessoal" depois da primeira vez. Se você trocar a senha depois, a sala já aberta atualiza na hora, sem precisar fechar e abrir de novo. Esse comportamento é configurável em **Configurações → Sala pessoal e convites** (checkbox "Abrir automaticamente quando o ZeroHop iniciar", ligado por padrão) — desmarque se preferir abrir manualmente.
 
 Dentro da sua sala pessoal, uma etiqueta com ícone de casinha aparece perto do código/senha confirmando que é ela — além do selo que já aparece na aba lateral quando você tem várias salas abertas ao mesmo tempo.
 

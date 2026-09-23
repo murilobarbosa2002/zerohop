@@ -100,6 +100,10 @@ import updateAvailableNotificationSound from '@/assets/sounds/update-available-n
 import personalRoomPasswordMissingNotificationSound from '@/assets/sounds/personal-room-password-missing-notification.wav';
 import openUpdatesTeaserSound from '@/assets/sounds/open-updates-teaser.wav';
 import contactOnlineNotificationSound from '@/assets/sounds/contact-online-notification.wav';
+import editContactOpenSound from '@/assets/sounds/edit-contact-open.wav';
+import editContactSaveSound from '@/assets/sounds/edit-contact-save.wav';
+import editContactCancelSound from '@/assets/sounds/edit-contact-cancel.wav';
+import settingsCategoryClickSound from '@/assets/sounds/settings-category-click.wav';
 import memberSharingStartedSound from '@/assets/sounds/member-sharing-started.wav';
 import watchStartedSound from '@/assets/sounds/watch-started.wav';
 import watchStoppedSound from '@/assets/sounds/watch-stopped.wav';
@@ -543,6 +547,22 @@ export function playOpenUpdatesTeaserSound(): void {
 
 export function playContactOnlineNotificationSound(): void {
   play(contactOnlineNotificationSound, SoundCategory.INTERFACE);
+}
+
+export function playEditContactOpenSound(): void {
+  play(editContactOpenSound, SoundCategory.INTERFACE);
+}
+
+export function playEditContactSaveSound(): void {
+  play(editContactSaveSound, SoundCategory.INTERFACE);
+}
+
+export function playEditContactCancelSound(): void {
+  play(editContactCancelSound, SoundCategory.INTERFACE);
+}
+
+export function playSettingsCategoryClickSound(): void {
+  play(settingsCategoryClickSound, SoundCategory.INTERFACE);
 }
 
 export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; type: () => void }> = {

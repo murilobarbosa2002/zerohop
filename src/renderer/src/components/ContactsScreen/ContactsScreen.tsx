@@ -32,7 +32,7 @@ export function ContactsScreen({
 }: ContactsScreenProps) {
   const [name, setName] = useNamePreference();
   const [avatarId, setAvatarId] = useAvatarId();
-  const { contacts, addContact, removeContact } = useContacts();
+  const { contacts, addContact, updateContact, removeContact } = useContacts();
   const personalRoom = usePersonalRoom();
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
@@ -124,8 +124,6 @@ export function ContactsScreen({
               onChangePassword={handleChangePersonalPassword}
               onOpen={handleOpenPersonalRoom}
               status={status}
-              autoOpenEnabled={personalRoom.autoOpenEnabled}
-              onToggleAutoOpen={personalRoom.setAutoOpenEnabled}
               autoFocusPassword={autoFocusPersonalPassword}
             />
           </div>
@@ -141,6 +139,7 @@ export function ContactsScreen({
                     key={contact.id}
                     contact={contact}
                     onCall={handleCallContact}
+                    onEdit={updateContact}
                     onRemove={removeContact}
                     disabled={busy}
                     online={onlineStatus.get(contact.id)}

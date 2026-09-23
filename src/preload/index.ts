@@ -75,6 +75,8 @@ const api = {
   },
   getContacts: (): Promise<Contact[]> => ipcRenderer.invoke(IPC_CHANNELS.getContacts),
   addContact: (contact: Contact): Promise<Contact[]> => ipcRenderer.invoke(IPC_CHANNELS.addContact, contact),
+  updateContact: (originalId: string, contact: Contact): Promise<Contact[]> =>
+    ipcRenderer.invoke(IPC_CHANNELS.updateContact, originalId, contact),
   removeContact: (id: string): Promise<Contact[]> => ipcRenderer.invoke(IPC_CHANNELS.removeContact, id),
   getNotifications: (): Promise<NotificationEntry[]> => ipcRenderer.invoke(IPC_CHANNELS.getNotifications),
   addNotification: (entry: NewNotificationEntry): Promise<NotificationEntry> => ipcRenderer.invoke(IPC_CHANNELS.addNotification, entry),

@@ -35,6 +35,13 @@ export function addContact(contact: Contact): Contact[] {
   return contacts;
 }
 
+export function updateContact(originalId: string, contact: Contact): Contact[] {
+  const contacts = readContacts().filter((existing) => existing.id !== originalId && existing.id !== contact.id);
+  contacts.push(contact);
+  writeContacts(contacts);
+  return contacts;
+}
+
 export function removeContact(id: string): Contact[] {
   const contacts = readContacts().filter((existing) => existing.id !== id);
   writeContacts(contacts);

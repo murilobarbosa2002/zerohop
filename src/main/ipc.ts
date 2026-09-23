@@ -11,7 +11,7 @@ import { appendLog, readLogs, clearLogs } from '@main/logger';
 import { getSettings, setHotkeySettings, setAllowUnknownInvites } from '@main/settings';
 import { findProcessIdByWindowTitle, startAudioLoopback, stopAudioLoopback } from '@main/audioLoopback';
 import { applyToggleHotkeys } from '@main/toggleHotkeys';
-import { readContacts, addContact, removeContact } from '@main/contacts';
+import { readContacts, addContact, updateContact, removeContact } from '@main/contacts';
 import {
   readNotifications,
   appendNotification,
@@ -128,6 +128,10 @@ export function registerIpcHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.getContacts, (): Contact[] => readContacts());
 
   ipcMain.handle(IPC_CHANNELS.addContact, (_event, contact: Contact): Contact[] => addContact(contact));
+
+  ipcMain.handle(IPC_CHANNELS.updateContact, (_event, originalId: string, contact: Contact): Contact[] =>
+    updateContact(originalId, contact)
+  );
 
   ipcMain.handle(IPC_CHANNELS.removeContact, (_event, id: string): Contact[] => removeContact(id));
 

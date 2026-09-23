@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
 import { useContacts } from '@/hooks/useContacts';
+import { useContactsPresence } from '@/hooks/useContactsPresence';
 import { useNamePreference } from '@/hooks/useNamePreference';
 import { useAvatarId } from '@/hooks/useAvatarId';
 import { getRecentContactIds, recordRecentContact } from '@/services/recentContactPreference';
@@ -13,6 +14,7 @@ import type { HomeExtrasProps } from '@/components/PreRoom/HomeExtras/HomeExtras
 
 export function RecentContactsPanel({ roomClient, onEntered }: Pick<HomeExtrasProps, 'roomClient' | 'onEntered'>) {
   const { contacts } = useContacts();
+  const onlineStatus = useContactsPresence(contacts);
   const [name] = useNamePreference();
   const [avatarId] = useAvatarId();
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -49,7 +51,7 @@ export function RecentContactsPanel({ roomClient, onEntered }: Pick<HomeExtrasPr
             <ActionButton
               variant="primary"
               className="flex-shrink-0 text-badge-xs"
-              disabled={busyId !== null}
+              disabled={busyId !== null || onlineStatus.get(contact.id) === false}
               onClick={() => handleCall(contact)}
             >
               {HOME_STRINGS.recentContactsCallButton}

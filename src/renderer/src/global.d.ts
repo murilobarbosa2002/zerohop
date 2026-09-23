@@ -39,6 +39,7 @@ declare global {
       onAppClosing: (callback: () => void) => () => void;
       getContacts: () => Promise<Contact[]>;
       addContact: (contact: Contact) => Promise<Contact[]>;
+      updateContact: (originalId: string, contact: Contact) => Promise<Contact[]>;
       removeContact: (id: string) => Promise<Contact[]>;
       getNotifications: () => Promise<NotificationEntry[]>;
       addNotification: (entry: NewNotificationEntry) => Promise<NotificationEntry>;

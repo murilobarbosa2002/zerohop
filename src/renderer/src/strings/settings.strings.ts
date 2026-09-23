@@ -57,5 +57,13 @@ export const SETTINGS_STRINGS = {
   invitesTitle: 'Convites',
   allowUnknownInvitesToggleLabel: 'Aceitar convites de quem não é meu contato',
   allowUnknownInvitesHint:
-    'Por padrão, um convite só aparece pra você se já tiver salvo quem te convidou como contato. Ative pra aceitar convites de qualquer pessoa que souber seu ID pessoal.'
+    'Por padrão, um convite só aparece pra você se já tiver salvo quem te convidou como contato. Ative pra aceitar convites de qualquer pessoa que souber seu ID pessoal.',
+  personalRoomSettingsTitle: 'Sala pessoal',
+  personalAutoOpenLabel: 'Abrir automaticamente quando o ZeroHop iniciar',
+  personalAutoOpenHint: 'Assim que você definir uma senha em Contatos, sua sala pessoal abre sozinha toda vez que o app iniciar.',
+  categoryAudioLabel: 'Áudio',
+  categorySoundsLabel: 'Sons',
+  categoryInterfaceLabel: 'Interface',
+  categoryHotkeysLabel: 'Atalhos',
+  categoryContactsLabel: 'Sala pessoal e convites'
 } as const;

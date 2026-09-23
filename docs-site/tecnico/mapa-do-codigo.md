@@ -89,6 +89,13 @@ App
      └─ JoinRequestModal (se você for dono da sala)
 ```
 
+## Configurações por categoria, editar contato, chamar só quem está online (v0.36.38+)
+
+- **`SettingsScreen.tsx` ganhou um menu de categorias na lateral** (`constants/settingsCategory.ts`: `AUDIO`/`SOUNDS`/`INTERFACE`/`HOTKEYS`/`CONTACTS`) em vez de empilhar todos os blocos de configuração verticalmente numa lista só — mesmo padrão visual de configurações de jogo. Cada categoria só monta os componentes daquele grupo (`AudioOutputSettings`+`MicInputSettings` em `AUDIO`, etc.), sem re-render dos outros.
+- **`PersonalRoomSettings.tsx` (novo)**: o checkbox "Abrir automaticamente" saiu do `PersonalRoomCard.tsx` (tela de Contatos) e virou seu próprio componente na categoria `CONTACTS` de Configurações, ao lado de `InviteSettings.tsx` — mesmo hook (`usePersonalRoom()`), só mudou de tela. `PersonalRoomCard.tsx` ficou só com ID/senha/botão de abrir.
+- **Editar contato salvo, sem remover e recriar**: novo canal IPC `updateContact` (`main/contacts.ts`, `updateContact(originalId, contact)` — remove a entrada com o id antigo E qualquer entrada que já tivesse o novo id, depois grava a nova, cobrindo tanto "só mudei o apelido" quanto "a pessoa reinstalou e o ID dela mudou"). `ContactRow.tsx` ganhou um modo de edição inline (nome/ID/senha pré-preenchidos, Salvar/Cancelar) reaproveitando os mesmos campos do `AddContactForm.tsx`.
+- **Não dá mais pra clicar em "Chamar" de um contato confirmado offline**: `ContactRow`/`RecentContactsPanel` desabilitam o botão quando `useContactsPresence(...).get(id) === false` (só quando a sondagem já confirmou offline — enquanto está "verificando", o botão continua clicável, pra não travar a UI numa checagem que pode demorar). Motivo: antes disso, tentar chamar alguém offline sempre falhava com um erro genérico ("Não foi possível conectar") sem nenhum aviso prévio, já que o app já sabia (pela bolinha de presença) que a pessoa estava offline.
+
 ## Notificação de contato online (v0.36.37+)
 
 `services/contactsPresenceStore.ts` — um singleton (`EventTarget`, sem estado do React) que substitui as sondagens avulsas que `ContactsScreen`/`OnlineContactsPanel` faziam cada uma por conta própria. Motivo: rodar continuamente em segundo plano, independente de qual tela está aberta, é o que permite avisar "fulano ficou online" mesmo com a tela de Contatos fechada.
