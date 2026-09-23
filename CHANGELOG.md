@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.44](docs/releases/v0.36.44.md) | Corrige card de compartilhamento quebrando em janela estreita; menos itens por página em Logs/Notificações              |
 | [0.36.43](docs/releases/v0.36.43.md) | Tela de Contatos mais larga em janela grande; barra lateral de Config./Atualizações se adapta                           |
 | [0.36.42](docs/releases/v0.36.42.md) | Botões menores em listas apertadas (contatos, notificações, atalhos, participantes)                                     |
 | [0.36.41](docs/releases/v0.36.41.md) | Aumenta textos pequenos de mais em botões, paginação, tooltips e no badge de mensagens não lidas                        |

@@ -246,7 +246,7 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
           </>
         )}
 
-        <div className="flex-1 p-3.5 overflow-hidden">
+        <div className="flex-1 min-w-0 p-3.5 overflow-hidden">
           <RoomStage roomClient={roomClient} sourcePicker={sourcePicker} sharing={sharing} members={members} />
         </div>
 
