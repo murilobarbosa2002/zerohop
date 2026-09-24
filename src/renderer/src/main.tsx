@@ -7,7 +7,7 @@ import { playAppOpenSound, playAppCloseSound } from '@/services/soundEffects';
 import '@/index.css';
 import 'highlight.js/styles/atom-one-dark.css';
 
-console.log('%c[build] ZeroHop v0.36.52', 'font-weight:bold;color:#000080');
+console.log('%c[build] ZeroHop v0.36.53', 'font-weight:bold;color:#000080');
 
 window.api.setUiZoomFactor(getUiScale());
 playAppOpenSound();

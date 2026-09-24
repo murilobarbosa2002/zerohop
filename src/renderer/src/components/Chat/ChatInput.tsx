@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ActionButton } from '@/components/ActionButton';
+import { ChatFormatToolbar } from '@/components/Chat/ChatFormatToolbar';
 import { playMessageSentSound, playKeyClickSound } from '@/services/soundEffects';
 import { isTypingKeystroke } from '@/lib/typingSound';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
@@ -8,6 +9,7 @@ import type { ChatInputProps } from '@/components/Chat/Chat.types';
 
 export function ChatInput({ onSend, replyTo, onCancelReply }: ChatInputProps) {
   const [text, setText] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   function handleSend(): void {
     const trimmed = text.trim();
@@ -17,10 +19,25 @@ export function ChatInput({ onSend, replyTo, onCancelReply }: ChatInputProps) {
     playMessageSentSound();
   }
 
+  function wrapSelection(before: string, after: string, placeholder: string): void {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selected = text.slice(start, end) || placeholder;
+    const nextText = text.slice(0, start) + before + selected + after + text.slice(end);
+    setText(nextText);
+    requestAnimationFrame(() => {
+      textarea.focus();
+      const selectionStart = start + before.length;
+      textarea.setSelectionRange(selectionStart, selectionStart + selected.length);
+    });
+  }
+
   return (
     <div className="mt-3">
       {replyTo && (
-        <div className="flex items-center justify-between gap-2 bg-panel-2 border border-border rounded-t-lg px-3 py-1.5 text-xs">
+        <div className="flex items-center justify-between gap-2 bg-panel-2 border border-border rounded-lg px-3 py-1.5 text-xs mb-2">
           <p className="min-w-0 truncate text-text-dim">
             <span className="font-bold">{CHAT_STRINGS.replyPreviewLabel}</span>{' '}
             {replyTo.self ? CHAT_STRINGS.selfSenderLabel : replyTo.fromName}: {replyTo.text}
@@ -36,8 +53,10 @@ export function ChatInput({ onSend, replyTo, onCancelReply }: ChatInputProps) {
           </button>
         </div>
       )}
-      <div className="flex gap-2 items-end">
+      <ChatFormatToolbar onWrapSelection={wrapSelection} />
+      <div className="flex gap-2 items-center">
         <textarea
+          ref={textareaRef}
           value={text}
           onChange={(event) => setText(event.target.value)}
           onKeyDown={(event) => {

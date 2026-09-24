@@ -85,6 +85,11 @@ import messageEditOpenSound from '@/assets/sounds/message-edit-open.wav';
 import messageEditCancelSound from '@/assets/sounds/message-edit-cancel.wav';
 import messageDeleteOpenSound from '@/assets/sounds/message-delete-open.wav';
 import messageDeleteCancelSound from '@/assets/sounds/message-delete-cancel.wav';
+import formatBoldSound from '@/assets/sounds/format-bold.wav';
+import formatItalicSound from '@/assets/sounds/format-italic.wav';
+import formatStrikethroughSound from '@/assets/sounds/format-strikethrough.wav';
+import formatCodeInlineSound from '@/assets/sounds/format-code-inline.wav';
+import formatCodeBlockSound from '@/assets/sounds/format-code-block.wav';
 import backButtonSound from '@/assets/sounds/back-button.wav';
 import openLogsSound from '@/assets/sounds/open-logs.wav';
 import openSettingsSound from '@/assets/sounds/open-settings.wav';
@@ -262,6 +267,26 @@ export function playMessageDeleteOpenSound(): void {
 
 export function playMessageDeleteCancelSound(): void {
   play(messageDeleteCancelSound, SoundCategory.CHAT);
+}
+
+export function playFormatBoldSound(): void {
+  play(formatBoldSound, SoundCategory.CHAT);
+}
+
+export function playFormatItalicSound(): void {
+  play(formatItalicSound, SoundCategory.CHAT);
+}
+
+export function playFormatStrikethroughSound(): void {
+  play(formatStrikethroughSound, SoundCategory.CHAT);
+}
+
+export function playFormatCodeInlineSound(): void {
+  play(formatCodeInlineSound, SoundCategory.CHAT);
+}
+
+export function playFormatCodeBlockSound(): void {
+  play(formatCodeBlockSound, SoundCategory.CHAT);
 }
 
 export function playMessageDeletedRemoteSound(): void {

@@ -12,8 +12,8 @@ export function ChatMessageItems({ messages, onDelete, canDelete, onEdit, canEdi
 
   function confirmDelete(): void {
     if (!pendingDeleteId) return;
-    onDelete(pendingDeleteId);
     playMessageDeleteSound();
+    onDelete(pendingDeleteId);
     setPendingDeleteId(null);
   }
 

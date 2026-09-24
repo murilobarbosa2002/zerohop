@@ -18,5 +18,10 @@ export const CHAT_STRINGS = {
   reactButton: 'Reagir',
   replyPreviewLabel: 'Respondendo a',
   replyCancelButton: 'Cancelar resposta',
-  replyToUnknownMessage: 'mensagem apagada'
+  replyToUnknownMessage: 'mensagem apagada',
+  formatBoldButton: 'Negrito',
+  formatItalicButton: 'Itálico',
+  formatStrikethroughButton: 'Riscado',
+  formatCodeInlineButton: 'Código',
+  formatCodeBlockButton: 'Bloco de código'
 } as const;
