@@ -16,6 +16,8 @@ import { usePushToTalk } from '@/hooks/usePushToTalk';
 import { useDeafened } from '@/hooks/useDeafened';
 import { useViewerIds } from '@/hooks/useViewerIds';
 import { useContacts } from '@/hooks/useContacts';
+import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { ROOM_STAGE_MIN_WIDTH_PX, RESIZE_HANDLE_WIDTH_PX } from '@/constants/layout';
 import {
   playMicMuteSound,
   playMicUnmuteSound,
@@ -50,6 +52,11 @@ export function Room({ roomClient, roomCode, voiceAudioState, onLeft }: RoomProp
   const [chatOpen, setChatOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useResizablePanelWidth('zerohop:sidebarWidth', 300, 300, 420);
   const [chatWidth, setChatWidth] = useResizablePanelWidth('zerohop:chatWidth', 300, 300, 480);
+  const windowWidth = useWindowWidth();
+  const handleCount = (sidebarOpen ? 1 : 0) + (chatOpen ? 1 : 0);
+  const availableForPanels = Math.max(0, windowWidth - ROOM_STAGE_MIN_WIDTH_PX - handleCount * RESIZE_HANDLE_WIDTH_PX);
+  const renderedSidebarWidth = sidebarOpen ? Math.min(sidebarWidth, availableForPanels) : 0;
+  const renderedChatWidth = chatOpen ? Math.min(chatWidth, Math.max(0, availableForPanels - renderedSidebarWidth)) : 0;
   const pushToTalkOriginRef = useRef(false);
   const { active: pushToTalkActive, configured: pushToTalkConfigured } = usePushToTalk(roomClient, pushToTalkOriginRef);
   const sourcePicker = useSourcePicker();
@@ -213,7 +220,7 @@ export function Room({ roomClient, roomCode, voiceAudioState, onLeft }: RoomProp
       <div className="flex-1 flex overflow-hidden">
         {sidebarOpen && (
           <>
-            <div className="flex-shrink-0 border-r border-border p-3.5 overflow-y-auto" style={{ width: sidebarWidth }}>
+            <div className="flex-shrink-0 border-r border-border p-3.5 overflow-y-auto" style={{ width: renderedSidebarWidth }}>
               <RoomSidebar
                 roomCode={roomCode}
                 roomPassword={roomClient.roomPassword}
@@ -260,7 +267,7 @@ export function Room({ roomClient, roomCode, voiceAudioState, onLeft }: RoomProp
         {chatOpen && (
           <>
             <ResizeHandle onDrag={(deltaX) => setChatWidth((width) => width - deltaX)} />
-            <div className="flex-shrink-0 border-l border-border p-3.5 flex flex-col overflow-hidden" style={{ width: chatWidth }}>
+            <div className="flex-shrink-0 border-l border-border p-3.5 flex flex-col overflow-hidden" style={{ width: renderedChatWidth }}>
               <p className="font-bold text-body-sm-alt mb-2 flex-shrink-0">{CHAT_STRINGS.title}</p>
               <div className="flex-1 flex flex-col overflow-hidden">
                 <Chat

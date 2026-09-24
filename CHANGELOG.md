@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.54](docs/releases/v0.36.54.md) | Corrige barra lateral e chat cortados numa janela pequena                                                               |
 | [0.36.53](docs/releases/v0.36.53.md) | Barra de formatação no chat; corrige som ao apagar mensagem                                                             |
 | [0.36.52](docs/releases/v0.36.52.md) | Corrige sons faltando e layout do chat; nomes de contato aparecem na sala                                               |
 | [0.36.51](docs/releases/v0.36.51.md) | Busca e favoritos na tela de Contatos                                                                                   |
