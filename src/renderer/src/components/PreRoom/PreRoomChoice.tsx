@@ -1,13 +1,19 @@
 import { Card } from '@/components/Card';
 import { Header } from '@/components/Header';
 import { PreRoomChoiceOption } from '@/components/PreRoom/PreRoomChoiceOption';
-import { PlusCircleIcon, EnterDoorIcon, PeopleIcon } from '@/components/icons';
-import { playCreateRoomClickSound, playJoinRoomClickSound, playOpenContactsClickSound } from '@/services/soundEffects';
+import { PlusCircleIcon, EnterDoorIcon, PeopleIcon, ProfileIcon } from '@/components/icons';
+import {
+  playCreateRoomClickSound,
+  playJoinRoomClickSound,
+  playOpenContactsClickSound,
+  playOpenProfileClickSound
+} from '@/services/soundEffects';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { CONTACTS_STRINGS } from '@/strings/contacts.strings';
+import { PROFILE_STRINGS } from '@/strings/profile.strings';
 import type { PreRoomChoiceProps } from '@/components/PreRoom/PreRoom.types';
 
-export function PreRoomChoice({ onSelectCreate, onSelectJoin, onSelectContacts }: PreRoomChoiceProps) {
+export function PreRoomChoice({ onSelectCreate, onSelectJoin, onSelectContacts, onSelectProfile }: PreRoomChoiceProps) {
   return (
     <Card>
       <Header />
@@ -39,6 +45,15 @@ export function PreRoomChoice({ onSelectCreate, onSelectJoin, onSelectContacts }
           onClick={() => {
             playOpenContactsClickSound();
             onSelectContacts();
+          }}
+        />
+        <PreRoomChoiceOption
+          icon={<ProfileIcon />}
+          title={PROFILE_STRINGS.screenTitle}
+          hint={PROFILE_STRINGS.profileTileHint}
+          onClick={() => {
+            playOpenProfileClickSound();
+            onSelectProfile();
           }}
         />
       </div>

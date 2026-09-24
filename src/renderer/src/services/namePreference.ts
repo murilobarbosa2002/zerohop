@@ -14,3 +14,7 @@ export function subscribeToName(listener: () => void): () => void {
   target.addEventListener('name-change', listener);
   return () => target.removeEventListener('name-change', listener);
 }
+
+export function hasProfileConfigured(): boolean {
+  return getName().trim().length > 0;
+}

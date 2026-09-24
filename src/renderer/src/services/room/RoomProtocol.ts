@@ -113,6 +113,7 @@ export class RoomProtocol {
     this.deps.registry.upsert(fromId, {
       name: message.name,
       avatarId: normalizeAvatarId(message.avatarId),
+      status: message.status,
       personalId: message.personalId ?? null
     });
     if (message.appVersion !== this.deps.getOwnAppVersion()) {

@@ -1,5 +1,6 @@
 import { launchApp } from './helpers/launchApp.mjs';
 import { createChecker } from './helpers/assert.mjs';
+import { configureProfile } from './helpers/room.mjs';
 
 const { check, finish } = createChecker();
 
@@ -12,16 +13,10 @@ try {
   await hostWin.waitForTimeout(800);
   await calleeWin.waitForTimeout(800);
 
-  await hostWin.getByText('Contatos', { exact: true }).click();
-  await hostWin.getByPlaceholder('Como seus amigos vão te ver').fill('Host');
-  await hostWin.getByText('Voltar', { exact: true }).click();
-  await hostWin.waitForTimeout(300);
+  await configureProfile(hostWin, 'Host');
   const hostPersonalId = (await hostWin.locator('span.font-mono.font-bold.tracking-wide.text-accent').first().innerText()).trim();
 
-  await calleeWin.getByText('Contatos', { exact: true }).click();
-  await calleeWin.getByPlaceholder('Como seus amigos vão te ver').fill('Callee');
-  await calleeWin.getByText('Voltar', { exact: true }).click();
-  await calleeWin.waitForTimeout(300);
+  await configureProfile(calleeWin, 'Callee');
 
   await calleeWin.getByRole('button', { name: 'Configurações' }).first().click();
   await calleeWin.getByRole('button', { name: 'Sala pessoal e convites' }).click();

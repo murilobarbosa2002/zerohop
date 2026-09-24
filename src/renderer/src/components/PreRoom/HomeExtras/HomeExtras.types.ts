@@ -5,4 +5,5 @@ export interface HomeExtrasProps {
   onEntered: (code: string) => void;
   onOpenUpdates: () => void;
   onOpenPersonalRoomSettings: () => void;
+  onOpenProfile: () => void;
 }

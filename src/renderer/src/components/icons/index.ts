@@ -12,3 +12,4 @@ export { EyeIcon } from '@/components/icons/EyeIcon';
 export { PlusCircleIcon } from '@/components/icons/PlusCircleIcon';
 export { EnterDoorIcon } from '@/components/icons/EnterDoorIcon';
 export { PeopleIcon } from '@/components/icons/PeopleIcon';
+export { ProfileIcon } from '@/components/icons/ProfileIcon';

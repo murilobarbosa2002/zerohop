@@ -4,6 +4,7 @@ import type { MemberRegistry } from '@/services/room/MemberRegistry';
 import type { MembershipGossip } from '@/services/room/MembershipGossip';
 import type { HelloMessage, JoinPendingMessage, JoinApprovedMessage } from '@/services/room/RoomProtocol';
 import { getPersonalId } from '@/services/personalRoomPreference';
+import { getStatus } from '@/services/statusPreference';
 import { AUTH_HELLO_TIMEOUT_MS, JOIN_APPROVAL_TIMEOUT_MS, INVITE_TOKEN_TTL_MS } from '@/constants/timing';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import type { AvatarId } from '@/constants/avatars';
@@ -80,6 +81,7 @@ export class RoomAuthController extends EventTarget {
       type: 'hello',
       name: this.deps.getSelfName(),
       avatarId: this.deps.getSelfAvatarId(),
+      status: getStatus(),
       password: this.deps.getExpectedPassword(),
       appVersion,
       personalId: getPersonalId(),

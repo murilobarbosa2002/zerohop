@@ -2,41 +2,32 @@ import { useState } from 'react';
 import { Card } from '@/components/Card';
 import { Header } from '@/components/Header';
 import { ActionButton } from '@/components/ActionButton';
-import { TextInput } from '@/components/TextInput';
-import { AvatarPicker } from '@/components/AvatarPicker';
 import { ContactRow } from '@/components/ContactsScreen/ContactRow';
 import { AddContactForm } from '@/components/ContactsScreen/AddContactForm';
+import { ProfileRequiredNotice } from '@/components/ProfileRequiredNotice';
 import { useAvatarId } from '@/hooks/useAvatarId';
 import { useNamePreference } from '@/hooks/useNamePreference';
+import { useHasProfileConfigured } from '@/hooks/useHasProfileConfigured';
 import { useContacts } from '@/hooks/useContacts';
 import { useContactsPresence } from '@/hooks/useContactsPresence';
 import { recordRecentContact } from '@/services/recentContactPreference';
 import { errorMessage } from '@/lib/errorMessage';
 import { playBackButtonSound, playErrorSound } from '@/services/soundEffects';
-import { TextInputSoundKind } from '@/constants/textInputSoundKind';
-import { ROOM_NAME_MAX_LENGTH } from '@/constants/roomIdentity';
-import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { CONTACTS_STRINGS } from '@/strings/contacts.strings';
 import type { Contact } from '@shared/contact';
 import type { ContactsScreenProps } from '@/components/ContactsScreen/ContactsScreen.types';
 
-export function ContactsScreen({ roomClient, onEntered, onBack }: ContactsScreenProps) {
-  const [name, setName] = useNamePreference();
-  const [avatarId, setAvatarId] = useAvatarId();
+export function ContactsScreen({ roomClient, onEntered, onBack, onOpenProfile }: ContactsScreenProps) {
+  const [name] = useNamePreference();
+  const [avatarId] = useAvatarId();
+  const hasProfileConfigured = useHasProfileConfigured();
   const { contacts, addContact, updateContact, removeContact } = useContacts();
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
   const onlineStatus = useContactsPresence(contacts);
 
-  function requireName(): boolean {
-    if (name.trim()) return true;
-    setStatus(PRE_ROOM_STRINGS.nameRequiredError);
-    playErrorSound();
-    return false;
-  }
-
   async function handleCallContact(contact: Contact): Promise<void> {
-    if (!requireName()) return;
+    if (!hasProfileConfigured) return;
     setBusy(true);
     setStatus(CONTACTS_STRINGS.callingContactStatus);
     try {
@@ -68,19 +59,7 @@ export function ContactsScreen({ roomClient, onEntered, onBack }: ContactsScreen
           <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.screenTitle}</p>
         </div>
 
-        <div className="flex items-end gap-4 flex-wrap mb-4">
-          <label className="flex flex-col gap-1.5 text-xs text-text-dim font-semibold flex-1 min-w-form-column">
-            {PRE_ROOM_STRINGS.nameFieldLabel}
-            <TextInput
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              maxLength={ROOM_NAME_MAX_LENGTH}
-              placeholder={PRE_ROOM_STRINGS.nameFieldPlaceholder}
-              soundKind={TextInputSoundKind.NAME}
-            />
-          </label>
-          <AvatarPicker value={avatarId} onChange={setAvatarId} />
-        </div>
+        {!hasProfileConfigured && <ProfileRequiredNotice onOpenProfile={onOpenProfile} />}
 
         <Card muted>
           <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.contactsListTitle}</p>
@@ -94,7 +73,7 @@ export function ContactsScreen({ roomClient, onEntered, onBack }: ContactsScreen
                 onCall={handleCallContact}
                 onEdit={updateContact}
                 onRemove={removeContact}
-                disabled={busy}
+                disabled={busy || !hasProfileConfigured}
                 online={onlineStatus.get(contact.id)}
               />
             ))

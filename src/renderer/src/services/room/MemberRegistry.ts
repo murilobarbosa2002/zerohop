@@ -4,6 +4,7 @@ import type { AvatarId } from '@/constants/avatars';
 export interface Member {
   name: string;
   avatarId: AvatarId | null;
+  status: string;
   personalId: string | null;
   conn: DataConnection | null;
   sharing: boolean;
@@ -20,6 +21,7 @@ export interface MemberSnapshot {
   id: string;
   name: string;
   avatarId: AvatarId | null;
+  status: string;
   personalId: string | null;
   sharing: boolean;
   watching: boolean;
@@ -32,6 +34,7 @@ function defaultMember(name: string): Member {
   return {
     name,
     avatarId: null,
+    status: '',
     personalId: null,
     conn: null,
     sharing: false,
@@ -86,6 +89,7 @@ export class MemberRegistry {
         id,
         name: member.name,
         avatarId: member.avatarId,
+        status: member.status,
         personalId: member.personalId,
         sharing: member.sharing,
         watching: member.watching,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TitleBar } from '@/components/TitleBar';
 import { PreRoom } from '@/components/PreRoom';
 import { Room } from '@/components/Room';
@@ -7,6 +7,7 @@ import { UpdatesScreen } from '@/components/UpdatesScreen';
 import { SettingsScreen } from '@/components/SettingsScreen';
 import { LogsScreen } from '@/components/LogsScreen';
 import { NotificationsScreen } from '@/components/NotificationsScreen';
+import { ProfileScreen } from '@/components/ProfileScreen';
 import { UpdateReadyModal } from '@/components/UpdateReadyModal';
 import { PersonalRoomPasswordMissingModal } from '@/components/PersonalRoomPasswordMissingModal';
 import { AddRoomOverlay } from '@/components/AddRoomOverlay';
@@ -73,6 +74,7 @@ export function App() {
   const { contacts } = useContacts();
   const [showPersonalRoomPasswordWarning, setShowPersonalRoomPasswordWarning] = useState(false);
   const [settingsInitialCategory, setSettingsInitialCategory] = useState<SettingsCategory>(SettingsCategory.AUDIO);
+  const overlayBeforeProfileRef = useRef<Overlay | null>(null);
 
   useEffect(() => {
     if (version) logEvent(LogCategory.APP, LogLevel.INFO, LOG_STRINGS.appStartedMessage(version));
@@ -131,6 +133,20 @@ export function App() {
   function handleOpenContacts(): void {
     startPendingSession();
     openOverlay(Overlay.CONTACTS);
+  }
+
+  function handleOpenProfile(): void {
+    overlayBeforeProfileRef.current = activeOverlay;
+    openOverlay(Overlay.PROFILE);
+  }
+
+  function handleProfileBack(): void {
+    if (overlayBeforeProfileRef.current) {
+      openOverlay(overlayBeforeProfileRef.current);
+      overlayBeforeProfileRef.current = null;
+    } else {
+      closeOverlay();
+    }
   }
 
   function openPersonalRoomSettings(): void {
@@ -202,6 +218,7 @@ export function App() {
         onOpenLogs={() => toggleOverlay(Overlay.LOGS)}
         onOpenNotifications={() => toggleOverlay(Overlay.NOTIFICATIONS)}
         onOpenContacts={handleOpenContacts}
+        onOpenProfile={handleOpenProfile}
         unreadNotificationsCount={unreadNotificationsCount}
       />
       <div className="flex-1 flex overflow-hidden">
@@ -236,6 +253,7 @@ export function App() {
                   onEntered={handleEnteredRoom}
                   onOpenUpdates={() => openOverlay(Overlay.UPDATES)}
                   onOpenPersonalRoomSettings={openPersonalRoomSettings}
+                  onOpenProfile={handleOpenProfile}
                 />
               </div>
             )
@@ -254,6 +272,11 @@ export function App() {
                 findSessionByRoomCode={findSessionByRoomCode}
                 initialCategory={settingsInitialCategory}
               />
+            </div>
+          )}
+          {activeOverlay === Overlay.PROFILE && (
+            <div className="absolute inset-0 z-20 overflow-y-auto bg-bg px-7 py-7">
+              <ProfileScreen onBack={handleProfileBack} />
             </div>
           )}
           {activeOverlay === Overlay.LOGS && (
@@ -279,6 +302,7 @@ export function App() {
               initialScreen={activeOverlay === Overlay.CONTACTS ? PreRoomScreen.CONTACTS : undefined}
               onOpenUpdates={() => openOverlay(Overlay.UPDATES)}
               onOpenPersonalRoomSettings={openPersonalRoomSettings}
+              onOpenProfile={handleOpenProfile}
             />
           )}
         </div>

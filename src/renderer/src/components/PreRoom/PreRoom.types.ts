@@ -7,12 +7,14 @@ export interface PreRoomProps {
   initialScreen?: PreRoomScreen;
   onOpenUpdates: () => void;
   onOpenPersonalRoomSettings: () => void;
+  onOpenProfile: () => void;
 }
 
 export interface PreRoomChoiceProps {
   onSelectCreate: () => void;
   onSelectJoin: () => void;
   onSelectContacts: () => void;
+  onSelectProfile: () => void;
 }
 
 export interface CreateRoomFormProps {

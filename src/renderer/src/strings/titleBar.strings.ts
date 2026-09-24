@@ -3,6 +3,7 @@ export const TITLE_BAR_STRINGS = {
   logsButtonLabel: 'Logs',
   notificationsButtonLabel: 'Notificações',
   contactsButtonLabel: 'Contatos',
+  profileButtonLabel: 'Perfil',
   minimizeButtonLabel: 'Minimizar',
   maximizeButtonLabel: 'Maximizar',
   closeButtonLabel: 'Fechar'

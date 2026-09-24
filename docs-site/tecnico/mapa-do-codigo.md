@@ -89,6 +89,14 @@ App
      └─ JoinRequestModal (se você for dono da sala)
 ```
 
+## Tela de Perfil, status por sala, perfil obrigatório antes de entrar em sala (v0.36.48+)
+
+- **Tela de Perfil nova** (`components/ProfileScreen/`), acessível pelo ícone na barra de título (ao lado de Contatos) e por um botão na tela inicial (`PreRoomChoice`). Nome e avatar saíram de `ContactsScreen.tsx` (que agora só lista contatos) pra cá, junto de um campo novo: **status** (texto livre, opcional, `constants/status.ts` limita a 60 caracteres).
+- **Status broadcast pelo protocolo de sala**, mesmo caminho de nome/avatar: `services/statusPreference.ts` (padrão `namePreference.ts`, `EventTarget` + `useSyncExternalStore`) → `RoomAuthController.sendHello` inclui `status` no `hello` → `RoomProtocol.handleHello` grava no `MemberRegistry` → `MembershipGossip` propaga pra malha inteira igual nome/avatar. Só fixo por sessão (igual nome/avatar hoje) — mudar o status no meio de uma sala já aberta não atualiza os outros participantes, mesma limitação que já existia pra nome/avatar.
+- **`ParticipantTile.tsx` mostra o status de cada membro** (linha pequena e discreta abaixo do nome) quando ele tiver um definido.
+- **Perfil (nome preenchido) virou obrigatório antes de qualquer entrada em sala** — `services/namePreference.ts` ganhou `hasProfileConfigured()` (nome não-vazio) e um hook reativo (`useHasProfileConfigured`). Novo componente compartilhado `ProfileRequiredNotice.tsx` (mensagem + botão "Ir pro Perfil") aparece em vez de deixar prosseguir em: criar sala, entrar numa sala, chamar um contato (`ContactsScreen`, `RecentContactsPanel` da tela inicial) e abrir a sala pessoal (`PersonalIdPanel`).
+- **Bug de navegação real encontrado e corrigido nesse meio tempo**: abrir o Perfil (`Overlay.PROFILE`) usava o mesmo estado de "overlay ativo" de tudo mais em `App.tsx` — abrir o Perfil a partir de "+ Nova sala" (`Overlay.ADD_ROOM`) substituía esse overlay, e o botão "Voltar" do Perfil sempre fechava tudo, perdendo o fluxo de adicionar sala em andamento. Corrigido guardando o overlay anterior numa ref (`overlayBeforeProfileRef`) antes de abrir o Perfil, restaurado no "Voltar" em vez de fechar incondicionalmente.
+
 ## Configurar sala pessoal saiu de Contatos, foi pra Configurações (v0.36.47+)
 
 - **ID/senha/toggle "abrir automaticamente" da sala pessoal, antes espalhados entre `ContactsScreen`/`PersonalRoomCard.tsx` (Contatos) e `PersonalRoomSettings.tsx` (Configurações), viraram uma coisa só em `PersonalRoomSettings.tsx`**, dentro da categoria "Sala pessoal e convites" de Configurações. `PersonalRoomCard.tsx` foi deletado. Motivo do usuário: "configurar" pertence a Configurações, não a Contatos.

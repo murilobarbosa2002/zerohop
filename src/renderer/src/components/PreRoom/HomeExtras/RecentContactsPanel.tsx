@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Card } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
+import { ProfileRequiredNotice } from '@/components/ProfileRequiredNotice';
 import { useContacts } from '@/hooks/useContacts';
 import { useContactsPresence } from '@/hooks/useContactsPresence';
 import { useNamePreference } from '@/hooks/useNamePreference';
 import { useAvatarId } from '@/hooks/useAvatarId';
+import { useHasProfileConfigured } from '@/hooks/useHasProfileConfigured';
 import { getRecentContactIds, recordRecentContact } from '@/services/recentContactPreference';
 import { errorMessage } from '@/lib/errorMessage';
 import { playCallContactClickSound, playErrorSound } from '@/services/soundEffects';
@@ -12,11 +14,16 @@ import { HOME_STRINGS } from '@/strings/home.strings';
 import type { Contact } from '@shared/contact';
 import type { HomeExtrasProps } from '@/components/PreRoom/HomeExtras/HomeExtras.types';
 
-export function RecentContactsPanel({ roomClient, onEntered }: Pick<HomeExtrasProps, 'roomClient' | 'onEntered'>) {
+export function RecentContactsPanel({
+  roomClient,
+  onEntered,
+  onOpenProfile
+}: Pick<HomeExtrasProps, 'roomClient' | 'onEntered' | 'onOpenProfile'>) {
   const { contacts } = useContacts();
   const onlineStatus = useContactsPresence(contacts);
   const [name] = useNamePreference();
   const [avatarId] = useAvatarId();
+  const hasProfileConfigured = useHasProfileConfigured();
   const [busyId, setBusyId] = useState<string | null>(null);
   const [status, setStatus] = useState('');
 
@@ -25,6 +32,7 @@ export function RecentContactsPanel({ roomClient, onEntered }: Pick<HomeExtrasPr
     .filter((contact): contact is Contact => contact !== undefined);
 
   async function handleCall(contact: Contact): Promise<void> {
+    if (!hasProfileConfigured) return;
     playCallContactClickSound();
     setBusyId(contact.id);
     setStatus(HOME_STRINGS.recentContactsCallingStatus);
@@ -44,6 +52,7 @@ export function RecentContactsPanel({ roomClient, onEntered }: Pick<HomeExtrasPr
   return (
     <Card muted>
       <p className="font-bold text-body-sm-alt">{HOME_STRINGS.recentContactsTitle}</p>
+      {!hasProfileConfigured && <ProfileRequiredNotice onOpenProfile={onOpenProfile} />}
       <div className="flex flex-col gap-2 mt-2">
         {recentContacts.map((contact) => (
           <div key={contact.id} className="flex items-center gap-2 bg-panel-2 border border-border rounded-lg px-3 py-2">
@@ -51,7 +60,7 @@ export function RecentContactsPanel({ roomClient, onEntered }: Pick<HomeExtrasPr
             <ActionButton
               variant="primary"
               className="flex-shrink-0 text-body-xs"
-              disabled={busyId !== null || onlineStatus.get(contact.id) === false}
+              disabled={!hasProfileConfigured || busyId !== null || onlineStatus.get(contact.id) === false}
               onClick={() => handleCall(contact)}
             >
               {HOME_STRINGS.recentContactsCallButton}

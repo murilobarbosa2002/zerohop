@@ -10,6 +10,7 @@ import micUnmuteSound from '@/assets/sounds/mic-unmute.wav';
 import pushToTalkStartSound from '@/assets/sounds/push-to-talk-start.wav';
 import pushToTalkStopSound from '@/assets/sounds/push-to-talk-stop.wav';
 import openContactsClickSound from '@/assets/sounds/open-contacts-click.wav';
+import openProfileClickSound from '@/assets/sounds/open-profile-click.wav';
 import callContactClickSound from '@/assets/sounds/call-contact-click.wav';
 import addContactClickSound from '@/assets/sounds/add-contact-click.wav';
 import removeContactClickSound from '@/assets/sounds/remove-contact-click.wav';
@@ -70,6 +71,7 @@ import inviteDeclineSound from '@/assets/sounds/invite-decline.wav';
 import inputNameFocusSound from '@/assets/sounds/input-name-focus.wav';
 import inputNameTypeSound from '@/assets/sounds/input-name-type.wav';
 import inputPasswordFocusSound from '@/assets/sounds/input-password-focus.wav';
+import inputStatusFocusSound from '@/assets/sounds/input-status-focus.wav';
 import inputPasswordTypeSound from '@/assets/sounds/input-password-type.wav';
 import inputRoomCodeFocusSound from '@/assets/sounds/input-roomcode-focus.wav';
 import inputRoomCodeTypeSound from '@/assets/sounds/input-roomcode-type.wav';
@@ -241,6 +243,10 @@ export function playOpenContactsClickSound(): void {
   play(openContactsClickSound, SoundCategory.ROOM);
 }
 
+export function playOpenProfileClickSound(): void {
+  play(openProfileClickSound, SoundCategory.INTERFACE);
+}
+
 export function playCallContactClickSound(): void {
   play(callContactClickSound, SoundCategory.ROOM);
 }
@@ -351,6 +357,10 @@ export function playNameInputTypeSound(): void {
 
 export function playPasswordInputFocusSound(): void {
   play(inputPasswordFocusSound, SoundCategory.INTERFACE);
+}
+
+export function playStatusInputFocusSound(): void {
+  play(inputStatusFocusSound, SoundCategory.INTERFACE);
 }
 
 export function playPasswordInputTypeSound(): void {
@@ -569,5 +579,6 @@ export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; 
   [TextInputSoundKind.NAME]: { focus: playNameInputFocusSound, type: playNameInputTypeSound },
   [TextInputSoundKind.PASSWORD]: { focus: playPasswordInputFocusSound, type: playPasswordInputTypeSound },
   [TextInputSoundKind.ROOM_CODE]: { focus: playRoomCodeInputFocusSound, type: playRoomCodeInputTypeSound },
-  [TextInputSoundKind.CHAT]: { focus: playChatInputFocusSound, type: playKeyClickSound }
+  [TextInputSoundKind.CHAT]: { focus: playChatInputFocusSound, type: playKeyClickSound },
+  [TextInputSoundKind.STATUS]: { focus: playStatusInputFocusSound, type: playKeyClickSound }
 };

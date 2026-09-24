@@ -2,29 +2,27 @@ import { useState } from 'react';
 import { Card } from '@/components/Card';
 import { CopyButton } from '@/components/CopyButton';
 import { ActionButton } from '@/components/ActionButton';
+import { ProfileRequiredNotice } from '@/components/ProfileRequiredNotice';
 import { usePersonalRoom } from '@/hooks/usePersonalRoom';
 import { useNamePreference } from '@/hooks/useNamePreference';
 import { useAvatarId } from '@/hooks/useAvatarId';
+import { useHasProfileConfigured } from '@/hooks/useHasProfileConfigured';
 import { ROOM_PASSWORD_MIN_LENGTH } from '@/constants/roomPassword';
 import { errorMessage } from '@/lib/errorMessage';
 import { playOpenPersonalRoomClickSound, playOpenSettingsSound, playErrorSound } from '@/services/soundEffects';
 import { HOME_STRINGS } from '@/strings/home.strings';
-import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import type { PersonalIdPanelProps } from '@/components/PreRoom/HomeExtras/PersonalIdPanel.types';
 
-export function PersonalIdPanel({ roomClient, onEntered, onOpenPersonalRoomSettings }: PersonalIdPanelProps) {
+export function PersonalIdPanel({ roomClient, onEntered, onOpenPersonalRoomSettings, onOpenProfile }: PersonalIdPanelProps) {
   const personalRoom = usePersonalRoom();
   const [name] = useNamePreference();
   const [avatarId] = useAvatarId();
+  const hasProfileConfigured = useHasProfileConfigured();
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
 
   async function handleOpenPersonalRoom(): Promise<void> {
-    if (!name.trim()) {
-      setStatus(PRE_ROOM_STRINGS.nameRequiredError);
-      playErrorSound();
-      return;
-    }
+    if (!hasProfileConfigured) return;
     if (personalRoom.password.trim().length < ROOM_PASSWORD_MIN_LENGTH) {
       setStatus(HOME_STRINGS.personalRoomPasswordMissingError);
       playErrorSound();
@@ -52,12 +50,13 @@ export function PersonalIdPanel({ roomClient, onEntered, onOpenPersonalRoomSetti
           <CopyButton text={personalRoom.id} />
         </div>
       </div>
+      {!hasProfileConfigured && <ProfileRequiredNotice onOpenProfile={onOpenProfile} />}
       <div className="flex gap-2 mt-2.5">
         <ActionButton
           type="button"
           variant="primary"
           className="flex-1"
-          disabled={busy}
+          disabled={busy || !hasProfileConfigured}
           onClick={() => {
             playOpenPersonalRoomClickSound();
             handleOpenPersonalRoom();

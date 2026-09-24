@@ -7,4 +7,5 @@ export interface AddRoomOverlayProps {
   initialScreen?: PreRoomScreen;
   onOpenUpdates: () => void;
   onOpenPersonalRoomSettings: () => void;
+  onOpenProfile: () => void;
 }

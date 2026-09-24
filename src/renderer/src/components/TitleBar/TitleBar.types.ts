@@ -4,5 +4,6 @@ export interface TitleBarProps {
   onOpenLogs: () => void;
   onOpenNotifications: () => void;
   onOpenContacts: () => void;
+  onOpenProfile: () => void;
   unreadNotificationsCount: number;
 }

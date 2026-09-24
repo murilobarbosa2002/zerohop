@@ -1,5 +1,6 @@
 import { sendTo } from '@/services/room/peerSession';
 import { normalizeAvatarId } from '@/constants/avatars';
+import { getStatus } from '@/services/statusPreference';
 import type { MemberRegistry } from '@/services/room/MemberRegistry';
 import type { AvatarId } from '@/constants/avatars';
 
@@ -7,6 +8,7 @@ export interface MemberInfo {
   id: string;
   name: string;
   avatarId: string;
+  status: string;
 }
 
 interface MembershipGossipDeps {
@@ -38,15 +40,17 @@ export class MembershipGossip {
       if (entry.id === selfId) continue;
       const isNew = !this.registry.has(entry.id);
       if (isNew && selfId !== null && selfId < entry.id) this.connectToPeer(entry.id);
-      this.registry.upsert(entry.id, { name: entry.name, avatarId: normalizeAvatarId(entry.avatarId) });
+      this.registry.upsert(entry.id, { name: entry.name, avatarId: normalizeAvatarId(entry.avatarId), status: entry.status });
     }
   }
 
   broadcast(): void {
     const selfId = this.getSelfId();
     if (!selfId) return;
-    const list: MemberInfo[] = [{ id: selfId, name: this.getSelfName(), avatarId: this.getSelfAvatarId() }];
-    for (const [id, member] of this.registry.entries()) list.push({ id, name: member.name, avatarId: member.avatarId ?? '' });
+    const list: MemberInfo[] = [{ id: selfId, name: this.getSelfName(), avatarId: this.getSelfAvatarId(), status: getStatus() }];
+    for (const [id, member] of this.registry.entries()) {
+      list.push({ id, name: member.name, avatarId: member.avatarId ?? '', status: member.status });
+    }
     for (const member of this.registry.values()) sendTo(member.conn, { type: 'members', members: list });
   }
 }

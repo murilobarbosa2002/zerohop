@@ -1,6 +1,6 @@
 import { launchApp } from './helpers/launchApp.mjs';
 import { createChecker } from './helpers/assert.mjs';
-import { joinRoom, approveJoinRequest } from './helpers/room.mjs';
+import { joinRoom, approveJoinRequest, configureProfile } from './helpers/room.mjs';
 
 const { check, finish } = createChecker();
 
@@ -13,6 +13,7 @@ try {
   await hostWin.waitForTimeout(800);
   await guestWin.waitForTimeout(800);
 
+  await configureProfile(hostWin, 'Host');
   await hostWin.getByText('Criar sala nova', { exact: true }).click();
   await hostWin.waitForTimeout(300);
 

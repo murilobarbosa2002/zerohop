@@ -4,4 +4,5 @@ export interface PersonalIdPanelProps {
   roomClient: RoomClient;
   onEntered: (code: string) => void;
   onOpenPersonalRoomSettings: () => void;
+  onOpenProfile: () => void;
 }

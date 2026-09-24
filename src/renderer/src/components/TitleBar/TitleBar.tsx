@@ -1,8 +1,14 @@
 import { Logo } from '@/components/Logo';
 import { WindowButton } from '@/components/WindowButton';
-import { LogsIcon, BellIcon, PeopleIcon, SettingsIcon, MinimizeIcon, MaximizeIcon, CloseIcon } from '@/components/icons';
+import { LogsIcon, BellIcon, PeopleIcon, ProfileIcon, SettingsIcon, MinimizeIcon, MaximizeIcon, CloseIcon } from '@/components/icons';
 import { useAppUpdater } from '@/hooks/useAppUpdater';
-import { playOpenLogsSound, playOpenSettingsSound, playOpenNotificationsSound, playOpenContactsClickSound } from '@/services/soundEffects';
+import {
+  playOpenLogsSound,
+  playOpenSettingsSound,
+  playOpenNotificationsSound,
+  playOpenContactsClickSound,
+  playOpenProfileClickSound
+} from '@/services/soundEffects';
 import { APP_SHELL_STRINGS } from '@/strings/appShell.strings';
 import { TITLE_BAR_STRINGS } from '@/strings/titleBar.strings';
 import { UPDATES_STRINGS } from '@/strings/updates.strings';
@@ -14,6 +20,7 @@ export function TitleBar({
   onOpenLogs,
   onOpenNotifications,
   onOpenContacts,
+  onOpenProfile,
   unreadNotificationsCount
 }: TitleBarProps) {
   const { version } = useAppUpdater();
@@ -43,6 +50,15 @@ export function TitleBar({
           label={TITLE_BAR_STRINGS.contactsButtonLabel}
         >
           <PeopleIcon className="w-3 h-3" />
+        </WindowButton>
+        <WindowButton
+          onClick={() => {
+            playOpenProfileClickSound();
+            onOpenProfile();
+          }}
+          label={TITLE_BAR_STRINGS.profileButtonLabel}
+        >
+          <ProfileIcon className="w-3 h-3" />
         </WindowButton>
         <div className="relative flex-shrink-0">
           <WindowButton
