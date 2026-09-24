@@ -13,3 +13,6 @@ export { PlusCircleIcon } from '@/components/icons/PlusCircleIcon';
 export { EnterDoorIcon } from '@/components/icons/EnterDoorIcon';
 export { PeopleIcon } from '@/components/icons/PeopleIcon';
 export { ProfileIcon } from '@/components/icons/ProfileIcon';
+export { ReplyIcon } from '@/components/icons/ReplyIcon';
+export { EditPencilIcon } from '@/components/icons/EditPencilIcon';
+export { ReactionSmileIcon } from '@/components/icons/ReactionSmileIcon';

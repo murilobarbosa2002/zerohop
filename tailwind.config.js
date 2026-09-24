@@ -70,6 +70,9 @@ export default {
       minHeight: {
         'video-min': '180px'
       },
+      minWidth: {
+        'stage-min': '220px'
+      },
       maxHeight: {
         video: '55vh',
         'lightbox-video': '80vh'

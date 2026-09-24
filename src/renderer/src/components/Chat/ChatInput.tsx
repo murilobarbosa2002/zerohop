@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ActionButton } from '@/components/ActionButton';
 import { playMessageSentSound, playKeyClickSound } from '@/services/soundEffects';
+import { isTypingKeystroke } from '@/lib/typingSound';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
 import { CHAT_MESSAGE_MAX_LENGTH } from '@/constants/chat';
 import type { ChatInputProps } from '@/components/Chat/Chat.types';
@@ -45,7 +46,7 @@ export function ChatInput({ onSend, replyTo, onCancelReply }: ChatInputProps) {
               handleSend();
               return;
             }
-            if (event.key.length === 1 || event.key === 'Backspace') playKeyClickSound();
+            if (isTypingKeystroke(event.key)) playKeyClickSound();
           }}
           maxLength={CHAT_MESSAGE_MAX_LENGTH}
           placeholder={CHAT_STRINGS.inputPlaceholder}

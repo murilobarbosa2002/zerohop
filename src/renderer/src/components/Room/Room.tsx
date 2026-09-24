@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { RoomSidebar } from '@/components/Room/RoomSidebar';
 import { RoomStage } from '@/components/Room/RoomStage';
 import { JoinRequestModal } from '@/components/Room/JoinRequestModal';
@@ -39,6 +39,7 @@ import {
   playViewerLeftWatchingSound
 } from '@/services/soundEffects';
 import { onTyped } from '@/lib/typedEvents';
+import { resolveContactDisplayName } from '@/lib/resolveContactDisplayName';
 import { ROOM_STRINGS } from '@/strings/room.strings';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
 import type { RoomClientEventDetail } from '@/services/RoomClient';
@@ -59,7 +60,14 @@ export function Room({ roomClient, roomCode, voiceAudioState, onLeft }: RoomProp
   const deafened = useDeafened(roomClient);
   const viewerIds = useViewerIds(roomClient);
   const connectionWarning = useConnectionWarning(roomClient);
-  const chatMessages = useChatMessages(roomClient);
+  const rawChatMessages = useChatMessages(roomClient);
+  const chatMessages = useMemo(() => {
+    const memberPersonalIdById = new Map(members.map((member) => [member.id, member.personalId]));
+    return rawChatMessages.map((message) => ({
+      ...message,
+      fromName: resolveContactDisplayName(message.fromName, memberPersonalIdById.get(message.fromId) ?? null, contacts)
+    }));
+  }, [rawChatMessages, members, contacts]);
   const joinRequests = useJoinRequests(roomClient);
   const [previousJoinRequestCount, setPreviousJoinRequestCount] = useState(0);
   const [failedInviteContactIds, setFailedInviteContactIds] = useState<Set<string>>(new Set());
@@ -245,7 +253,7 @@ export function Room({ roomClient, roomCode, voiceAudioState, onLeft }: RoomProp
           </>
         )}
 
-        <div className="flex-1 min-w-0 p-3.5 overflow-hidden">
+        <div className="flex-1 min-w-stage-min p-3.5 overflow-hidden">
           <RoomStage roomClient={roomClient} sourcePicker={sourcePicker} sharing={sharing} members={members} />
         </div>
 

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { ChatMessageItem } from '@/components/Chat/ChatMessageItem';
 import { Card } from '@/components/Card';
 import { ActionButton } from '@/components/ActionButton';
-import { playMessageDeleteSound } from '@/services/soundEffects';
+import { playMessageDeleteSound, playMessageDeleteCancelSound } from '@/services/soundEffects';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
 import type { ChatMessageListProps } from '@/components/Chat/Chat.types';
 
@@ -17,8 +17,13 @@ export function ChatMessageItems({ messages, onDelete, canDelete, onEdit, canEdi
     setPendingDeleteId(null);
   }
 
+  function cancelDelete(): void {
+    setPendingDeleteId(null);
+    playMessageDeleteCancelSound();
+  }
+
   return (
-    <div className="flex flex-col gap-2.5 pr-1">
+    <div className="flex flex-col gap-2.5 pr-1 min-w-0">
       {messages.map((message) => (
         <ChatMessageItem
           key={message.id}
@@ -40,7 +45,7 @@ export function ChatMessageItems({ messages, onDelete, canDelete, onEdit, canEdi
               <p className="font-bold text-body-sm-alt">{CHAT_STRINGS.deleteConfirmTitle}</p>
               <p className="text-text-dim text-xs mt-1.5">{CHAT_STRINGS.deleteConfirmBody}</p>
               <div className="flex gap-2 mt-3.5">
-                <ActionButton variant="default" className="flex-1" onClick={() => setPendingDeleteId(null)}>
+                <ActionButton variant="default" className="flex-1" onClick={cancelDelete}>
                   {CHAT_STRINGS.deleteConfirmCancelButton}
                 </ActionButton>
                 <ActionButton variant="danger" className="flex-1" onClick={confirmDelete}>

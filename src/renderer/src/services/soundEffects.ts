@@ -81,6 +81,10 @@ import inputChatFocusSound from '@/assets/sounds/input-chat-focus.wav';
 import messageReplySound from '@/assets/sounds/message-reply.wav';
 import messageReactSound from '@/assets/sounds/message-react.wav';
 import messageEditSaveSound from '@/assets/sounds/message-edit-save.wav';
+import messageEditOpenSound from '@/assets/sounds/message-edit-open.wav';
+import messageEditCancelSound from '@/assets/sounds/message-edit-cancel.wav';
+import messageDeleteOpenSound from '@/assets/sounds/message-delete-open.wav';
+import messageDeleteCancelSound from '@/assets/sounds/message-delete-cancel.wav';
 import backButtonSound from '@/assets/sounds/back-button.wav';
 import openLogsSound from '@/assets/sounds/open-logs.wav';
 import openSettingsSound from '@/assets/sounds/open-settings.wav';
@@ -242,6 +246,22 @@ export function playMessageReactSound(): void {
 
 export function playMessageEditSaveSound(): void {
   play(messageEditSaveSound, SoundCategory.CHAT);
+}
+
+export function playMessageEditOpenSound(): void {
+  play(messageEditOpenSound, SoundCategory.CHAT);
+}
+
+export function playMessageEditCancelSound(): void {
+  play(messageEditCancelSound, SoundCategory.CHAT);
+}
+
+export function playMessageDeleteOpenSound(): void {
+  play(messageDeleteOpenSound, SoundCategory.CHAT);
+}
+
+export function playMessageDeleteCancelSound(): void {
+  play(messageDeleteCancelSound, SoundCategory.CHAT);
 }
 
 export function playMessageDeletedRemoteSound(): void {

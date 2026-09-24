@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { ChatMessageText } from '@/components/Chat/ChatMessageText';
+import { ReactionSmileIcon } from '@/components/icons';
 import { playMessageReactSound } from '@/services/soundEffects';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
 import { CHAT_QUICK_REACTION_EMOJIS, SELF_SENDER_ID } from '@/constants/chat';
@@ -58,9 +59,9 @@ export function ChatMessageContent({ message, replyToMessage, onToggleReaction }
             onClick={() => setShowReactionPicker((current) => !current)}
             title={CHAT_STRINGS.reactButton}
             aria-label={CHAT_STRINGS.reactButton}
-            className="text-text-dim hover:text-text text-xs px-1"
+            className="text-text-dim hover:text-text px-1"
           >
-            😀+
+            <ReactionSmileIcon />
           </button>
           {showReactionPicker && (
             <div

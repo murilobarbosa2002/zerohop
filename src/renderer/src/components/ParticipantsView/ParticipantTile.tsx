@@ -13,6 +13,7 @@ import {
   playErrorSound
 } from '@/services/soundEffects';
 import { PARTICIPANTS_STRINGS } from '@/strings/participants.strings';
+import { resolveContactDisplayName } from '@/lib/resolveContactDisplayName';
 import type { ParticipantTileProps } from '@/components/ParticipantsView/ParticipantTile.types';
 
 export function ParticipantTile({
@@ -25,7 +26,8 @@ export function ParticipantTile({
   onAddContact,
   isWatchingMyScreen
 }: ParticipantTileProps) {
-  const avatarInitial = (member.name || '?').charAt(0).toUpperCase();
+  const displayName = resolveContactDisplayName(member.name, member.personalId, contacts);
+  const avatarInitial = (displayName || '?').charAt(0).toUpperCase();
   const [, forceRender] = useReducer((renderCount: number) => renderCount + 1, 0);
   const voiceState = voiceAudioState.get(member.id);
   const [addingContact, setAddingContact] = useState(false);
@@ -81,7 +83,7 @@ export function ParticipantTile({
           )}
         </span>
         <span className="min-w-0 flex-1">
-          <span className="font-bold text-body-sm-alt truncate block">{member.name || member.id}</span>
+          <span className="font-bold text-body-sm-alt truncate block">{displayName || member.id}</span>
           {member.status && <span className="text-text-dim text-body-xs truncate block">{member.status}</span>}
         </span>
         {isWatchingMyScreen !== null && (

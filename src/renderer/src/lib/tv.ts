@@ -56,6 +56,7 @@ export const tv = createTV({
           'preview-lightbox-width',
           'room-sidebar-width',
           'video-min',
+          'stage-min',
           'video',
           'lightbox-video',
           'chat-bubble',
