@@ -11,7 +11,12 @@ function getContactsFilePath(): string {
 function isContact(value: unknown): value is Contact {
   if (!value || typeof value !== 'object') return false;
   const candidate = value as Record<string, unknown>;
-  return typeof candidate.id === 'string' && typeof candidate.name === 'string' && typeof candidate.password === 'string';
+  return (
+    typeof candidate.id === 'string' &&
+    typeof candidate.name === 'string' &&
+    typeof candidate.password === 'string' &&
+    (candidate.favorite === undefined || typeof candidate.favorite === 'boolean')
+  );
 }
 
 export function readContacts(): Contact[] {

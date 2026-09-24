@@ -4,7 +4,7 @@ import { ContactRowEditForm } from '@/components/ContactsScreen/ContactRow/Conta
 import { playEditContactOpenSound } from '@/services/soundEffects';
 import type { ContactRowProps } from '@/components/ContactsScreen/ContactRow/ContactRow.types';
 
-export function ContactRow({ contact, onCall, onEdit, onRemove, disabled, online }: ContactRowProps) {
+export function ContactRow({ contact, onCall, onEdit, onRemove, onToggleFavorite, disabled, online }: ContactRowProps) {
   const [editing, setEditing] = useState(false);
 
   return editing ? (
@@ -25,6 +25,7 @@ export function ContactRow({ contact, onCall, onEdit, onRemove, disabled, online
         setEditing(true);
       }}
       onRemove={onRemove}
+      onToggleFavorite={onToggleFavorite}
       disabled={disabled}
       online={online}
     />

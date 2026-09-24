@@ -3,5 +3,6 @@ export enum TextInputSoundKind {
   PASSWORD = 'password',
   ROOM_CODE = 'roomCode',
   CHAT = 'chat',
-  STATUS = 'status'
+  STATUS = 'status',
+  CONTACT_SEARCH = 'contactSearch'
 }

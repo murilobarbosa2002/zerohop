@@ -1,5 +1,5 @@
 import { ActionButton } from '@/components/ActionButton';
-import { playCallContactClickSound, playRemoveContactClickSound } from '@/services/soundEffects';
+import { playCallContactClickSound, playRemoveContactClickSound, playContactFavoriteToggleSound } from '@/services/soundEffects';
 import { CONTACTS_STRINGS } from '@/strings/contacts.strings';
 import type { ContactRowViewProps } from '@/components/ContactsScreen/ContactRow/ContactRow.types';
 
@@ -13,7 +13,7 @@ function presenceDotClassName(online: boolean | undefined): string {
   return online ? 'bg-success' : 'bg-text-dim';
 }
 
-export function ContactRowView({ contact, onCall, onEditClick, onRemove, disabled, online }: ContactRowViewProps) {
+export function ContactRowView({ contact, onCall, onEditClick, onRemove, onToggleFavorite, disabled, online }: ContactRowViewProps) {
   return (
     <div className="flex items-center gap-2 bg-panel-2 border border-border rounded-lg px-3 py-2 mt-2">
       <span
@@ -22,6 +22,19 @@ export function ContactRowView({ contact, onCall, onEditClick, onRemove, disable
         aria-label={presenceLabel(online)}
         title={presenceLabel(online)}
       />
+      <button
+        type="button"
+        onClick={() => {
+          playContactFavoriteToggleSound();
+          onToggleFavorite(contact);
+        }}
+        disabled={disabled}
+        title={contact.favorite ? CONTACTS_STRINGS.unfavoriteContactButton : CONTACTS_STRINGS.favoriteContactButton}
+        aria-label={contact.favorite ? CONTACTS_STRINGS.unfavoriteContactButton : CONTACTS_STRINGS.favoriteContactButton}
+        className={`flex-shrink-0 ${contact.favorite ? 'text-warn' : 'text-text-dim hover:text-text'}`}
+      >
+        {contact.favorite ? '★' : '☆'}
+      </button>
       <span className="font-bold text-body-sm flex-1 min-w-0 truncate">{contact.name}</span>
       <ActionButton
         type="button"

@@ -14,6 +14,8 @@ import openProfileClickSound from '@/assets/sounds/open-profile-click.wav';
 import callContactClickSound from '@/assets/sounds/call-contact-click.wav';
 import addContactClickSound from '@/assets/sounds/add-contact-click.wav';
 import removeContactClickSound from '@/assets/sounds/remove-contact-click.wav';
+import contactFavoriteToggleSound from '@/assets/sounds/contact-favorite-toggle.wav';
+import contactSearchFocusSound from '@/assets/sounds/contact-search-focus.wav';
 import openPersonalRoomClickSound from '@/assets/sounds/open-personal-room-click.wav';
 import deafenSound from '@/assets/sounds/deafen.wav';
 import undeafenSound from '@/assets/sounds/undeafen.wav';
@@ -272,6 +274,14 @@ export function playAddContactClickSound(): void {
 
 export function playRemoveContactClickSound(): void {
   play(removeContactClickSound, SoundCategory.ROOM);
+}
+
+export function playContactFavoriteToggleSound(): void {
+  play(contactFavoriteToggleSound, SoundCategory.ROOM);
+}
+
+export function playContactSearchFocusSound(): void {
+  play(contactSearchFocusSound, SoundCategory.ROOM);
 }
 
 export function playOpenPersonalRoomClickSound(): void {
@@ -595,5 +605,6 @@ export const TEXT_INPUT_SOUNDS: Record<TextInputSoundKind, { focus: () => void; 
   [TextInputSoundKind.PASSWORD]: { focus: playPasswordInputFocusSound, type: playPasswordInputTypeSound },
   [TextInputSoundKind.ROOM_CODE]: { focus: playRoomCodeInputFocusSound, type: playRoomCodeInputTypeSound },
   [TextInputSoundKind.CHAT]: { focus: playChatInputFocusSound, type: playKeyClickSound },
-  [TextInputSoundKind.STATUS]: { focus: playStatusInputFocusSound, type: playKeyClickSound }
+  [TextInputSoundKind.STATUS]: { focus: playStatusInputFocusSound, type: playKeyClickSound },
+  [TextInputSoundKind.CONTACT_SEARCH]: { focus: playContactSearchFocusSound, type: playKeyClickSound }
 };

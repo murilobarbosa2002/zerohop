@@ -5,6 +5,7 @@ export interface ContactRowProps {
   onCall: (contact: Contact) => void;
   onEdit: (originalId: string, contact: Contact) => void;
   onRemove: (id: string) => void;
+  onToggleFavorite: (contact: Contact) => void;
   disabled: boolean;
   online: boolean | undefined;
 }
@@ -14,6 +15,7 @@ export interface ContactRowViewProps {
   onCall: (contact: Contact) => void;
   onEditClick: () => void;
   onRemove: (id: string) => void;
+  onToggleFavorite: (contact: Contact) => void;
   disabled: boolean;
   online: boolean | undefined;
 }

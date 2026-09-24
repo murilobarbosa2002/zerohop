@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card } from '@/components/Card';
 import { Header } from '@/components/Header';
 import { ActionButton } from '@/components/ActionButton';
+import { TextInput } from '@/components/TextInput';
 import { ContactRow } from '@/components/ContactsScreen/ContactRow';
 import { AddContactForm } from '@/components/ContactsScreen/AddContactForm';
 import { ProfileRequiredNotice } from '@/components/ProfileRequiredNotice';
@@ -13,6 +14,7 @@ import { useContactsPresence } from '@/hooks/useContactsPresence';
 import { recordRecentContact } from '@/services/recentContactPreference';
 import { errorMessage } from '@/lib/errorMessage';
 import { playBackButtonSound, playErrorSound } from '@/services/soundEffects';
+import { TextInputSoundKind } from '@/constants/textInputSoundKind';
 import { CONTACTS_STRINGS } from '@/strings/contacts.strings';
 import type { Contact } from '@shared/contact';
 import type { ContactsScreenProps } from '@/components/ContactsScreen/ContactsScreen.types';
@@ -24,7 +26,16 @@ export function ContactsScreen({ roomClient, onEntered, onBack, onOpenProfile }:
   const { contacts, addContact, updateContact, removeContact } = useContacts();
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const onlineStatus = useContactsPresence(contacts);
+
+  const visibleContacts = contacts
+    .filter((contact) => contact.name.toLowerCase().includes(searchTerm.trim().toLowerCase()))
+    .sort((a, b) => Number(Boolean(b.favorite)) - Number(Boolean(a.favorite)));
+
+  function handleToggleFavorite(contact: Contact): void {
+    updateContact(contact.id, { ...contact, favorite: !contact.favorite });
+  }
 
   async function handleCallContact(contact: Contact): Promise<void> {
     if (!hasProfileConfigured) return;
@@ -63,16 +74,29 @@ export function ContactsScreen({ roomClient, onEntered, onBack, onOpenProfile }:
 
         <Card muted>
           <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.contactsListTitle}</p>
+          {contacts.length > 0 && (
+            <TextInput
+              type="text"
+              soundKind={TextInputSoundKind.CONTACT_SEARCH}
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder={CONTACTS_STRINGS.searchFieldPlaceholder}
+              className="w-full mt-2"
+            />
+          )}
           {contacts.length === 0 ? (
             <p className="text-text-dim text-xs mt-2">{CONTACTS_STRINGS.noContactsMessage}</p>
+          ) : visibleContacts.length === 0 ? (
+            <p className="text-text-dim text-xs mt-2">{CONTACTS_STRINGS.noContactsMatchMessage}</p>
           ) : (
-            contacts.map((contact) => (
+            visibleContacts.map((contact) => (
               <ContactRow
                 key={contact.id}
                 contact={contact}
                 onCall={handleCallContact}
                 onEdit={updateContact}
                 onRemove={removeContact}
+                onToggleFavorite={handleToggleFavorite}
                 disabled={busy || !hasProfileConfigured}
                 online={onlineStatus.get(contact.id)}
               />

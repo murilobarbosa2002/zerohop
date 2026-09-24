@@ -61,10 +61,9 @@ Ao criar ou entrar numa sala com sucesso, toca um bipe curto de "conectado" (no 
 
 ## Contatos: chamar um amigo sem trocar código toda vez
 
-Na tela inicial, clique em **Contatos**. Lá tem duas partes:
+Na tela inicial, clique em **Contatos**. Pra adicionar alguém, peça o "Seu ID" e a senha da sala pessoal dela (veja **Sala pessoal** abaixo pra saber onde encontrar o seu), cole no formulário "Adicionar contato" junto com um apelido, e pronto — da próxima vez é só clicar em **Chamar**, sem digitar nada de novo. Uma bolinha ao lado do nome mostra se a pessoa está online agora (sala pessoal dela aberta) ou offline; enquanto estiver offline, o botão **Chamar** fica desativado (não adianta tentar chamar quem certamente não vai receber). Clique em **Editar** pra corrigir o apelido, o ID ou a senha salva de um contato sem precisar remover e adicionar de novo — útil se a pessoa reinstalou o ZeroHop e ganhou um ID novo, por exemplo.
 
-- **Sua sala pessoal:** um ID e uma senha que são só seus, sempre os mesmos. Mande os dois pro seu amigo uma vez (por WhatsApp, Discord, o que preferir) e ele salva como contato. Você escolhe a senha; o ID é gerado sozinho.
-- **Seus contatos:** a lista de gente que você salvou. Pra adicionar alguém, peça o "Seu ID" e a senha da sala pessoal dela, cole no formulário "Adicionar contato" junto com um apelido, e pronto — da próxima vez é só clicar em **Chamar**, sem digitar nada de novo. Uma bolinha ao lado do nome mostra se a pessoa está online agora (sala pessoal dela aberta) ou offline; enquanto estiver offline, o botão **Chamar** fica desativado (não adianta tentar chamar quem certamente não vai receber). Clique em **Editar** pra corrigir o apelido, o ID ou a senha salva de um contato sem precisar remover e adicionar de novo — útil se a pessoa reinstalou o ZeroHop e ganhou um ID novo, por exemplo.
+Com muitos contatos salvos, o campo de busca no topo da lista filtra pelo apelido. Clique na estrela ao lado do nome pra marcar alguém como favorito — favoritos sempre aparecem no topo da lista, antes do resto.
 
 O ZeroHop também avisa sozinho: quando um contato salvo fica online, você recebe uma notificação (com som), mesmo sem estar com a tela de Contatos aberta. Isso é automático nos dois sentidos — se a pessoa também te tiver salvo como contato, ela recebe o mesmo aviso quando você fica online, sem precisar configurar nada.
 
