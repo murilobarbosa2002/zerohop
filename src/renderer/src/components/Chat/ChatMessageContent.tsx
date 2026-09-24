@@ -20,12 +20,19 @@ export function ChatMessageContent({ message, replyToMessage, onToggleReaction }
     <div className="flex flex-col gap-1 min-w-0">
       <div
         className={clsx(
-          'rounded-lg px-3 py-2 text-body-sm min-w-0',
-          message.self ? 'bg-accent-soft text-text' : 'bg-panel-2 border border-border text-text'
+          'rounded-lg px-3 py-2 text-body-sm min-w-0 border',
+          message.self
+            ? 'bg-gradient-to-br from-accent to-accent-2 border-transparent text-text-on-accent'
+            : 'bg-panel-2 border-border text-text'
         )}
       >
         {message.replyToId && (
-          <div className="border-l-2 border-border pl-2 mb-1.5 text-xs text-text-dim truncate">
+          <div
+            className={clsx(
+              'border-l-2 pl-2 mb-1.5 text-xs truncate',
+              message.self ? 'border-text-on-accent/40 text-text-on-accent/80' : 'border-border text-text-dim'
+            )}
+          >
             {replyToMessage ? (
               <>
                 <span className="font-bold">{replyToMessage.self ? CHAT_STRINGS.selfSenderLabel : replyToMessage.fromName}:</span>{' '}
@@ -37,7 +44,9 @@ export function ChatMessageContent({ message, replyToMessage, onToggleReaction }
           </div>
         )}
         <ChatMessageText text={message.text} />
-        {message.edited && <span className="text-text-dim text-xs ml-1">{CHAT_STRINGS.editedTag}</span>}
+        {message.edited && (
+          <span className={clsx('text-xs ml-1', message.self ? 'text-text-on-accent/70' : 'text-text-dim')}>{CHAT_STRINGS.editedTag}</span>
+        )}
       </div>
 
       <div className="flex flex-wrap items-center gap-1">

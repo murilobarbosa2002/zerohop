@@ -3,6 +3,7 @@ import { ActionButton } from '@/components/ActionButton';
 import { ChatFormatToolbar } from '@/components/Chat/ChatFormatToolbar';
 import { playMessageSentSound, playKeyClickSound } from '@/services/soundEffects';
 import { isTypingKeystroke } from '@/lib/typingSound';
+import { highlightChatDraft } from '@/lib/highlightChatDraft';
 import { CHAT_STRINGS } from '@/strings/chat.strings';
 import { CHAT_MESSAGE_MAX_LENGTH } from '@/constants/chat';
 import type { ChatInputProps } from '@/components/Chat/Chat.types';
@@ -10,6 +11,7 @@ import type { ChatInputProps } from '@/components/Chat/Chat.types';
 export function ChatInput({ onSend, replyTo, onCancelReply }: ChatInputProps) {
   const [text, setText] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const highlightOverlayRef = useRef<HTMLPreElement>(null);
 
   function handleSend(): void {
     const trimmed = text.trim();
@@ -34,6 +36,12 @@ export function ChatInput({ onSend, replyTo, onCancelReply }: ChatInputProps) {
     });
   }
 
+  function syncOverlayScroll(): void {
+    if (highlightOverlayRef.current && textareaRef.current) {
+      highlightOverlayRef.current.scrollTop = textareaRef.current.scrollTop;
+    }
+  }
+
   return (
     <div className="mt-3">
       {replyTo && (
@@ -55,23 +63,32 @@ export function ChatInput({ onSend, replyTo, onCancelReply }: ChatInputProps) {
       )}
       <ChatFormatToolbar onWrapSelection={wrapSelection} />
       <div className="flex gap-2 items-center">
-        <textarea
-          ref={textareaRef}
-          value={text}
-          onChange={(event) => setText(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' && !event.shiftKey) {
-              event.preventDefault();
-              handleSend();
-              return;
-            }
-            if (isTypingKeystroke(event.key)) playKeyClickSound();
-          }}
-          maxLength={CHAT_MESSAGE_MAX_LENGTH}
-          placeholder={CHAT_STRINGS.inputPlaceholder}
-          rows={2}
-          className="flex-1 min-w-0 resize-none bg-input-bg text-text border border-border rounded-lg px-3 py-2.5 text-sm placeholder:text-placeholder outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/30"
-        />
+        <div className="relative flex-1 min-w-0">
+          <pre
+            ref={highlightOverlayRef}
+            aria-hidden="true"
+            className="draft-highlight pointer-events-none absolute inset-0 m-0 overflow-hidden whitespace-pre-wrap break-words border border-transparent px-3 py-2.5 text-sm text-text"
+            dangerouslySetInnerHTML={{ __html: highlightChatDraft(text) }}
+          />
+          <textarea
+            ref={textareaRef}
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+            onScroll={syncOverlayScroll}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                handleSend();
+                return;
+              }
+              if (isTypingKeystroke(event.key)) playKeyClickSound();
+            }}
+            maxLength={CHAT_MESSAGE_MAX_LENGTH}
+            placeholder={CHAT_STRINGS.inputPlaceholder}
+            rows={2}
+            className="relative w-full min-w-0 resize-y break-words bg-transparent text-transparent caret-text border border-border rounded-lg px-3 py-2.5 text-sm placeholder:text-placeholder outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/30"
+          />
+        </div>
         <ActionButton type="button" variant="primary" className="flex-shrink-0" onClick={handleSend}>
           {CHAT_STRINGS.sendButton}
         </ActionButton>

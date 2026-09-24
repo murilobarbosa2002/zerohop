@@ -139,6 +139,31 @@ input[type='range']::-moz-range-track {
   background: transparent;
 }
 
+.draft-highlight .hljs-keyword,
+.draft-highlight .hljs-selector-tag,
+.draft-highlight .hljs-literal,
+.draft-highlight .hljs-built_in,
+.draft-highlight .hljs-type {
+  color: theme('colors.accent');
+  font-weight: 700;
+}
+
+.draft-highlight .hljs-string,
+.draft-highlight .hljs-attr,
+.draft-highlight .hljs-symbol {
+  color: theme('colors.success');
+}
+
+.draft-highlight .hljs-number,
+.draft-highlight .hljs-title {
+  color: theme('colors.warn');
+}
+
+.draft-highlight .hljs-comment {
+  color: theme('colors.text-dim');
+  font-style: italic;
+}
+
 input[type='range']::-moz-range-thumb {
   width: 12px;
   height: 18px;
