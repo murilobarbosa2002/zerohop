@@ -39,7 +39,7 @@ try {
   await hostWin.waitForTimeout(500);
   check(
     'clicking Logs while Settings is open switches directly to Logs (no need to click back first)',
-    await hostWin.locator('text=/foi aberto\\./').first().isVisible()
+    await hostWin.getByText('Filtrar por tipo', { exact: true }).isVisible()
   );
 
   await hostWin.getByText('← Voltar', { exact: true }).click();
