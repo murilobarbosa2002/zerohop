@@ -18,6 +18,7 @@ export class MediaSharing extends EventTarget {
   localStream: MediaStream | null = null;
   quality: QualitySettings | null = null;
   private outgoingCalls = new Map<string, MediaConnection>();
+  private cachedViewerIds: string[] = [];
 
   constructor({ registry, getPeer }: { registry: MemberRegistry; getPeer: () => Peer | null }) {
     super();
@@ -78,11 +79,16 @@ export class MediaSharing extends EventTarget {
     this.outgoingCalls.set(fromId, call);
     call.on('close', () => this.outgoingCalls.delete(fromId));
     this.dispatchEvent(new CustomEvent('outgoing-call', { detail: { peerId: fromId, call, quality: this.quality } }));
+    this.cachedViewerIds = [...this.outgoingCalls.keys()];
     this.dispatchEvent(new CustomEvent('viewer-added', { detail: { peerId: fromId } }));
   }
 
   handleUnwatchRequest(fromId: string): void {
-    if (this.outgoingCalls.has(fromId)) this.dispatchEvent(new CustomEvent('viewer-removed', { detail: { peerId: fromId } }));
+    if (this.outgoingCalls.has(fromId)) {
+      this.removeViewer(fromId);
+      this.dispatchEvent(new CustomEvent('viewer-removed', { detail: { peerId: fromId } }));
+      return;
+    }
     this.removeViewer(fromId);
   }
 
@@ -91,9 +97,10 @@ export class MediaSharing extends EventTarget {
     if (!call) return;
     safeCall(call, 'close');
     this.outgoingCalls.delete(id);
+    this.cachedViewerIds = [...this.outgoingCalls.keys()];
   }
 
   getViewerIds(): string[] {
-    return [...this.outgoingCalls.keys()];
+    return this.cachedViewerIds;
   }
 }
