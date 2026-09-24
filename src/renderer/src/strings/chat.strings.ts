@@ -1,7 +1,7 @@
 export const CHAT_STRINGS = {
   title: 'Mensagens',
   emptyMessage: 'Ainda não tem nenhuma mensagem. As mensagens não ficam salvas em lugar nenhum — somem quando você sai da sala.',
-  inputPlaceholder: 'Escreva uma mensagem...',
+  inputPlaceholder: 'Escreva uma mensagem... (aceita Markdown — Shift+Enter pra quebrar linha)',
   sendButton: 'Enviar',
   selfSenderLabel: 'Você',
   deleteMessageButton: 'Apagar mensagem',

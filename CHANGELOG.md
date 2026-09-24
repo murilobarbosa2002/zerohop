@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.49](docs/releases/v0.36.49.md) | Chat com Markdown e highlight de código; mensagem virou caixa multi-linha                                               |
 | [0.36.48](docs/releases/v0.36.48.md) | Tela de Perfil (nome/foto/status); perfil obrigatório antes de entrar em sala                                           |
 | [0.36.47](docs/releases/v0.36.47.md) | Configurar sala pessoal mudou de Contatos pra Configurações; corrige senha não sincronizando                            |
 | [0.36.46](docs/releases/v0.36.46.md) | Voz simultânea em todas as salas abertas; indicador de quem está assistindo sua tela                                    |

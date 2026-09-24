@@ -5,8 +5,9 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { getUiScale } from '@/services/uiScalePreference';
 import { playAppOpenSound, playAppCloseSound } from '@/services/soundEffects';
 import '@/index.css';
+import 'highlight.js/styles/atom-one-dark.css';
 
-console.log('%c[build] ZeroHop v0.36.48', 'font-weight:bold;color:#000080');
+console.log('%c[build] ZeroHop v0.36.49', 'font-weight:bold;color:#000080');
 
 window.api.setUiZoomFactor(getUiScale());
 playAppOpenSound();

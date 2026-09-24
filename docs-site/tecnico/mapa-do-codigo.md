@@ -89,6 +89,14 @@ App
      └─ JoinRequestModal (se você for dono da sala)
 ```
 
+## Chat com Markdown e highlight de código (v0.36.49+)
+
+- **`ChatMessageText.tsx` passou a renderizar Markdown de verdade** via `react-markdown` (+ `remark-gfm` pra tabelas/strikethrough/autolinks, `rehype-highlight` + `highlight.js` pro highlight de bloco de código). Escolhido `react-markdown` (renderiza pra elementos React diretamente) em vez de converter markdown→HTML string com `dangerouslySetInnerHTML` — mensagens vêm de qualquer peer da sala, então evitar HTML bruto é a diferença entre "formatação" e "XSS via chat".
+- **Links continuam abrindo via `window.api.openExternalUrl`** (nunca navegação direta) — antes era um parser de URL feito à mão (`ChatMessageText.tsx` antigo), agora é um `components.a` customizado do `react-markdown` fazendo a mesma coisa. O parser manual foi removido.
+- **`ChatInput.tsx` trocou de `<input>` de uma linha pra `<textarea>`** (Enter envia, Shift+Enter quebra linha) — necessário pra digitar bloco de código cercado (` ``` `) ou lista de verdade, que precisam de múltiplas linhas. `CHAT_MESSAGE_MAX_LENGTH` subiu de 500 pra 2000 (`constants/chat.ts`) pra caber blocos de código maiores.
+- **Tema de highlight (`highlight.js/styles/atom-one-dark.css`) importado globalmente em `main.tsx`**, junto do `index.css` — é uma folha de estilo de terceiro completa (não tokens Tailwind), aceito como exceção pelo mesmo motivo do `@font-face` do Jersey10: biblioteca de sintaxe colorida não cabe no sistema de tokens do tema retrô sem reescrever na mão. Ainda não recolorido pra combinar com a paleta cinza/navy — item de polimento futuro, não bloqueante.
+- **Imagens em Markdown (`![alt](url)`) continuam bloqueadas pela CSP** (`img-src 'self' data:`) se apontarem pra fora do app — comportamento existente, não uma feature nova de preview de imagem (isso é outra frente, envio de arquivo binário via WebRTC, ainda não implementada).
+
 ## Tela de Perfil, status por sala, perfil obrigatório antes de entrar em sala (v0.36.48+)
 
 - **Tela de Perfil nova** (`components/ProfileScreen/`), acessível pelo ícone na barra de título (ao lado de Contatos) e por um botão na tela inicial (`PreRoomChoice`). Nome e avatar saíram de `ContactsScreen.tsx` (que agora só lista contatos) pra cá, junto de um campo novo: **status** (texto livre, opcional, `constants/status.ts` limita a 60 caracteres).

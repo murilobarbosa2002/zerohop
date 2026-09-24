@@ -41,14 +41,14 @@ export function ChatMessageItems({ messages, onDelete, canDelete }: ChatMessageL
               </button>
             )}
           </span>
-          <span
+          <div
             className={clsx(
-              'rounded-lg px-3 py-2 text-body-sm',
+              'rounded-lg px-3 py-2 text-body-sm min-w-0',
               message.self ? 'bg-accent-soft text-text' : 'bg-panel-2 border border-border text-text'
             )}
           >
             <ChatMessageText text={message.text} />
-          </span>
+          </div>
         </div>
       ))}
 

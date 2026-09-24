@@ -31,4 +31,5 @@ Convenções de código, arquitetura, commits e Markdown estão modularizadas em
 ## Ferramentas externas usadas
 
 - **PeerJS** — dependência normal do npm (`peerjs`), usada em `services/room/*` — sinalização.
+- **`react-markdown` + `remark-gfm` + `rehype-highlight`/`highlight.js`** — renderização de Markdown no chat (v0.36.49+). Deliberadamente `react-markdown` (renderiza pra React, não HTML bruto) em vez de `marked`/`dangerouslySetInnerHTML` — mensagens vêm de peers não confiáveis da sala.
 - Ícone gerado via `sharp` + `to-ico` (instalados com `--no-save`, não são dependência permanente do projeto).
