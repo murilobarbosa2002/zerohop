@@ -62,7 +62,10 @@ try {
     !(await hostWin.getByText('Aceitar', { exact: true }).isVisible())
   );
   check('callee entered the host room', await calleeWin.getByText('Código da sala:').isVisible());
-  check('host sees the callee in the participant list', await hostWin.getByText('Callee', { exact: true }).isVisible());
+  check(
+    'host sees the callee in the participant list, using the saved contact nickname',
+    await hostWin.getByText('Amiga convidada', { exact: true }).isVisible()
+  );
 } finally {
   await hostApp.close();
   await calleeApp.close();
