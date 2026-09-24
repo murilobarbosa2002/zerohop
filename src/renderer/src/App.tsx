@@ -46,6 +46,7 @@ import { LogCategory, LogLevel } from '@shared/logEntry';
 import { NotificationKind } from '@shared/notificationEntry';
 import { Overlay } from '@/constants/overlay';
 import { PreRoomScreen } from '@/constants/preRoomScreen';
+import { SettingsCategory } from '@/constants/settingsCategory';
 import type { NotificationEntry } from '@shared/notificationEntry';
 
 export function App() {
@@ -71,7 +72,7 @@ export function App() {
   const { unreadCount: unreadNotificationsCount } = useNotifications();
   const { contacts } = useContacts();
   const [showPersonalRoomPasswordWarning, setShowPersonalRoomPasswordWarning] = useState(false);
-  const [focusContactsPassword, setFocusContactsPassword] = useState(false);
+  const [settingsInitialCategory, setSettingsInitialCategory] = useState<SettingsCategory>(SettingsCategory.AUDIO);
 
   useEffect(() => {
     if (version) logEvent(LogCategory.APP, LogLevel.INFO, LOG_STRINGS.appStartedMessage(version));
@@ -123,31 +124,35 @@ export function App() {
   }
 
   function handleAddRoom(): void {
-    setFocusContactsPassword(false);
     startPendingSession();
     openOverlay(Overlay.ADD_ROOM);
   }
 
-  function openContactsScreen(focusPassword: boolean): void {
-    setFocusContactsPassword(focusPassword);
+  function handleOpenContacts(): void {
     startPendingSession();
     openOverlay(Overlay.CONTACTS);
   }
 
-  function handleOpenContacts(): void {
-    openContactsScreen(false);
+  function openPersonalRoomSettings(): void {
+    setSettingsInitialCategory(SettingsCategory.CONTACTS);
+    openOverlay(Overlay.SETTINGS);
+  }
+
+  function handleOpenSettings(): void {
+    setSettingsInitialCategory(SettingsCategory.AUDIO);
+    toggleOverlay(Overlay.SETTINGS);
   }
 
   function handleSetPersonalRoomPasswordNow(): void {
     setShowPersonalRoomPasswordWarning(false);
-    openContactsScreen(true);
+    openPersonalRoomSettings();
   }
 
   function handleNotificationNavigate(entry: NotificationEntry): void {
     if (entry.kind === NotificationKind.UPDATE_AVAILABLE) {
       openOverlay(Overlay.UPDATES);
     } else if (entry.kind === NotificationKind.PERSONAL_ROOM_PASSWORD_MISSING) {
-      openContactsScreen(true);
+      openPersonalRoomSettings();
     }
   }
 
@@ -193,7 +198,7 @@ export function App() {
       ))}
       <TitleBar
         onOpenUpdates={() => toggleOverlay(Overlay.UPDATES)}
-        onOpenSettings={() => toggleOverlay(Overlay.SETTINGS)}
+        onOpenSettings={handleOpenSettings}
         onOpenLogs={() => toggleOverlay(Overlay.LOGS)}
         onOpenNotifications={() => toggleOverlay(Overlay.NOTIFICATIONS)}
         onOpenContacts={handleOpenContacts}
@@ -229,8 +234,8 @@ export function App() {
                 <PreRoom
                   roomClient={pendingSession.roomClient}
                   onEntered={handleEnteredRoom}
-                  findSessionByRoomCode={findSessionByRoomCode}
                   onOpenUpdates={() => openOverlay(Overlay.UPDATES)}
+                  onOpenPersonalRoomSettings={openPersonalRoomSettings}
                 />
               </div>
             )
@@ -243,7 +248,12 @@ export function App() {
           )}
           {activeOverlay === Overlay.SETTINGS && (
             <div className="absolute inset-0 z-20 flex flex-col bg-bg">
-              <SettingsScreen onBack={closeOverlay} roomClient={focusedSession ? focusedSession.roomClient : null} />
+              <SettingsScreen
+                onBack={closeOverlay}
+                roomClient={focusedSession ? focusedSession.roomClient : null}
+                findSessionByRoomCode={findSessionByRoomCode}
+                initialCategory={settingsInitialCategory}
+              />
             </div>
           )}
           {activeOverlay === Overlay.LOGS && (
@@ -266,10 +276,9 @@ export function App() {
             <AddRoomOverlay
               roomClient={pendingSession.roomClient}
               onEntered={handleEnteredRoom}
-              findSessionByRoomCode={findSessionByRoomCode}
               initialScreen={activeOverlay === Overlay.CONTACTS ? PreRoomScreen.CONTACTS : undefined}
-              focusContactsPassword={focusContactsPassword}
               onOpenUpdates={() => openOverlay(Overlay.UPDATES)}
+              onOpenPersonalRoomSettings={openPersonalRoomSettings}
             />
           )}
         </div>

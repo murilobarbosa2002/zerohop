@@ -1,19 +1,11 @@
 export const CONTACTS_STRINGS = {
   contactsButton: 'Contatos',
-  contactsHint: 'Sua sala pessoal e os amigos salvos — chame alguém sem trocar código toda vez.',
+  contactsHint: 'Os amigos que você salvou — chame alguém sem trocar código toda vez.',
   inviteContactsTitle: 'Convidar contatos (opcional)',
   inviteContactsHint:
     'Quem você marcar entra direto na sala, sem precisar de código/senha e sem você ter que aprovar — só funciona se a pessoa estiver com a sala pessoal dela aberta agora.',
   screenTitle: 'Contatos',
   backButton: 'Voltar',
-  personalRoomTitle: 'Sua sala pessoal',
-  personalRoomHint:
-    'Sempre a mesma sala, só sua — mande seu ID e sua senha pra um amigo uma vez, salve o ID dele como contato, e depois é só clicar em "Chamar" pra entrar direto, sem trocar código toda vez.',
-  personalIdLabel: 'Seu ID',
-  personalPasswordLabel: 'Sua senha',
-  personalPasswordPlaceholder: 'Escolha uma senha pra proteger sua sala pessoal',
-  openPersonalRoomButton: 'Abrir minha sala pessoal',
-  personalPasswordTooShortError: 'A senha precisa ter pelo menos 4 caracteres antes de abrir sua sala.',
   contactsListTitle: 'Seus contatos',
   noContactsMessage: 'Nenhum contato salvo ainda. Adicione um abaixo.',
   callContactButton: 'Chamar',
@@ -35,7 +27,6 @@ export const CONTACTS_STRINGS = {
   contactFieldsRequiredError: 'Preencha apelido, ID e senha antes de salvar.',
   callingContactStatus: 'Chamando...',
   callContactError: (reason: string) => `Não foi possível conectar (${reason}). A pessoa pode estar offline agora.`,
-  openingPersonalRoomStatus: 'Abrindo sua sala pessoal...',
   personalPasswordMissingPopupTitle: 'Sua sala pessoal está sem senha',
   personalPasswordMissingPopupBody:
     'Você deixou "Abrir automaticamente" ligado, mas sem uma senha definida ela não consegue abrir sozinha (nem manualmente) — toda sala do ZeroHop precisa de senha.',

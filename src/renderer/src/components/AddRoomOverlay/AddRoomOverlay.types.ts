@@ -4,8 +4,7 @@ import type { PreRoomScreen } from '@/constants/preRoomScreen';
 export interface AddRoomOverlayProps {
   roomClient: RoomClient;
   onEntered: (code: string) => void;
-  findSessionByRoomCode: (roomCode: string) => { roomClient: RoomClient } | null;
   initialScreen?: PreRoomScreen;
-  focusContactsPassword?: boolean;
   onOpenUpdates: () => void;
+  onOpenPersonalRoomSettings: () => void;
 }

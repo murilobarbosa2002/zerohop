@@ -1,6 +1,11 @@
 export const HOME_STRINGS = {
   personalIdTitle: 'Seu ID',
   personalIdHint: 'Mande pra um amigo pra ele te chamar direto.',
+  personalRoomOpenButton: 'Abrir minha sala pessoal',
+  personalRoomConfigureButton: 'Configurar sala pessoal',
+  personalRoomPasswordMissingError: 'Defina uma senha de pelo menos 4 caracteres em Configurações antes de abrir sua sala.',
+  personalRoomOpeningStatus: 'Abrindo sua sala pessoal...',
+  personalRoomOpenError: (reason: string) => `Não foi possível abrir sua sala pessoal (${reason}).`,
   onlineContactsTitle: 'Quem está online',
   onlineContactsCount: (online: number, total: number) => `${online} de ${total} online agora`,
   onlineContactsNone: 'Nenhum contato salvo ainda.',

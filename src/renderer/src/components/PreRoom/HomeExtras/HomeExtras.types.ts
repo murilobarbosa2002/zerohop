@@ -4,4 +4,5 @@ export interface HomeExtrasProps {
   roomClient: RoomClient;
   onEntered: (code: string) => void;
   onOpenUpdates: () => void;
+  onOpenPersonalRoomSettings: () => void;
 }

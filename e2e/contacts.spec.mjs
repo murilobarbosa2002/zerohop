@@ -15,9 +15,17 @@ try {
 
   await hostWin.getByText('Contatos', { exact: true }).click();
   await hostWin.getByPlaceholder('Como seus amigos vão te ver').fill('Host');
-  await hostWin.getByPlaceholder('Escolha uma senha pra proteger sua sala pessoal').fill('senha123');
+  await hostWin.getByText('Voltar', { exact: true }).click();
+  await hostWin.waitForTimeout(300);
+
   const hostPersonalId = (await hostWin.locator('span.font-mono.font-bold.tracking-wide.text-accent').first().innerText()).trim();
   check('personal id is generated', hostPersonalId.length > 0);
+
+  await hostWin.getByRole('button', { name: 'Configurações' }).first().click();
+  await hostWin.getByRole('button', { name: 'Sala pessoal e convites' }).click();
+  await hostWin.getByPlaceholder('Escolha uma senha pra proteger sua sala pessoal').fill('senha123');
+  await hostWin.getByText('← Voltar', { exact: true }).click();
+  await hostWin.waitForTimeout(300);
 
   await hostWin.getByRole('button', { name: 'Abrir minha sala pessoal' }).click();
   await hostWin.waitForTimeout(1500);

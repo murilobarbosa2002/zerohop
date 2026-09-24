@@ -7,6 +7,8 @@ import {
   PERSONAL_ID_ALPHABET
 } from '@/constants/personalRoom';
 
+const target = new EventTarget();
+
 function generatePersonalId(): string {
   let id = '';
   for (let i = 0; i < PERSONAL_ID_LENGTH; i++) id += PERSONAL_ID_ALPHABET[Math.floor(Math.random() * PERSONAL_ID_ALPHABET.length)];
@@ -27,6 +29,12 @@ export function getPersonalPassword(): string {
 
 export function setPersonalPassword(password: string): void {
   localStorage.setItem(PERSONAL_PASSWORD_STORAGE_KEY, password);
+  target.dispatchEvent(new Event('personal-password-change'));
+}
+
+export function subscribeToPersonalPassword(listener: () => void): () => void {
+  target.addEventListener('personal-password-change', listener);
+  return () => target.removeEventListener('personal-password-change', listener);
 }
 
 export function getPersonalAutoOpenEnabled(): boolean {
@@ -36,6 +44,12 @@ export function getPersonalAutoOpenEnabled(): boolean {
 
 export function setPersonalAutoOpenEnabled(enabled: boolean): void {
   localStorage.setItem(PERSONAL_AUTO_OPEN_STORAGE_KEY, String(enabled));
+  target.dispatchEvent(new Event('personal-auto-open-change'));
+}
+
+export function subscribeToPersonalAutoOpenEnabled(listener: () => void): () => void {
+  target.addEventListener('personal-auto-open-change', listener);
+  return () => target.removeEventListener('personal-auto-open-change', listener);
 }
 
 export function getPersonalPasswordReminderLastShownDate(): string | null {

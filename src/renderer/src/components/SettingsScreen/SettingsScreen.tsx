@@ -20,8 +20,8 @@ const CATEGORIES: { category: SettingsCategory; label: string }[] = [
   { category: SettingsCategory.CONTACTS, label: SETTINGS_STRINGS.categoryContactsLabel }
 ];
 
-export function SettingsScreen({ onBack, roomClient }: SettingsScreenProps) {
-  const [category, setCategory] = useState<SettingsCategory>(SettingsCategory.AUDIO);
+export function SettingsScreen({ onBack, roomClient, findSessionByRoomCode, initialCategory }: SettingsScreenProps) {
+  const [category, setCategory] = useState<SettingsCategory>(initialCategory ?? SettingsCategory.AUDIO);
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
@@ -66,7 +66,7 @@ export function SettingsScreen({ onBack, roomClient }: SettingsScreenProps) {
           {category === SettingsCategory.HOTKEYS && <HotkeySettings />}
           {category === SettingsCategory.CONTACTS && (
             <>
-              <PersonalRoomSettings />
+              <PersonalRoomSettings findSessionByRoomCode={findSessionByRoomCode} />
               <InviteSettings />
             </>
           )}

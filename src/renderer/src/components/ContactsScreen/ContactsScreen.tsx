@@ -4,69 +4,35 @@ import { Header } from '@/components/Header';
 import { ActionButton } from '@/components/ActionButton';
 import { TextInput } from '@/components/TextInput';
 import { AvatarPicker } from '@/components/AvatarPicker';
-import { PersonalRoomCard } from '@/components/ContactsScreen/PersonalRoomCard';
 import { ContactRow } from '@/components/ContactsScreen/ContactRow';
 import { AddContactForm } from '@/components/ContactsScreen/AddContactForm';
 import { useAvatarId } from '@/hooks/useAvatarId';
 import { useNamePreference } from '@/hooks/useNamePreference';
 import { useContacts } from '@/hooks/useContacts';
-import { usePersonalRoom } from '@/hooks/usePersonalRoom';
 import { useContactsPresence } from '@/hooks/useContactsPresence';
 import { recordRecentContact } from '@/services/recentContactPreference';
 import { errorMessage } from '@/lib/errorMessage';
 import { playBackButtonSound, playErrorSound } from '@/services/soundEffects';
 import { TextInputSoundKind } from '@/constants/textInputSoundKind';
 import { ROOM_NAME_MAX_LENGTH } from '@/constants/roomIdentity';
-import { ROOM_PASSWORD_MIN_LENGTH } from '@/constants/roomPassword';
 import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
 import { CONTACTS_STRINGS } from '@/strings/contacts.strings';
 import type { Contact } from '@shared/contact';
 import type { ContactsScreenProps } from '@/components/ContactsScreen/ContactsScreen.types';
 
-export function ContactsScreen({
-  roomClient,
-  onEntered,
-  onBack,
-  findSessionByRoomCode,
-  autoFocusPersonalPassword = false
-}: ContactsScreenProps) {
+export function ContactsScreen({ roomClient, onEntered, onBack }: ContactsScreenProps) {
   const [name, setName] = useNamePreference();
   const [avatarId, setAvatarId] = useAvatarId();
   const { contacts, addContact, updateContact, removeContact } = useContacts();
-  const personalRoom = usePersonalRoom();
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
   const onlineStatus = useContactsPresence(contacts);
-
-  function handleChangePersonalPassword(value: string): void {
-    personalRoom.setPassword(value);
-    findSessionByRoomCode(personalRoom.id)?.roomClient.setPassword(value);
-  }
 
   function requireName(): boolean {
     if (name.trim()) return true;
     setStatus(PRE_ROOM_STRINGS.nameRequiredError);
     playErrorSound();
     return false;
-  }
-
-  async function handleOpenPersonalRoom(): Promise<void> {
-    if (!requireName()) return;
-    if (personalRoom.password.trim().length < ROOM_PASSWORD_MIN_LENGTH) {
-      setStatus(CONTACTS_STRINGS.personalPasswordTooShortError);
-      playErrorSound();
-      return;
-    }
-    setBusy(true);
-    setStatus(CONTACTS_STRINGS.openingPersonalRoomStatus);
-    try {
-      const code = await roomClient.createRoom(name, personalRoom.password, avatarId, personalRoom.id);
-      onEntered(code);
-    } catch (error) {
-      setStatus(CONTACTS_STRINGS.callContactError(errorMessage(error)));
-      playErrorSound();
-      setBusy(false);
-    }
   }
 
   async function handleCallContact(contact: Contact): Promise<void> {
@@ -116,40 +82,28 @@ export function ContactsScreen({
           <AvatarPicker value={avatarId} onChange={setAvatarId} />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-          <div className="flex flex-col gap-4">
-            <PersonalRoomCard
-              id={personalRoom.id}
-              password={personalRoom.password}
-              onChangePassword={handleChangePersonalPassword}
-              onOpen={handleOpenPersonalRoom}
-              status={status}
-              autoFocusPassword={autoFocusPersonalPassword}
-            />
-          </div>
+        <Card muted>
+          <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.contactsListTitle}</p>
+          {contacts.length === 0 ? (
+            <p className="text-text-dim text-xs mt-2">{CONTACTS_STRINGS.noContactsMessage}</p>
+          ) : (
+            contacts.map((contact) => (
+              <ContactRow
+                key={contact.id}
+                contact={contact}
+                onCall={handleCallContact}
+                onEdit={updateContact}
+                onRemove={removeContact}
+                disabled={busy}
+                online={onlineStatus.get(contact.id)}
+              />
+            ))
+          )}
+          {status && <p className="text-text-dim text-xs mt-2">{status}</p>}
+        </Card>
 
-          <div className="flex flex-col gap-4">
-            <Card muted>
-              <p className="font-bold text-body-sm-alt">{CONTACTS_STRINGS.contactsListTitle}</p>
-              {contacts.length === 0 ? (
-                <p className="text-text-dim text-xs mt-2">{CONTACTS_STRINGS.noContactsMessage}</p>
-              ) : (
-                contacts.map((contact) => (
-                  <ContactRow
-                    key={contact.id}
-                    contact={contact}
-                    onCall={handleCallContact}
-                    onEdit={updateContact}
-                    onRemove={removeContact}
-                    disabled={busy}
-                    online={onlineStatus.get(contact.id)}
-                  />
-                ))
-              )}
-            </Card>
-
-            <AddContactForm onAdd={addContact} />
-          </div>
+        <div className="mt-4">
+          <AddContactForm onAdd={addContact} />
         </div>
       </Card>
     </div>

@@ -1,10 +1,46 @@
+import { useState } from 'react';
 import { Card } from '@/components/Card';
 import { CopyButton } from '@/components/CopyButton';
+import { ActionButton } from '@/components/ActionButton';
 import { usePersonalRoom } from '@/hooks/usePersonalRoom';
+import { useNamePreference } from '@/hooks/useNamePreference';
+import { useAvatarId } from '@/hooks/useAvatarId';
+import { ROOM_PASSWORD_MIN_LENGTH } from '@/constants/roomPassword';
+import { errorMessage } from '@/lib/errorMessage';
+import { playOpenPersonalRoomClickSound, playOpenSettingsSound, playErrorSound } from '@/services/soundEffects';
 import { HOME_STRINGS } from '@/strings/home.strings';
+import { PRE_ROOM_STRINGS } from '@/strings/preRoom.strings';
+import type { PersonalIdPanelProps } from '@/components/PreRoom/HomeExtras/PersonalIdPanel.types';
 
-export function PersonalIdPanel() {
+export function PersonalIdPanel({ roomClient, onEntered, onOpenPersonalRoomSettings }: PersonalIdPanelProps) {
   const personalRoom = usePersonalRoom();
+  const [name] = useNamePreference();
+  const [avatarId] = useAvatarId();
+  const [status, setStatus] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  async function handleOpenPersonalRoom(): Promise<void> {
+    if (!name.trim()) {
+      setStatus(PRE_ROOM_STRINGS.nameRequiredError);
+      playErrorSound();
+      return;
+    }
+    if (personalRoom.password.trim().length < ROOM_PASSWORD_MIN_LENGTH) {
+      setStatus(HOME_STRINGS.personalRoomPasswordMissingError);
+      playErrorSound();
+      return;
+    }
+    setBusy(true);
+    setStatus(HOME_STRINGS.personalRoomOpeningStatus);
+    try {
+      const code = await roomClient.createRoom(name, personalRoom.password, avatarId, personalRoom.id);
+      onEntered(code);
+    } catch (error) {
+      setStatus(HOME_STRINGS.personalRoomOpenError(errorMessage(error)));
+      playErrorSound();
+      setBusy(false);
+    }
+  }
 
   return (
     <Card muted>
@@ -16,6 +52,32 @@ export function PersonalIdPanel() {
           <CopyButton text={personalRoom.id} />
         </div>
       </div>
+      <div className="flex gap-2 mt-2.5">
+        <ActionButton
+          type="button"
+          variant="primary"
+          className="flex-1"
+          disabled={busy}
+          onClick={() => {
+            playOpenPersonalRoomClickSound();
+            handleOpenPersonalRoom();
+          }}
+        >
+          {HOME_STRINGS.personalRoomOpenButton}
+        </ActionButton>
+        <ActionButton
+          type="button"
+          variant="default"
+          className="flex-1"
+          onClick={() => {
+            playOpenSettingsSound();
+            onOpenPersonalRoomSettings();
+          }}
+        >
+          {HOME_STRINGS.personalRoomConfigureButton}
+        </ActionButton>
+      </div>
+      {status && <p className="text-text-dim text-xs mt-2">{status}</p>}
     </Card>
   );
 }

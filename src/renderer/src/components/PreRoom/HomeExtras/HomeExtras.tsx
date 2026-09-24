@@ -5,11 +5,11 @@ import { ChangelogTeaserPanel } from '@/components/PreRoom/HomeExtras/ChangelogT
 import { RetroClockTipPanel } from '@/components/PreRoom/HomeExtras/RetroClockTipPanel';
 import type { HomeExtrasProps } from '@/components/PreRoom/HomeExtras/HomeExtras.types';
 
-export function HomeExtras({ roomClient, onEntered, onOpenUpdates }: HomeExtrasProps) {
+export function HomeExtras({ roomClient, onEntered, onOpenUpdates, onOpenPersonalRoomSettings }: HomeExtrasProps) {
   return (
     <div className="flex flex-col gap-4">
       <RetroClockTipPanel />
-      <PersonalIdPanel />
+      <PersonalIdPanel roomClient={roomClient} onEntered={onEntered} onOpenPersonalRoomSettings={onOpenPersonalRoomSettings} />
       <OnlineContactsPanel />
       <RecentContactsPanel roomClient={roomClient} onEntered={onEntered} />
       <ChangelogTeaserPanel onOpenUpdates={onOpenUpdates} />

@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import {
   getPersonalId,
   getPersonalPassword,
   setPersonalPassword,
+  subscribeToPersonalPassword,
   getPersonalAutoOpenEnabled,
-  setPersonalAutoOpenEnabled
+  setPersonalAutoOpenEnabled,
+  subscribeToPersonalAutoOpenEnabled
 } from '@/services/personalRoomPreference';
 
 export interface UsePersonalRoomResult {
@@ -17,18 +19,8 @@ export interface UsePersonalRoomResult {
 
 export function usePersonalRoom(): UsePersonalRoomResult {
   const [id] = useState(getPersonalId);
-  const [password, setPasswordState] = useState(getPersonalPassword);
-  const [autoOpenEnabled, setAutoOpenEnabledState] = useState(getPersonalAutoOpenEnabled);
+  const password = useSyncExternalStore(subscribeToPersonalPassword, getPersonalPassword);
+  const autoOpenEnabled = useSyncExternalStore(subscribeToPersonalAutoOpenEnabled, getPersonalAutoOpenEnabled);
 
-  function setPassword(value: string): void {
-    setPasswordState(value);
-    setPersonalPassword(value);
-  }
-
-  function setAutoOpenEnabled(value: boolean): void {
-    setAutoOpenEnabledState(value);
-    setPersonalAutoOpenEnabled(value);
-  }
-
-  return { id, password, setPassword, autoOpenEnabled, setAutoOpenEnabled };
+  return { id, password, setPassword: setPersonalPassword, autoOpenEnabled, setAutoOpenEnabled: setPersonalAutoOpenEnabled };
 }

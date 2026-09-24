@@ -4,6 +4,7 @@ Histórico de versões do ZeroHop (antes chamado de ScreenShare). Clique numa ve
 
 | Versão                               | Resumo                                                                                                                  |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| [0.36.47](docs/releases/v0.36.47.md) | Configurar sala pessoal mudou de Contatos pra Configurações; corrige senha não sincronizando                            |
 | [0.36.46](docs/releases/v0.36.46.md) | Voz simultânea em todas as salas abertas; indicador de quem está assistindo sua tela                                    |
 | [0.36.44](docs/releases/v0.36.44.md) | Corrige card de compartilhamento quebrando em janela estreita; menos itens por página em Logs/Notificações              |
 | [0.36.43](docs/releases/v0.36.43.md) | Tela de Contatos mais larga em janela grande; barra lateral de Config./Atualizações se adapta                           |

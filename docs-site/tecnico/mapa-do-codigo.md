@@ -89,6 +89,14 @@ App
      └─ JoinRequestModal (se você for dono da sala)
 ```
 
+## Configurar sala pessoal saiu de Contatos, foi pra Configurações (v0.36.47+)
+
+- **ID/senha/toggle "abrir automaticamente" da sala pessoal, antes espalhados entre `ContactsScreen`/`PersonalRoomCard.tsx` (Contatos) e `PersonalRoomSettings.tsx` (Configurações), viraram uma coisa só em `PersonalRoomSettings.tsx`**, dentro da categoria "Sala pessoal e convites" de Configurações. `PersonalRoomCard.tsx` foi deletado. Motivo do usuário: "configurar" pertence a Configurações, não a Contatos.
+- **Botão "Abrir minha sala pessoal" continua na tela inicial** (`PersonalIdPanel.tsx`, dentro de `HomeExtras`), ao lado de um novo botão "Configurar sala pessoal" que abre Configurações já na categoria certa — decisão explícita do usuário de manter a ação de abrir separada da tela de configurar.
+- **`SettingsScreen` ganhou `initialCategory?: SettingsCategory`** — permite abrir Configurações já na aba desejada. `App.tsx` guarda qual categoria abrir a seguir (`settingsInitialCategory`) e decide antes de abrir o overlay: o ícone de Configurações da barra de título sempre reseta pra `AUDIO`, o botão novo da tela inicial (e o aviso de "sala pessoal sem senha") força `CONTACTS`.
+- **Bug real encontrado e corrigido nesse meio tempo: `usePersonalRoom()` não era reativo entre instâncias.** Duas telas (`PersonalIdPanel` na tela inicial, sempre montada, e `PersonalRoomSettings` em Configurações) usam o hook ao mesmo tempo — como cada uma guardava sua própria cópia em `useState` sem nenhum canal de sincronização, mudar a senha em Configurações não refletia na tela inicial (o botão "Abrir minha sala pessoal" continuava vendo a senha antiga, vazia, e recusava abrir). Corrigido: `personalRoomPreference.ts` ganhou um `EventTarget` próprio (`subscribeToPersonalPassword`/`subscribeToPersonalAutoOpenEnabled`, mesmo padrão de `namePreference.ts`) e `usePersonalRoom()` passou a usar `useSyncExternalStore` pra senha e auto-abrir — só o `id` (nunca muda depois de gerado) continua em `useState` simples. Ver `.claude/rules/bug-history-ui.md` sobre "duas instâncias do mesmo hook sem canal de sincronização".
+- **`ContactsScreen.tsx` ficou só com nome/avatar + lista de contatos** — sem `findSessionByRoomCode`/`autoFocusPersonalPassword`, que só existiam pra sustentar o card de sala pessoal removido de lá. `PreRoomProps`/`AddRoomOverlayProps` perderam esses dois campos e ganharam `onOpenPersonalRoomSettings`.
+
 ## Endurecimento de convenções e segurança (v0.36.40+)
 
 - **`ContactRow.tsx` virou pasta** (`components/ContactsScreen/ContactRow/`), seguindo o mesmo padrão já usado em `Room/JoinRequestModal/`: `ContactRow.tsx` é só o decisor com um único `return` (exibição vs. edição), `ContactRowView.tsx` e `ContactRowEditForm.tsx` são os dois estados visuais distintos, `ContactRow.types.ts` concentra os três tipos de props compartilhados, `index.ts` faz o barrel export.

@@ -10,10 +10,9 @@ import type { PreRoomProps } from '@/components/PreRoom/PreRoom.types';
 export function PreRoom({
   roomClient,
   onEntered,
-  findSessionByRoomCode,
   initialScreen = PreRoomScreen.CHOICE,
-  focusContactsPassword = false,
-  onOpenUpdates
+  onOpenUpdates,
+  onOpenPersonalRoomSettings
 }: PreRoomProps) {
   const [screen, setScreen] = useState<PreRoomScreen>(initialScreen);
 
@@ -22,13 +21,7 @@ export function PreRoom({
   ) : screen === PreRoomScreen.JOIN ? (
     <JoinRoomForm roomClient={roomClient} onEntered={onEntered} onBack={() => setScreen(PreRoomScreen.CHOICE)} />
   ) : screen === PreRoomScreen.CONTACTS ? (
-    <ContactsScreen
-      roomClient={roomClient}
-      onEntered={onEntered}
-      onBack={() => setScreen(PreRoomScreen.CHOICE)}
-      findSessionByRoomCode={findSessionByRoomCode}
-      autoFocusPersonalPassword={focusContactsPassword}
-    />
+    <ContactsScreen roomClient={roomClient} onEntered={onEntered} onBack={() => setScreen(PreRoomScreen.CHOICE)} />
   ) : (
     <div className="max-w-contacts-screen mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
       <PreRoomChoice
@@ -36,7 +29,12 @@ export function PreRoom({
         onSelectJoin={() => setScreen(PreRoomScreen.JOIN)}
         onSelectContacts={() => setScreen(PreRoomScreen.CONTACTS)}
       />
-      <HomeExtras roomClient={roomClient} onEntered={onEntered} onOpenUpdates={onOpenUpdates} />
+      <HomeExtras
+        roomClient={roomClient}
+        onEntered={onEntered}
+        onOpenUpdates={onOpenUpdates}
+        onOpenPersonalRoomSettings={onOpenPersonalRoomSettings}
+      />
     </div>
   );
 }

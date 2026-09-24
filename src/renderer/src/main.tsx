@@ -6,7 +6,7 @@ import { getUiScale } from '@/services/uiScalePreference';
 import { playAppOpenSound, playAppCloseSound } from '@/services/soundEffects';
 import '@/index.css';
 
-console.log('%c[build] ZeroHop v0.36.46', 'font-weight:bold;color:#000080');
+console.log('%c[build] ZeroHop v0.36.47', 'font-weight:bold;color:#000080');
 
 window.api.setUiZoomFactor(getUiScale());
 playAppOpenSound();
