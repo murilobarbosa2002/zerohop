@@ -370,8 +370,8 @@ export class RoomClient extends EventTarget {
     this.micCapture?.setMuted(muted);
   }
 
-  sendChatMessage(text: string): void {
-    this.chat.send(text);
+  sendChatMessage(text: string, replyToId?: string): void {
+    this.chat.send(text, replyToId);
   }
 
   deleteChatMessage(id: string): void {
@@ -380,6 +380,18 @@ export class RoomClient extends EventTarget {
 
   canDeleteChatMessage(message: ChatMessageEntry): boolean {
     return this.chat.canDelete(message);
+  }
+
+  editChatMessage(id: string, text: string): void {
+    this.chat.editMessage(id, text);
+  }
+
+  canEditChatMessage(message: ChatMessageEntry): boolean {
+    return this.chat.canEdit(message);
+  }
+
+  toggleChatReaction(id: string, emoji: string): void {
+    this.chat.toggleReaction(id, emoji);
   }
 
   getChatMessages(): ChatMessageEntry[] {

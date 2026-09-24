@@ -16,6 +16,8 @@ import {
   kickMessageSchema,
   chatMessageSchema,
   deleteChatMessageSchema,
+  editChatMessageSchema,
+  reactChatMessageSchema,
   joinPendingMessageSchema,
   joinApprovedMessageSchema,
   inviteMessageSchema,
@@ -31,6 +33,8 @@ export type UnwatchRequestMessage = z.infer<typeof unwatchRequestMessageSchema>;
 export type KickMessage = z.infer<typeof kickMessageSchema>;
 export type ChatMessage = z.infer<typeof chatMessageSchema>;
 export type DeleteChatMessage = z.infer<typeof deleteChatMessageSchema>;
+export type EditChatMessage = z.infer<typeof editChatMessageSchema>;
+export type ReactChatMessage = z.infer<typeof reactChatMessageSchema>;
 export type JoinPendingMessage = z.infer<typeof joinPendingMessageSchema>;
 export type JoinApprovedMessage = z.infer<typeof joinApprovedMessageSchema>;
 export type InviteMessage = z.infer<typeof inviteMessageSchema>;
@@ -91,10 +95,16 @@ export class RoomProtocol {
         this.deps.onKick(message.targetId);
         return;
       case 'chat':
-        this.deps.chat.receive(fromId, message.id, message.text);
+        this.deps.chat.receive(fromId, message.id, message.text, message.replyToId);
         return;
       case 'delete-message':
         this.deps.chat.receiveDelete(fromId, message.id);
+        return;
+      case 'edit-message':
+        this.deps.chat.receiveEdit(fromId, message.id, message.text);
+        return;
+      case 'react-message':
+        this.deps.chat.receiveReaction(fromId, message.messageId, message.emoji);
         return;
       case 'join-pending':
         this.deps.onJoinPending(fromId);

@@ -76,6 +76,9 @@ import inputPasswordTypeSound from '@/assets/sounds/input-password-type.wav';
 import inputRoomCodeFocusSound from '@/assets/sounds/input-roomcode-focus.wav';
 import inputRoomCodeTypeSound from '@/assets/sounds/input-roomcode-type.wav';
 import inputChatFocusSound from '@/assets/sounds/input-chat-focus.wav';
+import messageReplySound from '@/assets/sounds/message-reply.wav';
+import messageReactSound from '@/assets/sounds/message-react.wav';
+import messageEditSaveSound from '@/assets/sounds/message-edit-save.wav';
 import backButtonSound from '@/assets/sounds/back-button.wav';
 import openLogsSound from '@/assets/sounds/open-logs.wav';
 import openSettingsSound from '@/assets/sounds/open-settings.wav';
@@ -225,6 +228,18 @@ export function playAvatarSelectSound(): void {
 
 export function playMessageDeleteSound(): void {
   play(messageDeleteSound, SoundCategory.CHAT);
+}
+
+export function playMessageReplySound(): void {
+  play(messageReplySound, SoundCategory.CHAT);
+}
+
+export function playMessageReactSound(): void {
+  play(messageReactSound, SoundCategory.CHAT);
+}
+
+export function playMessageEditSaveSound(): void {
+  play(messageEditSaveSound, SoundCategory.CHAT);
 }
 
 export function playMessageDeletedRemoteSound(): void {

@@ -21,6 +21,7 @@ Convenções de código, arquitetura, commits e Markdown estão modularizadas em
 - **Auto-update ativo** via `electron-updater` (`src/main/updater.js`), publicando em GitHub Releases. Só funciona em build empacotado (`app.isPackaged`).
 - **`npm run dist:local` (WSL)** gera a pasta portátil só pra testes rápidos — não é o caminho de release oficial (ver `.claude/rules/build-and-release.md`).
 - **Perfil obrigatório antes de entrar em sala (v0.36.48+).** Nome, avatar e status vivem na tela de Perfil (`components/ProfileScreen/`), não mais em Contatos. `hasProfileConfigured()` (nome não-vazio) bloqueia criar sala, entrar numa sala, chamar contato e abrir sala pessoal, mostrando um aviso com botão pra tela de Perfil em vez de deixar prosseguir. Status é broadcast pelo protocolo de sala junto com nome/avatar (fixo por sessão, mesma limitação de não atualizar ao vivo).
+- **Responder/reagir/editar mensagem no chat (v0.36.50+).** `ChatMessageEntry` ganhou `replyToId`, `edited` e `reactions`. Só o autor original pode editar a própria mensagem (`ChatService.receiveEdit` valida `message.fromId === fromId`); reagir de novo com o mesmo emoji remove a própria reação (toggle).
 
 ## Ambiente de build
 

@@ -127,13 +127,13 @@ O vídeo sempre aparece no tamanho real do que está sendo compartilhado, sem es
 
 ## Conversar pelo chat
 
-A coluna da direita tem um chat de texto simples, visível pra todos os participantes autenticados. Links enviados no chat viram clicáveis automaticamente, abrindo no seu navegador padrão. Você pode apagar suas próprias mensagens a qualquer momento (pede confirmação antes, e some pra todo mundo na sala); quem criou a sala também pode apagar a mensagem de qualquer pessoa, útil pra moderação. As mensagens não ficam salvas em lugar nenhum. Veja [Privacidade e criptografia](/seguranca/privacidade) pra entender exatamente o porquê.
+A coluna da direita tem um chat de texto, visível pra todos os participantes autenticados. Ele aceita Markdown (negrito, itálico, listas, tabelas, links, blocos de código com destaque de sintaxe) — Shift+Enter quebra linha, Enter envia. Em cada mensagem você pode responder (mostra a citação da mensagem original acima da resposta), reagir com emoji (contagem visível pra todo mundo) e, nas suas próprias mensagens, editar o texto (fica marcado como "(editado)"). Você pode apagar suas próprias mensagens a qualquer momento (pede confirmação antes, e some pra todo mundo na sala); quem criou a sala também pode apagar a mensagem de qualquer pessoa, útil pra moderação. As mensagens não ficam salvas em lugar nenhum. Veja [Privacidade e criptografia](/seguranca/privacidade) pra entender exatamente o porquê.
 
 ## Participar de várias salas ao mesmo tempo
 
 Sem sair de uma sala, clique no **+** na barra fina à esquerda da janela (o "trocador de salas") pra criar ou entrar em outra sala, do mesmo jeito que criar/entrar na primeira. Cada sala em que você está aparece como um quadrado nessa barra; clicar num deles troca o foco pra aquela sala.
 
-Só a sala em foco tem áudio de voz ativo (seu microfone e o que você ouve dos outros). As demais continuam conectadas em segundo plano — o chat, as notificações de "alguém entrou" e o status de compartilhamento de cada uma continuam funcionando normalmente — só sem tocar a voz de ninguém até você focar nela. Uma bolinha com número aparece no quadrado de uma sala em segundo plano quando chega mensagem nova nela.
+Sua voz (microfone e o que você ouve dos outros) fica ativa em todas as salas em que você está, mesmo as que não estão em foco — só o vídeo (assistir a tela de alguém) é exclusivo da sala em foco. Uma bolinha com número aparece no quadrado de uma sala em segundo plano quando chega mensagem nova nela.
 
 Se você mutar o microfone antes de trocar de sala, ele continua mutado quando você voltar.
 

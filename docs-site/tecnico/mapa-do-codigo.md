@@ -50,12 +50,12 @@ Regra de ferro: **nada aqui importa de `components/` ou `hooks/`**. Serviços n�
 - **`services/room/`** — os sub-serviços que o `RoomClient` orquestra:
   - `PeerConnectionManager` — ciclo de vida das conexões WebRTC (abrir, aceitar, fechar, reconectar), distingue chamadas de vídeo e de voz.
   - `RoomAuthController` — aperto de mão inicial (`hello`), checagem de versão do app, aprovação manual de quem entra.
-  - `RoomProtocol` — interpreta as mensagens do protocolo (apresentação, lista de membros, status de compartilhamento/microfone, pedidos de assistir, remoção, chat, exclusão de mensagem).
+  - `RoomProtocol` — interpreta as mensagens do protocolo (apresentação, lista de membros, status de compartilhamento/microfone, pedidos de assistir, remoção, chat, exclusão/edição/reação de mensagem).
   - `MemberRegistry` — estado de quem está na sala, do ponto de vista de cada participante.
   - `MembershipGossip` — propaga a lista de membros pra malha inteira (protocolo de "fofoca").
   - `MediaSharing` — envia vídeo/áudio da tela só pra quem pediu pra assistir.
   - `VoiceChat` — chamada de voz broadcast entre todos os membros, com retry/timeout de conexão.
-  - `ChatService` — histórico de chat em memória (nunca persistido), envio/recebimento/exclusão de mensagem.
+  - `ChatService` — histórico de chat em memória (nunca persistido), envio/recebimento/exclusão/edição/reação de mensagem. **Responder/reagir/editar (v0.36.50+)**: `ChatMessageEntry` ganhou `replyToId` (opcional, aponta pro `id` de outra mensagem — a UI busca o texto original num `Map` local, sem exigir round-trip de rede), `edited` (marca "(editado)") e `reactions` (`{ emoji, fromIds[] }[]`, `fromIds` guarda `SELF_SENDER_ID` ou o `fromId` de quem reagiu). Mensagens novas no protocolo: `edit-message` (só o autor original pode editar, checado em `receiveEdit` comparando `message.fromId === fromId`) e `react-message` (toggle — reagir de novo com o mesmo emoji remove a própria reação, via `applyReactionToggle`).
   - `peerSession.ts`, `iceDiagnostics.ts`, `turnCredentials.ts`, `videoBitrate.ts` — utilidades de baixo nível (geração de código de sala, diagnóstico de ICE, config STUN-only, ajuste de bitrate de vídeo numa conexão já aberta).
 - **`MicCapture.ts`** — captura o microfone via um grafo do Web Audio API (`MediaStreamSource → GainNode → MediaStreamAudioDestinationNode`), pra permitir ajustar sensibilidade e mutar **na origem** (zerando o gain), não só desativando a `track`.
 - **`ScreenCapture.ts`** — captura de tela/janela via `desktopCapturer` do Electron.
@@ -274,7 +274,7 @@ Cada som pertence a uma categoria (`SoundCategory` em `constants/soundEffects.ts
 
 ## Múltiplas salas ao mesmo tempo
 
-Como `RoomClient` não guarda nenhum estado global/singleton (cada `new RoomClient()` tem seu próprio `PeerConnectionManager`, `VoiceChat`, `MediaSharing`, `ChatService`), o app consegue ter várias instâncias vivas em paralelo. `useRoomSessions.ts` gerencia a lista (`RoomSession[]`, cada uma com `{ sessionId, roomClient, roomCode, unreadCount }`) e qual está em foco. Só a sessão em foco monta o `<Room>` completo com vídeo/áudio de verdade — as outras continuam conectadas em segundo plano (mesh, chat, notificações), sem UI de vídeo/áudio montada. **A voz é exclusiva da sessão em foco**: trocar de foco chama `roomClient.pauseVoice()`/`resumeVoice()`.
+Como `RoomClient` não guarda nenhum estado global/singleton (cada `new RoomClient()` tem seu próprio `PeerConnectionManager`, `VoiceChat`, `MediaSharing`, `ChatService`), o app consegue ter várias instâncias vivas em paralelo. `useRoomSessions.ts` gerencia a lista (`RoomSession[]`, cada uma com `{ sessionId, roomClient, roomCode, unreadCount }`) e qual está em foco. **Voz é simultânea em todas as sessões abertas desde a v0.36.46** (mic e chamadas de voz continuam ativos independente de foco, `App.tsx` monta um `RoomVoiceSink` por sessão _entrada_, não só a focada). Só vídeo (assistir tela de alguém) continua exclusivo da sessão em foco — só uma sala de vídeo renderizada por vez, de propósito.
 
 ## Teclas de atalho e push-to-talk
 

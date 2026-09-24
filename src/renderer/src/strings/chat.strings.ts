@@ -8,5 +8,15 @@ export const CHAT_STRINGS = {
   deleteConfirmTitle: 'Apagar essa mensagem?',
   deleteConfirmBody: 'Some pra todo mundo na sala. Isso não pode ser desfeito.',
   deleteConfirmCancelButton: 'Cancelar',
-  deleteConfirmDeleteButton: 'Apagar'
+  deleteConfirmDeleteButton: 'Apagar',
+  editedTag: '(editado)',
+  editMessageButton: 'Editar mensagem',
+  editInputPlaceholder: 'Editar mensagem...',
+  editSaveButton: 'Salvar',
+  editCancelButton: 'Cancelar',
+  replyButton: 'Responder',
+  reactButton: 'Reagir',
+  replyPreviewLabel: 'Respondendo a',
+  replyCancelButton: 'Cancelar resposta',
+  replyToUnknownMessage: 'mensagem apagada'
 } as const;

@@ -257,9 +257,12 @@ export function Room({ roomClient, roomCode, voiceAudioState, onLeft }: RoomProp
               <div className="flex-1 flex flex-col overflow-hidden">
                 <Chat
                   messages={chatMessages}
-                  onSend={(text) => roomClient.sendChatMessage(text)}
+                  onSend={(text, replyToId) => roomClient.sendChatMessage(text, replyToId)}
                   onDelete={(id) => roomClient.deleteChatMessage(id)}
                   canDelete={(message) => roomClient.canDeleteChatMessage(message)}
+                  onEdit={(id, text) => roomClient.editChatMessage(id, text)}
+                  canEdit={(message) => roomClient.canEditChatMessage(message)}
+                  onToggleReaction={(id, emoji) => roomClient.toggleChatReaction(id, emoji)}
                 />
               </div>
             </div>

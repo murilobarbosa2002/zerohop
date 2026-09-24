@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CHAT_MESSAGE_MAX_LENGTH } from '@/constants/chat';
+import { CHAT_MESSAGE_MAX_LENGTH, CHAT_REACTION_EMOJI_MAX_LENGTH } from '@/constants/chat';
 
 export const memberInfoSchema = z.object({
   id: z.string(),
@@ -50,12 +50,25 @@ export const kickMessageSchema = z.object({
 export const chatMessageSchema = z.object({
   type: z.literal('chat'),
   id: z.string(),
-  text: z.string().trim().min(1).max(CHAT_MESSAGE_MAX_LENGTH)
+  text: z.string().trim().min(1).max(CHAT_MESSAGE_MAX_LENGTH),
+  replyToId: z.string().optional()
 });
 
 export const deleteChatMessageSchema = z.object({
   type: z.literal('delete-message'),
   id: z.string()
+});
+
+export const editChatMessageSchema = z.object({
+  type: z.literal('edit-message'),
+  id: z.string(),
+  text: z.string().trim().min(1).max(CHAT_MESSAGE_MAX_LENGTH)
+});
+
+export const reactChatMessageSchema = z.object({
+  type: z.literal('react-message'),
+  messageId: z.string(),
+  emoji: z.string().min(1).max(CHAT_REACTION_EMOJI_MAX_LENGTH)
 });
 
 export const joinPendingMessageSchema = z.object({
@@ -91,6 +104,8 @@ export const roomMessageSchema = z.discriminatedUnion('type', [
   kickMessageSchema,
   chatMessageSchema,
   deleteChatMessageSchema,
+  editChatMessageSchema,
+  reactChatMessageSchema,
   joinPendingMessageSchema,
   joinApprovedMessageSchema,
   inviteMessageSchema,
