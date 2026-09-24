@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RoomClient, type RoomClientEventDetail } from '@/services/RoomClient';
+import { createMemberAudioStateStore } from '@/hooks/useMemberAudioState';
 import { onTyped } from '@/lib/typedEvents';
+import type { MemberAudioStateStore } from '@/hooks/useMemberAudioState.types';
 import {
   playMemberJoinedSound,
   playMessageReceivedSound,
@@ -30,6 +32,7 @@ export interface RoomSession {
   roomClient: RoomClient;
   roomCode: string | null;
   unreadCount: number;
+  voiceAudioState: MemberAudioStateStore;
 }
 
 export interface PendingInvite {
@@ -131,7 +134,13 @@ export function useRoomSessions(): UseRoomSessionsResult {
       unsubscribeJoinRequests();
     });
 
-    const session: RoomSession = { sessionId, roomClient, roomCode: null, unreadCount: 0 };
+    const session: RoomSession = {
+      sessionId,
+      roomClient,
+      roomCode: null,
+      unreadCount: 0,
+      voiceAudioState: createMemberAudioStateStore()
+    };
     setSessions((current) => [...current, session]);
     return session;
   }, []);
@@ -163,10 +172,6 @@ export function useRoomSessions(): UseRoomSessionsResult {
 
   const focus = useCallback((sessionId: string) => {
     if (focusedSessionIdRef.current === sessionId) return;
-    const previous = sessionsRef.current.find((session) => session.sessionId === focusedSessionIdRef.current);
-    previous?.roomClient.pauseVoice();
-    const next = sessionsRef.current.find((session) => session.sessionId === sessionId);
-    next?.roomClient.resumeVoice();
     focusedSessionIdRef.current = sessionId;
     setFocusedSessionId(sessionId);
     setSessions((current) => current.map((session) => (session.sessionId === sessionId ? { ...session, unreadCount: 0 } : session)));
@@ -197,7 +202,6 @@ export function useRoomSessions(): UseRoomSessionsResult {
         const nextFocused = remaining[0] ?? null;
         focusedSessionIdRef.current = nextFocused?.sessionId ?? null;
         setFocusedSessionId(nextFocused?.sessionId ?? null);
-        nextFocused?.roomClient.resumeVoice();
       }
 
       const stillPending = pendingSessionRef.current?.sessionId === sessionId ? null : pendingSessionRef.current;

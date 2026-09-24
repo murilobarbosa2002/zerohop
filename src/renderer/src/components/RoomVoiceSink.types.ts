@@ -1,9 +1,7 @@
 import type { RoomClient } from '@/services/RoomClient';
 import type { MemberAudioStateStore } from '@/hooks/useMemberAudioState.types';
 
-export interface RoomProps {
+export interface RoomVoiceSinkProps {
   roomClient: RoomClient;
-  roomCode: string;
   voiceAudioState: MemberAudioStateStore;
-  onLeft: () => void;
 }

@@ -8,7 +8,9 @@ export function ParticipantsGrid({
   onKick,
   voiceAudioState,
   contacts,
-  onAddContact
+  onAddContact,
+  viewerIds,
+  mySharingActive
 }: ParticipantsGridProps) {
   return (
     <div className="flex flex-col gap-2">
@@ -22,6 +24,7 @@ export function ParticipantsGrid({
           voiceAudioState={voiceAudioState}
           contacts={contacts}
           onAddContact={onAddContact}
+          isWatchingMyScreen={mySharingActive ? viewerIds.includes(member.id) : null}
         />
       ))}
     </div>

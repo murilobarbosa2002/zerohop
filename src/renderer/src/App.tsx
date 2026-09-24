@@ -11,6 +11,7 @@ import { UpdateReadyModal } from '@/components/UpdateReadyModal';
 import { PersonalRoomPasswordMissingModal } from '@/components/PersonalRoomPasswordMissingModal';
 import { AddRoomOverlay } from '@/components/AddRoomOverlay';
 import { InviteReceivedModal } from '@/components/InviteReceivedModal';
+import { RoomVoiceSink } from '@/components/RoomVoiceSink';
 import { useRoomSessions } from '@/hooks/useRoomSessions';
 import { useAppUpdater } from '@/hooks/useAppUpdater';
 import { useOverlay } from '@/hooks/useOverlay';
@@ -187,6 +188,9 @@ export function App() {
         />
       )}
       <InviteReceivedModal invites={pendingInvites} onAccept={handleAcceptInvite} onDecline={handleDeclineInvite} />
+      {enteredSessions.map((session) => (
+        <RoomVoiceSink key={session.sessionId} roomClient={session.roomClient} voiceAudioState={session.voiceAudioState} />
+      ))}
       <TitleBar
         onOpenUpdates={() => toggleOverlay(Overlay.UPDATES)}
         onOpenSettings={() => toggleOverlay(Overlay.SETTINGS)}
@@ -211,6 +215,7 @@ export function App() {
             <Room
               roomClient={focusedSession.roomClient}
               roomCode={focusedSession.roomCode}
+              voiceAudioState={focusedSession.voiceAudioState}
               onLeft={() => leave(focusedSession.sessionId)}
             />
           ) : (

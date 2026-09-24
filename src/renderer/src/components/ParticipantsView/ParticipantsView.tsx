@@ -9,7 +9,9 @@ export function ParticipantsView({
   onKick,
   voiceAudioState,
   contacts,
-  onAddContact
+  onAddContact,
+  viewerIds,
+  mySharingActive
 }: ParticipantsViewProps) {
   return members.length === 0 ? (
     <EmptyParticipantsState />
@@ -22,6 +24,8 @@ export function ParticipantsView({
       voiceAudioState={voiceAudioState}
       contacts={contacts}
       onAddContact={onAddContact}
+      viewerIds={viewerIds}
+      mySharingActive={mySharingActive}
     />
   );
 }

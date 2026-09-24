@@ -22,4 +22,6 @@ export interface RoomSidebarProps {
   onInviteContact: (contact: Contact) => void;
   hasContactJoinedViaInvite: (contactId: string) => boolean;
   failedInviteContactIds: Set<string>;
+  viewerIds: string[];
+  mySharingActive: boolean;
 }

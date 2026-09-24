@@ -4,6 +4,7 @@ import { ShareSourcePicker } from '@/components/Room/ShareControls/ShareSourcePi
 import { ShareActiveStatus } from '@/components/Room/ShareControls/ShareActiveStatus';
 import { useAudioSourceOptions, resolveAudioSourceId } from '@/hooks/useAudioSourceOptions';
 import { useExperimentalPerAppAudio } from '@/hooks/useExperimentalPerAppAudio';
+import { useLocalStream } from '@/hooks/useLocalStream';
 import { captureSource, captureSourceWithProcessAudio } from '@/services/ScreenCapture';
 import { playShareStartSound, playShareStopSound, playShareSaveChangesSound, playErrorSound } from '@/services/soundEffects';
 import { boostVideoBitrate } from '@/services/room/videoBitrate';
@@ -30,7 +31,7 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
   const [fps, setFps] = useState<Fps>(DEFAULT_FPS);
   const [audioSelection, setAudioSelection] = useState<string>(DEFAULT_AUDIO_SOURCE_MODE);
   const [status, setStatus] = useState('');
-  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+  const localStream = useLocalStream(roomClient);
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioOptions = useAudioSourceOptions(sourcePicker.sources);
   const experimentalPerAppAudio = useExperimentalPerAppAudio();
@@ -59,8 +60,6 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
 
   function handleStop(): void {
     roomClient.stopSharing();
-    localStream?.getTracks().forEach((track) => track.stop());
-    setLocalStream(null);
     setStatus('');
     playShareStopSound();
   }
@@ -116,7 +115,6 @@ export function ShareControls({ roomClient, sourcePicker, sharing }: ShareContro
       roomClient.startSharing(stream, quality);
       playShareStartSound();
     }
-    setLocalStream(stream);
     setStatus(audioFellBack ? ROOM_STRINGS.sharingAudioFallbackStatus : ROOM_STRINGS.sharingWithAudioStatus);
   }
 

@@ -3,6 +3,8 @@ export const PARTICIPANTS_STRINGS = {
   notSharingMessage: 'Não está compartilhando a tela agora.',
   sharingBadge: 'compartilhando',
   micMutedBadge: 'microfone mutado',
+  watchingMyScreenBadge: 'assistindo sua tela',
+  notWatchingMyScreenBadge: 'não está assistindo sua tela',
   watchButton: 'Assistir',
   stopWatchingButton: 'Parar de assistir',
   connectingMessage: 'Conectando...',

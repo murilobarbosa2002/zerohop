@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { RoomSidebar } from '@/components/Room/RoomSidebar';
 import { RoomStage } from '@/components/Room/RoomStage';
 import { JoinRequestModal } from '@/components/Room/JoinRequestModal';
-import { VoiceAudioSinks } from '@/components/Room/VoiceAudioSinks';
 import { Chat } from '@/components/Chat';
 import { ResizeHandle } from '@/components/ResizeHandle';
 import { useResizablePanelWidth } from '@/hooks/useResizablePanelWidth';
@@ -14,7 +13,8 @@ import { useJoinRequests } from '@/hooks/useJoinRequests';
 import { useSourcePicker } from '@/hooks/useSourcePicker';
 import { useMicMuted } from '@/hooks/useMicMuted';
 import { usePushToTalk } from '@/hooks/usePushToTalk';
-import { useMemberAudioState } from '@/hooks/useMemberAudioState';
+import { useDeafened } from '@/hooks/useDeafened';
+import { useViewerIds } from '@/hooks/useViewerIds';
 import { useContacts } from '@/hooks/useContacts';
 import {
   playMicMuteSound,
@@ -44,12 +44,11 @@ import { CHAT_STRINGS } from '@/strings/chat.strings';
 import type { RoomClientEventDetail } from '@/services/RoomClient';
 import type { RoomProps } from '@/components/Room/Room.types';
 
-export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
+export function Room({ roomClient, roomCode, voiceAudioState, onLeft }: RoomProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [chatOpen, setChatOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useResizablePanelWidth('zerohop:sidebarWidth', 300, 300, 420);
   const [chatWidth, setChatWidth] = useResizablePanelWidth('zerohop:chatWidth', 300, 300, 480);
-  const [deafened, setDeafened] = useState(false);
   const pushToTalkOriginRef = useRef(false);
   const { active: pushToTalkActive, configured: pushToTalkConfigured } = usePushToTalk(roomClient, pushToTalkOriginRef);
   const sourcePicker = useSourcePicker();
@@ -57,7 +56,8 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
   const { contacts, addContact } = useContacts();
   const sharing = useSharing(roomClient);
   const micMuted = useMicMuted(roomClient);
-  const voiceAudioState = useMemberAudioState();
+  const deafened = useDeafened(roomClient);
+  const viewerIds = useViewerIds(roomClient);
   const connectionWarning = useConnectionWarning(roomClient);
   const chatMessages = useChatMessages(roomClient);
   const joinRequests = useJoinRequests(roomClient);
@@ -138,18 +138,17 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
     [roomClient]
   );
 
-  function toggleDeafen(): void {
-    setDeafened((current) => {
-      const next = !current;
-      if (next) playDeafenSound();
-      else playUndeafenSound();
-      return next;
-    });
-  }
+  useEffect(
+    () =>
+      onTyped<RoomClientEventDetail['deafened-changed']>(roomClient, 'deafened-changed', (detail) => {
+        detail.deafened ? playDeafenSound() : playUndeafenSound();
+      }),
+    [roomClient]
+  );
 
   useEffect(() => window.api.onHotkeyMicMuteToggle(() => roomClient.toggleMicMuted()), [roomClient]);
 
-  useEffect(() => window.api.onHotkeyDeafenToggle(() => toggleDeafen()), []);
+  useEffect(() => window.api.onHotkeyDeafenToggle(() => roomClient.toggleDeafen()), [roomClient]);
 
   function handleLeave(): void {
     roomClient.leaveRoom();
@@ -201,8 +200,6 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
         </button>
       </div>
 
-      <VoiceAudioSinks members={members} voiceAudioState={voiceAudioState} deafened={deafened} />
-
       {connectionWarning && <p className="text-text-dim text-xs px-4 py-2 flex-shrink-0">{connectionWarning}</p>}
 
       <div className="flex-1 flex overflow-hidden">
@@ -224,8 +221,10 @@ export function Room({ roomClient, roomCode, onLeft }: RoomProps) {
                 deafened={deafened}
                 pushToTalkActive={pushToTalkActive}
                 onToggleMic={() => roomClient.toggleMicMuted()}
-                onToggleDeafen={toggleDeafen}
+                onToggleDeafen={() => roomClient.toggleDeafen()}
                 voiceAudioState={voiceAudioState}
+                viewerIds={viewerIds}
+                mySharingActive={sharing}
                 pushToTalkConfigured={pushToTalkConfigured}
                 contacts={contacts}
                 onAddContact={addContact}

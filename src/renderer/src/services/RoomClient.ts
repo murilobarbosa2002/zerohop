@@ -80,6 +80,8 @@ export interface RoomClientEventDetail {
   'watch-stopped': { peerId: string };
   'viewer-added': { peerId: string };
   'viewer-removed': { peerId: string };
+  'local-stream-changed': { stream: MediaStream | null };
+  'deafened-changed': { deafened: boolean };
 }
 
 export class RoomClient extends EventTarget {
@@ -106,6 +108,7 @@ export class RoomClient extends EventTarget {
   private pendingInviteToken: string | null = null;
   private inviteTokenToContactId = new Map<string, string>();
   private joinedAutoInviteContactIds = new Set<string>();
+  private isDeafened = false;
 
   constructor() {
     super();
@@ -211,6 +214,9 @@ export class RoomClient extends EventTarget {
     onTyped<{ peerId: string }>(this.media, 'viewer-removed', (detail) => {
       this.dispatchEvent(new CustomEvent('viewer-removed', { detail }));
     });
+    onTyped<{ stream: MediaStream | null }>(this.media, 'local-stream-changed', (detail) => {
+      this.dispatchEvent(new CustomEvent('local-stream-changed', { detail }));
+    });
     onTyped<RoomClientEventDetail['mic-muted-changed']>(this.voice, 'mic-muted-changed', (detail) => {
       logEvent(LogCategory.VOICE, LogLevel.INFO, detail.muted ? LOG_STRINGS.micMutedMessage : LOG_STRINGS.micUnmutedMessage);
       this.dispatchEvent(new CustomEvent('mic-muted-changed', { detail }));
@@ -238,6 +244,28 @@ export class RoomClient extends EventTarget {
 
   get micMuted(): boolean {
     return this.voice.micMuted;
+  }
+
+  get localStream(): MediaStream | null {
+    return this.media.localStream;
+  }
+
+  get deafened(): boolean {
+    return this.isDeafened;
+  }
+
+  setDeafened(deafened: boolean): void {
+    if (this.isDeafened === deafened) return;
+    this.isDeafened = deafened;
+    this.dispatchEvent(new CustomEvent('deafened-changed', { detail: { deafened } }));
+  }
+
+  toggleDeafen(): void {
+    this.setDeafened(!this.isDeafened);
+  }
+
+  getViewerIds(): string[] {
+    return this.media.getViewerIds();
   }
 
   get micActive(): boolean {
@@ -512,15 +540,6 @@ export class RoomClient extends EventTarget {
   }
 
   async retryMicPermission(): Promise<void> {
-    if (this.micActive || this.roomCode === null) return;
-    await this.startVoiceChat();
-  }
-
-  pauseVoice(): void {
-    this.stopVoiceChat();
-  }
-
-  async resumeVoice(): Promise<void> {
     if (this.micActive || this.roomCode === null) return;
     await this.startVoiceChat();
   }

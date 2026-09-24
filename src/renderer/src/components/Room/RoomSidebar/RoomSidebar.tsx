@@ -26,7 +26,9 @@ export function RoomSidebar({
   onAddContact,
   onInviteContact,
   hasContactJoinedViaInvite,
-  failedInviteContactIds
+  failedInviteContactIds,
+  viewerIds,
+  mySharingActive
 }: RoomSidebarProps) {
   const [contactsPanelOpen, setContactsPanelOpen] = useState(false);
 
@@ -62,6 +64,8 @@ export function RoomSidebar({
           voiceAudioState={voiceAudioState}
           contacts={contacts}
           onAddContact={onAddContact}
+          viewerIds={viewerIds}
+          mySharingActive={mySharingActive}
         />
       </Card>
     </div>

@@ -10,4 +10,6 @@ export interface ParticipantsGridProps {
   voiceAudioState: MemberAudioStateStore;
   contacts: Contact[];
   onAddContact: (contact: Contact) => void;
+  viewerIds: string[];
+  mySharingActive: boolean;
 }

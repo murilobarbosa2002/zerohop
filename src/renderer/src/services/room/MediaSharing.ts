@@ -32,6 +32,7 @@ export class MediaSharing extends EventTarget {
     stream.getVideoTracks()[0]?.addEventListener('ended', () => this.stop());
     for (const member of this.registry.values()) sendTo(member.conn, { type: 'sharing-status', sharing: true });
     this.dispatchEvent(new CustomEvent('sharing-changed', { detail: { sharing: true } }));
+    this.dispatchEvent(new CustomEvent('local-stream-changed', { detail: { stream } }));
   }
 
   replaceStream(stream: MediaStream, quality: QualitySettings): void {
@@ -53,6 +54,7 @@ export class MediaSharing extends EventTarget {
     }
 
     oldStream?.getTracks().forEach((track) => track.stop());
+    this.dispatchEvent(new CustomEvent('local-stream-changed', { detail: { stream } }));
   }
 
   stop(): void {
@@ -66,6 +68,7 @@ export class MediaSharing extends EventTarget {
     this.outgoingCalls.clear();
     for (const member of this.registry.values()) sendTo(member.conn, { type: 'sharing-status', sharing: false });
     this.dispatchEvent(new CustomEvent('sharing-changed', { detail: { sharing: false } }));
+    this.dispatchEvent(new CustomEvent('local-stream-changed', { detail: { stream: null } }));
   }
 
   handleWatchRequest(fromId: string): void {
@@ -88,5 +91,9 @@ export class MediaSharing extends EventTarget {
     if (!call) return;
     safeCall(call, 'close');
     this.outgoingCalls.delete(id);
+  }
+
+  getViewerIds(): string[] {
+    return [...this.outgoingCalls.keys()];
   }
 }

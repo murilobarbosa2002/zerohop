@@ -10,4 +10,5 @@ export interface ParticipantTileProps {
   voiceAudioState: MemberAudioStateStore;
   contacts: Contact[];
   onAddContact: (contact: Contact) => void;
+  isWatchingMyScreen: boolean | null;
 }
